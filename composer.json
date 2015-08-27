@@ -1,0 +1,27 @@
+{
+  "name": "pckg/framework",
+  "description": "LightWeight PHP MVC Framework with TWIG templating engine, YAML configuration and tons of features",
+  "homepage": "https://github.com/pckg/framework",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Bojan Rajh",
+      "email": "schtr4jh@schtr4jh.net"
+    }
+  ],
+  "require": {
+    "pckg/concept": "dev-master",
+    "pckg/reflect": "dev-master",
+    "pckg/database": "dev-master",
+    "twig/twig": "1.*",
+    "symfony/yaml": "2.*",
+    "filp/whoops": "1.*",
+    "monolog/monolog": "1.*"
+  },
+  "autoload": {
+    "psr-0": {
+      "Pckg": "src\\"
+    }
+  },
+  "minimum-stability": "dev"
+}
