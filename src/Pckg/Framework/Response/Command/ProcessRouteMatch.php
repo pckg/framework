@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\Response\Command;
 
+use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 
 use Pckg\Database\Helper\Convention;
@@ -33,7 +34,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
         $viewData = $this->handleView($this->match);
 
-        $this->response->handle($viewData);
+        $this->response->setViewData($viewData);
     }
 
     public function handleView($match)
@@ -58,7 +59,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
         }
 
-        throw new \Exception("View is unknown type" . var_dump($viewData));
+        throw new Exception("View is unknown type" . var_dump($viewData));
     }
 
     public function loadController($controller)

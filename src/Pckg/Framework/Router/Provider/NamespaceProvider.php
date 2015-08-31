@@ -4,7 +4,6 @@ namespace Pckg\Framework\Router\Provider;
 
 use Pckg\Framework\Router\RouteProviderInterface;
 use Pckg\Framework\Router\Url;
-use Pckg\Framework\Router\Yml;
 
 /*
 $namespaceProvider = new (new NamespaceProvider('Weblab\Generic')->setPrefix('/weblab-generic');

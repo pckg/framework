@@ -4,6 +4,8 @@ namespace Pckg\Framework;
 
 use Exception;
 use Pckg\Framework\Helper\Lazy;
+use Pckg\Framework\Response\Command\ProcessRouteMatch;
+use Pckg\Reflect;
 
 class Request extends Lazy
 {
@@ -67,7 +69,7 @@ class Request extends Lazy
 
     function run()
     {
-        $this->response->process($this->match);
+        Reflect::create(ProcessRouteMatch::class, ['match' => $this->match])->execute();
     }
 
     function post($key = NULL)

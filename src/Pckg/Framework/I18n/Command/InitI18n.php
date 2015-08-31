@@ -4,6 +4,7 @@ namespace Pckg\Framework\I18n\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 
+use Pckg\Context;
 use Pckg\Framework\Config;
 use Pckg\Framework\Response;
 
@@ -14,9 +15,13 @@ class InitI18n extends AbstractChainOfReponsibility
 
     protected $response;
 
-    public function __construct(Config $config, Response $response)
+    protected $context;
+
+    public function __construct(Config $config, Response $response, Context $context)
     {
         $this->config = $config;
+        $this->context = $context;
+        $this->response = $response;
     }
 
     public function execute()

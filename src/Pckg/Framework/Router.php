@@ -3,7 +3,6 @@
 namespace Pckg\Framework;
 
 use Pckg\Framework\Router\RouteProviderInterface;
-use Pckg\Framework\Router\Yml;
 use Pckg\Reflect;
 
 class Router
@@ -30,20 +29,29 @@ class Router
 
     public function init()
     {
-        $router = $this->config->get('router');
+        $cache = new Cache('framework/router_' . str_replace(['\\', '/'], '_', (get_class(app()) . '_' . get_class(env()))) . '.cache');
 
-        if (isset($router['providers'])) {
-            foreach ($router['providers'] AS $providerType => $arrProviders) {
-                foreach ($arrProviders AS $provider => $providerConfig) {
-                    $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
-                        $providerType => $provider,
-                        'config' => $providerConfig,
-                        'name' => $provider,
-                    ]);
-                    $routeProvider->init();
-                    $this->addProvider($routeProvider);
+        if ($cache->isBuilt()) {
+            $this->routes = $cache->get();
+
+        } else {
+            $router = $this->config->get('router');
+
+            if (isset($router['providers'])) {
+                foreach ($router['providers'] AS $providerType => $arrProviders) {
+                    foreach ($arrProviders AS $provider => $providerConfig) {
+                        $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
+                            $providerType => $provider,
+                            'config' => $providerConfig,
+                            'name' => $provider,
+                        ]);
+                        $routeProvider->init();
+                        $this->addProvider($routeProvider);
+                    }
                 }
             }
+
+            $cache->writeToCache($this->routes);
         }
 
         return $this;

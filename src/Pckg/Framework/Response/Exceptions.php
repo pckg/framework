@@ -2,7 +2,18 @@
 
 namespace Pckg\Framework\Response;
 
+use Exception;
+
 trait Exceptions {
+
+    public function exception($message, $code = 400)
+    {
+        if ($code) {
+            $this->code($code);
+        }
+
+        throw new Exception($message, $code);
+    }
 
     public function none($message = 'Empty response')
     {

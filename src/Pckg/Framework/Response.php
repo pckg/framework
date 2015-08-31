@@ -7,6 +7,7 @@ use Pckg\Framework\Response\Command\ProcessRouteMatch;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
 use Pckg\Framework\View\AbstractView;
+use Pckg\Reflect;
 
 class Response
 {
@@ -18,6 +19,8 @@ class Response
     protected $environment;
 
     protected $output;
+
+    protected $viewData;
 
     protected $http = [
         100 => "HTTP/1.1 100 Continue",
@@ -77,11 +80,6 @@ class Response
 
     }
 
-    public function run()
-    {
-
-    }
-
     public function setType($type)
     {
         $this->type = $type;
@@ -116,13 +114,16 @@ class Response
         echo $this->output;
     }
 
-    public function process($match)
-    {
-        Reflect::create(ProcessRouteMatch::class, ['match' => $match])->execute();
+    public function setViewData($viewData) {
+        $this->viewData = $viewData;
+
+        return $this;
     }
 
-    public function handle($viewData)
+    public function run()
     {
+        $viewData = $this->viewData;
+
         if (!$viewData && $this->output) {
 
         } else if ($viewData instanceof AbstractView) {
@@ -141,15 +142,6 @@ class Response
         }
 
         $this->output();
-    }
-
-    public function exception($message, $code = 400)
-    {
-        if ($code) {
-            $this->code($code);
-        }
-
-        throw new Exception($message, $code);
     }
 
     public function redirect($url, $httpParams = [], $routerParams = [])

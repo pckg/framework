@@ -3,7 +3,6 @@
 namespace Pckg\Framework\Response\Command;
 
 
-use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 
 

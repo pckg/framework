@@ -2,8 +2,8 @@
 
 namespace Pckg\Framework\Environment;
 
+use DebugBar\DataCollector\TimeDataCollector;
 use DebugBar\StandardDebugBar;
-use Exception;
 use Pckg\Framework\Config;
 use Pckg\Context;
 use Pckg\Framework\Environment;
@@ -33,7 +33,7 @@ class Development extends Environment
 
         $this->registerExceptionHandler();
 
-        $context->bind('DebugBar', new StandardDebugBar());
+        $context->bind('DebugBar', $debugbar = new StandardDebugBar());
         $context->bind('Config', $config);
 
         $this->init();

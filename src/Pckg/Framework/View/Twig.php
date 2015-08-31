@@ -32,7 +32,8 @@ class Twig extends AbstractView implements ViewInterface
                 new Twig_Loader_String()]
         ),
             [
-                'debug' => true
+                'debug' => true,
+                'cache' => path('cache') . 'view',
             ]
         );
 
@@ -68,16 +69,14 @@ class Twig extends AbstractView implements ViewInterface
                 $this->data[$key] = new $class;
             }
 
-        if (!isset($this->data['extends'])) {
-            $this->data['extends'] = 'vendor/lfw/admin/src/Weblab/Admin/View/admin.twig'; // @T00D00
-        }
-
         $this->data['debugBar'] = context()->exists('DebugBar')
             ? context()->find('DebugBar')->getJavascriptRenderer()
             : null;
 
         try {
+            startMeasure('Rendering ' . $this->file);
             $render = $this->twig->render($this->data);
+            stopMeasure('Rendering ' . $this->file);
 
             if ($render == $this->file . '.twig') {
                 return "Cannot load file " . $render;

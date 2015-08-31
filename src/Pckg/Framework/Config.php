@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework;
 
-use Exception;
 use Symfony\Component\Yaml\Yaml;
 
 class Config
@@ -65,7 +64,7 @@ class Config
         $this->set('hash', $appConfig['defaults']['security']['hash']);
     }
 
-    public function parseDir($dir, $cache = true)
+    public function parseDir($dir)
     {
         $yaml = new Yaml();
 
@@ -81,9 +80,17 @@ class Config
 
         $settings = [];
         foreach ($files AS $key => $file) {
-            $settings[$key] = is_file($file)
-                ? $yaml->parse(file_get_contents($file))
-                : [];
+            $cache = new Cache($file);
+            startMeasure($file);
+            if ($cache->isBuilt()) {
+                $settings[$key] = $cache->get();
+            } else {
+                $settings[$key] = is_file($file)
+                    ? $yaml->parse(file_get_contents($file))
+                    : [];
+                $cache->writeToCache($settings[$key]);
+            }
+            stopMeasure($file);
         }
 
         foreach ($settings AS $key => $parsed) {

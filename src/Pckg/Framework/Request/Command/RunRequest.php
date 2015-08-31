@@ -19,12 +19,6 @@ class RunRequest extends AbstractChainOfReponsibility
         $this->request->run();
 
         $this->next->execute();
-
-        /*
-         * 1. Run request - find routing match
-         * 2. Run after request - add assets
-         * 3. Run response - echo response
-         * */
     }
 
 }
