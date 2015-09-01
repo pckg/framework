@@ -2,7 +2,7 @@
 
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Event\AbstractEvent;
-use Pckg\Context;
+use Pckg\Concept\Context;
 use Pckg\Framework\Lang;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
@@ -23,7 +23,7 @@ function context()
  */
 function env()
 {
-    return context()->getEnvironment();
+    return context()->get('Environment');
 }
 
 /**
@@ -31,7 +31,7 @@ function env()
  */
 function app()
 {
-    return context()->getApplication();
+    return context()->get('Application');
 }
 
 /**
@@ -39,7 +39,7 @@ function app()
  */
 function request()
 {
-    return context()->getRequest();
+    return context()->get('Request');
 }
 
 /**
@@ -47,7 +47,7 @@ function request()
  */
 function response()
 {
-    return context()->getResponse();
+    return context()->getResponse('Response');
 }
 
 /**
@@ -94,7 +94,7 @@ function factory($factory)
  * */
 function dispatcher()
 {
-    return context()->getDispatcher();
+    return context()->get('Dispatcher');
 }
 
 /**
@@ -152,7 +152,7 @@ function triggerEvent($event, $args = [])
  */
 function router()
 {
-    return context()->getRouter();
+    return context()->get('Router');
 }
 
 /**
@@ -222,7 +222,7 @@ function flash($key, $val = null)
  */
 function config($key = null)
 {
-    return context()->getBinded('Config')->get($key);
+    return context()->get('Config')->get($key);
 }
 
 /**
@@ -233,7 +233,7 @@ function config($key = null)
 function path($key, $val = null)
 {
     if ($val) {
-        context()->getBinded('Config')->set('path.' . $key, $val);
+        context()->get('Config')->set('path.' . $key, $val);
     }
 
     return $val = config('path.' . $key);
@@ -329,7 +329,7 @@ function prod()
 function debugBar()
 {
     return context()->exists('DebugBar')
-        ? context()->getBinded('DebugBar')
+        ? context()->get('DebugBar')
         : null;
 }
 

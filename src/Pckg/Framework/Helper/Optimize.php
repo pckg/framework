@@ -11,11 +11,11 @@ class Optimize
             "ext" => "css",
             "html" => '<link rel="stylesheet" type="text/css" href="##LINK##" />'
         ],
-        /*"less" => [
+        "less" => [
           "header" => "text/css",
           "ext" => "css",
           "html" => '<link rel="stylesheet/less" type="text/css" href="##LINK##" />'
-        ],*/
+        ],
         "js" => [
             "header" => "text/javascript",
             "ext" => "js",

@@ -1,12 +1,10 @@
 <?php
 
-
 namespace Pckg\Framework\Locale\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-use Pckg\Context;
+use Pckg\Concept\Context;
 use Pckg\Framework\Locale\Lang;
-
 
 class InitLocale extends AbstractChainOfReponsibility
 {

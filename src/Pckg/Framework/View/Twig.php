@@ -45,11 +45,11 @@ class Twig extends AbstractView implements ViewInterface
         }));
 
         $this->twig->addFunction(new Twig_SimpleFunction('config', function ($text) {
-            return context()->getBinded('Config');
+            return context()->get('Config');
         }));
 
         $this->twig->addFunction(new Twig_SimpleFunction('url', function ($url, $params = [], $absolute = false) {
-            return context()->getBinded('Router')->make($url, $params, $absolute);
+            return context()->get('Router')->make($url, $params, $absolute);
         }));
 
         $this->twig->addNodeVisitor(new TwigObjectizerNodeVisitor());

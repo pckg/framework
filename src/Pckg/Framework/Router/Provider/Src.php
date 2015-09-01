@@ -29,7 +29,7 @@ class Src implements RouteProviderInterface
                      path('src') . $this->config['src'] . path('ds')] AS $dir) {
 
             if (is_dir($dir)) {
-                context()->getBinded('Config')->parseDir($dir);
+                context()->get('Config')->parseDir($dir);
             }
         }
 

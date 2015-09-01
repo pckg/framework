@@ -4,7 +4,7 @@ namespace Pckg\Framework\Router\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 
-use Pckg\Context;
+use Pckg\Concept\Context;
 use Pckg\Framework\Router;
 
 class InitRouter extends AbstractChainOfReponsibility

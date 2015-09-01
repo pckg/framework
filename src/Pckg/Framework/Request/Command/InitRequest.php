@@ -3,8 +3,7 @@
 namespace Pckg\Framework\Request\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-
-use Pckg\Context;
+use Pckg\Concept\Context;
 use Pckg\Framework\Request;
 
 class InitRequest extends AbstractChainOfReponsibility

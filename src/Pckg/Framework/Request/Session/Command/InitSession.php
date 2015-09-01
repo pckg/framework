@@ -4,7 +4,7 @@ namespace Pckg\Framework\Request\Session\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 
-use Pckg\Context;
+use Pckg\Concept\Context;
 use Pckg\Framework\Request\Data\Session;
 
 class InitSession extends AbstractChainOfReponsibility

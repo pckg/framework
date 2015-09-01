@@ -3,7 +3,7 @@
 namespace Pckg\Framework\Environment;
 
 use Pckg\Framework\Config;
-use Pckg\Context;
+use Pckg\Concept\Context;
 use Pckg\Framework\Environment;
 use Pckg\Framework\Environment\Command\DefinePaths;
 use Whoops\Run;

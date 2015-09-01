@@ -3,8 +3,7 @@
 namespace Pckg\Framework\I18n\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-
-use Pckg\Context;
+use Pckg\Concept\Context;
 use Pckg\Framework\Config;
 use Pckg\Framework\Response;
 
