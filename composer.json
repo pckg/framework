@@ -21,7 +21,8 @@
   "autoload": {
     "psr-0": {
       "Pckg": "src\\"
-    }
+    },
+    "files": ["src/Pckg/Framework/Helper/functions.php"]
   },
   "minimum-stability": "dev"
 }

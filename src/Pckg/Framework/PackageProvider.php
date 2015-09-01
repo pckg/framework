@@ -2,7 +2,7 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Reflect;
+use Pckg\Framework\Helper\Reflect;
 
 class PackageProvider
 {

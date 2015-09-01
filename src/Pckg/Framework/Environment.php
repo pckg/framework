@@ -22,12 +22,12 @@ class Environment
 
     function isDev()
     {
-        return static::class == Development::class;;
+        return static::class == Development::class;
     }
 
     function isPro()
     {
-        return static::class == Production::class;;
+        return static::class == Production::class;
     }
 
     public function registerExceptionHandler() {

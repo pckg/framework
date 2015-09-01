@@ -5,7 +5,7 @@ namespace Pckg\Framework;
 use Exception;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Response\Command\ProcessRouteMatch;
-use Pckg\Reflect;
+use Pckg\Framework\Helper\Reflect;
 
 class Request extends Lazy
 {

@@ -6,7 +6,7 @@ use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 
 use Pckg\Database\Helper\Convention;
-use Pckg\Reflect;
+use Pckg\Framework\Helper\Reflect;
 use Pckg\Framework\Response;
 use Pckg\Framework\View\ViewInterface;
 

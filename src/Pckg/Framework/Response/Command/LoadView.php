@@ -6,7 +6,7 @@ namespace Pckg\Framework\Response\Command;
 use Pckg\Concept\AbstractChainOfReponsibility;
 
 
-use Pckg\Reflect;
+use Pckg\Framework\Helper\Reflect;
 use Pckg\Framework\Request;
 
 class LoadView extends AbstractChainOfReponsibility

@@ -2,7 +2,7 @@
 
 namespace Pckg\Framework\Router\Provider;
 
-use Pckg\Reflect;
+use Pckg\Framework\Helper\Reflect;
 use Pckg\Framework\Router\RouteProviderInterface;
 
 class Yml implements RouteProviderInterface
