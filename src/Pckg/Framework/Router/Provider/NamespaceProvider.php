@@ -25,6 +25,7 @@ class NamespaceProvider implements RouteProviderInterface
 
     public function init()
     {
+        startMeasure('Namespace RouterProvider: ' . $this->namespace);
         $explNamespace = explode('\\', $this->namespace);
 
         $arrMethods = get_class_methods($this->namespace . '\Controller\\' . end($explNamespace));
@@ -37,14 +38,13 @@ class NamespaceProvider implements RouteProviderInterface
                     'view' => $action,
                 ]);
                 $urlProvider->load();
-                router()->addProvider($urlProvider);
             }
         }
 
         $configPath = $this->config['src'] . str_replace('\\', '/', $this->namespace);
-        $configProvider = new Yml(['src' => $configPath, 'prefix' => isset($this->config['prefix']) ? $this->config['prefix'] : null]);
-        $configProvider->load();
-        router()->addProvider($configProvider);
+        $phpProvider = new Php(['src' => $configPath, 'prefix' => isset($this->config['prefix']) ? $this->config['prefix'] : null]);
+        $phpProvider->load();
+        stopMeasure('Namespace RouterProvider: ' . $this->namespace);
     }
 
     public function getMatch()

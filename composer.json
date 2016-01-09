@@ -13,7 +13,6 @@
     "pckg/concept": "dev-master",
     "pckg/database": "dev-master",
     "twig/twig": "1.*",
-    "symfony/yaml": "2.*",
     "filp/whoops": "1.*",
     "monolog/monolog": "1.*"
   },

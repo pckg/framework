@@ -1,8 +1,8 @@
 <?php
 
 use Pckg\Concept\ChainOfResponsibility;
-use Pckg\Concept\Event\AbstractEvent;
 use Pckg\Concept\Context;
+use Pckg\Concept\Event\AbstractEvent;
 use Pckg\Framework\Lang;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
@@ -10,7 +10,7 @@ use Pckg\Htmlbuilder\Element\Form;
 /* context */
 
 /**
- * @return \Pckg\Context
+ * @return Context
  * @throws \Exception
  */
 function context()
@@ -52,6 +52,7 @@ function response()
 
 /**
  * @param null $entity
+ *
  * @return \Pckg\Database\Entity
  */
 function entity($entity = null)
@@ -61,6 +62,7 @@ function entity($entity = null)
 
 /**
  * @param null $record
+ *
  * @return \Pckg\Database\Record
  */
 function record($record = null)
@@ -70,6 +72,7 @@ function record($record = null)
 
 /**
  * @param null $form
+ *
  * @return \Htmlbuilder\Element\Form
  */
 function form($form = null)
@@ -79,6 +82,7 @@ function form($form = null)
 
 /**
  * @param $factory
+ *
  * @return \Pckg\Concept\Factory
  */
 function factory($factory)
@@ -98,9 +102,10 @@ function dispatcher()
 }
 
 /**
- * @param $event
- * @param null $method
+ * @param       $event
+ * @param null  $method
  * @param array $args
+ *
  * @return mixed|null|object
  */
 function trigger($event, $method = null, array $args = [])
@@ -110,7 +115,7 @@ function trigger($event, $method = null, array $args = [])
 
 /**
  * @param \Event $event
- * @param $strtotime
+ * @param        $strtotime
  */
 function schedule(AbstractEvent $event, $strtotime)
 {
@@ -156,8 +161,9 @@ function router()
 }
 
 /**
- * @param $url
+ * @param       $url
  * @param array $params
+ *
  * @return string
  */
 function url($url, $params = [])
@@ -166,30 +172,17 @@ function url($url, $params = [])
 }
 
 /**
- * @param $chains
- * @param null $method
+ * @param       $chains
+ * @param null  $method
  * @param array $args
- * @param null $firstChain
+ * @param null  $firstChain
+ *
  * @return mixed|null|object
  * @throws \Exception
  */
-function chain($chains, $method = null, array $args = [], $firstChain = null)
+function chain($chains, $method = 'execute', array $args = [], $firstChain = null)
 {
-    $chainOfResponsibility = new ChainOfResponsibility($chains);
-
-    if ($method) {
-        $chainOfResponsibility->setRunMethod($method);
-    }
-
-    if ($args) {
-        $chainOfResponsibility->setArgs($args);
-    }
-
-    if ($firstChain) {
-        $chainOfResponsibility->setFirstChain($firstChain);
-    }
-
-    return $chainOfResponsibility->runChains();
+    return (new ChainOfResponsibility($chains, $method, $args, $firstChain))->runChains();
 }
 
 /* session */
@@ -203,8 +196,9 @@ function session()
 }
 
 /**
- * @param $key
+ * @param      $key
  * @param null $val
+ *
  * @return mixed
  */
 function flash($key, $val = null)
@@ -218,6 +212,7 @@ function flash($key, $val = null)
 
 /**
  * @param $text
+ *
  * @return array|null
  */
 function config($key = null)
@@ -226,8 +221,9 @@ function config($key = null)
 }
 
 /**
- * @param $key
+ * @param      $key
  * @param null $val
+ *
  * @return array|null
  */
 function path($key, $val = null)
@@ -240,13 +236,14 @@ function path($key, $val = null)
 }
 
 /* quick helpers */
-function __($key, $lang = NULL)
+function __($key, $lang = null)
 {
     return Lang::get($key, $lang);
 }
 
 /**
  * @param $text
+ *
  * @return string
  */
 function toCamel($text)
@@ -265,16 +262,18 @@ function toCamel($text)
 }
 
 /**
- * @param $view
+ * @param       $view
  * @param array $data
+ *
  * @return Twig
  */
 function view($view, $data = [])
 {
     $view = new Twig($view, $data);
-    if ($parent = dirname(debug_backtrace()[0]['file']) . '/../View/') {
-        $view->addDir($parent, 100);
+    if ($parent = realpath(dirname(debug_backtrace()[0]['file']) . '/../View/')) {
+        $view->addDir($parent, Twig::PRIORITY_LAST);
     }
+
     return $view;
 }
 

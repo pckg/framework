@@ -59,7 +59,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
         }
 
-        throw new Exception("View is unknown type" . var_dump($viewData));
+        throw new Exception("View is unknown type ");
     }
 
     public function loadController($controller)

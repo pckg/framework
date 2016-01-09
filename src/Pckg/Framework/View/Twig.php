@@ -18,13 +18,6 @@ class Twig extends AbstractView implements ViewInterface
     protected $file = null;
     protected $data = [];
 
-    function __construct($file, $data = [])
-    {
-        parent::__construct($file, $data);
-
-        $this->setLoaders($this->file);
-    }
-
     function initTwig()
     {
         $this->twig = new Twig_Environment(new Twig_Loader_Chain([
@@ -45,7 +38,7 @@ class Twig extends AbstractView implements ViewInterface
         }));
 
         $this->twig->addFunction(new Twig_SimpleFunction('config', function ($text) {
-            return context()->get('Config');
+            return context()->get('Config')->get($text);
         }));
 
         $this->twig->addFunction(new Twig_SimpleFunction('url', function ($url, $params = [], $absolute = false) {
@@ -57,7 +50,7 @@ class Twig extends AbstractView implements ViewInterface
 
     function autoparse()
     {
-        self::addDir(path('root'));
+        self::addDir(path('root'), Twig::PRIORITY_LAST);
 
         $this->initTwig();
 

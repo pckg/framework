@@ -5,7 +5,6 @@ namespace Pckg\Framework\Environment;
 use Pckg\Framework\Config;
 use Pckg\Concept\Context;
 use Pckg\Framework\Environment;
-use Pckg\Framework\Environment\Command\DefinePaths;
 use Whoops\Run;
 
 class Production extends Environment
@@ -14,10 +13,6 @@ class Production extends Environment
     public $env = 'pro';
 
     protected $context;
-
-    protected $initChain = [
-        DefinePaths::class,
-    ];
 
     function __construct(Config $config, Context $context)
     {

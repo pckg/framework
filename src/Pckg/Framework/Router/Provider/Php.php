@@ -5,7 +5,7 @@ namespace Pckg\Framework\Router\Provider;
 use Pckg\Framework\Helper\Reflect;
 use Pckg\Framework\Router\RouteProviderInterface;
 
-class Yml implements RouteProviderInterface
+class Php implements RouteProviderInterface
 {
 
     protected $config;
@@ -17,16 +17,14 @@ class Yml implements RouteProviderInterface
 
     public function init()
     {
-        $yaml = new \Symfony\Component\Yaml\Yaml();
-
-        $router = $yaml->parse(file_get_contents($this->config['file']));
+        startMeasure('Php RouterProvider: ' . $this->config['file']);
+        $router = require $this->config['file'];
 
         $prefix = isset($this->config['prefix'])
             ? $this->config['prefix']
             : null;
 
         if (isset($router['providers'])) {
-
             foreach ($router['providers'] AS $providerType => $arrProviders) {
                 foreach ($arrProviders AS $provider => $providerConfig) {
                     if (isset($providerConfig['prefix'])) {
@@ -39,10 +37,10 @@ class Yml implements RouteProviderInterface
                         'config' => $providerConfig,
                     ]);
                     $routeProvider->init();
-                    router()->addProvider($routeProvider);
                 }
             }
         }
+        stopMeasure('Php RouterProvider: ' . $this->config['file']);
     }
 
     public function getMatch()

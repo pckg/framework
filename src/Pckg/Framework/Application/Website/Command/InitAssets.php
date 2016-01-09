@@ -17,14 +17,14 @@ class InitAssets extends AbstractChainOfReponsibility
         $this->website = $website;
     }
 
-    public function execute()
+    public function execute(callable $next)
     {
         foreach ($this->website->assets() as $asset) {
             $expl = explode('/', $asset);
-            Optimize::addFile($expl[0], 'app/' . $this->website->getName() . '/public/' . $asset);
+            Optimize::addFile($expl[0], 'app/' . '' . '/public/' . $asset);
         }
 
-        $this->next->execute();
+        return $next();
     }
 
 

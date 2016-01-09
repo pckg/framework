@@ -2,12 +2,15 @@
 
 namespace Pckg\Framework;
 
+use Pckg\Framework\Router\Provider\App;
 use Pckg\Framework\Router\RouteProviderInterface;
 use Pckg\Framework\Helper\Reflect;
+use Pckg\Framework\View\Twig;
 
 class Router
 {
     private $routes = [];
+    private $cachedInit = [];
     private $resources = [];
     private $prefix;
 
@@ -15,12 +18,7 @@ class Router
     private $view;
     private $data;
 
-    private $providers = [];
-
-    public function addProvider(RouteProviderInterface $routeProvider)
-    {
-        $this->providers[] = $routeProvider;
-    }
+    protected $cache;
 
     public function __construct(Config $config)
     {
@@ -29,10 +27,27 @@ class Router
 
     public function init()
     {
-        $cache = new Cache('framework/router_' . str_replace(['\\', '/'], '_', (get_class(app()) . '_' . get_class(env()))) . '.cache');
+        $cache = $this->getCache();
 
-        if ($cache->isBuilt()) {
-            $this->routes = $cache->get();
+        autoloader()->add('', path('app') . 'src');
+        Twig::addDir(path('app') . 'src' . path('ds'));
+
+        if (!dev() && $cache->isBuilt()) {
+            $data = $cache->get();
+            $this->routes = $data['routes'];
+            $this->cachedInit = $data['cachedInit'];
+
+            if (isset($this->cachedInit['autoloader'])) {
+                foreach ($this->cachedInit['autoloader'] as $dir) {
+                    autoloader()->add('', $dir);
+                }
+            }
+
+            if (isset($this->cachedInit['view'])) {
+                foreach ($this->cachedInit['view'] as $dir) {
+                    Twig::addDir($dir);
+                }
+            }
 
         } else {
             $router = $this->config->get('router');
@@ -42,22 +57,48 @@ class Router
                     foreach ($arrProviders AS $provider => $providerConfig) {
                         $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
                             $providerType => $provider,
-                            'config' => $providerConfig,
-                            'name' => $provider,
+                            'config'      => $providerConfig,
+                            'name'        => $provider,
                         ]);
                         $routeProvider->init();
-                        $this->addProvider($routeProvider);
                     }
                 }
             }
 
-            $cache->writeToCache($this->routes);
+            $this->writeCache();
         }
 
         return $this;
     }
 
-    public function setPrefix($prefix = NULL)
+    public function addCachedInit($cachedInit = [])
+    {
+        $this->cachedInit = array_merge($this->cachedInit, $cachedInit);
+
+        return $this;
+    }
+
+    public function getCache()
+    {
+        if (!$this->cache) {
+            $this->cache = new Cache('framework/router_' . str_replace([
+                    '\\',
+                    '/',
+                ], '_', (get_class(app()) . '_' . get_class(env()))) . '.cache');
+        }
+
+        return $this->cache;
+    }
+
+    public function writeCache()
+    {
+        $this->getCache()->writeToCache([
+            'routes' => $this->routes,
+            'cachedInit' => $this->cachedInit,
+        ]);
+    }
+
+    public function setPrefix($prefix = null)
     {
         $this->prefix = $prefix;
     }
@@ -82,7 +123,7 @@ class Router
         return $url;
     }
 
-    public function add($route, $conf = [], $name = NULL)
+    public function add($route, $conf = [], $name = null)
     {
         $conf["name"] = $name;
         $conf["url"] = $route;
@@ -117,9 +158,13 @@ class Router
                 }
     }
 
-    public function get($param)
+    public function get($param = null)
     {
-        return isset($this->data[$param]) ? $this->data[$param] : NULL;
+        return $param ?
+            (isset($this->data[$param])
+                ? $this->data[$param]
+                : null)
+            : $this->data;
     }
 
     public function getUri($relative = true)
@@ -137,13 +182,14 @@ class Router
         return $this->data['name'] ?: null;
     }
 
-    public function findMatch($url = NULL)
+    public function findMatch($url = null)
     {
         // exact match
-        $found = FALSE;
-        $match = FALSE;
+        $found = false;
+        $match = false;
 
-        file_put_contents(path('cache') . 'framework/router.printr', print_r($this->routes, true));
+        //file_put_contents(path('cache') . 'framework/router.printr', print_r($this->routes, true));
+        //var_dump($this->routes);
 
         foreach ($this->routes AS $routeArr) {
             foreach ($routeArr AS $route) {
@@ -158,7 +204,7 @@ class Router
                         break;
                     }
 
-                    $found = TRUE;
+                    $found = true;
                     $match = $route;
                     break;
                 }
@@ -186,7 +232,7 @@ class Router
                         continue;
                     }
 
-                    $error = FALSE;
+                    $error = false;
                     $regexData = [];
                     for ($i = 0; $i < count($arrUrl); $i++) {
                         if (!isset($arrRoutes[$i])) {
@@ -194,7 +240,7 @@ class Router
                                 // ok
                                 break;
                             } else {
-                                $error = TRUE;
+                                $error = true;
                                 break;
                             }
                         } else if ($arrRoutes[$i] == $arrUrl[$i]) {
@@ -206,11 +252,11 @@ class Router
                             // validate url parts
                             if (isset($conf["validate"][$var])) {
                                 if (is_callable($conf["validate"][$var])) {
-                                    if ($conf["validate"][$var]($arrUrl[$i]) == TRUE) {
+                                    if ($conf["validate"][$var]($arrUrl[$i]) == true) {
                                         $regexData[$var] = $arrUrl[$i];
                                         // ok
                                     } else {
-                                        $error = TRUE;
+                                        $error = true;
                                         break;
                                     }
                                 } else if ($conf["validate"][$var] == "int") {
@@ -218,7 +264,7 @@ class Router
                                         $regexData[$var] = $arrUrl[$i];
                                         // ok
                                     } else {
-                                        $error = TRUE;
+                                        $error = true;
                                         break;
                                     }
                                 } else if ($conf["validate"][$var] == "string") {
@@ -226,7 +272,7 @@ class Router
                                         $regexData[$var] = $arrUrl[$i];
                                         // ok
                                     } else {
-                                        $error = TRUE;
+                                        $error = true;
                                         break;
                                     }
                                 } else if ($var == "id") {
@@ -234,7 +280,7 @@ class Router
                                         $regexData[$var] = $arrUrl[$i];
                                         // ok
                                     } else {
-                                        $error = TRUE;
+                                        $error = true;
                                         break;
                                     }
                                 } else if (is_array($conf["validate"][$var]) && in_array($arrUrl[$i], $conf["validate"][$var])) {
@@ -244,7 +290,7 @@ class Router
                                     $regexData[$var] = $arrUrl[$i];
                                     // ok
                                 } else {
-                                    $error = TRUE;
+                                    $error = true;
                                     break;
                                 }
                             } else {
@@ -254,19 +300,19 @@ class Router
                         } else if ($arrRoutes[$i] == "*") {
                             // ok
                         } else {
-                            $error = TRUE;
+                            $error = true;
                             break;
                         }
 
-                        if ($error == TRUE) {
+                        if ($error == true) {
                             break;
                         }
                     }
 
-                    if ($error == FALSE) {
+                    if ($error == false) {
                         $match = $conf;
                         $match["data"] = $regexData;
-                        $found = TRUE;
+                        $found = true;
                         break;
                     }
                 }

@@ -8,19 +8,19 @@ class Optimize
     public static $types = [
         "css" => [
             "header" => "text/css",
-            "ext" => "css",
-            "html" => '<link rel="stylesheet" type="text/css" href="##LINK##" />'
+            "ext"    => "css",
+            "html"   => '<link rel="stylesheet" type="text/css" href="##LINK##" />',
         ],
         "less" => [
-          "header" => "text/css",
-          "ext" => "css",
-          "html" => '<link rel="stylesheet/less" type="text/css" href="##LINK##" />'
+            "header" => "text/css",
+            "ext"    => "css",
+            "html"   => '<link rel="stylesheet/less" type="text/css" href="##LINK##" />',
         ],
         "js" => [
             "header" => "text/javascript",
-            "ext" => "js",
-            "html" => '<script type="text/javascript" src="##LINK##"></script>'
-        ]
+            "ext"    => "js",
+            "html"   => '<script type="text/javascript" src="##LINK##"></script>',
+        ],
     ];
     private static $content = [];
 
@@ -35,7 +35,10 @@ class Optimize
             $publicPartPrefix = strpos($backtrace[0]["file"], path('root') . 'vendor/') === 0
                 ? 6 // vendor/a/b/src/A/B/public
                 : 2; // A/B/public
-            $path = implode("/", array_slice(explode("/", str_replace(["\\", path('root')], ["/", ''], $backtrace[0]["file"])), 0, $publicPartPrefix)) . "/public/" . $file;
+            $path = implode("/", array_slice(explode("/", str_replace(["\\", path('root')], [
+                    "/",
+                    '',
+                ], $backtrace[0]["file"])), 0, $publicPartPrefix)) . "/public/" . $file;
 
             if (is_file(path('root') . $path)) {
                 self::addFile(substr(strrchr($file, '.'), 1), $path, $section);
@@ -57,7 +60,7 @@ class Optimize
     {
         // type must be set
         if (!isset(self::$types[$type]) || empty($files))
-            return FALSE;
+            return false;
 
         // if files are not in array, we make array
         if (!is_array($files))
@@ -72,7 +75,7 @@ class Optimize
     /*
      * Generira končni HTML.
      */
-    public static function getHTML($types = NULL)
+    public static function getHTML($types = null)
     {
         $html = [];
         $types = is_null($types)
@@ -88,7 +91,7 @@ class Optimize
 
             // create cache dir
             if (!is_dir($dir)) {
-                mkdir($dir, 777, TRUE);
+                mkdir($dir, 777, true);
             }
 
             // foreach filetype as section
@@ -100,14 +103,14 @@ class Optimize
 
                     $filename = $hash . "." . self::$types[$type]['ext'];
 
-                    if (TRUE || dev()) {
+                    if (true || dev()) {
                         foreach ($section AS $key => $file) {
                             $html[] = str_replace("##LINK##", (substr($file, 0, 4) == 'http' ? '' : "/") . $file, self::$types[$type]['html']);
                         }
                     } else {
                         // if file doesn't exist, we create it
                         if (!is_file($dir . $filename) || self::isOldCache($section, $filename)) {
-                            $fileContent = NULL;
+                            $fileContent = null;
 
                             // foreach section as file
                             foreach ($section AS $key => $file) {
@@ -142,6 +145,7 @@ class Optimize
         $buffer = str_replace(["\r\n", "\r", "\t", "\n", '  ', '    ', '     '], '', $buffer);
         /* remove other spaces before/after ) */
         $buffer = preg_replace(['(( )+\))', '(\)( )+)'], ')', $buffer);
+
         return $buffer;
     }
 

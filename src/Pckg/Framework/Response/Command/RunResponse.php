@@ -14,11 +14,11 @@ class RunResponse extends AbstractChainOfReponsibility
         $this->response = $response;
     }
 
-    public function execute()
+    public function execute(callable $next)
     {
         $this->response->run();
 
-        $this->next->execute();
+        return $next();
     }
 
 }

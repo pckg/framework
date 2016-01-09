@@ -14,35 +14,9 @@ use Pckg\Framework\Response\Command\InitResponse;
 use Pckg\Framework\Response\Command\RunResponse;
 use Pckg\Framework\Router\Command\InitRouter;
 
-class Api extends Application
+class Api extends Website
 {
 
-    protected $initChain = [
-        InitConfig::class,
-        InitLocale::class,
-        InitDatabase::class,
-        InitRouter::class,
-        InitSession::class,
-        InitResponse::class,
-        InitRequest::class,
-        InitI18n::class,
-    ];
-
-    protected $runChain = [
-        RunRequest::class,
-        RunResponse::class,
-    ];
-
-    public function run()
-    {
-        $this->middleware();
-
-        return parent::run();
-    }
-
-    public function assets()
-    {
-        return [];
-    }
+    protected $name = 'api';
 
 }

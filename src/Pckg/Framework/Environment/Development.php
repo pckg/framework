@@ -6,7 +6,6 @@ use DebugBar\StandardDebugBar;
 use Pckg\Framework\Config;
 use Pckg\Concept\Context;
 use Pckg\Framework\Environment;
-use Pckg\Framework\Environment\Command\DefinePaths;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -18,10 +17,6 @@ class Development extends Environment
     protected $urlPrefix = '/dev.php';
 
     protected $context;
-
-    protected $initChain = [
-        DefinePaths::class,
-    ];
 
     function __construct(Config $config, Context $context)
     {

@@ -14,11 +14,11 @@ class RunRequest extends AbstractChainOfReponsibility
         $this->request = $request;
     }
 
-    public function execute()
+    public function execute(callable $next)
     {
         $this->request->run();
 
-        $this->next->execute();
+        return $next();
     }
 
 }

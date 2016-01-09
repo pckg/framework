@@ -19,13 +19,13 @@ class InitRequest extends AbstractChainOfReponsibility
         $this->context = $context;
     }
 
-    public function execute()
+    public function execute(callable $next)
     {
         $this->context->bind('Request', $this->request);
 
         $this->request->init();
 
-        $this->next->execute();
+        return $next();
     }
 
 }

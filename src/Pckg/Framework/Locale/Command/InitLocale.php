@@ -15,7 +15,7 @@ class InitLocale extends AbstractChainOfReponsibility
         $this->context = $context;
     }
 
-    public function execute()
+    public function execute(callable $next)
     {
         $locale = 'sl_SI';
 
@@ -24,7 +24,7 @@ class InitLocale extends AbstractChainOfReponsibility
 
         $this->context->bind('Lang', new Lang());
 
-        $this->next->execute();
+        return $next();
     }
 
 }

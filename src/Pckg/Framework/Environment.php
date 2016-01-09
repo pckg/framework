@@ -3,13 +3,12 @@
 namespace Pckg\Framework;
 
 use Pckg\Concept\Initializable;
+use Pckg\Framework\Environment\Command\DefinePaths;
 use Pckg\Framework\Environment\Development;
 use Pckg\Framework\Environment\Production;
 
 class Environment
 {
-
-    use Initializable;
 
     protected $urlPrefix = '/index.php';
 
@@ -18,6 +17,15 @@ class Environment
     public function getUrlPrefix()
     {
         return $this->urlPrefix;
+    }
+
+    public function init()
+    {
+        chain([
+            DefinePaths::class,
+        ]);
+
+        return $this;
     }
 
     function isDev()
@@ -31,6 +39,14 @@ class Environment
     }
 
     public function registerExceptionHandler() {
+    }
+
+    public function isWin() {
+
+    }
+
+    public function isUnix() {
+
     }
 
 }

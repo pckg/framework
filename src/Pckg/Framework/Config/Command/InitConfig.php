@@ -14,12 +14,12 @@ class InitConfig extends AbstractChainOfReponsibility
         $this->config = $config;
     }
 
-    public function execute()
+    public function execute(callable $next)
     {
         $this->config->initSettings();
         $this->config->parseDir(path('app'));
 
-        $this->next->execute();
+        return $next();
     }
 
 }

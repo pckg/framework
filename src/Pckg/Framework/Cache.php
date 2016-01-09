@@ -39,6 +39,7 @@ class Cache
     protected function readFromCache()
     {
         $file = $this->getCachePath();
+
         if (file_exists($file)) {
             $this->cache = json_decode(file_get_contents($file), true);
             $this->built = !empty($this->cache);

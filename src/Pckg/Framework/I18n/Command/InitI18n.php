@@ -23,7 +23,7 @@ class InitI18n extends AbstractChainOfReponsibility
         $this->response = $response;
     }
 
-    public function execute()
+    public function execute(callable $next)
     {
         $config = $this->config->__toArray();
         if (isset($config['defaults']['i18n'])) {
@@ -68,7 +68,7 @@ class InitI18n extends AbstractChainOfReponsibility
                 }
         }
 
-        $this->next->execute();
+        return $next();
     }
 
 }

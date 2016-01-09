@@ -2,8 +2,6 @@
 
 namespace Pckg\Framework;
 
-use Symfony\Component\Yaml\Yaml;
-
 class Config
 {
 
@@ -66,16 +64,14 @@ class Config
 
     public function parseDir($dir)
     {
-        $yaml = new Yaml();
-
         $configPath = $dir == path('root')
             ? 'config'
             : 'Config';
 
         $files = [
-            "defaults" => $dir . $configPath . path('ds') . "defaults.yml",
-            "database" => $dir . $configPath . path('ds') . "database.yml",
-            "router" => $dir . $configPath . path('ds') . "router.yml",
+            "defaults" => $dir . $configPath . path('ds') . "defaults.php",
+            "database" => $dir . $configPath . path('ds') . "database.php",
+            "router" => $dir . $configPath . path('ds') . "router.php",
         ];
 
         $settings = [];
@@ -86,7 +82,7 @@ class Config
                 $settings[$key] = $cache->get();
             } else {
                 $settings[$key] = is_file($file)
-                    ? $yaml->parse(file_get_contents($file))
+                    ? require $file
                     : [];
                 $cache->writeToCache($settings[$key]);
             }

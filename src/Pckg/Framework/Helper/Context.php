@@ -2,9 +2,12 @@
 
 namespace Pckg\Framework\Helper;
 
-use Pckg\Framework\Application\Website;
+use Pckg\Framework\Provider\Helper\AutoloaderRegistrator;
 
-class Context extends \Pckg\Concept\Context {
+class Context extends \Pckg\Concept\Context
+{
+
+    use AutoloaderRegistrator;
 
     public function createEnvironment($environment)
     {
@@ -22,10 +25,13 @@ class Context extends \Pckg\Concept\Context {
         path('app', path('root') . "app" . path('ds') . $appName . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
 
-        autoloader()->add('', path('app_src'));
+        $this->registerAutoloaders([path('app_src')]);
 
-        $appClass = ucfirst($appName);
-        $app = class_exists($appClass) ? Reflect::create($appClass, $appName) : new Website($appName);
+        /**
+         * On this point we have registered autoloader
+         * so now we can create and register application.
+         */
+        $app = Reflect::create(ucfirst($appName));
 
         $this->bind('Application', $app);
 
@@ -39,6 +45,15 @@ class Context extends \Pckg\Concept\Context {
         }
 
         return $this->data[$key];
+    }
+
+    public static function autorun($environment, $application = null)
+    {
+        static::createInstance()
+            ->createEnvironment($environment)
+            ->createApplication($application)
+            ->init()
+            ->run();
     }
 
 }

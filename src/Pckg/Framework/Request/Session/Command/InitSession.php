@@ -20,13 +20,13 @@ class InitSession extends AbstractChainOfReponsibility
         $this->context = $context;
     }
 
-    public function execute()
+    public function execute(callable $next)
     {
         $this->context->bind('Session', $this->session);
 
         $this->session->init();
 
-        $this->next->execute();
+        return $next();
     }
 
 }
