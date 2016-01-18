@@ -5,8 +5,10 @@ namespace Pckg\Framework\Router\Command;
 use Pckg\Concept\AbstractChainOfReponsibility;
 
 use Pckg\Concept\Context;
+use Pckg\Concept\Reflect;
+use Pckg\Database\Record\Resolver as RecordResolver;
 use Pckg\Framework\Application;
-use Pckg\Framework\Application\Website;
+use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 
 class InitRouter extends AbstractChainOfReponsibility
@@ -30,6 +32,8 @@ class InitRouter extends AbstractChainOfReponsibility
         $this->context->bind("Router", $this->router);
 
         $this->router->init();
+
+        Reflect::prependResolver(Reflect::create(RecordResolver::class, [$this]));
 
         return $next();
     }

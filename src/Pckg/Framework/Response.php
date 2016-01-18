@@ -7,7 +7,7 @@ use Pckg\Framework\Response\Command\ProcessRouteMatch;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
 use Pckg\Framework\View\AbstractView;
-use Pckg\Framework\Helper\Reflect;
+use Pckg\Concept\Reflect;
 
 class Response
 {

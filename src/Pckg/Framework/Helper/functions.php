@@ -3,6 +3,7 @@
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;
 use Pckg\Concept\Event\AbstractEvent;
+use Pckg\Framework\Config;
 use Pckg\Framework\Lang;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
@@ -229,7 +230,7 @@ function config($key = null)
 function path($key, $val = null)
 {
     if ($val) {
-        context()->get('Config')->set('path.' . $key, $val);
+        context()->getOrCreate('Config', Config::class)->set('path.' . $key, $val);
     }
 
     return $val = config('path.' . $key);

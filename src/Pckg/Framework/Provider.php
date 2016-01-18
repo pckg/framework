@@ -3,7 +3,7 @@
 namespace Pckg\Framework;
 
 use Pckg\Framework\Application\ApplicationInterface;
-use Pckg\Framework\Helper\Reflect;
+use Pckg\Concept\Reflect;
 use Pckg\Framework\Router\Helper\RouteRegistrator;
 
 class Provider

@@ -4,7 +4,10 @@ namespace Pckg\Framework\Config\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 
+use Pckg\Concept\Context;
+use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
+use Pckg\Framework\Router;
 
 class InitConfig extends AbstractChainOfReponsibility
 {

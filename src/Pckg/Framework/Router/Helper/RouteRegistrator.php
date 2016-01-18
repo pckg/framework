@@ -2,7 +2,7 @@
 
 namespace Pckg\Framework\Router\Helper;
 
-use Pckg\Framework\Helper\Reflect;
+use Pckg\Concept\Reflect;
 
 trait RouteRegistrator
 {
