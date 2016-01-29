@@ -3,6 +3,7 @@
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;
 use Pckg\Concept\Event\AbstractEvent;
+use Pckg\Database\Collection;
 use Pckg\Framework\Config;
 use Pckg\Framework\Lang;
 use Pckg\Framework\View\Twig;
@@ -349,4 +350,9 @@ function stopMeasure($name)
 
         }
     }
+}
+
+function collect($data)
+{
+    return new Collection($data);
 }
