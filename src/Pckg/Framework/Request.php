@@ -101,6 +101,10 @@ class Request extends Lazy
         || ($method == self::DELETE && $_SERVER['REQUEST_METHOD'] == "DELETE");
     }
 
+    public function getMethod() {
+        return $_SERVER['REQUEST_METHOD'];
+    }
+
     function isAjax()
     {
         return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || isset($_POST['ajax']);

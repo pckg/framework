@@ -72,16 +72,17 @@ class Twig extends AbstractView implements ViewInterface
             stopMeasure('Rendering ' . $this->file);
 
             if ($render == $this->file . '.twig') {
+                d($this->getDirs());
                 return "Cannot load file " . $render;
             }
 
             return $render;
 
         } catch (\Twig_Error_Syntax $e) {
-            return "<pre>Twig error:" . $e->getMessage() . "</pre>";
+            return "<pre>Twig error:" . $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() . "</pre>";
 
         } catch (\Exception $e) {
-            return '<pre>' . $e->getMessage() . '</pre>';
+            return '<pre>' . $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() . '</pre>';
         }
 
         return dev() ? "Cannot parse file '" . $this . "'" : NULL;

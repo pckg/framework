@@ -50,6 +50,21 @@ class Lazy implements \ArrayAccess
         }
     }
 
+    public function has($keys)
+    {
+        if (!is_array($keys)) {
+            $keys = [$keys];
+        }
+
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $this->data)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public function get($name)
     {
         if (!$this->__isset($name)) {
@@ -119,6 +134,7 @@ class Lazy implements \ArrayAccess
         foreach ($this->data AS $key => $val) {
             $arr[$key] = is_object($val) ? $val->__toArray() : $val;
         }
+
         return $arr;
     }
 

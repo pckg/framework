@@ -37,7 +37,7 @@ function app()
 }
 
 /**
- * @return \LFW\Request
+ * @return \Pckg\Framework\Request
  */
 function request()
 {
@@ -45,11 +45,11 @@ function request()
 }
 
 /**
- * @return \LFW\Response
+ * @return \Pckg\Framework\Response
  */
 function response()
 {
-    return context()->getResponse('Response');
+    return context()->get('Response');
 }
 
 /**
@@ -110,9 +110,9 @@ function dispatcher()
  *
  * @return mixed|null|object
  */
-function trigger($event, $method = null, array $args = [])
+function trigger($event, array $args = [], $method = null)
 {
-    return dispatcher()->trigger($event, $method, $args);
+    return dispatcher()->trigger($event, $args, $method);
 }
 
 /**
@@ -149,13 +149,13 @@ function registerEvent(AbstractEvent $event)
 
 function triggerEvent($event, $args = [])
 {
-    return dispatcher()->trigger($event, 'handle', $args);
+    return dispatcher()->trigger($event, $args, 'handle');
 }
 
 /* router */
 
 /**
- * @return \LFW\Router
+ * @return \Pckg\Framework\Router
  */
 function router()
 {
@@ -240,6 +240,7 @@ function path($key, $val = null)
 /* quick helpers */
 function __($key, $lang = null)
 {
+    return $key;
     return Lang::get($key, $lang);
 }
 

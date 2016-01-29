@@ -77,7 +77,11 @@ abstract class AbstractView implements ViewInterface
 
     public function __toString()
     {
-        return $this->autoparse();
+        try {
+            return $this->autoparse();
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
     }
 
     public static function addDir($path, $priority = 0)

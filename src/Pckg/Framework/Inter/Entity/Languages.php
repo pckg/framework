@@ -6,7 +6,8 @@ use Pckg\Database\Entity;
 use Pckg\Database\Entity\Extension\Translatable;
 use Pckg\Framework\Inter\Record\Language;
 
-class Languages extends Entity {
+class Languages extends Entity
+{
 
     use Translatable;
 
