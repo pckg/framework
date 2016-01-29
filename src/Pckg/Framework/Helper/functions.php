@@ -3,7 +3,7 @@
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;
 use Pckg\Concept\Event\AbstractEvent;
-use Pckg\Database\Collection;
+use Pckg\Collection;
 use Pckg\Framework\Config;
 use Pckg\Framework\Lang;
 use Pckg\Framework\View\Twig;
