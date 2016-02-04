@@ -11,7 +11,7 @@ class DefinePaths extends AbstractChainOfReponsibility
     public function execute(callable $next)
     {
         path('ds', DIRECTORY_SEPARATOR);
-        path('root', $_SERVER['DOCUMENT_ROOT']);
+        path('root', realpath($_SERVER['DOCUMENT_ROOT']) . DIRECTORY_SEPARATOR);
 
         path("apps", path('root') . "app" . path('ds'));
         path("cache", path('root') . "cache" . path('ds'));
