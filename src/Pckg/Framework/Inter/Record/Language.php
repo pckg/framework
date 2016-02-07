@@ -10,9 +10,9 @@ class Language extends Record
 
     protected $entity = Languages::class;
 
-    public function getCurrentRouteTranslation() {
-        return json_encode(router()->get());
-        return 'test';
+    public function getRootUrl()
+    {
+        return '/' . $this->slug . '/';
     }
 
 }

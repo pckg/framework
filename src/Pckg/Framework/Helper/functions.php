@@ -21,7 +21,7 @@ function context()
 }
 
 /**
- * @return \LFW\Environment
+ * @return \Pckg\Framework\Environment
  */
 function env()
 {
@@ -60,16 +60,6 @@ function response()
 function entity($entity = null)
 {
     return context()->getEntity($entity);
-}
-
-/**
- * @param null $record
- *
- * @return \Pckg\Database\Record
- */
-function record($record = null)
-{
-    return context()->getRecord($record);
 }
 
 /**
@@ -241,6 +231,7 @@ function path($key, $val = null)
 function __($key, $lang = null)
 {
     return $key;
+
     return Lang::get($key, $lang);
 }
 
@@ -356,4 +347,13 @@ function stopMeasure($name)
 function collect($data)
 {
     return new Collection($data);
+}
+
+function array_merge_array($merge, $to)
+{
+    foreach ($to as &$val) {
+        $val = array_merge($merge, $to);
+    }
+
+    return $to;
 }
