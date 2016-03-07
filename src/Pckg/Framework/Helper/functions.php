@@ -291,7 +291,11 @@ function d(...$mixed)
 {
     foreach ($mixed as $m) {
         echo '<pre>';
-        print_r($m);
+        if (is_string($m)) {
+            echo $m;
+        } else {
+            var_dump($m);
+        }
         echo '</pre>';
         echo "<br />\n";
     }

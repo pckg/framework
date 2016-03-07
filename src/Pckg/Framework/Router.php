@@ -2,8 +2,7 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Framework\Router\Provider\App;
-use Pckg\Framework\Router\RouteProviderInterface;
+use Exception;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\View\Twig;
 
@@ -33,42 +32,54 @@ class Router
         Twig::addDir(path('app') . 'src' . path('ds'));
 
         if (!dev() && $cache->isBuilt()) {
-            $data = $cache->get();
-            $this->routes = $data['routes'];
-            $this->cachedInit = $data['cachedInit'];
-
-            if (isset($this->cachedInit['autoloader'])) {
-                foreach ($this->cachedInit['autoloader'] as $dir) {
-                    autoloader()->add('', $dir);
-                }
-            }
-
-            if (isset($this->cachedInit['view'])) {
-                foreach ($this->cachedInit['view'] as $dir) {
-                    Twig::addDir($dir);
-                }
-            }
+            $this->initDev();
 
         } else {
-            $router = $this->config->get('router');
+            $this->initProd();
 
-            if (isset($router['providers'])) {
-                foreach ($router['providers'] AS $providerType => $arrProviders) {
-                    foreach ($arrProviders AS $provider => $providerConfig) {
-                        $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
-                            $providerType => $provider,
-                            'config'      => $providerConfig,
-                            'name'        => $provider,
-                        ]);
-                        $routeProvider->init();
-                    }
-                }
-            }
-
-            $this->writeCache();
         }
 
         return $this;
+    }
+
+    protected function initDev()
+    {
+        $cache = $this->getCache();
+        $data = $cache->get();
+        $this->routes = $data['routes'];
+        $this->cachedInit = $data['cachedInit'];
+
+        if (isset($this->cachedInit['autoloader'])) {
+            foreach ($this->cachedInit['autoloader'] as $dir) {
+                autoloader()->add('', $dir);
+            }
+        }
+
+        if (isset($this->cachedInit['view'])) {
+            foreach ($this->cachedInit['view'] as $dir) {
+                Twig::addDir($dir);
+            }
+        }
+    }
+
+    protected function initProd()
+    {
+        $router = $this->config->get('router');
+
+        if (isset($router['providers'])) {
+            foreach ($router['providers'] AS $providerType => $arrProviders) {
+                foreach ($arrProviders AS $provider => $providerConfig) {
+                    $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
+                        $providerType => $provider,
+                        'config'      => $providerConfig,
+                        'name'        => $provider,
+                    ]);
+                    $routeProvider->init();
+                }
+            }
+        }
+
+        $this->writeCache();
     }
 
     public function addCachedInit($cachedInit = [])
@@ -93,7 +104,7 @@ class Router
     public function writeCache()
     {
         $this->getCache()->writeToCache([
-            'routes' => $this->routes,
+            'routes'     => $this->routes,
             'cachedInit' => $this->cachedInit,
         ]);
     }
@@ -331,10 +342,10 @@ class Router
         $this->sanitizeMatch($match);
 
         if (!$match["controller"])
-            throw new \Exception("Controller not set." . print_r($match, true));
+            throw new Exception("Controller not set." . print_r($match, true));
 
         if (!$match["view"])
-            throw new \Exception("View not set.");
+            throw new Exception("View not set.");
 
         $this->controller = $match['controller'];
         $this->view = $match['view'];
