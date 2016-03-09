@@ -21,7 +21,7 @@ class InitAssets extends AbstractChainOfReponsibility
     {
         foreach ($this->website->assets() as $asset) {
             $expl = explode('/', $asset);
-            Optimize::addFile($expl[0], 'app/' . '' . '/public/' . $asset);
+            Optimize::addFile($expl[0], 'app/' . strtolower(get_class($this->website)) . '/public/' . $asset);
         }
 
         return $next();

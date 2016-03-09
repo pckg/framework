@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\Helper;
 
+use Exception;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider\Helper\AutoloaderRegistrator;
 
@@ -19,8 +20,10 @@ class Context extends \Pckg\Concept\Context
 
     public function createApplication($appName = null)
     {
-        if (!$appName) {
+        if (!$appName && isset($_SERVER['APP'])) {
             $appName = $_SERVER['APP'];
+        } else {
+            throw new Exception('$_SERVER[APP] undefined!');
         }
 
         path('app', path('root') . "app" . path('ds') . $appName . path('ds'));

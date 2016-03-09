@@ -13,7 +13,7 @@ class Session extends Lazy
 
         if (empty($SID)) {
             session_set_cookie_params(7 * 24 * 60 * 60, '/');
-            //session_start();
+            session_start();
         }
 
         $this->data = &$_SESSION;
