@@ -3,21 +3,25 @@
 use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Concept\Reflect\Resolver;
+use Pckg\Framework\AssetManager;
 use Pckg\Framework\Config;
 use Pckg\Framework\Router;
 
-class FrameworkResolver implements Resolver {
+class FrameworkResolver implements Resolver
+{
 
     protected static $singletones = [
         Router::class,
         Context::class,
         Config::class,
+        AssetManager::class,
     ];
 
     protected static $bind = [
-        Router::class => 'Router',
-        Context::class => 'Context',
-        Config::class => 'Config',
+        Router::class       => 'Router',
+        Context::class      => 'Context',
+        Config::class       => 'Config',
+        AssetManager::class => 'AssetManager',
     ];
 
     public function resolve($class)

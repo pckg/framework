@@ -22,7 +22,8 @@ class Twig extends AbstractView implements ViewInterface
     {
         $this->twig = new Twig_Environment(new Twig_Loader_Chain([
                 new Twig_Loader_Filesystem($this->getDirs()),
-                new Twig_Loader_String()]
+                new Twig_Loader_String(),
+            ]
         ),
             [
                 'debug' => true,
@@ -56,23 +57,18 @@ class Twig extends AbstractView implements ViewInterface
 
         $this->twig = $this->twig->loadTemplate($this->file . ".twig");
 
-        $config = config();
-        if (isset($config['defaults']['twig']['classes']))
-            foreach ($config['defaults']['twig']['classes'] AS $key => $class) {
-                $this->data[$key] = new $class;
-            }
-
         $this->data['debugBar'] = context()->exists('DebugBar')
             ? context()->find('DebugBar')->getJavascriptRenderer()
             : null;
 
         try {
             startMeasure('Rendering ' . $this->file);
-            $render = $this->twig->render($this->data);
+            $render = $this->twig->render(array_merge(static::$staticData, $this->data));
             stopMeasure('Rendering ' . $this->file);
 
             if ($render == $this->file . '.twig') {
                 d($this->getDirs());
+
                 return "Cannot load file " . $render;
             }
 
@@ -85,7 +81,7 @@ class Twig extends AbstractView implements ViewInterface
             return '<pre>' . $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() . '</pre>';
         }
 
-        return dev() ? "Cannot parse file '" . $this . "'" : NULL;
+        return dev() ? "Cannot parse file '" . $this . "'" : null;
     }
 
 }

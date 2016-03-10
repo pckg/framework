@@ -9,6 +9,8 @@ abstract class AbstractView implements ViewInterface
 
     protected $data = [];
 
+    protected static $staticData = [];
+
     protected static $dirs = [];
 
     const PRIORITY_APP = 100;
@@ -54,6 +56,24 @@ abstract class AbstractView implements ViewInterface
             $this->data[$key] = $val;
         } else {
             $this->data[$key] .= $val;
+        }
+    }
+
+    public static function addStaticData($key, $val)
+    {
+
+        if (!is_object($key) && is_array($key)) {
+            foreach ($key AS $k => $v) {
+                static::addData($k, $v);
+            }
+
+            return;
+        }
+
+        if (!isset(static::$staticData[$key])) {
+            static::$staticData[$key] = $val;
+        } else {
+            static::$staticData[$key] .= $val;
         }
     }
 
