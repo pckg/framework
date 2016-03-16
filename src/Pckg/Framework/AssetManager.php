@@ -4,7 +4,6 @@ use Assetic\Asset\AssetCollection;
 use Assetic\Asset\FileAsset;
 use Exception;
 use Pckg\Framework\Asset\BaseAssets;
-use Pckg\Framework\Helper\Optimize;
 
 class AssetManager
 {

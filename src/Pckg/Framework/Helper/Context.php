@@ -20,10 +20,16 @@ class Context extends \Pckg\Concept\Context
 
     public function createApplication($appName = null)
     {
-        if (!$appName && isset($_SERVER['APP'])) {
-            $appName = $_SERVER['APP'];
-        } else {
-            throw new Exception('$_SERVER[APP] undefined!');
+        if (!$appName) {
+            if (isset($_SERVER['APP'])) {
+                $appName = $_SERVER['APP'];
+            } else {
+                $appName = $this->getApplicationNameFromGlobalRouter();
+            }
+        }
+
+        if (!$appName) {
+            throw new Exception('$appName undefined');
         }
 
         path('app', path('root') . "app" . path('ds') . $appName . path('ds'));
@@ -40,6 +46,19 @@ class Context extends \Pckg\Concept\Context
         $this->bind('Application', $app);
 
         return $app;
+    }
+
+    public function getApplicationNameFromGlobalRouter()
+    {
+        $apps = config('router.apps');
+
+        foreach ($apps as $app => $config) {
+            if (in_array($_SERVER['HTTP_HOST'], $config['domains'])) {
+                return $app;
+            } else if (isset($config['callable']) && $config['callable']) {
+                return $app;
+            }
+        }
     }
 
     public function getOrCreate($key, $class, $args = [])
