@@ -139,7 +139,9 @@ class Router
         $conf["name"] = $name;
         $conf["url"] = $route;
 
-        if (!isset($this->routes[$conf["url"]])) $this->routes[$conf["url"]] = [];
+        if (!isset($this->routes[$conf["url"]])) {
+            $this->routes[$conf["url"]] = [];
+        }
 
         array_unshift($this->routes[$conf["url"]], $conf);
     }
@@ -150,23 +152,26 @@ class Router
     }
 
     public function make($routeName = null, $arguments = [], $absolute = false)
-    { // @ToDo
+    {
         if (!$routeName) {
             $routeName = $this->data["name"];
         }
 
-        foreach ($this->routes AS $routeArr)
-            foreach ($routeArr AS $route)
+        foreach ($this->routes AS $routeArr) {
+            foreach ($routeArr AS $route) {
                 if ($route["name"] == $routeName) {
                     $args = [];
                     foreach ($arguments AS $key => $val) {
                         $args["[" . $key . "]"] = $val;
                     }
-                    if ($args)
+                    if ($args) {
                         $route['url'] = str_replace(array_keys($args), $args, $route['url']);
+                    }
 
-                    return ($absolute ? $this->config->get("defaults.protocol") . '://' . $this->config->get("defaults.domain") : "") . ($this->config->get("dev") ? "/dev.php" : "") . $route["url"];
+                    return ($absolute ? $this->config->get("defaults.protocol") . '://' . $this->config->get("defaults.domain") : "") . (dev() ? "/dev.php" : "") . $route["url"];
                 }
+            }
+        }
     }
 
     public function get($param = null)
@@ -204,9 +209,13 @@ class Router
 
         foreach ($this->routes AS $routeArr) {
             foreach ($routeArr AS $route) {
-                if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[") || strpos($url, "]"))) {
+                if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[") || strpos($url,
+                            "]"))
+                ) {
                     // validate method
-                    if (isset($route['method']) && !empty($route['method']) && !in_array(strtolower($_SERVER['REQUEST_METHOD']), explode("|", $route['method']))) {
+                    if (isset($route['method']) && !empty($route['method']) && !in_array(strtolower($_SERVER['REQUEST_METHOD']),
+                            explode("|", $route['method']))
+                    ) {
                         break;
                     }
 
@@ -234,7 +243,9 @@ class Router
                     }
 
                     // validate method
-                    if (isset($conf['method']) && !empty($conf['method']) && !in_array(strtolower($_SERVER['REQUEST_METHOD']), explode("|", $conf['method']))) {
+                    if (isset($conf['method']) && !empty($conf['method']) && !in_array(strtolower($_SERVER['REQUEST_METHOD']),
+                            explode("|", $conf['method']))
+                    ) {
                         continue;
                     }
 
@@ -294,10 +305,14 @@ class Router
                                         $error = true;
                                         break;
                                     }
-                                } else if (is_array($conf["validate"][$var]) && in_array($arrUrl[$i], $conf["validate"][$var])) {
+                                } else if (is_array($conf["validate"][$var]) && in_array($arrUrl[$i],
+                                        $conf["validate"][$var])
+                                ) {
                                     $regexData[$var] = $arrUrl[$i];
                                     // ok
-                                } else if (is_string($conf["validate"][$var]) && preg_match($conf["validate"][$var], $arrUrl[$i])) {
+                                } else if (is_string($conf["validate"][$var]) && preg_match($conf["validate"][$var],
+                                        $arrUrl[$i])
+                                ) {
                                     $regexData[$var] = $arrUrl[$i];
                                     // ok
                                 } else {
@@ -341,11 +356,13 @@ class Router
         // fill & transform required values
         $this->sanitizeMatch($match);
 
-        if (!$match["controller"])
+        if (!$match["controller"]) {
             throw new Exception("Controller not set." . print_r($match, true));
+        }
 
-        if (!$match["view"])
+        if (!$match["view"]) {
             throw new Exception("View not set.");
+        }
 
         $this->controller = $match['controller'];
         $this->view = $match['view'];

@@ -312,12 +312,12 @@ function db($depth = 3, $start = 0)
 
 function dev()
 {
-    env()->isDev();
+    return env()->isDev();
 }
 
 function prod()
 {
-    env()->isPro();
+    return env()->isPro();
 }
 
 /**
