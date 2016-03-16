@@ -60,14 +60,25 @@ class AssetManager
     {
         $return = [];
 
-        foreach ($this->collections as $type => $sections) {
-            if ($onlyTypes && !in_array($type, $onlyTypes)) {
+        if (!$onlyTypes) {
+            $onlyTypes = array_keys($this->collections);
+        }
+
+        foreach ($onlyTypes  as $type) {
+            if (!isset($this->collections[$type])) {
                 continue;
             }
 
-            foreach ($sections as $section => $collections) {
-                if ($onlySections && !in_array($section, $onlySections)) {
+            if (!$onlySections) {
+                $onlySections = array_keys($this->collections[$type]);
+            }
+
+            foreach ($onlySections as $section) {
+                if (!isset($this->collections[$type][$section])) {
                     continue;
+
+                } else {
+                    $collections = $this->collections[$type][$section];
                 }
 
                 foreach ($collections as $collection) {
