@@ -18,7 +18,6 @@ class Run
 
     public function execute(callable $next)
     {
-
         chain([
             RunRequest::class,
             RunResponse::class,

@@ -4,6 +4,7 @@ namespace Pckg\Framework\Helper;
 
 use Exception;
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Application;
 use Pckg\Framework\Provider\Helper\AutoloaderRegistrator;
 
 class Context extends \Pckg\Concept\Context
@@ -18,6 +19,12 @@ class Context extends \Pckg\Concept\Context
         return $this;
     }
 
+    /**
+     * @param null $appName
+     *
+     * @return Application
+     * @throws Exception
+     */
     public function createApplication($appName = null)
     {
         if (!$appName) {

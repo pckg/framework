@@ -355,8 +355,8 @@ function collect($data)
 
 function array_merge_array($merge, $to)
 {
-    foreach ($to as &$val) {
-        $val = array_merge($merge, $to);
+    foreach ($to as $key => &$val) {
+        $val = array_merge($val, $merge);
     }
 
     return $to;

@@ -3,9 +3,11 @@
 use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Concept\Reflect\Resolver;
-use Pckg\Framework\AssetManager;
 use Pckg\Framework\Config;
 use Pckg\Framework\Router;
+use Pckg\Manager\Asset as AssetManager;
+use Pckg\Manager\Meta as MetaManager;
+use Pckg\Manager\Seo as SeoManager;
 
 class FrameworkResolver implements Resolver
 {
@@ -15,6 +17,8 @@ class FrameworkResolver implements Resolver
         Context::class,
         Config::class,
         AssetManager::class,
+        MetaManager::class,
+        SeoManager::class,
     ];
 
     protected static $bind = [
@@ -22,6 +26,8 @@ class FrameworkResolver implements Resolver
         Context::class      => 'Context',
         Config::class       => 'Config',
         AssetManager::class => 'AssetManager',
+        MetaManager::class  => 'MetaManager',
+        SeoManager::class   => 'SeoManager',
     ];
 
     public function resolve($class)
