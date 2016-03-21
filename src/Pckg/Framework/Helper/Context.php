@@ -42,7 +42,7 @@ class Context extends \Pckg\Concept\Context
         path('app', path('root') . "app" . path('ds') . $appName . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
 
-        $this->registerAutoloaders([path('app_src')], $this);
+        $this->registerAutoloaders(path('app_src'), $this);
 
         /**
          * On this point we have registered autoloader
