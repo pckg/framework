@@ -5,21 +5,14 @@ namespace Pckg\Framework\View;
 abstract class AbstractView implements ViewInterface
 {
 
-    protected $file = null;
-
-    protected $data = [];
-
-    protected static $staticData = [];
-
-    protected static $dirs = [];
-
     const PRIORITY_APP = 100;
-
     const PRIORITY_VENDOR = 200;
-
     const PRIORITY_MODULE = 300;
-
     const PRIORITY_LAST = 500;
+    protected static $staticData = [];
+    protected static $dirs = [];
+    protected $file = null;
+    protected $data = [];
 
     public function __construct($file, $data = [])
     {
@@ -29,17 +22,22 @@ abstract class AbstractView implements ViewInterface
         $this->data = $data;
     }
 
-    public function getDirs()
+    public static function addStaticData($key, $val)
     {
-        $d = [];
-        ksort(static::$dirs);
-        foreach (static::$dirs as $priority => $dirs) {
-            foreach ($dirs as $dir) {
-                $d[] = $dir;
+
+        if (!is_object($key) && is_array($key)) {
+            foreach ($key AS $k => $v) {
+                static::addData($k, $v);
             }
+
+            return;
         }
 
-        return $d;
+        if (!isset(static::$staticData[$key])) {
+            static::$staticData[$key] = $val;
+        } else {
+            static::$staticData[$key] .= $val;
+        }
     }
 
     public function addData($key, $val = null)
@@ -59,22 +57,38 @@ abstract class AbstractView implements ViewInterface
         }
     }
 
-    public static function addStaticData($key, $val)
+    public static function addDir($path, $priority = 0)
     {
-
-        if (!is_object($key) && is_array($key)) {
-            foreach ($key AS $k => $v) {
-                static::addData($k, $v);
+        if (is_array($path)) {
+            foreach ($path as $dir) {
+                static::addDir($dir, $priority);
             }
 
             return;
         }
 
-        if (!isset(static::$staticData[$key])) {
-            static::$staticData[$key] = $val;
-        } else {
-            static::$staticData[$key] .= $val;
+        $path = str_replace("\\", path('ds'), $path);
+
+        if (!isset(static::$dirs[$priority])) {
+            static::$dirs[$priority] = [];
         }
+
+        if (!in_array($path, static::$dirs)) {
+            array_push(static::$dirs[$priority], $path);
+        }
+    }
+
+    public function getDirs()
+    {
+        $d = [];
+        ksort(static::$dirs);
+        foreach (static::$dirs as $priority => $dirs) {
+            foreach ($dirs as $dir) {
+                $d[] = $dir;
+            }
+        }
+
+        return $d;
     }
 
     public function getData($key = null)
@@ -101,27 +115,6 @@ abstract class AbstractView implements ViewInterface
             return $this->autoparse();
         } catch (\Exception $e) {
             return $e->getMessage();
-        }
-    }
-
-    public static function addDir($path, $priority = 0)
-    {
-        if (is_array($path)) {
-            foreach ($path as $dir) {
-                static::addDir($dir, $priority);
-            }
-
-            return;
-        }
-
-        $path = str_replace("\\", path('ds'), $path);
-
-        if (!isset(static::$dirs[$priority])) {
-            static::$dirs[$priority] = [];
-        }
-
-        if (!in_array($path, static::$dirs)) {
-            array_push(static::$dirs[$priority], $path);
         }
     }
 

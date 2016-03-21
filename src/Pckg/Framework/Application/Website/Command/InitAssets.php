@@ -2,11 +2,11 @@
 
 namespace Pckg\Framework\Application\Website\Command;
 
-use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Concept\AbstractChainOfReponsibility;
+use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\View\Twig;
-use Pckg\Manager\Meta as MetaManager;
 use Pckg\Manager\Asset as AssetManager;
+use Pckg\Manager\Meta as MetaManager;
 
 class InitAssets extends AbstractChainOfReponsibility
 {

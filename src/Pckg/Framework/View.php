@@ -7,29 +7,23 @@ use Pckg\Framework\View\Twig;
 class View
 {
 
+    protected static $dirs = [];
     protected $view;
     protected $data;
 
-    protected static $dirs = [];
-
-    function __construct($view = NULL, $data = [])
+    function __construct($view = null, $data = [])
     {
         $this->createTwig($view, $data);
     }
 
-    public function create($view = NULL, $data = [])
-    {
-        return new self($view, $data);
-    }
-
-    public function createTwig($view = NULL, $data = [])
+    public function createTwig($view = null, $data = [])
     {
         return $this->view = new Twig($view, $data);
     }
 
-    public function setData($arrData)
+    public function create($view = null, $data = [])
     {
-        return $this->view->setData($arrData);
+        return new self($view, $data);
     }
 
     public function addData($arrData = [])
@@ -40,6 +34,11 @@ class View
     public function getData()
     {
         return $this->view->getData();
+    }
+
+    public function setData($arrData)
+    {
+        return $this->view->setData($arrData);
     }
 
     public function autoparse()

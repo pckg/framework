@@ -17,14 +17,14 @@ abstract class AbstractRouteProvider
     protected $name;
     protected $providers = [];
 
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
     public function getName($name)
     {
         return $this->name;
+    }
+
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     public function addProvider(RouteProviderInterface $provider)

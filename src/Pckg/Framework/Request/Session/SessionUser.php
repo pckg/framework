@@ -44,16 +44,16 @@ class SessionUser
         return $this;
     }
 
+    public function getUser()
+    {
+        return $this->user;
+    }
+
     public function setUser($user)
     {
         $this->user = $user;
 
         return $this;
-    }
-
-    public function getUser()
-    {
-        return $this->user;
     }
 
 }

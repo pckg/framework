@@ -4,10 +4,9 @@ namespace Pckg\Framework\Response\Command;
 
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-
-
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Request;
+
 
 class LoadView extends AbstractChainOfReponsibility
 {
@@ -20,7 +19,8 @@ class LoadView extends AbstractChainOfReponsibility
 
     protected $request;
 
-    public function set($view, $data, $controller) {
+    public function set($view, $data, $controller)
+    {
         $this->view = $view;
         $this->data = $data;
         $this->controller = $controller;
@@ -35,8 +35,9 @@ class LoadView extends AbstractChainOfReponsibility
 
     public function execute()
     {
-        if (method_exists($this->controller, $this->view . "Prepare"))
+        if (method_exists($this->controller, $this->view . "Prepare")) {
             Reflect::method($this->controller, $this->view . "Prepare", $this->data);
+        }
 
         $viewHttp = $this->request->isPost()
             ? 'post' . ucfirst($this->view)

@@ -3,9 +3,9 @@
 namespace Pckg\Framework;
 
 use Exception;
+use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Response\Command\ProcessRouteMatch;
-use Pckg\Concept\Reflect;
 
 class Request extends Lazy
 {
@@ -72,21 +72,21 @@ class Request extends Lazy
         Reflect::create(ProcessRouteMatch::class, ['match' => $this->match])->execute();
     }
 
-    function post($key = NULL)
+    function post($key = null)
     {
         return is_null($key)
             ? $this->post
             : $this->post->get($key);
     }
 
-    function get($key = NULL)
+    function get($key = null)
     {
         return is_null($key)
             ? $this->get
             : $this->get->get($key);
     }
 
-    function files($key = NULL)
+    function files($key = null)
     {
         return is_null($key)
             ? $this->files
@@ -101,7 +101,8 @@ class Request extends Lazy
         || ($method == self::DELETE && $_SERVER['REQUEST_METHOD'] == "DELETE");
     }
 
-    public function getMethod() {
+    public function getMethod()
+    {
         return $_SERVER['REQUEST_METHOD'];
     }
 

@@ -7,13 +7,15 @@ class Config
 
     protected $data = [];
 
-    public function set($key, $val)
+    public function initSettings()
     {
-        if ($key) {
-            $this->data[$key] = $val;
-        } else {
-            $this->data = $val;
-        }
+        $appConfig = $this->get();
+
+        $this->set('domain', $appConfig['defaults']['domain']);
+        $this->set('title', $appConfig['defaults']['title']);
+        $this->set('protocol', $appConfig['defaults']['protocol']);
+        $this->set('url', $appConfig['defaults']['protocol'] . "://" . $appConfig['defaults']['domain']);
+        $this->set('hash', $appConfig['defaults']['security']['hash']);
     }
 
     public function get($key = null)
@@ -24,7 +26,7 @@ class Config
 
         $value = isset($this->data[$key])
             ? $this->data[$key]
-            : NULL;
+            : null;
 
         if (!$value && strpos($key, '.')) {
             $keys = explode('.', $key);
@@ -46,20 +48,13 @@ class Config
         return null;
     }
 
-    protected function findKey($key, $arr)
+    public function set($key, $val)
     {
-
-    }
-
-    public function initSettings()
-    {
-        $appConfig = $this->get();
-
-        $this->set('domain', $appConfig['defaults']['domain']);
-        $this->set('title', $appConfig['defaults']['title']);
-        $this->set('protocol', $appConfig['defaults']['protocol']);
-        $this->set('url', $appConfig['defaults']['protocol'] . "://" . $appConfig['defaults']['domain']);
-        $this->set('hash', $appConfig['defaults']['security']['hash']);
+        if ($key) {
+            $this->data[$key] = $val;
+        } else {
+            $this->data = $val;
+        }
     }
 
     public function parseDir($dir)
@@ -71,7 +66,7 @@ class Config
         $files = [
             "defaults" => $dir . $configPath . path('ds') . "defaults.php",
             "database" => $dir . $configPath . path('ds') . "database.php",
-            "router" => $dir . $configPath . path('ds') . "router.php",
+            "router"   => $dir . $configPath . path('ds') . "router.php",
         ];
 
         $settings = [];
@@ -106,6 +101,11 @@ class Config
         return isset($this->data[$key])
             ? $this->data[$key]
             : null;
+    }
+
+    protected function findKey($key, $arr)
+    {
+
     }
 }
 

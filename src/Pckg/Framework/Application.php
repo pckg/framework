@@ -4,8 +4,8 @@ namespace Pckg\Framework;
 
 use Pckg\Concept\Middleware;
 use Pckg\Framework\Application\ApplicationInterface;
-use Pckg\Framework\Application\Website\Command\Run;
 use Pckg\Framework\Application\Website\Command\Init;
+use Pckg\Framework\Application\Website\Command\Run;
 use Pckg\Framework\Provider\AutoloaderManager;
 use Pckg\Framework\Provider\Helper\AutoloaderRegistrator;
 use Pckg\Framework\Provider\Helper\ProviderRegistrator;

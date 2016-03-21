@@ -29,11 +29,19 @@ class Lazy implements \ArrayAccess
         }
     }
 
-    public function setParent($parent, $key)
+    public function toArray()
     {
-        $this->parent = [$parent, $key];
+        return $this->__toArray();
+    }
 
-        return $this;
+    public function __toArray()
+    {
+        $arr = [];
+        foreach ($this->data AS $key => $val) {
+            $arr[$key] = is_object($val) ? $val->__toArray() : $val;
+        }
+
+        return $arr;
     }
 
     public function __call($name, $args)
@@ -50,28 +58,9 @@ class Lazy implements \ArrayAccess
         }
     }
 
-    public function has($keys)
+    public function __isset($name)
     {
-        if (!is_array($keys)) {
-            $keys = [$keys];
-        }
-
-        foreach ($keys as $key) {
-            if (!array_key_exists($key, $this->data)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function get($name)
-    {
-        if (!$this->__isset($name)) {
-            return null;
-        }
-
-        return $this->__get($name);
+        return isset($this->data[$name]);
     }
 
     public function __get($name)
@@ -101,16 +90,35 @@ class Lazy implements \ArrayAccess
         return $this;
     }
 
-    public function __unset($name)
+    public function setParent($parent, $key)
     {
-        unset($this->data[$name]);
+        $this->parent = [$parent, $key];
 
         return $this;
     }
 
-    public function __isset($name)
+    public function has($keys)
     {
-        return isset($this->data[$name]);
+        if (!is_array($keys)) {
+            $keys = [$keys];
+        }
+
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $this->data)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function get($name)
+    {
+        if (!$this->__isset($name)) {
+            return null;
+        }
+
+        return $this->__get($name);
     }
 
     public function __toInt()
@@ -121,21 +129,6 @@ class Lazy implements \ArrayAccess
     public function __toString()
     {
         return (string)$this->data;
-    }
-
-    public function toArray()
-    {
-        return $this->__toArray();
-    }
-
-    public function __toArray()
-    {
-        $arr = [];
-        foreach ($this->data AS $key => $val) {
-            $arr[$key] = is_object($val) ? $val->__toArray() : $val;
-        }
-
-        return $arr;
     }
 
     public function __toBool()
@@ -156,6 +149,13 @@ class Lazy implements \ArrayAccess
     public function offsetUnset($offset)
     {
         return $this->__unset($offset);
+    }
+
+    public function __unset($name)
+    {
+        unset($this->data[$name]);
+
+        return $this;
     }
 
     public function offsetGet($offset)

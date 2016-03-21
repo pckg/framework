@@ -4,7 +4,13 @@ namespace Pckg\Framework\Response;
 
 use Exception;
 
-trait Exceptions {
+trait Exceptions
+{
+
+    public function none($message = 'Empty response')
+    {
+        $this->exception($message, 400);
+    }
 
     public function exception($message, $code = 400)
     {
@@ -13,11 +19,6 @@ trait Exceptions {
         }
 
         throw new Exception($message, $code);
-    }
-
-    public function none($message = 'Empty response')
-    {
-        $this->exception($message, 400);
     }
 
     public function bad($message = 'Bad request')

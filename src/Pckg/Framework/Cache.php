@@ -25,17 +25,6 @@ class Cache
         }
     }
 
-    protected function buildCache() {
-    }
-
-    public function isBuilt() {
-        return $this->built;
-    }
-
-    public function get() {
-        return $this->cache;
-    }
-
     protected function readFromCache()
     {
         $file = $this->getCachePath();
@@ -46,8 +35,13 @@ class Cache
         }
     }
 
-    protected function getCachePath() {
+    protected function getCachePath()
+    {
         return $this->cachePath;
+    }
+
+    protected function buildCache()
+    {
     }
 
     public function writeToCache($cache = null)
@@ -57,6 +51,16 @@ class Cache
         }
 
         file_put_contents($this->getCachePath(), json_encode($this->cache));
+    }
+
+    public function isBuilt()
+    {
+        return $this->built;
+    }
+
+    public function get()
+    {
+        return $this->cache;
     }
 
 }

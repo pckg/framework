@@ -33,16 +33,19 @@ class NamespaceProvider implements RouteProviderInterface
         foreach ($arrMethods AS $method) {
             if (substr($method, -6) == 'Action') {
                 $action = substr($method, 0, -6);
-                $urlProvider = new Url((isset($this->config['prefix']) ? $this->config['prefix'] : null) . '/' . $action, [
-                    'controller' => $this->namespace,
-                    'view' => $action,
-                ]);
+                $urlProvider = new Url((isset($this->config['prefix']) ? $this->config['prefix'] : null) . '/' . $action,
+                    [
+                        'controller' => $this->namespace,
+                        'view'       => $action,
+                    ]);
                 $urlProvider->load();
             }
         }
 
         $configPath = $this->config['src'] . str_replace('\\', '/', $this->namespace);
-        $phpProvider = new Php(['src' => $configPath, 'prefix' => isset($this->config['prefix']) ? $this->config['prefix'] : null]);
+        $phpProvider = new Php(['src'    => $configPath,
+                                'prefix' => isset($this->config['prefix']) ? $this->config['prefix'] : null
+        ]);
         $phpProvider->load();
         stopMeasure('Namespace RouterProvider: ' . $this->namespace);
     }

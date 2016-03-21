@@ -4,7 +4,8 @@ namespace Pckg\Framework;
 
 use Phinx\Migration\AbstractMigration;
 
-class Migration extends AbstractMigration {
+class Migration extends AbstractMigration
+{
 
     protected function translaTable($table)
     {

@@ -3,8 +3,8 @@
 namespace Pckg\Framework\Environment;
 
 use DebugBar\StandardDebugBar;
-use Pckg\Framework\Config;
 use Pckg\Concept\Context;
+use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;

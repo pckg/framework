@@ -13,7 +13,7 @@ class TwigObjectizerNodeVisitor implements \Twig_NodeVisitorInterface
      * Called before child nodes are visited.
      *
      * @param Twig_NodeInterface $node The node to visit
-     * @param Twig_Environment $env The Twig environment instance
+     * @param Twig_Environment   $env The Twig environment instance
      *
      * @return Twig_NodeInterface The modified node
      */
@@ -35,7 +35,7 @@ class TwigObjectizerNodeVisitor implements \Twig_NodeVisitorInterface
      * Called after child nodes are visited.
      *
      * @param Twig_NodeInterface $node The node to visit
-     * @param Twig_Environment $env The Twig environment instance
+     * @param Twig_Environment   $env The Twig environment instance
      *
      * @return Twig_NodeInterface The modified node
      */

@@ -2,8 +2,8 @@
 
 namespace Pckg\Framework\Router\Provider;
 
-use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Router\RouteProviderInterface;
 
 class Src implements RouteProviderInterface
@@ -25,23 +25,27 @@ class Src implements RouteProviderInterface
     public function init()
     {
         startMeasure('Src RouterProvider: ' . $this->config['src']);
-        foreach ([path('app_src') . $this->config['src'] . path('ds'),
-                     path('root') . $this->config['src'] . path('ds'),] AS $dir) {
+        foreach ([
+                     path('app_src') . $this->config['src'] . path('ds'),
+                     path('root') . $this->config['src'] . path('ds'),
+                 ] AS $dir) {
 
             if (is_dir($dir)) {
                 context()->get('Config')->parseDir($dir);
             }
         }
 
-        foreach ([path('app_src') . $this->config['src'] . path('ds') . 'Config/router.php',
-                     path('root') . $this->config['src'] . path('ds') . 'Config/router.php'] AS $file) {
+        foreach ([
+                     path('app_src') . $this->config['src'] . path('ds') . 'Config/router.php',
+                     path('root') . $this->config['src'] . path('ds') . 'Config/router.php'
+                 ] AS $file) {
 
             if (!is_file($file)) {
                 continue;
             }
 
             $phpProvider = new Php([
-                'file' => $file,
+                'file'   => $file,
                 'prefix' => isset($this->config['prefix'])
                     ? $this->config['prefix']
                     : null

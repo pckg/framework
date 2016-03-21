@@ -3,7 +3,6 @@
 namespace Pckg\Framework\Request\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-
 use Pckg\Framework\Request;
 
 class RunRequest extends AbstractChainOfReponsibility

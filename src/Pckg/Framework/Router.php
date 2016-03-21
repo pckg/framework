@@ -204,9 +204,6 @@ class Router
         $found = false;
         $match = false;
 
-        //file_put_contents(path('cache') . 'framework/router.printr', print_r($this->routes, true));
-        //var_dump($this->routes);
-
         foreach ($this->routes AS $routeArr) {
             foreach ($routeArr AS $route) {
                 if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[") || strpos($url,

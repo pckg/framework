@@ -28,11 +28,14 @@ class InitI18n extends AbstractChainOfReponsibility
         $config = $this->config->__toArray();
         if (isset($config['defaults']['i18n'])) {
             $i18n = $config['defaults']['i18n'];
-            if (!isset($i18n['type'])) $i18n['type'] = "session";
+            if (!isset($i18n['type'])) {
+                $i18n['type'] = "session";
+            }
 
             $request = request();
 
             if (!isset($i18n['current'])) // because it can be overridden
+            {
                 foreach ($i18n['langs'] AS $key => $lang) {
                     if ($i18n['type'] == "domain" && strpos($request->host(), $lang['code']) === 0) {
                         $i18n['current'] = $key;
@@ -49,15 +52,21 @@ class InitI18n extends AbstractChainOfReponsibility
                         $i18n['current'] = $key;
                     }
 
-                    if (isset($i18n['current'])) break;
+                    if (isset($i18n['current'])) {
+                        break;
+                    }
                 }
+            }
 
-            if (!isset($i18n['current'])) $i18n['current'] = $i18n['default'];
+            if (!isset($i18n['current'])) {
+                $i18n['current'] = $i18n['default'];
+            }
 
             // set session
             $_SESSION['lfw']['i18n'] = $i18n['current'];
 
             if ($i18n['force'] == true) // perform redirect
+            {
                 if ($i18n['type'] == "domain" && strpos($request->host(), $lang['code']) !== 0) {
                     $this->response->redirect($request->scheme() . "://" . $i18n['langs'][$i18n['current']]['code'] . "." . $config['defaults']['domain'] . $request->url());
 
@@ -66,6 +75,7 @@ class InitI18n extends AbstractChainOfReponsibility
                     $this->response->redirect($request->scheme() . "://" . $request->host() . $request->url());
 
                 }
+            }
         }
 
         return $next();

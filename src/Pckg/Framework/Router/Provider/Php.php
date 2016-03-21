@@ -34,7 +34,7 @@ class Php implements RouteProviderInterface
                     }
                     $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
                         $providerType => $prefix . $provider,
-                        'config' => $providerConfig,
+                        'config'      => $providerConfig,
                     ]);
                     $routeProvider->init();
                 }

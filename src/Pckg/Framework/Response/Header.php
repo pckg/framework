@@ -4,14 +4,14 @@ namespace Pckg\Framework\Response;
 
 class Header
 {
-    public static function header($header, $value)
-    {
-        header($header . ":" . $value);
-    }
-
     public static function location($location)
     {
         self::header("Location", $location);
+    }
+
+    public static function header($header, $value)
+    {
+        header($header . ":" . $value);
     }
 
     public static function refresh($refresh)

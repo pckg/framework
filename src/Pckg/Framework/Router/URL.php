@@ -107,6 +107,13 @@ class URL
         return $this;
     }
 
+    public function __toString()
+    {
+        return (string)($this->absolute
+            ? $this->absolute()
+            : $this->relative());
+    }
+
     public function absolute()
     {
         return $this->protocol . '://' . $this->domain . $this->relative();
@@ -115,13 +122,6 @@ class URL
     public function relative()
     {
         return '/' . $this->url . http_build_query($this->params);
-    }
-
-    public function __toString()
-    {
-        return (string)($this->absolute
-            ? $this->absolute()
-            : $this->relative());
     }
 
 }

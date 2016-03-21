@@ -12,13 +12,13 @@ class Lang
 
     protected $languages = [
         'en' => [
-            "title" => "English",
-            "code" => "en",
+            "title"         => "English",
+            "code"          => "en",
             "international" => "en_EN",
         ],
         'si' => [
-            "title" => "Slovenski",
-            "code" => "slo",
+            "title"         => "Slovenski",
+            "code"          => "slo",
             "international" => "sl_SI"
         ],
     ];
@@ -28,11 +28,6 @@ class Lang
 
     protected $values;
 
-    public function set($lang, $key, $val)
-    {
-        $this->values[$lang][$key] = $val;
-    }
-
     public function setArray($lang, $arr)
     {
         foreach ($arr AS $key => $val) {
@@ -40,7 +35,12 @@ class Lang
         }
     }
 
-    public function get($key, $lang = NULL)
+    public function set($lang, $key, $val)
+    {
+        $this->values[$lang][$key] = $val;
+    }
+
+    public function get($key, $lang = null)
     {
         $lang = is_null($lang) ? $this->current : $lang;
 
@@ -51,10 +51,11 @@ class Lang
                 : '__("' . $key . '")');
     }
 
-    public function lang($lang = NULL)
+    public function lang($lang = null)
     {
-        if (is_null($lang))
+        if (is_null($lang)) {
             return $this->current;
+        }
 
         $this->current = $lang;
     }
@@ -62,7 +63,7 @@ class Lang
     /*
     @param int|string $locale
     */
-    public function setLocale($locale, $default = FALSE)
+    public function setLocale($locale, $default = false)
     {
         if (is_int($locale) && array_key_exists($locale, $this->languages)) {
             $default ? $this->current = $locale : $this->default = $locale;

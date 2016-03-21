@@ -2,12 +2,10 @@
 
 namespace Pckg\Framework;
 
-use Exception;
-use Pckg\Framework\Response\Command\ProcessRouteMatch;
+use Pckg\Concept\Reflect;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
 use Pckg\Framework\View\AbstractView;
-use Pckg\Concept\Reflect;
 
 class Response
 {
@@ -114,7 +112,8 @@ class Response
         echo $this->output;
     }
 
-    public function setViewData($viewData) {
+    public function setViewData($viewData)
+    {
         $this->viewData = $viewData;
 
         return $this;

@@ -4,9 +4,8 @@ namespace Pckg\Framework\Response\Command;
 
 use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
-
-use Pckg\Database\Helper\Convention;
 use Pckg\Concept\Reflect;
+use Pckg\Database\Helper\Convention;
 use Pckg\Framework\Response;
 use Pckg\Framework\View\ViewInterface;
 
@@ -75,7 +74,9 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
         $reflect = Reflect::create($c);
 
-        if (!$this->controller || get_class($this->controller) != get_class($reflect)) $this->controller = $reflect;
+        if (!$this->controller || get_class($this->controller) != get_class($reflect)) {
+            $this->controller = $reflect;
+        }
 
         return $reflect;
     }

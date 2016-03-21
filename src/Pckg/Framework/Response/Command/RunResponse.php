@@ -3,7 +3,6 @@
 namespace Pckg\Framework\Response\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-
 use Pckg\Framework\Response;
 
 class RunResponse extends AbstractChainOfReponsibility
