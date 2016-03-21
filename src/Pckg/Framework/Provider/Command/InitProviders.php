@@ -4,13 +4,13 @@ namespace Pckg\Framework\Provider\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Application;
-use Pckg\Framework\Provider\Helper\ProviderRegistrator;
+use Pckg\Framework\Provider\Helper\Registrator;
 use Pckg\Framework\Provider\ProviderManager;
 
 class InitProviders extends AbstractChainOfReponsibility
 {
 
-    use ProviderRegistrator;
+    use Registrator;
 
     protected $manager;
 

@@ -1,13 +1,10 @@
-<?php
-
-namespace Pckg\Framework\Provider\Command;
+<?php namespace Pckg\Framework\Provider\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-use Pckg\Framework\Application;
 use Pckg\Framework\Provider\AutoloaderManager;
 use Pckg\Framework\Provider\Helper\Registrator;
 
-class InitAutoloaders extends AbstractChainOfReponsibility
+class InitRegistrators extends AbstractChainOfReponsibility
 {
 
     use Registrator;

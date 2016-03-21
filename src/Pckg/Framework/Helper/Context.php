@@ -5,12 +5,12 @@ namespace Pckg\Framework\Helper;
 use Exception;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
-use Pckg\Framework\Provider\Helper\AutoloaderRegistrator;
+use Pckg\Framework\Provider\Helper\Registrator;
 
 class Context extends \Pckg\Concept\Context
 {
 
-    use AutoloaderRegistrator;
+    use Registrator;
 
     public function createEnvironment($environment)
     {
@@ -42,7 +42,7 @@ class Context extends \Pckg\Concept\Context
         path('app', path('root') . "app" . path('ds') . $appName . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
 
-        $this->registerAutoloaders([path('app_src')]);
+        $this->registerAutoloaders([path('app_src')], $this);
 
         /**
          * On this point we have registered autoloader

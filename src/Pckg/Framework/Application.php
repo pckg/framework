@@ -7,16 +7,13 @@ use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Application\Website\Command\Init;
 use Pckg\Framework\Application\Website\Command\Run;
 use Pckg\Framework\Provider\AutoloaderManager;
-use Pckg\Framework\Provider\Helper\AutoloaderRegistrator;
-use Pckg\Framework\Provider\Helper\ProviderRegistrator;
+use Pckg\Framework\Provider\Helper\Registrator;
 use Pckg\Framework\Provider\ProviderManager;
 
 class Application implements ApplicationInterface, ProviderManager, AutoloaderManager
 {
 
-    use ProviderRegistrator, AutoloaderRegistrator;
-
-    use Middleware;
+    use Registrator, Middleware;
 
     protected $mapper = [];
 
@@ -54,11 +51,6 @@ class Application implements ApplicationInterface, ProviderManager, AutoloaderMa
     public function autoload()
     {
         return [];
-    }
-
-    public function afterAutoload()
-    {
-        return $this;
     }
 
 }

@@ -7,6 +7,4 @@ interface AutoloaderManager
 
     public function autoload();
 
-    public function afterAutoload();
-
 }

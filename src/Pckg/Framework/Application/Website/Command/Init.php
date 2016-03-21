@@ -34,8 +34,10 @@ class Init
             InitDatabase::class,
             InitRouter::class,
             RegisterRoutes::class,
+
             InitAutoloaders::class,
             InitProviders::class,
+
             InitSession::class,
             InitResponse::class,
             InitRequest::class,
