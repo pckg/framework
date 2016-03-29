@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\View;
 
+use Exception;
 use Pckg\Framework\Router;
 use Twig_Environment;
 use Twig_Extension_Debug;
@@ -77,11 +78,11 @@ class Twig extends AbstractView implements ViewInterface
         } catch (\Twig_Error_Syntax $e) {
             return "<pre>Twig error:" . $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() . "</pre>";
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return '<pre>' . $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() . '</pre>';
         }
 
-        return dev() ? "Cannot parse file '" . $this . "'" : null;
+        throw new Exception('Cannot parse file \'' . $this->file . '\'');
     }
 
 }

@@ -6,6 +6,7 @@ use Exception;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Response\Command\ProcessRouteMatch;
+use Pckg\Framework\Router\Command\ResolveRoute;
 
 class Request extends Lazy
 {
@@ -60,7 +61,7 @@ class Request extends Lazy
 
     public function init()
     {
-        $this->match = $this->router->findMatch($this->url);
+        $this->match = (new ResolveRoute($this->router, $this->url))->execute();
 
         if (!$this->match) {
             throw new Exception("Cannot find route's match: " . $this->url);
