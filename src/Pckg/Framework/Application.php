@@ -15,32 +15,34 @@ class Application implements ApplicationInterface, ProviderManager, AutoloaderMa
 
     use Registrator, Middleware;
 
-    protected $mapper = [];
-
     public function init()
     {
-        chain([Init::class], 'execute', [$this]);
+        chain($this->initArray(), 'execute', [$this]);
 
         return $this;
+    }
+
+    public function initArray()
+    {
+        return [
+            Init::class,
+        ];
     }
 
     public function run()
     {
         $this->middleware();
 
-        chain([Run::class], 'execute', [$this]);
+        chain($this->runArray(), 'execute', [$this]);
 
         return $this;
     }
 
-    /**
-     * @deprecated
-     */
-    public function getMapped($key, $second)
+    public function runArray()
     {
-        return isset($this->mapper[$key][$second])
-            ? $this->mapper[$key][$second]
-            : null;
+        return [
+            Run::class,
+        ];
     }
 
     public function providers()

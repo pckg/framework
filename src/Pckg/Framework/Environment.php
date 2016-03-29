@@ -20,11 +20,16 @@ class Environment
 
     public function init()
     {
-        chain([
-            DefinePaths::class,
-        ]);
+        chain($this->initArray());
 
         return $this;
+    }
+
+    public function initArray()
+    {
+        return [
+            DefinePaths::class,
+        ];
     }
 
     function isDev()
