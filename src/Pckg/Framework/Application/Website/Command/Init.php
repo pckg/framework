@@ -5,8 +5,7 @@ namespace Pckg\Framework\Application\Website\Command;
 use Pckg\Database\Command\InitDatabase;
 use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Config\Command\InitConfig;
-use Pckg\Framework\I18n\Command\InitI18n;
-use Pckg\Framework\Locale\Command\InitLocale;
+use Pckg\Framework\Locale\Command\Localize;
 use Pckg\Framework\Provider\Command\InitAutoloaders;
 use Pckg\Framework\Provider\Command\InitProviders;
 use Pckg\Framework\Request\Command\InitRequest;
@@ -30,7 +29,7 @@ class Init
 
         chain([
             InitConfig::class,
-            InitLocale::class,
+            Localize::class,
             InitDatabase::class,
             InitRouter::class,
             RegisterRoutes::class,
@@ -41,7 +40,6 @@ class Init
             InitSession::class,
             InitResponse::class,
             InitRequest::class,
-            InitI18n::class,
             InitAssets::class,
         ], 'execute', [$this->application]);
 

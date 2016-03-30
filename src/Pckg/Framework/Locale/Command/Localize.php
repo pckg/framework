@@ -1,13 +1,14 @@
 <?php
 
-namespace Pckg\Framework\I18n\Command;
+namespace Pckg\Framework\Locale\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Context;
 use Pckg\Framework\Config;
+use Pckg\Framework\Locale\Lang;
 use Pckg\Framework\Response;
 
-class InitI18n extends AbstractChainOfReponsibility
+class Localize extends AbstractChainOfReponsibility
 {
 
     protected $config;
@@ -25,6 +26,13 @@ class InitI18n extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
+        $locale = 'sl_SI';
+
+        setlocale(LC_ALL, $locale);
+        setlocale(LC_TIME, $locale);
+
+        $this->context->bind('Lang', new Lang());
+
         $config = $this->config->__toArray();
         if (isset($config['defaults']['i18n'])) {
             $i18n = $config['defaults']['i18n'];
