@@ -37,7 +37,7 @@ trait Registrator
                 $provider = $config;
             }
 
-            (new $provider($manager))->register();
+            Reflect::create($provider, [$manager])->register();
         }
     }
 

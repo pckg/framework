@@ -26,7 +26,6 @@ class Init
 
     public function execute(callable $next)
     {
-
         chain([
             InitConfig::class,
             Localize::class,

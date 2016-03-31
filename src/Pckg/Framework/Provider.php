@@ -5,28 +5,27 @@ namespace Pckg\Framework;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Router\Helper\RouteRegistrator;
+use Pckg\Manager\Asset as AssetManager;
 
 class Provider
 {
 
     use RouteRegistrator;
 
-    function __construct(ApplicationInterface $app)
+    protected $app;
+
+    protected $assetManager;
+
+    function __construct(ApplicationInterface $app, AssetManager $assetManager)
     {
         $this->app = $app;
+        $this->assetManager = $assetManager;
     }
 
     public function register()
     {
         $this->registerRoutes($this->routes());
-        $this->registerMiddlewares();
-    }
-
-    protected function registerMiddlewares()
-    {
-        foreach ($this->middlewares() as $middleware) {
-            $this->app->addMiddleware(Reflect::create($middleware));
-        }
+        $this->assetManager->addProviderAssets($this->assets(), 'main', $this);
     }
 
     public function commands()
@@ -50,6 +49,11 @@ class Provider
     }
 
     public function routes()
+    {
+        return [];
+    }
+
+    public function assets()
     {
         return [];
     }
