@@ -20,11 +20,10 @@ trait RouteRegistrator
                     $providerConfig['prefix'] = '';
                 }
 
-                $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
+                Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
                     $providerType => $provider,
                     'config'      => $providerConfig,
-                ]);
-                $routeProvider->init();
+                ])->init();
             }
         }
     }

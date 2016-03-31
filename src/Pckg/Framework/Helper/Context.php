@@ -39,7 +39,7 @@ class Context extends \Pckg\Concept\Context
             throw new Exception('$appName undefined');
         }
 
-        path('app', path('root') . "app" . path('ds') . $appName . path('ds'));
+        path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
 
         $this->registerAutoloaders(path('app_src'), $this);

@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Concept\Middleware;
 use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Application\Website\Command\Init;
 use Pckg\Framework\Application\Website\Command\Run;
@@ -13,16 +12,16 @@ use Pckg\Framework\Provider\ProviderManager;
 class Application implements ApplicationInterface, ProviderManager, AutoloaderManager
 {
 
-    use Registrator, Middleware;
+    use Registrator;
 
     public function init()
     {
-        chain($this->initArray(), 'execute', [$this]);
+        chain($this->inits(), 'execute', [$this]);
 
         return $this;
     }
 
-    public function initArray()
+    public function inits()
     {
         return [
             Init::class,
@@ -33,16 +32,28 @@ class Application implements ApplicationInterface, ProviderManager, AutoloaderMa
     {
         $this->middleware();
 
-        chain($this->runArray(), 'execute', [$this]);
+        chain($this->runs(), 'execute', [$this]);
 
         return $this;
     }
 
-    public function runArray()
+    public function runs()
     {
         return [
             Run::class,
         ];
+    }
+
+    public function middleware()
+    {
+        chain($this->middlewares(), 'execute', [$this]);
+
+        return $this;
+    }
+
+    public function middlewares()
+    {
+        return [];
     }
 
     public function providers()
