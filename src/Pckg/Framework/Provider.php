@@ -22,40 +22,72 @@ class Provider
         $this->assetManager = $assetManager;
     }
 
+    /**
+     * Register options
+     */
     public function register()
     {
         $this->registerRoutes($this->routes());
-        $this->assetManager->addProviderAssets($this->assets(), 'main', $this);
+        $this->registerMiddlewares($this->middlewares());
+        $this->registerPaths($this->paths());
+        $this->registerAssets($this->assets());
     }
 
-    public function commands()
-    {
-        return [];
-    }
-
-    public function controllers()
-    {
-        return [];
-    }
-
-    public function middlewares()
-    {
-        return [];
-    }
-
-    public function path()
-    {
-        return [];
-    }
-
+    /**
+     * Register routes
+     *
+     * @return array
+     */
     public function routes()
     {
         return [];
     }
 
+    /**
+     * Register middlewares
+     *
+     * @return array
+     */
+    public function middlewares()
+    {
+        return [];
+    }
+
+    public function registerMiddlewares($middlewares)
+    {
+        // @T00D00
+    }
+
+    /**
+     * Register view paths.
+     *
+     * @return array
+     */
+    public function paths()
+    {
+        return [];
+    }
+
+    public function registerPaths($paths)
+    {
+        // @T00D00
+    }
+
+    /**
+     * Register assets
+     *
+     * @return array
+     */
     public function assets()
     {
         return [];
+    }
+
+    public function registerAssets($assets)
+    {
+        foreach ($assets as $key => $assets) {
+            $this->assetManager->addProviderAssets($assets, is_array($assets) ? $key : 'main', $this);
+        }
     }
 
 }
