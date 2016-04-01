@@ -31,6 +31,10 @@ class Provider
         $this->registerMiddlewares($this->middlewares());
         $this->registerPaths($this->paths());
         $this->registerAssets($this->assets());
+
+        if (method_exists($this, 'registered')) {
+            Reflect::method($this, 'registered');
+        }
     }
 
     /**
