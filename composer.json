@@ -13,7 +13,7 @@
     "pckg/concept": "dev-master",
     "pckg/database": "dev-master",
     "twig/twig": "1.*",
-    "filp/whoops": "1.*",
+    "filp/whoops": "2.*",
     "monolog/monolog": "1.*"
   },
   "autoload": {
