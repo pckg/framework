@@ -3,11 +3,13 @@
 namespace Pckg\Framework\Helper;
 
 use Exception;
+use Pckg\Concept\Context as ConceptContext;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
+use Pckg\Framework\Environment\Production;
 use Pckg\Framework\Provider\Helper\Registrator;
 
-class Context extends \Pckg\Concept\Context
+class Context extends ConceptContext
 {
 
     use Registrator;
@@ -60,24 +62,23 @@ class Context extends \Pckg\Concept\Context
         $apps = config('router.apps');
 
         foreach ($apps as $app => $config) {
-            if (in_array($_SERVER['HTTP_HOST'], $config['domains'])) {
+            if (in_array($_SERVER['HTTP_HOST'], $config['host'])) {
                 return $app;
-            } else if (isset($config['callable']) && $config['callable']) {
+            }
+
+            if (isset($config['callable']) && $config['callable']) {
                 return $app;
+            }
+
+            foreach ($config['host'] as $host) {
+                if (preg_match('/' . $host . '/', $_SERVER['HTTP_HOST'])) {
+                    return $app;
+                }
             }
         }
     }
 
-    public function getOrCreate($key, $class, $args = [])
-    {
-        if (!isset($this->data[$key])) {
-            $this->data[$key] = Reflect::create($class, $args);
-        }
-
-        return $this->data[$key];
-    }
-
-    public static function autorun($environment, $application = null)
+    public static function autorun($environment = Production::class, $application = null)
     {
         static::createInstance()
             ->createEnvironment($environment)
