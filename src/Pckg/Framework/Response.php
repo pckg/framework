@@ -59,7 +59,7 @@ class Response
         501 => "HTTP/1.1 501 Not Implemented",
         502 => "HTTP/1.1 502 Bad Gateway",
         503 => "HTTP/1.1 503 Service Unavailable",
-        504 => "HTTP/1.1 504 Gateway Time-out"
+        504 => "HTTP/1.1 504 Gateway Time-out",
     ];
 
     public function code($code)
@@ -143,7 +143,7 @@ class Response
         $this->output();
     }
 
-    public function redirect($url, $httpParams = [], $routerParams = [])
+    public function redirect($url = null, $httpParams = [], $routerParams = [])
     {
         $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url . '" /></head><body></body></html>';
         if ($url === -1) {
@@ -160,8 +160,8 @@ class Response
                     $routerParams
                 ))->relative();
 
-        } else if (!$url) {
-            $url = '/';
+        } else if ($url === null) {
+            $url = $this->router->getUri();
 
         }
 
