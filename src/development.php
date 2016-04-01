@@ -13,40 +13,33 @@ if (!defined('BASE_PATH')) {
  */
 require_once BASE_PATH . "vendor/autoload.php";
 
-try {
-    /**
-     * Create context instance.
-     * This is actually dependency container.
-     */
-    $context = Pckg\Framework\Helper\Context::createInstance();
+/**
+ * Create context instance.
+ * This is actually dependency container.
+ */
+$context = Pckg\Framework\Helper\Context::createInstance();
 
-    /**
-     * Create development environment.
-     * We automatically display errors and load debugbar.
-     */
-    $environment = $context->createEnvironment(Pckg\Framework\Environment\Development::class);
+/**
+ * Create development environment.
+ * We automatically display errors and load debugbar.
+ */
+$environment = $context->createEnvironment(Pckg\Framework\Environment\Development::class);
 
-    /**
-     * Create application.
-     * We will use config/router.php for proper loading.
-     */
-    $application = $context->createApplication();
+/**
+ * Create application.
+ * We will use config/router.php for proper loading.
+ */
+$application = $context->createApplication();
 
-    /**
-     * Initialize application.
-     * This will parse config, set localization 'things', estamblish connection to database, initialize and register
-     * routes, set application autoloaders and providers, session, response, request and assets.
-     */
-    $application->init();
+/**
+ * Initialize application.
+ * This will parse config, set localization 'things', estamblish connection to database, initialize and register
+ * routes, set application autoloaders and providers, session, response, request and assets.
+ */
+$application->init();
 
-    /**
-     * Run applications.
-     * Everything was preset, we need to run request and return response.
-     */
-    $application->run();
-
-} catch (Exception $e) {
-    dd($e->getMessage(), str_replace([path('root')], [''], $e->getTraceAsString()), 'dev.php');
-    die('Something really went wrong, dumping data ...');
-
-}
+/**
+ * Run applications.
+ * Everything was preset, we need to run request and return response.
+ */
+$application->run();

@@ -46,7 +46,7 @@ try {
     $application->run();
 
 } catch (Exception $e) {
-    dd($e->getMessage(), str_replace([path('root')], [''], $e->getTraceAsString()), 'index.php');
-    die('Something really went wrong, dumping data ...');
+    throw $e;
+    dd(exception($e), 'production!');
 
 }
