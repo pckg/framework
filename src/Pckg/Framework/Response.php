@@ -55,6 +55,7 @@ class Response
         415 => "HTTP/1.1 415 Unsupported Media Type",
         416 => "HTTP/1.1 416 Requested range not satisfiable",
         417 => "HTTP/1.1 417 Expectation Failed",
+        422 => "HTTP/1.1 422 Unprocessable entity",
         500 => "HTTP/1.1 500 Internal Server Error",
         501 => "HTTP/1.1 501 Not Implemented",
         502 => "HTTP/1.1 502 Bad Gateway",

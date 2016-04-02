@@ -46,12 +46,14 @@ class LoadView extends AbstractChainOfReponsibility
         $result = null;
 
         if (method_exists($this->controller, $viewHttp . "Action")) {
-            return Reflect::method($this->controller, $viewHttp . "Action", $this->data);
+            $result = Reflect::method($this->controller, $viewHttp . "Action", $this->data);
 
         } else if (method_exists($this->controller, $this->view . "Action")) {
-            return Reflect::method($this->controller, $this->view . "Action", $this->data);
+            $result = Reflect::method($this->controller, $this->view . "Action", $this->data);
 
         }
+
+        return $result;
     }
 
 }
