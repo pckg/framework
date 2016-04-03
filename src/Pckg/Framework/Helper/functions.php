@@ -1,5 +1,6 @@
 <?php
 
+use Exception;
 use Pckg\Collection;
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;
@@ -13,7 +14,7 @@ use Pckg\Htmlbuilder\Element\Form;
 
 /**
  * @return Context
- * @throws \Exception
+ * @throws Exception
  */
 function context()
 {
@@ -170,7 +171,7 @@ function url($url, $params = [])
  * @param null  $firstChain
  *
  * @return mixed|null|object
- * @throws \Exception
+ * @throws Exception
  */
 function chain($chains, $method = 'execute', array $args = [], $firstChain = null)
 {
@@ -333,7 +334,11 @@ function debugBar()
 function startMeasure($name)
 {
     if ($debugBar = debugBar()) {
-        $debugBar['time']->startMeasure($name);
+        try {
+            $debugBar['time']->startMeasure($name);
+        } catch (Exception $e) {
+            // fail silently
+        }
     }
 }
 
@@ -342,8 +347,8 @@ function stopMeasure($name)
     if ($debugBar = debugBar()) {
         try {
             $debugBar['time']->stopMeasure($name);
-        } catch (\Exception $e) {
-
+        } catch (Exception $e) {
+            // fail silently
         }
     }
 }

@@ -5,6 +5,7 @@ namespace Pckg\Framework\View;
 use Exception;
 use Pckg\Framework\Router;
 use Twig_Environment;
+use Twig_Error_Syntax;
 use Twig_Extension_Debug;
 use Twig_Extension_StringLoader;
 use Twig_Loader_Chain;
@@ -58,10 +59,6 @@ class Twig extends AbstractView implements ViewInterface
 
         $this->twig = $this->twig->loadTemplate($this->file . ".twig");
 
-        $this->data['debugBar'] = context()->exists('DebugBar')
-            ? context()->find('DebugBar')->getJavascriptRenderer()
-            : null;
-
         try {
             startMeasure('Rendering ' . $this->file);
             $render = $this->twig->render(array_merge(static::$staticData, $this->data));
@@ -75,7 +72,7 @@ class Twig extends AbstractView implements ViewInterface
 
             return $render;
 
-        } catch (\Twig_Error_Syntax $e) {
+        } catch (Twig_Error_Syntax $e) {
             return "<pre>Twig error:" . $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() . "</pre>";
 
         } catch (Exception $e) {

@@ -18,6 +18,11 @@ class Development extends Environment
 
     protected $context;
 
+    /**
+     * @var StandardDebugBar
+     */
+    protected $debugBar;
+
     function __construct(Config $config, Context $context)
     {
         error_reporting(E_ALL);
@@ -27,7 +32,7 @@ class Development extends Environment
 
         $this->registerExceptionHandler();
 
-        $context->bind('DebugBar', $debugbar = new StandardDebugBar());
+        $context->bind('DebugBar', $this->debugBar = new StandardDebugBar());
         $context->bind('Config', $config);
 
         $this->init();
@@ -40,6 +45,17 @@ class Development extends Environment
         $whoops = new Run;
         $whoops->pushHandler(new PrettyPageHandler);
         $whoops->register();
+    }
+
+    public function assets()
+    {
+        return [
+            function () {
+                $renderer = $this->debugBar->getJavascriptRenderer();
+
+                return $renderer->renderHead() . $renderer->render();
+            },
+        ];
     }
 
 }

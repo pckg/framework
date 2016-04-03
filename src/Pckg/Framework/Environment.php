@@ -5,8 +5,9 @@ namespace Pckg\Framework;
 use Pckg\Framework\Environment\Command\DefinePaths;
 use Pckg\Framework\Environment\Development;
 use Pckg\Framework\Environment\Production;
+use Pckg\Manager\Asset\AssetManager;
 
-class Environment
+class Environment implements AssetManager
 {
 
     protected $urlPrefix = '/index.php';
@@ -55,5 +56,11 @@ class Environment
     {
 
     }
+
+    public function assets()
+    {
+        return [];
+    }
+
 
 }

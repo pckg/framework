@@ -4,6 +4,7 @@ namespace Pckg\Framework\Application\Website\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Application\ApplicationInterface;
+use Pckg\Framework\Environment;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset as AssetManager;
 use Pckg\Manager\Meta as MetaManager;
@@ -20,12 +21,15 @@ class InitAssets extends AbstractChainOfReponsibility
 
     protected $seoManager;
 
-    public function __construct(ApplicationInterface $website, AssetManager $assetManager, MetaManager $metaManager, SeoManager $seoManager)
+    protected $environment;
+
+    public function __construct(ApplicationInterface $website, Environment $environment, AssetManager $assetManager, MetaManager $metaManager, SeoManager $seoManager)
     {
         $this->website = $website;
         $this->assetManager = $assetManager;
         $this->metaManager = $metaManager;
         $this->seoManager = $seoManager;
+        $this->environment = $environment;
     }
 
     public function execute(callable $next)
@@ -36,6 +40,10 @@ class InitAssets extends AbstractChainOfReponsibility
 
         foreach ($this->website->assets() as $asset) {
             $this->assetManager->addAssets('app/' . strtolower(get_class($this->website)) . '/public/' . $asset);
+        }
+
+        foreach ($this->environment->assets() as $asset) {
+            $this->assetManager->addAssets($asset, 'footer');
         }
 
         return $next();
