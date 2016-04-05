@@ -66,6 +66,8 @@ class Response
     public function code($code)
     {
         header($this->http[$code]);
+
+        return $this;
     }
 
     public function __construct(Router $router, Environment $environment)
@@ -174,6 +176,8 @@ class Response
 
         $this->output();
         exit;
+
+        return $this;
     }
 
     public function internal($url, $routerParams = [], $httpParams = [])
@@ -188,4 +192,14 @@ class Response
                 ))->relative();
         }
     }
+
+    public function respond($string)
+    {
+        echo $string;
+
+        exit;
+
+        return $this;
+    }
+
 }
