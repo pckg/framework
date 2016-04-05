@@ -12,9 +12,12 @@
   "require": {
     "pckg/concept": "dev-master",
     "pckg/database": "dev-master",
+    "pckg/manager": "dev-master",
+    "pckg/htmlbuilder": "dev-master",
     "twig/twig": "1.*",
     "filp/whoops": "2.*",
-    "monolog/monolog": "1.*"
+    "maximebf/debugbar": "1.*",
+    "rollbar/rollbar": "^0.15.0"
   },
   "autoload": {
     "psr-0": {
