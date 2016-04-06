@@ -1,6 +1,5 @@
 <?php
 
-use Exception;
 use Pckg\Collection;
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;

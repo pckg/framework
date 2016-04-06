@@ -63,17 +63,17 @@ class Response
         504 => "HTTP/1.1 504 Gateway Time-out",
     ];
 
+    public function __construct(Router $router, Environment $environment)
+    {
+        $this->router = $router;
+        $this->environment = $environment;
+    }
+
     public function code($code)
     {
         header($this->http[$code]);
 
         return $this;
-    }
-
-    public function __construct(Router $router, Environment $environment)
-    {
-        $this->router = $router;
-        $this->environment = $environment;
     }
 
     public function init()
@@ -132,6 +132,9 @@ class Response
             $this->setOutput($viewData->autoparse());
 
         } else if (is_array($viewData) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
+            $this->setOutput(json_encode($viewData));
+
+        } else if (is_array($viewData)) {
             $this->setOutput(json_encode($viewData));
 
         } elseif (is_string($viewData)) {

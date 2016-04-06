@@ -6,6 +6,7 @@ use Pckg\Framework\Helper\Lazy;
 
 class Get extends Lazy
 {
+
     function __construct(&$_get = [])
     {
         if (empty($_get)) {
@@ -14,6 +15,5 @@ class Get extends Lazy
 
         parent::__construct($_get);
     }
-}
 
-?>
+}

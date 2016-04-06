@@ -78,13 +78,4 @@ class Context extends ConceptContext
         }
     }
 
-    public static function autorun($environment = Production::class, $application = null)
-    {
-        static::createInstance()
-            ->createEnvironment($environment)
-            ->createApplication($application)
-            ->init()
-            ->run();
-    }
-
 }

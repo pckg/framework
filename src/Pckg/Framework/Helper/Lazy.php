@@ -2,7 +2,9 @@
 
 namespace Pckg\Framework\Helper;
 
-class Lazy implements \ArrayAccess
+use ArrayAccess;
+
+class Lazy implements ArrayAccess
 {
 
     protected $data = [];
@@ -13,11 +15,9 @@ class Lazy implements \ArrayAccess
 
     public function __construct(&$arr = [])
     {
-        if (is_array($arr)) {
-            $this->data = $arr instanceof \stdClass
-                ? (array)$arr
-                : $arr;
-        }
+        $this->data = $arr instanceof \stdClass
+            ? (array)$arr
+            : $arr;
     }
 
     public function __destruct()
@@ -36,26 +36,16 @@ class Lazy implements \ArrayAccess
 
     public function __toArray()
     {
+        if (!is_array($this->data)) {
+            return $this->data;
+        }
+
         $arr = [];
         foreach ($this->data AS $key => $val) {
             $arr[$key] = is_object($val) ? $val->__toArray() : $val;
         }
 
         return $arr;
-    }
-
-    public function __call($name, $args)
-    {
-        if (isset($this->data[$name]) && is_callable($this->data[$name])) {
-            return call_user_method_array($this->data[$name], $this, $args);
-
-        } else if (substr($name, 0, 3) == "get" && $this->__isset(lcfirst(substr($name, 3)))) {
-            return $this->__get(substr($name, 3));
-
-        } else if (substr($name, 0, 3) == "set" && count($args) == 1) {
-            return $this->__set(substr($name, 3), $args);
-
-        }
     }
 
     public function __isset($name)
@@ -67,10 +57,10 @@ class Lazy implements \ArrayAccess
     {
         if (!$this->__isset($name)) {
             return null;
-        }
 
-        if (!is_array($this->data[$name]) && !is_object($this->data[$name])) {
+        } else if (!is_array($this->data[$name])) {
             return $this->data[$name];
+
         }
 
         $lazy = new Lazy($this->data[$name]);
@@ -123,7 +113,7 @@ class Lazy implements \ArrayAccess
 
     public function __toInt()
     {
-        return 0;
+        return count($this->data);
     }
 
     public function __toString()
@@ -163,5 +153,3 @@ class Lazy implements \ArrayAccess
         return $this->__get($offset);
     }
 }
-
-?>
