@@ -23,7 +23,11 @@ class Flash extends Lazy
 
     public function set($name, $val)
     {
-        return $this->__set($name, $val);
+        $this->__set($name, $val);
+
+        $this->__destruct();
+
+        return $this;
     }
 
     public function get($name, $delete = true)

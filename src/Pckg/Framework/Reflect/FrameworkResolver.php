@@ -4,6 +4,7 @@ use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Concept\Reflect\Resolver;
 use Pckg\Framework\Config;
+use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Router;
 use Pckg\Manager\Asset as AssetManager;
 use Pckg\Manager\Meta as MetaManager;
@@ -19,6 +20,7 @@ class FrameworkResolver implements Resolver
         AssetManager::class,
         MetaManager::class,
         SeoManager::class,
+        Flash::class,
     ];
 
     protected static $bind = [
@@ -28,6 +30,7 @@ class FrameworkResolver implements Resolver
         AssetManager::class => 'AssetManager',
         MetaManager::class  => 'MetaManager',
         SeoManager::class   => 'SeoManager',
+        Flash::class        => 'Flash',
     ];
 
     public function resolve($class)
