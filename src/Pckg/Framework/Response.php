@@ -171,6 +171,10 @@ class Response
 
         }
 
+        if (context()->exists('Flash')) {
+            context()->get('Flash')->__destruct();
+        }
+
         // try with php
         header("Location: " . $url);
 
