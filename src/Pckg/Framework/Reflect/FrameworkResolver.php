@@ -51,7 +51,9 @@ class FrameworkResolver implements Resolver
             if (isset(static::$bind[$class])) {
                 context()->bind(static::$bind[$class], $newInstance);
 
-            return $newInstance;
+                return $newInstance;
+            }
+
         }
 
         foreach (context()->getData() as $object) {
@@ -66,5 +68,4 @@ class FrameworkResolver implements Resolver
             }
         }
     }
-
 }
