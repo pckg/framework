@@ -5,6 +5,7 @@ use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;
 use Pckg\Concept\Event\AbstractEvent;
 use Pckg\Framework\Config;
+use Pckg\Framework\Environment;
 use Pckg\Framework\Lang;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
@@ -21,7 +22,7 @@ function context()
 }
 
 /**
- * @return \Pckg\Framework\Environment
+ * @return Environment
  */
 function env()
 {
