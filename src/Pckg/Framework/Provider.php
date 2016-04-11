@@ -22,15 +22,33 @@ class Provider
         $this->assetManager = $assetManager;
     }
 
-    /**
-     * Register options
-     */
-    public function register()
+    public function registerConsoleApplication()
+    {
+        $this->registerMiddlewares($this->middlewares());
+        $this->registerPaths($this->paths());
+        $this->registerConsoles($this->consoles());
+    }
+
+    public function registerWebApplication()
     {
         $this->registerRoutes($this->routes());
         $this->registerMiddlewares($this->middlewares());
         $this->registerPaths($this->paths());
         $this->registerAssets($this->assets());
+    }
+
+    /**
+     * Register options
+     */
+    public function register()
+    {
+        if (isConsole()) {
+            $this->registerConsoleApplication();
+
+        } else {
+            $this->registerWebApplication();
+            
+        }
 
         if (method_exists($this, 'registered')) {
             Reflect::method($this, 'registered');
@@ -91,6 +109,19 @@ class Provider
     {
         foreach ($assets as $key => $assets) {
             $this->assetManager->addProviderAssets($assets, is_array($assets) ? $key : 'main', $this);
+        }
+    }
+
+    public function consoles()
+    {
+        return [];
+    }
+
+    public function registerConsoles($consoles)
+    {
+        // T00D00
+        foreach ($consoles as $console) {
+
         }
     }
 

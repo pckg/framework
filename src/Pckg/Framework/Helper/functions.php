@@ -163,6 +163,11 @@ function url($url, $params = [])
     return router()->make($url, $params);
 }
 
+function resolve($class)
+{
+    return context()->getOrCreate(substr($class, strrpos($class, '\\')), $class);
+}
+
 /**
  * @param       $chains
  * @param null  $method
@@ -276,7 +281,12 @@ function view($view, $data = [])
  */
 function autoloader()
 {
-    return require "../vendor/autoload.php";
+    return require BASE_PATH . "vendor/autoload.php";
+}
+
+function isConsole()
+{
+    return !isset($_SERVER['HTTP_HOST']);
 }
 
 function dd(...$mixed)

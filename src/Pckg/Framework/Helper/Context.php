@@ -6,7 +6,7 @@ use Exception;
 use Pckg\Concept\Context as ConceptContext;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
-use Pckg\Framework\Environment\Production;
+use Pckg\Framework\Application\Console;
 use Pckg\Framework\Provider\Helper\Registrator;
 
 class Context extends ConceptContext
@@ -55,6 +55,30 @@ class Context extends ConceptContext
         $this->bind('Application', $app);
 
         return $app;
+    }
+
+    /**
+     * @param $appName
+     * @return Console
+     * @throws Exception
+     */
+    public function createConsoleApplication($appName)
+    {
+        path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
+        path('app_src', path('app') . "src" . path('ds'));
+
+        $this->registerAutoloaders(path('app_src'), $this);
+
+        /**
+         * On this point we have registered autoloader
+         * so now we can create and register application.
+         */
+        $application = Reflect::create(ucfirst($appName));
+        $console = new Console($application);
+
+        $this->bind('Application', $application);
+
+        return $console;
     }
 
     public function getApplicationNameFromGlobalRouter()
