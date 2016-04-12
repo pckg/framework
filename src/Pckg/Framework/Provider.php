@@ -81,6 +81,16 @@ class Provider
         // @T00D00
     }
 
+    public function providers()
+    {
+        return [];
+    }
+
+    public function registerProviders($providers)
+    {
+        // @T00D00
+    }
+
     /**
      * Register view paths.
      *
