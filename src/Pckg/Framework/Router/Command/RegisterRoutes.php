@@ -4,12 +4,12 @@ namespace Pckg\Framework\Router\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Application\Website;
-use Pckg\Framework\Router\Helper\RouteRegistrator;
+use Pckg\Framework\Provider\Helper\Registrator;
 
 class RegisterRoutes extends AbstractChainOfReponsibility
 {
 
-    use RouteRegistrator;
+    use Registrator;
 
     protected $website;
 

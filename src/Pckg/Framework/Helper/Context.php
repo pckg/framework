@@ -46,11 +46,13 @@ class Context extends ConceptContext
         path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
 
+        /**
+         * Add app src dir to autoloader and template engine.
+         */
         $this->registerAutoloaders(path('app_src'), $this);
 
         /**
-         * On this point we have registered autoloader
-         * so now we can create and register application.
+         * Now we will be able to create and register application.
          */
         $app = Reflect::create(ucfirst($appName));
 
@@ -60,30 +62,31 @@ class Context extends ConceptContext
     }
 
     /**
-     * @param $appName
      * @return Console
      * @throws Exception
      */
     public function createConsoleApplication()
     {
         if (!isset($_SERVER['argv'][1])) {
-            throw new Exception('Missing argv[1]');
+            exit('Missing argv[1]');
         }
 
         $appName = $_SERVER['argv'][1];
 
         if (!$appName) {
-            throw new Exception('$appName undefined');
+            exit('$appName undefined');
         }
 
         path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
 
+        /**
+         * Add app src dir to autoloader and template engine.
+         */
         $this->registerAutoloaders(path('app_src'), $this);
 
         /**
-         * On this point we have registered autoloader
-         * so now we can create and register application.
+         * Now we will be able to create and register application.
          */
         $application = Reflect::create(ucfirst($appName));
         $console = new Console($application);

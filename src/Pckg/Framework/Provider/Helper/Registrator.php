@@ -10,6 +10,27 @@ use Pckg\Framework\View\Twig;
 trait Registrator
 {
 
+    /**
+     * @param $routes
+     *
+     * @throws \Exception
+     */
+    public function registerRoutes($routes)
+    {
+        foreach ($routes AS $providerType => $arrProviders) {
+            foreach ($arrProviders AS $provider => $providerConfig) {
+                if (isset($providerConfig['prefix'])) {
+                    $providerConfig['prefix'] = '';
+                }
+
+                Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
+                    $providerType => $provider,
+                    'config'      => $providerConfig,
+                ])->init();
+            }
+        }
+    }
+
     public function registerAutoloaders($autoloaders, $object = null)
     {
         if (!is_array($autoloaders)) {

@@ -4,13 +4,13 @@ namespace Pckg\Framework;
 
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Application\ApplicationInterface;
-use Pckg\Framework\Router\Helper\RouteRegistrator;
+use Pckg\Framework\Provider\Helper\Registrator;
 use Pckg\Manager\Asset as AssetManager;
 
 class Provider
 {
 
-    use RouteRegistrator;
+    use Registrator;
 
     protected $app;
 

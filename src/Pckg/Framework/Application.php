@@ -8,8 +8,9 @@ use Pckg\Framework\Application\Website\Command\Run;
 use Pckg\Framework\Provider\AutoloaderManager;
 use Pckg\Framework\Provider\Helper\Registrator;
 use Pckg\Framework\Provider\ProviderManager;
+use Pckg\Framework\Router\RouterManager;
 
-class Application implements ApplicationInterface, ProviderManager, AutoloaderManager
+class Application implements ApplicationInterface, ProviderManager, AutoloaderManager, RouterManager
 {
 
     use Registrator;
@@ -62,6 +63,11 @@ class Application implements ApplicationInterface, ProviderManager, AutoloaderMa
     }
 
     public function autoload()
+    {
+        return [];
+    }
+
+    public function routes()
     {
         return [];
     }
