@@ -8,6 +8,8 @@ use Pckg\Framework\Config\Command\InitConfig;
 use Pckg\Framework\Locale\Command\Localize;
 use Pckg\Framework\Provider\Command\InitAutoloaders;
 use Pckg\Framework\Provider\Command\InitProviders;
+use Pckg\Framework\Router\Command\InitRouter;
+use Pckg\Framework\Router\Command\RegisterRoutes;
 
 class Init
 {
@@ -25,9 +27,13 @@ class Init
             InitConfig::class,
             Localize::class,
             InitDatabase::class,
+            InitRouter::class,
+            RegisterRoutes::class,
 
             InitAutoloaders::class,
             InitProviders::class,
+
+            RegisterCommands::class,
         ], 'execute', [$this->application]);
 
         return $next();

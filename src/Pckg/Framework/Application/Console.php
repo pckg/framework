@@ -14,6 +14,14 @@ class Console extends Application
         $this->application = $application;
     }
 
+    /**
+     * @return Website
+     */
+    public function getApplication()
+    {
+        return $this->application;
+    }
+
     public function inits()
     {
         return [

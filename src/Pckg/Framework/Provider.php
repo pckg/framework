@@ -24,6 +24,7 @@ class Provider
 
     public function registerConsoleApplication()
     {
+        $this->registerRoutes($this->routes());
         $this->registerMiddlewares($this->middlewares());
         $this->registerPaths($this->paths());
         $this->registerConsoles($this->consoles());
@@ -47,7 +48,7 @@ class Provider
 
         } else {
             $this->registerWebApplication();
-            
+
         }
 
         if (method_exists($this, 'registered')) {
@@ -119,9 +120,13 @@ class Provider
 
     public function registerConsoles($consoles)
     {
-        // T00D00
-        foreach ($consoles as $console) {
+        if (!context()->exists('ConsoleApplication')) {
+            return;
+        }
 
+        $consoleApplication = context()->get('ConsoleApplication');
+        foreach ($consoles as $console) {
+            $consoleApplication->add(new $console);
         }
     }
 

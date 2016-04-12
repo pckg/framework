@@ -8,6 +8,8 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
 use Pckg\Framework\Application\Console;
 use Pckg\Framework\Provider\Helper\Registrator;
+use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Input\ArgvInput;
 
 class Context extends ConceptContext
 {
@@ -62,8 +64,18 @@ class Context extends ConceptContext
      * @return Console
      * @throws Exception
      */
-    public function createConsoleApplication($appName)
+    public function createConsoleApplication()
     {
+        if (!isset($_SERVER['argv'][1])) {
+            throw new Exception('Missing argv[1]');
+        }
+
+        $appName = $_SERVER['argv'][1];
+
+        if (!$appName) {
+            throw new Exception('$appName undefined');
+        }
+
         path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
 
@@ -77,6 +89,12 @@ class Context extends ConceptContext
         $console = new Console($application);
 
         $this->bind('Application', $application);
+
+        /**
+         * We also need to set Console Application.
+         */
+        $consoleApplication = new ConsoleApplication();
+        $this->bind('ConsoleApplication', $consoleApplication);
 
         return $console;
     }

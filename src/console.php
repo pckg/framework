@@ -1,9 +1,5 @@
 <?php
 
-if (!isset($argv[1])) {
-    exit("Application name is required!\n");
-}
-
 /**
  * Define base path if it's not defined yet.
  * We need to know this because it's used in a lot of things.
@@ -33,7 +29,7 @@ $environment = $context->createEnvironment(Pckg\Framework\Environment\Developmen
  * Create application.
  * It should be passed as parameter.
  */
-$application = $context->createConsoleApplication($argv[1]);
+$application = $context->createConsoleApplication();
 
 /**
  * Initialize application.
@@ -41,7 +37,6 @@ $application = $context->createConsoleApplication($argv[1]);
  * set application autoloaders and providers.
  */
 $application->init();
-
 /**
  * Run applications.
  * Everything was preset, we need to run command.
