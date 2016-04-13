@@ -1,1 +1,0 @@
-Provides internationalization - i18n

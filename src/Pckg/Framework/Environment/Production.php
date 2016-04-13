@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\Environment;
 
+use Exception;
 use Pckg\Concept\Context;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
@@ -38,16 +39,22 @@ class Production extends Environment
     {
         $whoops = new Run;
         $whoops->pushHandler(function ($exception) {
-            Rollbar::init(array('access_token' => 'd0d3d181ed0d4430b73bc46ed8dc8b98', 'report_suppressed' => true));
+            Rollbar::init([
+                'access_token'      => conf('rollbar.access_token', 'd0d3d181ed0d4430b73bc46ed8dc8b98'),
+                'report_suppressed' => conf('rollbar.report_suppressed', true),
+            ]);
             Rollbar::report_exception($exception);
 
-            $this->handleException($exception->getMessage(), $exception->getCode());
+            $this->handleException($exception);
         });
         $whoops->register();
     }
 
-    protected function handleException($message, $code)
+    protected function handleException(Exception $e)
     {
+        $code = $e->getCode();
+        $message = $e->getMessage();
+
         $path = realpath(substr(__FILE__, 0, -strlen('Production.php')) . '../Response/') . '/View/';
         if (is_numeric($code) && file_exists($path . $code . '.php')) {
             include $path . $code . '.php';

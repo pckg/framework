@@ -1,1 +1,0 @@
-Provides localization - l10n

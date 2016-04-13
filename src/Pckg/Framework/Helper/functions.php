@@ -218,6 +218,11 @@ function config($key = null)
     return context()->get('Config')->get($key);
 }
 
+function conf($key, $default = null)
+{
+    return config($key) ?: $default;
+}
+
 /**
  * @param      $key
  * @param null $val
