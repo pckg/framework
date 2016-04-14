@@ -128,6 +128,10 @@ class Provider
         return [];
     }
 
+    /**
+     * Double: Registrator
+     * @param $consoles
+     */
     public function registerConsoles($consoles)
     {
         if (!context()->exists('ConsoleApplication')) {

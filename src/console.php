@@ -37,6 +37,7 @@ $application = $context->createConsoleApplication();
  * set application autoloaders and providers.
  */
 $application->init();
+
 /**
  * Run applications.
  * Everything was preset, we need to run command.

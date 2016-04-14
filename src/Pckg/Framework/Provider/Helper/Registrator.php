@@ -79,4 +79,20 @@ trait Registrator
         }
     }
 
+    /**
+     * Double: provider
+     * @param $consoles
+     */
+    public function registerConsoles($consoles)
+    {
+        if (!context()->exists('ConsoleApplication')) {
+            return;
+        }
+
+        $consoleApplication = context()->get('ConsoleApplication');
+        foreach ($consoles as $console) {
+            $consoleApplication->add(new $console);
+        }
+    }
+
 }

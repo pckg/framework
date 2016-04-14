@@ -229,7 +229,7 @@ function conf($key, $default = null)
  *
  * @return array|null
  */
-function path($key, $val = null)
+function path($key = null, $val = null)
 {
     if ($val) {
         context()->getOrCreate('Config', Config::class)->set('path.' . $key, $val);

@@ -72,4 +72,9 @@ class Application implements ApplicationInterface, ProviderManager, AutoloaderMa
         return [];
     }
 
+    public function consoles()
+    {
+        return [];
+    }
+
 }

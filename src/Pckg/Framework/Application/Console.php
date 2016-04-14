@@ -3,15 +3,16 @@
 use Pckg\Framework\Application;
 use Pckg\Framework\Application\Console\Command\Init;
 use Pckg\Framework\Application\Console\Command\Run;
+use Pckg\Framework\Console\CreatePckgProject;
 
 class Console extends Application
 {
 
     protected $application;
 
-    public function __construct(Application $application)
+    public function __construct(Application $application = null)
     {
-        $this->application = $application;
+        $this->application = $application ?: $this;
     }
 
     /**
@@ -33,6 +34,13 @@ class Console extends Application
     {
         return [
             Run::class,
+        ];
+    }
+
+    public function consoles()
+    {
+        return [
+            CreatePckgProject::class,
         ];
     }
 

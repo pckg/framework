@@ -18,11 +18,15 @@ class RunCommand extends AbstractChainOfReponsibility
     {
         /**
          * First argument is always 'console'.
-         * Second argument is app name, we have to unset it.
+         * Second argument is app name or command.
+         * If it's command, we leave things as they are.
+         * Id it's app, we unset it.
          */
         $argv = $_SERVER['argv'];
-        unset($argv[1]);
-        ksort($argv);
+        if (isset($argv[1]) && !strpos($argv[1], ':')) {
+            unset($argv[1]);
+            ksort($argv);
+        }
 
         /**
          * Get Symfony Console Application, find available commands and run app.

@@ -67,38 +67,33 @@ class Context extends ConceptContext
      */
     public function createConsoleApplication()
     {
-        if (!isset($_SERVER['argv'][1])) {
-            exit('Missing argv[1]');
+        $application = null;
+        if (isset($_SERVER['argv'][1]) && !strpos($_SERVER['argv'][1], ':')) {
+            $appName = $_SERVER['argv'][1];
+            path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
+            path('app_src', path('app') . "src" . path('ds'));
+
+            /**
+             * Add app src dir to autoloader and template engine.
+             */
+            $this->registerAutoloaders(path('app_src'), $this);
+
+            /**
+             * Now we will be able to create and register application.
+             */
+            $application = Reflect::create(ucfirst($appName));
+            $this->bind('Application', $application);
         }
 
-        $appName = $_SERVER['argv'][1];
-
-        if (!$appName) {
-            exit('$appName undefined');
-        }
-
-        path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
-        path('app_src', path('app') . "src" . path('ds'));
-
-        /**
-         * Add app src dir to autoloader and template engine.
-         */
-        $this->registerAutoloaders(path('app_src'), $this);
-
-        /**
-         * Now we will be able to create and register application.
-         */
-        $application = Reflect::create(ucfirst($appName));
         $console = new Console($application);
-
-        $this->bind('Application', $application);
+        $this->bind('Application', $application ?: $console);
 
         /**
          * We also need to set Console Application.
          */
         $consoleApplication = new ConsoleApplication();
         $this->bind('ConsoleApplication', $consoleApplication);
-
+        
         return $console;
     }
 
