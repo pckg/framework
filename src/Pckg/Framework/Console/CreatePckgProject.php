@@ -1,13 +1,7 @@
 <?php namespace Pckg\Framework\Console;
 
 use Pckg\Framework\Console\Command\AddDatabaseConnection;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\ChoiceQuestion;
-use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 
 /**
  * Class CreatePckgProject
@@ -22,16 +16,6 @@ class CreatePckgProject extends Command
      * @var string
      */
     protected $app;
-
-    /**
-     * @var InputInterface
-     */
-    protected $input;
-
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
 
     protected function configure()
     {
@@ -78,12 +62,13 @@ class CreatePckgProject extends Command
     {
         $this->output('Creating directories.');
 
+        /**
+         * Create paths.
+         */
         $path = path('apps') . $this->app . path('ds');
-
         mkdir($path, 0777);
         mkdir($path . 'config', 0777);
         mkdir($path . 'src', 0777);
-        touch($path . '.gitkeep');
 
         $this->output('Directories created.');
     }
@@ -94,25 +79,26 @@ class CreatePckgProject extends Command
      */
     protected function createPhpApp()
     {
-        if (($parent = $this->askChoice('Select application type:', ['skip', 'Website', 'Api', 'Console'],
-                0)) == 'skip'
-        ) {
-            return $this->output('Skipping app file creation.');
-        }
+        $this->output('Creating app file.');
 
+        /**
+         * Build path and content.
+         */
         $path = path('apps') . $this->app . path('ds') . 'src' . path('ds') . ucfirst($this->app) . '.php';
         $content = '<?php
 
-use Pckg\Framework\Application\\' . $parent . ';
+use Pckg\Framework\Application\Website;
 
-class ' . ucfirst($this->app) . ' extends ' . $parent . '
+class ' . ucfirst($this->app) . ' extends Website
 {
 
 }
 ';
-
-        $this->output('Creating app file.');
+        /**
+         * Create file.
+         */
         file_put_contents($path, $content);
+
         $this->output('App file created.');
     }
 
@@ -129,11 +115,40 @@ class ' . ucfirst($this->app) . ' extends ' . $parent . '
         } while (($host && $hosts[] = $host) || $host);
 
         $this->output('Updating global router');
+
         /**
-         * @T00D00 - Add to router
-         *  - Read config/router.php
-         *  - Add hosts to apps.$appname.host[]
+         * First we build array.
          */
+        $append = '    \'' . $this->app . '\' => [
+            \'host\' => [';
+        foreach ($hosts as $host) {
+            $append .= '
+                \'' . $host . '\',';
+        }
+        if ($hosts) {
+            $append .= '
+            ';
+        }
+        $append .= '],
+        ],
+    ';
+
+        /**
+         * Read current router content.
+         */
+        $routerPath = BASE_PATH . 'config' . path('ds') . 'router.php';
+        $router = file_get_contents($routerPath);
+
+        /**
+         * Build new router.
+         */
+        $newRouter = str_lreplace('],', $append . '],', $router);
+
+        /**
+         * Write new router.
+         */
+        file_put_contents($routerPath, $newRouter);
+
         $this->output('Global router has been updated.');
     }
 
@@ -143,20 +158,20 @@ class ' . ucfirst($this->app) . ' extends ' . $parent . '
      */
     protected function addComposerDependencies()
     {
-        if (!$this->askConfirmation('Do you want to add composer dependencies?')) {
-            return $this->output('Skipping dependency requirements.');
-        }
-
         $dependencies = [];
         do {
-            $dependency = $this->askQuestion('Enter dependency:');
+            $dependency = $this->askQuestion('Enter composer dependency:');
         } while (($dependency && $dependencies[] = $dependency) || $dependency);
 
         $this->output('Requiring dependencies.');
+
         /**
-         * @T00D00 - Require dependencies
-         *  - Execute composer require $dependency
+         * Simply require each dependency separately.
          */
+        $this->exec(array_map(function ($dependency) {
+            return 'composer require ' . $dependency;
+        }, $dependencies));
+
         $this->output('Dependencies required.');
     }
 
@@ -171,11 +186,19 @@ class ' . ucfirst($this->app) . ' extends ' . $parent . '
         }
 
         $this->output('Committing changes.');
+
         /**
-         * @T00D00 - Commit changes
-         *  - Add changed files
-         *  - Commit with message 'Creating app $appname'
+         * We'll simply execute few git commands.
          */
+        $this->exec([
+            'git add app/' . $this->app . ' --all',
+            'git add config/router.php',
+            'git add composer.json',
+            'git add composer.lock',
+            'git commit -m "Created app \'' . $this->app . '\'"',
+            'git push --all',
+        ]);
+
         $this->output('Changes commited.');
     }
 
