@@ -41,6 +41,16 @@ class Command extends SymfonyConsoleCommand
         return $this->getHelper('question');
     }
 
+    public function argument($name, $default = null)
+    {
+        return $this->input->getArgument($name) ?: $default;
+    }
+
+    public function option($name, $default = null)
+    {
+        return $this->input->getOption($name) ?: $default;
+    }
+
     public function output($msg)
     {
         $this->output->write($msg . "\n");

@@ -21,7 +21,17 @@ class CreatePckgProject extends Command
     {
         $this->setName('app:create')
             ->setDescription('Create new application')
-            ->addArgument('app', InputArgument::OPTIONAL);
+            ->addArgument('app', InputArgument::OPTIONAL)
+            ->addOption('skip-existance-check', null, null, 'Disable check if directories already exists')
+            ->addOption('skip-dir-creation', null, null, 'Disable app directory creation')
+            ->addOption('skip-app-creation', null, null, 'Disable creation of app class')
+            ->addOption('skip-router', null, null, 'Disable global router changes')
+            ->addArgument('hosts', InputArgument::OPTIONAL)
+            ->addOption('skip-database', null, null, 'Disable database configuration')
+            ->addArgument('database', InputArgument::OPTIONAL)
+            ->addOption('skip-composer', null, null, 'Disable composer requirements')
+            ->addArgument('composer', InputArgument::OPTIONAL)
+            ->addOption('skip-commit', null, null, 'Disable commit after creation');
     }
 
     public function handle()
@@ -39,18 +49,22 @@ class CreatePckgProject extends Command
 
     protected function fetchAppName()
     {
-        $this->app = $this->input->getArgument('app');
+        $this->app = $this->argument('app');
         if (!$this->app) {
-            $this->app = $this->askQuestion('Name of app: ');
+            $this->app = $this->askQuestion('Application name: ');
         }
 
         if (!$this->app) {
-            $this->quit("Empty answer");
+            $this->quit("App name is required, quitting ...");
         }
     }
 
     protected function checkExistance()
     {
+        if ($this->option('skip-existance-check')) {
+            return $this->output('Skipping existance check');
+        }
+
         $path = path('apps') . $this->app;
 
         if (is_dir($path)) {
@@ -60,6 +74,10 @@ class CreatePckgProject extends Command
 
     protected function createDirectories()
     {
+        if ($this->option('skip-dir-creation')) {
+            return $this->output('Skipping directory creation.');
+        }
+
         $this->output('Creating directories.');
 
         /**
@@ -79,6 +97,10 @@ class CreatePckgProject extends Command
      */
     protected function createPhpApp()
     {
+        if ($this->option('skip-app-creation')) {
+            return $this->output('Skipping app class creation');
+        }
+
         $this->output('Creating app file.');
 
         /**
@@ -109,10 +131,18 @@ class ' . ucfirst($this->app) . ' extends Website
      */
     protected function addToRouter()
     {
-        $hosts = [];
-        do {
-            $host = $this->askQuestion('Enter hostname:');
-        } while (($host && $hosts[] = $host) || $host);
+        if ($this->option('skip-router')) {
+            return $this->output('Skipping global router changes');
+        }
+
+        if ($hosts = $this->argument('hosts')) {
+            $hosts = explode(',', $hosts);
+        } else {
+            $hosts = [];
+            do {
+                $host = $this->askQuestion('Enter hostname:');
+            } while (($host && $hosts[] = $host) || $host);
+        }
 
         $this->output('Updating global router');
 
@@ -158,10 +188,18 @@ class ' . ucfirst($this->app) . ' extends Website
      */
     protected function addComposerDependencies()
     {
-        $dependencies = [];
-        do {
-            $dependency = $this->askQuestion('Enter composer dependency:');
-        } while (($dependency && $dependencies[] = $dependency) || $dependency);
+        if ($this->option('skip-composer')) {
+            return $this->output('Skipping composer dependencies');
+        }
+
+        if ($dependencies = $this->argument('composer')) {
+            $dependencies = explode(',', $dependencies);
+        } else {
+            $dependencies = [];
+            do {
+                $dependency = $this->askQuestion('Enter composer dependency:');
+            } while (($dependency && $dependencies[] = $dependency) || $dependency);
+        }
 
         $this->output('Requiring dependencies.');
 
@@ -181,7 +219,7 @@ class ' . ucfirst($this->app) . ' extends Website
      */
     protected function commitChanges()
     {
-        if (!$this->askConfirmation('Do you want to commit changes?')) {
+        if ($this->option('skip-commit') || !$this->askConfirmation('Do you want to commit changes?')) {
             return $this->output('Skipping commit.');
         }
 
