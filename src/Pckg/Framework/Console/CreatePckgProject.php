@@ -1,10 +1,12 @@
 <?php namespace Pckg\Framework\Console;
 
+use Pckg\Framework\Console\Command\AddDatabaseConnection;
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
 
 /**
@@ -13,6 +15,8 @@ use Symfony\Component\Console\Question\Question;
  */
 class CreatePckgProject extends Command
 {
+
+    use AddDatabaseConnection;
 
     /**
      * @var string
@@ -36,11 +40,8 @@ class CreatePckgProject extends Command
             ->addArgument('app', InputArgument::OPTIONAL);
     }
 
-    public function execute(InputInterface $input, OutputInterface $output)
+    public function handle()
     {
-        $this->input = $input;
-        $this->output = $output;
-
         $this->fetchAppName();
         $this->checkExistance();
         $this->createDirectories();
@@ -49,22 +50,18 @@ class CreatePckgProject extends Command
         $this->addDatabaseConnection();
         $this->addComposerDependencies();
         $this->commitChanges();
-
-        $this->output->write("App " . $this->app . ' created');
+        $this->finishCreation();
     }
 
     protected function fetchAppName()
     {
-        $helper = $this->getHelper('question');
-
         $this->app = $this->input->getArgument('app');
         if (!$this->app) {
-            $question = new Question('Name of app: ');
-            $this->app = $helper->ask($this->input, $this->output, $question);
+            $this->app = $this->askQuestion('Name of app: ');
         }
 
         if (!$this->app) {
-            exit("Empty answer");
+            $this->quit("Empty answer");
         }
     }
 
@@ -73,18 +70,22 @@ class CreatePckgProject extends Command
         $path = path('apps') . $this->app;
 
         if (is_dir($path)) {
-            exit('Path ' . $path . ' already exists');
+            $this->quit('Path ' . $path . ' already exists');
         }
     }
 
     protected function createDirectories()
     {
+        $this->output('Creating directories.');
+
         $path = path('apps') . $this->app . path('ds');
 
         mkdir($path, 0777);
-        touch($path . '.gitkeep');
         mkdir($path . 'config', 0777);
         mkdir($path . 'src', 0777);
+        touch($path . '.gitkeep');
+
+        $this->output('Directories created.');
     }
 
     /**
@@ -93,7 +94,26 @@ class CreatePckgProject extends Command
      */
     protected function createPhpApp()
     {
+        if (($parent = $this->askChoice('Select application type:', ['skip', 'Website', 'Api', 'Console'],
+                0)) == 'skip'
+        ) {
+            return $this->output('Skipping app file creation.');
+        }
 
+        $path = path('apps') . $this->app . path('ds') . 'src' . path('ds') . ucfirst($this->app) . '.php';
+        $content = '<?php
+
+use Pckg\Framework\Application\\' . $parent . ';
+
+class ' . ucfirst($this->app) . ' extends ' . $parent . '
+{
+
+}
+';
+
+        $this->output('Creating app file.');
+        file_put_contents($path, $content);
+        $this->output('App file created.');
     }
 
     /**
@@ -103,17 +123,18 @@ class CreatePckgProject extends Command
      */
     protected function addToRouter()
     {
+        $hosts = [];
+        do {
+            $host = $this->askQuestion('Enter hostname:');
+        } while (($host && $hosts[] = $host) || $host);
 
-    }
-
-    /**
-     * Ask user if he wants to add database config.
-     * Ask for credentials.
-     * Create database.php config.
-     */
-    protected function addDatabaseConnection()
-    {
-
+        $this->output('Updating global router');
+        /**
+         * @T00D00 - Add to router
+         *  - Read config/router.php
+         *  - Add hosts to apps.$appname.host[]
+         */
+        $this->output('Global router has been updated.');
     }
 
     /**
@@ -122,7 +143,21 @@ class CreatePckgProject extends Command
      */
     protected function addComposerDependencies()
     {
+        if (!$this->askConfirmation('Do you want to add composer dependencies?')) {
+            return $this->output('Skipping dependency requirements.');
+        }
 
+        $dependencies = [];
+        do {
+            $dependency = $this->askQuestion('Enter dependency:');
+        } while (($dependency && $dependencies[] = $dependency) || $dependency);
+
+        $this->output('Requiring dependencies.');
+        /**
+         * @T00D00 - Require dependencies
+         *  - Execute composer require $dependency
+         */
+        $this->output('Dependencies required.');
     }
 
     /**
@@ -131,7 +166,22 @@ class CreatePckgProject extends Command
      */
     protected function commitChanges()
     {
+        if (!$this->askConfirmation('Do you want to commit changes?')) {
+            return $this->output('Skipping commit.');
+        }
 
+        $this->output('Committing changes.');
+        /**
+         * @T00D00 - Commit changes
+         *  - Add changed files
+         *  - Commit with message 'Creating app $appname'
+         */
+        $this->output('Changes commited.');
+    }
+
+    protected function finishCreation()
+    {
+        return $this->output("App " . $this->app . ' created');
     }
 
 }
