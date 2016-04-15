@@ -13,7 +13,7 @@ class ClearCache extends Command
     protected function configure()
     {
         $this->setName('cache:clear')
-            ->setDescription('Create new application')
+            ->setDescription('Clear cache')
             ->addOptions([
                 'skip-database' => 'Skip database cache clear',
                 'skip-defaults' => 'Skip defaults cache clear',
