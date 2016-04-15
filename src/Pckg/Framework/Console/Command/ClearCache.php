@@ -19,6 +19,9 @@ class ClearCache extends Command
                 'skip-defaults' => 'Skip defaults cache clear',
                 'skip-router'   => 'Skip router cache clear',
                 'skip-view'     => 'Skip router cache clear',
+                'skip-css'      => 'Skip CSS cache clear',
+                'skip-js'       => 'Skip JS cache clear',
+                'skip-img'      => 'Skip IMG cache clear',
             ], InputArgument::OPTIONAL);
     }
 
