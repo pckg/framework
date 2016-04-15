@@ -41,6 +41,24 @@ class Command extends SymfonyConsoleCommand
         return $this->getHelper('question');
     }
 
+    public function addOptions($options, $mode = null)
+    {
+        foreach ($options as $name => $description) {
+            $this->addOption($name, null, $mode, $description);
+        }
+
+        return $this;
+    }
+
+    public function addArguments($arguments, $mode = null)
+    {
+        foreach ($arguments as $name => $description) {
+            $this->addArgument($name, $mode, $description, null);
+        }
+
+        return $this;
+    }
+
     public function argument($name, $default = null)
     {
         return $this->input->getArgument($name) ?: $default;

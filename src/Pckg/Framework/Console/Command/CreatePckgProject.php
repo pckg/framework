@@ -1,6 +1,6 @@
-<?php namespace Pckg\Framework\Console;
+<?php namespace Pckg\Framework\Console\Command;
 
-use Pckg\Framework\Console\Command\AddDatabaseConnection;
+use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
@@ -21,17 +21,21 @@ class CreatePckgProject extends Command
     {
         $this->setName('app:create')
             ->setDescription('Create new application')
-            ->addArgument('app', InputArgument::OPTIONAL)
-            ->addOption('skip-existance-check', null, null, 'Disable check if directories already exists')
-            ->addOption('skip-dir-creation', null, null, 'Disable app directory creation')
-            ->addOption('skip-app-creation', null, null, 'Disable creation of app class')
-            ->addOption('skip-router', null, null, 'Disable global router changes')
-            ->addArgument('hosts', InputArgument::OPTIONAL)
-            ->addOption('skip-database', null, null, 'Disable database configuration')
-            ->addArgument('database', InputArgument::OPTIONAL)
-            ->addOption('skip-composer', null, null, 'Disable composer requirements')
-            ->addArgument('composer', InputArgument::OPTIONAL)
-            ->addOption('skip-commit', null, null, 'Disable commit after creation');
+            ->addArguments([
+                'app'      => 'App name',
+                'hosts'    => 'List of hostnames, separated by ,',
+                'database' => 'Default database config',
+                'composer' => 'List of composer dependencies, separated by ,',
+            ], InputArgument::OPTIONAL)
+            ->addOptions([
+                'skip-existance-check' => 'Disable check if directories already exists',
+                'skip-dir-creation'    => 'Disable app directory creation',
+                'skip-app-creation'    => 'Disable creation of app class',
+                'skip-router'          => 'Disable global router changes',
+                'skip-database'        => 'Disable database configuration',
+                'skip-composer'        => 'Disable composer requirements',
+                'skip-commit'          => 'Disable commit after creation',
+            ], InputArgument::OPTIONAL);
     }
 
     public function handle()

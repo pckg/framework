@@ -3,7 +3,8 @@
 use Pckg\Framework\Application;
 use Pckg\Framework\Application\Console\Command\Init;
 use Pckg\Framework\Application\Console\Command\Run;
-use Pckg\Framework\Console\CreatePckgProject;
+use Pckg\Framework\Console\Command\ClearCache;
+use Pckg\Framework\Console\Command\CreatePckgProject;
 
 class Console extends Application
 {
@@ -41,6 +42,7 @@ class Console extends Application
     {
         return [
             CreatePckgProject::class,
+            ClearCache::class,
         ];
     }
 
