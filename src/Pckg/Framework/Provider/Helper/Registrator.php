@@ -5,6 +5,7 @@ namespace Pckg\Framework\Provider\Helper;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider;
 use Pckg\Framework\View\Twig;
+use Pckg\Manager\Asset;
 
 trait Registrator
 {
@@ -83,6 +84,7 @@ trait Registrator
 
     /**
      * Double: provider
+     *
      * @param $consoles
      */
     public function registerConsoles($consoles)
@@ -99,14 +101,15 @@ trait Registrator
 
     public function registerAssets($assets)
     {
+        $assetManager = context()->getOrCreate('AssetManager', Asset::class);
         foreach ($assets as $key => $assets) {
-            $this->assetManager->addProviderAssets($assets, is_array($assets) ? $key : 'main', $this);
+            $assetManager->addProviderAssets($assets, is_array($assets) ? $key : 'main', $this);
         }
     }
 
     public function registerPaths($paths)
     {
-        // @T00D00
+        $this->registerAutoloaders($paths);
     }
 
     public function registerMiddlewares($middlewares)

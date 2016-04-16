@@ -3,9 +3,7 @@
 namespace Pckg\Framework;
 
 use Pckg\Concept\Reflect;
-use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Provider\Helper\Registrator;
-use Pckg\Manager\Asset as AssetManager;
 
 class Provider
 {

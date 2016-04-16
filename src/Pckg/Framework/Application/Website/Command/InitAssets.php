@@ -4,6 +4,7 @@ namespace Pckg\Framework\Application\Website\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Environment;
+use Pckg\Framework\Helper\Context;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset as AssetManager;
@@ -26,6 +27,7 @@ class InitAssets extends AbstractChainOfReponsibility
     protected $flash;
 
     public function __construct(
+        Context $context,
         Environment $environment,
         AssetManager $assetManager,
         MetaManager $metaManager,
