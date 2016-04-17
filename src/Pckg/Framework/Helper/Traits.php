@@ -1,4 +1,4 @@
-<?php namespace Pckg\Database\Helper;
+<?php namespace Pckg\Framework\Helper;
 
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
