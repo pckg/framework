@@ -25,11 +25,12 @@ $context = Pckg\Framework\Helper\Context::createInstance();
  */
 $environment = $context->createEnvironment(Pckg\Framework\Environment\Development::class);
 
+try {
 /**
  * Create application.
  * It should be passed as parameter.
  */
-$application = $context->createConsoleApplication();
+$application = $context->createApplication(Pckg\Framework\Application\Console::class);
 
 /**
  * Initialize application.
@@ -43,3 +44,6 @@ $application->init();
  * Everything was preset, we need to run command.
  */
 $application->run();
+} catch (Exception $e) {
+    dd(exception($e));
+}

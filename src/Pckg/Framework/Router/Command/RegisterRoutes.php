@@ -3,7 +3,7 @@
 namespace Pckg\Framework\Router\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-use Pckg\Framework\Application\Website;
+use Pckg\Framework\Application;
 use Pckg\Framework\Provider\Helper\Registrator;
 
 class RegisterRoutes extends AbstractChainOfReponsibility
@@ -11,16 +11,16 @@ class RegisterRoutes extends AbstractChainOfReponsibility
 
     use Registrator;
 
-    protected $website;
+    protected $application;
 
-    public function __construct(Website $website)
+    public function __construct(Application $application)
     {
-        $this->website = $website;
+        $this->application = $application;
     }
 
     public function execute(callable $next)
     {
-        $this->registerRoutes($this->website->routes());
+        $this->registerRoutes($this->application->routes());
 
         return $next();
     }

@@ -3,7 +3,7 @@
 namespace Pckg\Framework\Application\Website\Command;
 
 use Pckg\Database\Command\InitDatabase;
-use Pckg\Framework\Application\ApplicationInterface;
+use Pckg\Framework\Application;
 use Pckg\Framework\Application\RegisterApplication;
 use Pckg\Framework\Config\Command\InitConfig;
 use Pckg\Framework\Locale\Command\Localize;
@@ -17,7 +17,7 @@ class Init
 
     protected $application;
 
-    public function __construct(ApplicationInterface $application)
+    public function __construct(Application $application)
     {
         $this->application = $application;
     }

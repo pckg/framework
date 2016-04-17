@@ -4,7 +4,6 @@ namespace Pckg\Framework\Provider\Helper;
 
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider;
-use Pckg\Framework\Provider\ProviderManager;
 use Pckg\Framework\View\Twig;
 
 trait Registrator
@@ -42,12 +41,15 @@ trait Registrator
             Twig::addDir($autoloader);
         }
 
+        /**
+         * @T00D00 - this needs to be implemented in provider
+         */
         if ($object && method_exists($object, 'autoloadApps')) {
             $this->registerApps($object->autoloadApps());
         }
     }
 
-    public function registerProviders($providers, ProviderManager $manager)
+    public function registerProviders($providers)
     {
         if (!is_array($providers)) {
             $providers = [$providers];
@@ -58,7 +60,7 @@ trait Registrator
                 $provider = $config;
             }
 
-            Reflect::create($provider, [$manager])->register();
+            Reflect::create($provider)->register();
         }
     }
 
@@ -93,6 +95,23 @@ trait Registrator
         foreach ($consoles as $console) {
             $consoleApplication->add(new $console);
         }
+    }
+
+    public function registerAssets($assets)
+    {
+        foreach ($assets as $key => $assets) {
+            $this->assetManager->addProviderAssets($assets, is_array($assets) ? $key : 'main', $this);
+        }
+    }
+
+    public function registerPaths($paths)
+    {
+        // @T00D00
+    }
+
+    public function registerMiddlewares($middlewares)
+    {
+        // @T00D00
     }
 
 }

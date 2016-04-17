@@ -7,8 +7,9 @@ use Pckg\Concept\Context as ConceptContext;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
 use Pckg\Framework\Application\Console;
+use Pckg\Framework\Application\Website;
 use Pckg\Framework\Provider\Helper\Registrator;
-use Symfony\Component\Console\Application as ConsoleApplication;
+use Symfony\Component\Console\Application as SymfonyConsole;
 use Symfony\Component\Console\Input\ArgvInput;
 
 class Context extends ConceptContext
@@ -29,18 +30,31 @@ class Context extends ConceptContext
      * @return Application
      * @throws Exception
      */
-    public function createApplication($appName = null)
+    public function createApplication($parentApplication, $appName = null)
     {
-        if (!$appName) {
-            if (isset($_SERVER['APP'])) {
-                $appName = $_SERVER['APP'];
-            } else {
-                $appName = $this->getApplicationNameFromGlobalRouter();
+        $application = null;
+        if ($parentApplication == Console::class) {
+            if (!$appName) {
+                if (isset($_SERVER['argv'][1]) && !strpos($_SERVER['argv'][1], ':')) {
+                    $appName = $_SERVER['argv'][1];
+                }
             }
-        }
 
-        if (!$appName) {
-            throw new Exception('$appName undefined');
+            /**
+             * We need to set Console Application.
+             */
+            $this->bind('ConsoleApplication', new SymfonyConsole());
+
+        } elseif ($parentApplication == Website::class)  {
+            if (!$appName) {
+                if (isset($_SERVER['APP'])) {
+                    $appName = $_SERVER['APP'];
+                } else {
+                    $appName = $this->getApplicationNameFromGlobalRouter();
+                }
+            }
+        } else {
+            throw new Exception('Unknown parent application');
         }
 
         path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
@@ -52,49 +66,17 @@ class Context extends ConceptContext
         $this->registerAutoloaders(path('app_src'), $this);
 
         /**
-         * Now we will be able to create and register application.
+         * Now we will be able to create and register application provider.
          */
-        $app = Reflect::create(ucfirst($appName));
-
-        $this->bind('Application', $app);
-
-        return $app;
-    }
-
-    /**
-     * @return Console
-     * @throws Exception
-     */
-    public function createConsoleApplication()
-    {
-        $application = null;
-        if (isset($_SERVER['argv'][1]) && !strpos($_SERVER['argv'][1], ':')) {
-            $appName = $_SERVER['argv'][1];
-            path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
-            path('app_src', path('app') . "src" . path('ds'));
-
-            /**
-             * Add app src dir to autoloader and template engine.
-             */
-            $this->registerAutoloaders(path('app_src'), $this);
-
-            /**
-             * Now we will be able to create and register application.
-             */
-            $application = Reflect::create(ucfirst($appName));
-            $this->bind('Application', $application);
-        }
-
-        $console = new Console($application);
-        $this->bind('Application', $application ?: $console);
+        $applicationProvider = Reflect::create(ucfirst($appName));
+        $this->bind('Application', $applicationProvider);
 
         /**
-         * We also need to set Console Application.
+         * Then we create actual application wrapper.
          */
-        $consoleApplication = new ConsoleApplication();
-        $this->bind('ConsoleApplication', $consoleApplication);
-        
-        return $console;
+        $application = new $parentApplication($applicationProvider);
+
+        return $application;
     }
 
     public function getApplicationNameFromGlobalRouter()

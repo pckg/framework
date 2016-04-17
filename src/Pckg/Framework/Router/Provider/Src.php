@@ -3,6 +3,7 @@
 namespace Pckg\Framework\Router\Provider;
 
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Application;
 use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Router\RouteProviderInterface;
 
@@ -15,7 +16,7 @@ class Src implements RouteProviderInterface
 
     protected $app;
 
-    public function __construct($config, $src, ApplicationInterface $app)
+    public function __construct($config, $src, Application $app)
     {
         $this->config = $config;
         $this->src = $src;

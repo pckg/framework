@@ -3,15 +3,24 @@
 namespace Pckg\Framework\Application;
 
 use Pckg\Framework\Application;
-use Pckg\Framework\Router\RouterManager;
-use Pckg\Manager\Asset\AssetManager;
+use Pckg\Framework\Application\Website\Command\Init;
+use Pckg\Framework\Application\Website\Command\Run;
 
-class Website extends Application implements AssetManager
+class Website extends Application
 {
 
-    public function assets()
+    public function inits()
     {
-        return [];
+        return [
+            Init::class,
+        ];
+    }
+
+    public function runs()
+    {
+        return [
+            Run::class,
+        ];
     }
 
 }

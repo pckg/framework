@@ -3,7 +3,6 @@
 namespace Pckg\Framework\Application\Website\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Environment;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\View\Twig;
@@ -14,7 +13,7 @@ use Pckg\Manager\Seo as SeoManager;
 class InitAssets extends AbstractChainOfReponsibility
 {
 
-    protected $website;
+    protected $application;
 
     protected $assetManager;
 
@@ -27,14 +26,12 @@ class InitAssets extends AbstractChainOfReponsibility
     protected $flash;
 
     public function __construct(
-        ApplicationInterface $website,
         Environment $environment,
         AssetManager $assetManager,
         MetaManager $metaManager,
         SeoManager $seoManager,
         Flash $flash
     ) {
-        $this->website = $website;
         $this->assetManager = $assetManager;
         $this->metaManager = $metaManager;
         $this->seoManager = $seoManager;
@@ -48,10 +45,6 @@ class InitAssets extends AbstractChainOfReponsibility
         Twig::addStaticData('_metaManager', $this->metaManager);
         Twig::addStaticData('_seoManager', $this->seoManager);
         Twig::addStaticData('_flash', $this->flash);
-
-        foreach ($this->website->assets() as $asset) {
-            $this->assetManager->addAssets('app/' . strtolower(get_class($this->website)) . '/public/' . $asset);
-        }
 
         foreach ($this->environment->assets() as $asset) {
             $this->assetManager->addAssets($asset, 'footer');

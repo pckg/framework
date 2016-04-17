@@ -19,11 +19,10 @@ class InitRouter extends AbstractChainOfReponsibility
 
     protected $application;
 
-    public function __construct(Router $router, Context $context, Application $application)
+    public function __construct(Router $router, Context $context)
     {
         $this->router = $router;
         $this->context = $context;
-        $this->application = $application;
     }
 
     public function execute(callable $next)

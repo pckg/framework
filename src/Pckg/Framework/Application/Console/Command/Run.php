@@ -2,14 +2,14 @@
 
 namespace Pckg\Framework\Application\Console\Command;
 
-use Pckg\Framework\Application\ApplicationInterface;
+use Pckg\Framework\Application;
 
 class Run
 {
 
     protected $application;
 
-    public function __construct(ApplicationInterface $application)
+    public function __construct(Application $application)
     {
         $this->application = $application;
     }
