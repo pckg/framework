@@ -5,7 +5,7 @@ namespace Pckg\Framework;
 use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Provider\Helper\Registrator;
 
-class Application implements ApplicationInterface
+class Application
 {
 
     use Registrator;

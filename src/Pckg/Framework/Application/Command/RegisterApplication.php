@@ -1,10 +1,9 @@
-<?php namespace Pckg\Framework\Application;
+<?php namespace Pckg\Framework\Application\Command;
 
-use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Application;
 use Pckg\Framework\Provider\Helper\Registrator;
 
-class RegisterApplication extends AbstractChainOfReponsibility
+class RegisterApplication
 {
 
     use Registrator;
