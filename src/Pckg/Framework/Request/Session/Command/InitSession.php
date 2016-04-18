@@ -21,7 +21,7 @@ class InitSession extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        $this->context->bind('Session', $this->session);
+        $this->context->bind(Session::class, $this->session);
 
         $this->session->init();
 

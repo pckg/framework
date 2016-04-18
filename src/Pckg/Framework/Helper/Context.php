@@ -8,6 +8,7 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
 use Pckg\Framework\Application\Console;
 use Pckg\Framework\Application\Website;
+use Pckg\Framework\Environment;
 use Pckg\Framework\Provider\Helper\Registrator;
 use Symfony\Component\Console\Application as SymfonyConsole;
 use Symfony\Component\Console\Input\ArgvInput;
@@ -19,7 +20,7 @@ class Context extends ConceptContext
 
     public function createEnvironment($environment)
     {
-        $this->bind('Environment', Reflect::create($environment));
+        $this->bind(Environment::class, Reflect::create($environment));
 
         return $this;
     }
@@ -43,7 +44,7 @@ class Context extends ConceptContext
             /**
              * We need to set Console Application.
              */
-            $this->bind('ConsoleApplication', new SymfonyConsole());
+            $this->bind(SymfonyConsole::class, new SymfonyConsole());
 
         } elseif ($parentApplication == Website::class)  {
             if (!$appName) {
@@ -69,7 +70,7 @@ class Context extends ConceptContext
          * Now we will be able to create and register application provider.
          */
         $applicationProvider = Reflect::create(ucfirst($appName));
-        $this->bind('Application', $applicationProvider);
+        $this->bind(Application::class, $applicationProvider);
 
         /**
          * Then we create actual application wrapper.

@@ -27,7 +27,7 @@ class InitRouter extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        $this->context->bind("Router", $this->router);
+        $this->context->bind(Router::class, $this->router);
 
         $this->router->init();
 

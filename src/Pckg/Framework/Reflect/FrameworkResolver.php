@@ -41,15 +41,15 @@ class FrameworkResolver implements Resolver
 
     public function resolve($class)
     {
-        if (isset(static::$bind[$class]) && context()->exists(static::$bind[$class])) {
-            return context()->get(static::$bind[$class]);
+        if (isset(static::$bind[$class]) && context()->exists($class)) {
+            return context()->get($class);
         }
 
         if (class_exists($class) && in_array($class, static::$singletones)) {
             $newInstance = Reflect::create($class);
 
             if (isset(static::$bind[$class])) {
-                context()->bind(static::$bind[$class], $newInstance);
+                context()->bind($class, $newInstance);
 
                 return $newInstance;
             }

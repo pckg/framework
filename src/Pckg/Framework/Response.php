@@ -3,6 +3,7 @@
 namespace Pckg\Framework;
 
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
 use Pckg\Framework\View\AbstractView;
@@ -171,8 +172,8 @@ class Response
 
         }
 
-        if (context()->exists('Flash')) {
-            context()->get('Flash')->__destruct();
+        if (context()->exists(Flash::class)) {
+            context()->get(Flash::class)->__destruct();
         }
 
         // try with php

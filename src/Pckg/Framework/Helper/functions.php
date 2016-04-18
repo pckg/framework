@@ -1,19 +1,25 @@
 <?php
 
+use DebugBar\DebugBar;
 use Pckg\Collection;
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;
 use Pckg\Concept\Event\AbstractEvent;
+use Pckg\Concept\Event\Dispatcher;
+use Pckg\Framework\Application;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
 use Pckg\Framework\Lang;
+use Pckg\Framework\Request;
+use Pckg\Framework\Response;
+use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
 
 /* context */
 
 /**
- * @return Context
+ * @return \Pckg\Framework\Helper\Context
  * @throws Exception
  */
 function context()
@@ -26,31 +32,31 @@ function context()
  */
 function env()
 {
-    return context()->get('Environment');
+    return context()->get(Environment::class);
 }
 
 /**
- * @return \Pckg\Framework\Application
+ * @return Application
  */
 function app()
 {
-    return context()->get('Application');
+    return context()->get(Application::class);
 }
 
 /**
- * @return \Pckg\Framework\Request
+ * @return Request
  */
 function request()
 {
-    return context()->get('Request');
+    return context()->get(Request::class);
 }
 
 /**
- * @return \Pckg\Framework\Response
+ * @return Response
  */
 function response()
 {
-    return context()->get('Response');
+    return context()->get(Response::class);
 }
 
 /**
@@ -87,11 +93,11 @@ function factory($factory)
 
 /**
  *
- * @return Pckg\Concept\Event\Dispatcher
+ * @return Dispatcher
  * */
 function dispatcher()
 {
-    return context()->get('Dispatcher');
+    return context()->get(Dispatcher::class);
 }
 
 /**
@@ -150,7 +156,7 @@ function triggerEvent($event, $args = [])
  */
 function router()
 {
-    return context()->get('Router');
+    return context()->get(Router::class);
 }
 
 /**
@@ -166,7 +172,7 @@ function url($url, $params = [])
 
 function resolve($class)
 {
-    return context()->getOrCreate(substr($class, strrpos($class, '\\')), $class);
+    return context()->getOrCreate($class);
 }
 
 /**
@@ -215,7 +221,7 @@ function flash($key, $val = null)
  */
 function config($key = null)
 {
-    return context()->get('Config')->get($key);
+    return context()->get(Config::class)->get($key);
 }
 
 function conf($key, $default = null)
@@ -232,7 +238,7 @@ function conf($key, $default = null)
 function path($key = null, $val = null)
 {
     if ($val) {
-        context()->getOrCreate('Config', Config::class)->set('path.' . $key, $val);
+        context()->getOrCreate(Config::class)->set('path.' . $key, $val);
     }
 
     return $val = config('path.' . $key);
@@ -341,8 +347,8 @@ function prod()
  */
 function debugBar()
 {
-    return context()->exists('DebugBar')
-        ? context()->get('DebugBar')
+    return context()->exists(DebugBar::class)
+        ? context()->get(DebugBar::class)
         : null;
 }
 

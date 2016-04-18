@@ -21,7 +21,7 @@ class InitRequest extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        $this->context->bind('Request', $this->request);
+        $this->context->bind(Request::class, $this->request);
 
         $this->request->init();
 

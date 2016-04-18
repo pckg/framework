@@ -31,7 +31,7 @@ class Localize extends AbstractChainOfReponsibility
         setlocale(LC_ALL, $locale);
         setlocale(LC_TIME, $locale);
 
-        $this->context->bind('Lang', new Lang());
+        $this->context->bind(Lang::class, new Lang());
 
         $config = $this->config->__toArray();
         if (isset($config['defaults']['i18n'])) {

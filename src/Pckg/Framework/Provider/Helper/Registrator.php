@@ -6,6 +6,7 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
+use Symfony\Component\Console\Application as SymfonyConsole;
 
 trait Registrator
 {
@@ -89,11 +90,11 @@ trait Registrator
      */
     public function registerConsoles($consoles)
     {
-        if (!context()->exists('ConsoleApplication')) {
+        if (!context()->exists(SymfonyConsole::class)) {
             return;
         }
 
-        $consoleApplication = context()->get('ConsoleApplication');
+        $consoleApplication = context()->get(SymfonyConsole::class);
         foreach ($consoles as $console) {
             $consoleApplication->add(new $console);
         }
@@ -101,7 +102,7 @@ trait Registrator
 
     public function registerAssets($assets)
     {
-        $assetManager = context()->getOrCreate('AssetManager', Asset::class);
+        $assetManager = context()->getOrCreate(Asset::class);
         foreach ($assets as $key => $assets) {
             $assetManager->addProviderAssets($assets, is_array($assets) ? $key : 'main', $this);
         }

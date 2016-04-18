@@ -5,6 +5,7 @@ namespace Pckg\Framework\Application\Console\Command;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Response;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Application as SymfonyConsole;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,7 +32,7 @@ class RunCommand extends AbstractChainOfReponsibility
         /**
          * Get Symfony Console Application, find available commands and run app.
          */
-        $application = context()->get('ConsoleApplication');
+        $application = context()->get(SymfonyConsole::class);
         $application->run(new ArgvInput($argv));
 
         /**

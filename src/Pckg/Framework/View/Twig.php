@@ -3,6 +3,7 @@
 namespace Pckg\Framework\View;
 
 use Exception;
+use Pckg\Framework\Config;
 use Pckg\Framework\Router;
 use Twig_Environment;
 use Twig_Error_Syntax;
@@ -41,11 +42,11 @@ class Twig extends AbstractView implements ViewInterface
         }));
 
         $this->twig->addFunction(new Twig_SimpleFunction('config', function ($text) {
-            return context()->get('Config')->get($text);
+            return context()->get(Config::class)->get($text);
         }));
 
         $this->twig->addFunction(new Twig_SimpleFunction('url', function ($url, $params = [], $absolute = false) {
-            return context()->get('Router')->make($url, $params, $absolute);
+            return context()->get(Router::class)->make($url, $params, $absolute);
         }));
 
         $this->twig->addNodeVisitor(new TwigObjectizerNodeVisitor());

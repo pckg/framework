@@ -4,6 +4,7 @@ namespace Pckg\Framework\Router\Provider;
 
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
+use Pckg\Framework\Config;
 use Pckg\Framework\Router\RouteProviderInterface;
 
 class Src implements RouteProviderInterface
@@ -31,7 +32,7 @@ class Src implements RouteProviderInterface
                  ] AS $dir) {
 
             if (is_dir($dir)) {
-                context()->get('Config')->parseDir($dir);
+                context()->get(Config::class)->parseDir($dir);
             }
         }
 

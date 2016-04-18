@@ -25,7 +25,7 @@ class Production extends Environment
 
         $this->registerExceptionHandler();
 
-        $context->bind('Config', $config);
+        $context->bind(Config::class, $config);
 
         $this->init();
 

@@ -22,7 +22,7 @@ class InitResponse extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        $this->context->bind('Response', $this->response);
+        $this->context->bind(Response::class, $this->response);
 
         $this->response->init();
 
