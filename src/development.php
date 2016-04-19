@@ -29,7 +29,7 @@ $environment = $context->createEnvironment(Pckg\Framework\Environment\Developmen
  * Create application.
  * We will use config/router.php for proper loading.
  */
-$application = $context->createApplication(\Pckg\Framework\Application\Website::class);
+$application = $context->createWebsiteApplication();
 
 /**
  * Initialize application.

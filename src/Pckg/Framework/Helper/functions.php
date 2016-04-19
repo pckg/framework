@@ -19,7 +19,7 @@ use Pckg\Htmlbuilder\Element\Form;
 /* context */
 
 /**
- * @return \Pckg\Framework\Helper\Context
+ * @return Context
  * @throws Exception
  */
 function context()

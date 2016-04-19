@@ -29,11 +29,25 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
     public function execute()
     {
+        /**
+         * Apply middlewares.
+         */
+        if (isset($this->match['middlewares'])) {
+            chain($this->match['middlewares'], 'execute');
+        }
+
         $this->loadController($this->match['controller']);
 
         $viewData = $this->handleView($this->match);
 
         $this->response->setViewData($viewData);
+
+        /**
+         * Apply afterwares/decorators.
+         */
+        if (isset($this->match['afterwares'])) {
+            chain($this->match['afterwares'], 'execute', [$this->response]);
+        }
     }
 
     public function handleView($match)

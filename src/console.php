@@ -26,24 +26,24 @@ $context = Pckg\Framework\Helper\Context::createInstance();
 $environment = $context->createEnvironment(Pckg\Framework\Environment\Development::class);
 
 try {
-/**
- * Create application.
- * It should be passed as parameter.
- */
-$application = $context->createApplication(Pckg\Framework\Application\Console::class);
+    /**
+     * Create application.
+     * It should be passed as parameter.
+     */
+    $application = $context->createConsoleApplication();
 
-/**
- * Initialize application.
- * This will parse config, set localization 'things', estamblish connection to database,
- * set application autoloaders and providers.
- */
-$application->init();
+    /**
+     * Initialize application.
+     * This will parse config, set localization 'things', estamblish connection to database,
+     * set application autoloaders and providers.
+     */
+    $application->init();
 
-/**
- * Run applications.
- * Everything was preset, we need to run command.
- */
-$application->run();
+    /**
+     * Run applications.
+     * Everything was preset, we need to run command.
+     */
+    $application->run();
 } catch (Exception $e) {
     dd(exception($e));
 }

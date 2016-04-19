@@ -123,6 +123,11 @@ class Response
         return $this;
     }
 
+    public function getViewData()
+    {
+        return $this->viewData;
+    }
+
     public function run()
     {
         $viewData = $this->viewData;
