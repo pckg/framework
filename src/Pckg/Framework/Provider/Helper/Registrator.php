@@ -4,6 +4,7 @@ namespace Pckg\Framework\Provider\Helper;
 
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider;
+use Pckg\Framework\Response;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
 use Symfony\Component\Console\Application as SymfonyConsole;
@@ -115,7 +116,18 @@ trait Registrator
 
     public function registerMiddlewares($middlewares)
     {
-        // @T00D00
+        $response = context()->getOrCreate(Response::class);
+        foreach ($middlewares as $middleware) {
+            $response->addMiddleware($middleware);
+        }
+    }
+
+    public function registerAfterwares($afterwares)
+    {
+        $response = context()->getOrCreate(Response::class);
+        foreach ($afterwares as $afterware) {
+            $response->addAfterware($afterware);
+        }
     }
 
 }

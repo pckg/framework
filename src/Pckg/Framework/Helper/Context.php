@@ -80,6 +80,11 @@ class Context extends ConceptContext
              * Now we will be able to create and register application provider.
              */
             $applicationProvider = Reflect::create(ucfirst($appName));
+
+            /**
+             * We register console provider so consoles can be easily accessable.
+             */
+            (new ConsoleProvider())->register();
         } else {
             $applicationProvider = new ConsoleProvider();
         }

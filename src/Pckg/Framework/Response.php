@@ -64,10 +64,38 @@ class Response
         504 => "HTTP/1.1 504 Gateway Time-out",
     ];
 
+    protected $middlewares = [];
+
+    protected $afterwares = [];
+
     public function __construct(Router $router, Environment $environment)
     {
         $this->router = $router;
         $this->environment = $environment;
+    }
+
+    public function addMiddleware($middleware)
+    {
+        $this->middlewares[] = $middleware;
+
+        return $this;
+    }
+
+    public function getMiddlewares()
+    {
+        return $this->middlewares;
+    }
+
+    public function addAfterware($afterware)
+    {
+        $this->afterwares[] = $afterware;
+
+        return $this;
+    }
+
+    public function getAfterwares()
+    {
+        return $this->afterwares;
     }
 
     public function code($code)

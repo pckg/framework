@@ -32,8 +32,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         /**
          * Apply middlewares.
          */
-        if (isset($this->match['middlewares'])) {
-            chain($this->match['middlewares'], 'execute');
+        if ($middlewares = $this->response->getMiddlewares()) {
+            chain($middlewares, 'execute');
         }
 
         $this->loadController($this->match['controller']);
@@ -45,8 +45,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         /**
          * Apply afterwares/decorators.
          */
-        if (isset($this->match['afterwares'])) {
-            chain($this->match['afterwares'], 'execute', [$this->response]);
+        if ($afterwares = $this->response->getAfterwares()) {
+            chain($afterwares, 'execute', [$this->response]);
         }
     }
 

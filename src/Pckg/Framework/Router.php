@@ -151,6 +151,11 @@ class Router
                     foreach ($arguments AS $key => $val) {
                         $args["[" . $key . "]"] = $val;
                     }
+                    if (isset($route['resolvers'])) {
+                        foreach ($route['resolvers'] as $key => $resolver) {
+                            $args['[' . $key . ']'] = Reflect::create($resolver)->parametrize($args['[' . $key . ']']);
+                        }
+                    }
                     if ($args) {
                         $route['url'] = str_replace(array_keys($args), $args, $route['url']);
                     }

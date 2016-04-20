@@ -19,6 +19,7 @@ class Provider
         $this->registerProviders($this->providers());
         $this->registerRoutes($this->routes());
         $this->registerMiddlewares($this->middlewares());
+        $this->registerAfterwares($this->afterwares());
         $this->registerPaths($this->paths());
         $this->registerConsoles($this->consoles());
         $this->registerAssets($this->assets());
@@ -26,6 +27,19 @@ class Provider
         if (method_exists($this, 'registered')) {
             Reflect::method($this, 'registered');
         }
+    }
+
+    protected function getViewPaths()
+    {
+        $db = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+        $file = $db[0]['file'];
+        $class = $db[1]['class'];
+
+        return [
+            realpath(substr($file, 0, strrpos($file, path('ds'))) . path('ds') . '..' . path('ds') . 'View'),
+            substr($file, 0, -strlen($class) - strlen('.php')),
+        ];
     }
 
     public function apps()
@@ -44,6 +58,11 @@ class Provider
     }
 
     public function middlewares()
+    {
+        return [];
+    }
+
+    public function afterwares()
     {
         return [];
     }
