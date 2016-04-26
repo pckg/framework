@@ -15,6 +15,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
+use Weblab\Auth\Service\Auth;
 
 /* context */
 
@@ -49,6 +50,11 @@ function app()
 function request()
 {
     return context()->get(Request::class);
+}
+
+function auth()
+{
+    return context()->get(Auth::class);
 }
 
 /**

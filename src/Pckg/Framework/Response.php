@@ -183,13 +183,18 @@ class Response
         $this->output();
     }
 
+    private function getMinusUrl()
+    {
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            return $_SERVER['HTTP_REFERER'];
+        }
+    }
+
     public function redirect($url = null, $httpParams = [], $routerParams = [])
     {
         $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url . '" /></head><body></body></html>';
         if ($url === -1) {
-            if (isset($_SERVER['HTTP_REFERER'])) {
-                $url = $_SERVER['HTTP_REFERER'];
-            }
+            $url = $this->getMinusUrl();
 
             $output = '<html><body><script>history.go(-1);</script></body></html>';
 
@@ -234,8 +239,61 @@ class Response
         }
     }
 
+    public function respondWithSuccessRedirect($url)
+    {
+        if ($url == -1) {
+            $url = $this->getMinusUrl();
+        }
+
+        return request()->isAjax()
+            ? $this->respondWithAjaxSuccessAndRedirect($url)
+            : $this->redirect($url);
+    }
+
+    public function respondWithAjaxSuccess()
+    {
+        return $this->respond([
+            'success' => true,
+            'error'   => false,
+        ]);
+    }
+
+    public function respondWithAjaxError()
+    {
+        return $this->respond([
+            'success' => false,
+            'error'   => true,
+        ]);
+    }
+
+    public function respondWithAjaxSuccessAndRedirect($url)
+    {
+        if ($url == -1) {
+            $url = $this->getMinusUrl();
+        }
+
+        return $this->respond([
+            'success'  => false,
+            'error'    => true,
+            'redirect' => $url,
+        ]);
+    }
+
+    public function respondWithAjaxSuccessAndRedirectBack()
+    {
+        return $this->respond([
+            'success'  => false,
+            'error'    => true,
+            'redirect' => $this->getMinusUrl(),
+        ]);
+    }
+
     public function respond($string)
     {
+        if (is_array($string)) {
+            $string = json_encode($string);
+        }
+
         echo $string;
 
         exit;
