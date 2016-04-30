@@ -69,7 +69,7 @@ class Command extends SymfonyConsoleCommand
         return $this->input->getOption($name) ?: $default;
     }
 
-    public function output($msg)
+    public function output($msg = '')
     {
         $this->output->write($msg . "\n");
 
