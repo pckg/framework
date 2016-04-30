@@ -5,15 +5,11 @@ use Pckg\Framework\Helper\Lazy;
 class Flash extends Lazy
 {
 
-    public function __construct($_flash = [])
+    public function __construct()
     {
-        if (empty($_flash)) {
-            $_flash = isset($_SESSION) && isset($_SESSION['Flash'])
-                ? $_SESSION['Flash']
-                : [];
-        }
-
-        parent::__construct($_flash);
+        parent::__construct(isset($_SESSION) && isset($_SESSION['Flash'])
+            ? $_SESSION['Flash']
+            : []);
     }
 
     public function __destruct()

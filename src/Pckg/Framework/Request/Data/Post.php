@@ -7,13 +7,14 @@ use Pckg\Framework\Helper\Lazy;
 class Post extends Lazy
 {
 
-    function __construct(&$_post = [])
+    function __construct()
     {
-        if (empty($_post)) {
-            $_post = $_POST;
-        }
+        parent::__construct($_POST);
+    }
 
-        parent::__construct($_post);
+    public function __destruct()
+    {
+        $_POST = $this->data;
     }
 
 }

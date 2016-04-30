@@ -13,7 +13,7 @@ class Lazy implements ArrayAccess
 
     protected $parent = [];
 
-    public function __construct(&$arr = [])
+    public function __construct($arr = [])
     {
         $this->data = $arr instanceof \stdClass
             ? (array)$arr
