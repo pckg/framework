@@ -59,14 +59,10 @@ class Config
 
     public function parseDir($dir)
     {
-        $configPath = $dir == path('root')
-            ? 'config'
-            : 'Config';
-
         $files = [
-            "defaults" => $dir . $configPath . path('ds') . "defaults.php",
-            "database" => $dir . $configPath . path('ds') . "database.php",
-            "router"   => $dir . $configPath . path('ds') . "router.php",
+            "defaults" => $dir . 'config' . path('ds') . "defaults.php",
+            "database" => $dir . 'config' . path('ds') . "database.php",
+            "router"   => $dir . 'config' . path('ds') . "router.php",
         ];
 
         $settings = [];
