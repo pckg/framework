@@ -70,6 +70,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             // send data to layout ;-) // @T00D00 - layout doesn't exit anymore
             return $viewData;
 
+        } else if (is_object($viewData) && method_exists($viewData, '__toString')) {
+            return (string)$viewData;
         }
 
         throw new Exception("View is unknown type ");

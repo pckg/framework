@@ -239,7 +239,7 @@ class Response
         }
     }
 
-    public function respondWithSuccessRedirect($url)
+    public function respondWithSuccessRedirect($url = -1)
     {
         if ($url == -1) {
             $url = $this->getMinusUrl();
@@ -273,8 +273,8 @@ class Response
         }
 
         return $this->respond([
-            'success'  => false,
-            'error'    => true,
+            'success'  => true,
+            'error'    => false,
             'redirect' => $url,
         ]);
     }
@@ -282,8 +282,8 @@ class Response
     public function respondWithAjaxSuccessAndRedirectBack()
     {
         return $this->respond([
-            'success'  => false,
-            'error'    => true,
+            'success'  => true,
+            'error'    => false,
             'redirect' => $this->getMinusUrl(),
         ]);
     }
