@@ -60,7 +60,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
         } else if (is_string($viewData)) {
             // print view as content
-            return ["content" => $viewData];
+            return $viewData;
 
         } else if (is_null($viewData) || is_int($viewData) || is_bool($viewData)) {
             // without view

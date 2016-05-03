@@ -31,6 +31,9 @@ class InitRouter extends AbstractChainOfReponsibility
 
         $this->router->init();
 
+        /**
+         * @T00D00 - this is incorrect, right?
+         */
         Reflect::prependResolver(Reflect::create(RecordResolver::class, [$this]));
 
         return $next();

@@ -1,13 +1,10 @@
-<?php
+<?php namespace Pckg\Framework\Response\Command;
 
-namespace Pckg\Framework\Response\Command;
-
-
+use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Request;
 use Pckg\Framework\Router;
-
 
 class LoadView extends AbstractChainOfReponsibility
 {
@@ -44,10 +41,6 @@ class LoadView extends AbstractChainOfReponsibility
      */
     public function execute()
     {
-        if (method_exists($this->controller, $this->view . "Prepare")) {
-            Reflect::method($this->controller, $this->view . "Prepare", $this->data);
-        }
-
         $viewHttp = $this->request->isPost()
             ? 'post' . ucfirst($this->view)
             : 'get' . ucfirst($this->view);
@@ -61,13 +54,11 @@ class LoadView extends AbstractChainOfReponsibility
             }
         }
 
-        if (method_exists($this->controller, $viewHttp . "Action")) {
-            $result = Reflect::method($this->controller, $viewHttp . "Action", array_merge($this->data, $data));
-
-        } else if (method_exists($this->controller, $this->view . "Action")) {
-            $result = Reflect::method($this->controller, $this->view . "Action", $this->data);
-
+        if (!method_exists($this->controller, $viewHttp . "Action")) {
+            throw new Exception('Method ' . $viewHttp . 'Action() does not exist in ' . get_class($this->controller));
         }
+
+        $result = Reflect::method($this->controller, $viewHttp . "Action", array_merge($this->data, $data));
 
         return $result;
     }
