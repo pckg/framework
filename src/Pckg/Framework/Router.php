@@ -16,6 +16,8 @@ class Router
 
     protected $cache;
 
+    protected $resolved = [];
+
     public function __construct(Config $config)
     {
         $this->config = $config;
@@ -196,4 +198,17 @@ class Router
 
         return $this;
     }
+
+    public function resolve($key, $val)
+    {
+        $this->resolved[$key] = $val;
+
+        return $this;
+    }
+
+    public function resolved($key)
+    {
+        return $this->resolved[$key];
+    }
+
 }

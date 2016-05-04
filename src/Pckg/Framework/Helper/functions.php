@@ -15,7 +15,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
-use Weblab\Auth\Service\Auth;
+use Pckg\Auth\Service\Auth;
 
 /* context */
 
@@ -289,6 +289,7 @@ function view($view, $data = [])
     $view = new Twig($view, $data);
     if ($parent = realpath(dirname(debug_backtrace()[0]['file']) . '/../View/')) {
         $view->addDir($parent, Twig::PRIORITY_LAST);
+        $view->addDir(realpath(dirname(debug_backtrace()[0]['file']) . '/../../../'), Twig::PRIORITY_LAST);
     }
 
     return $view;

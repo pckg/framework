@@ -38,7 +38,7 @@ class Development extends Environment
 
         $this->init();
 
-        $config->parseDir(path('root'), $this);
+        $config->parseDir(path('root'));
     }
 
     public function registerExceptionHandler()
@@ -52,6 +52,9 @@ class Development extends Environment
     {
         return [
             function () {
+                /**
+                 * @T00D00 - this should be executed at the end.
+                 */
                 $renderer = $this->debugBar->getJavascriptRenderer();
 
                 return $renderer->renderHead() . $renderer->render();

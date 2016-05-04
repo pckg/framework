@@ -2,7 +2,7 @@
 
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
-use Weblab\Auth\Service\Auth;
+use Pckg\Auth\Service\Auth;
 
 trait Traits
 {
