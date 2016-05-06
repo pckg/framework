@@ -34,11 +34,6 @@ class LoadView extends AbstractChainOfReponsibility
         return $this;
     }
 
-    /**
-     * @T00D00
-     *  - remove Prepare method + call only request action get/post/delete/put...
-     *  - parameters should be solved by route resolver ...
-     */
     public function execute()
     {
         $viewHttp = $this->request->isPost()
@@ -46,7 +41,21 @@ class LoadView extends AbstractChainOfReponsibility
             : 'get' . ucfirst($this->view);
 
         $result = null;
+        $data = $this->getResolved();
+
+        if (!method_exists($this->controller, $viewHttp . "Action")) {
+            throw new Exception('Method ' . $viewHttp . 'Action() does not exist in ' . get_class($this->controller));
+        }
+
+        $result = Reflect::method($this->controller, $viewHttp . "Action", array_merge($this->data, $data));
+
+        return $result;
+    }
+
+    protected function getResolved()
+    {
         $router = $this->router->get();
+
         $data = [];
         if (isset($router['resolvers'])) {
             foreach ($router['resolvers'] as $urlKey => $resolver) {
@@ -56,13 +65,7 @@ class LoadView extends AbstractChainOfReponsibility
             }
         }
 
-        if (!method_exists($this->controller, $viewHttp . "Action")) {
-            throw new Exception('Method ' . $viewHttp . 'Action() does not exist in ' . get_class($this->controller));
-        }
-
-        $result = Reflect::method($this->controller, $viewHttp . "Action", array_merge($this->data, $data));
-
-        return $result;
+        return $data;
     }
 
 }

@@ -36,7 +36,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             chain($middlewares, 'execute');
         }
 
-        $this->loadController($this->match['controller']);
+        $this->controller = Reflect::create($this->match['controller']);
 
         $viewData = $this->handleView($this->match);
 
@@ -75,26 +75,6 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         }
 
         throw new Exception("View is unknown type ");
-    }
-
-    public function loadController($controller)
-    {
-        if (strpos($controller, 'Controller')) {
-            $c = $controller;
-        } else {
-            $controller = explode(":", $controller);
-            $controller[1] = isset($controller[1]) ? $controller[1] : substr(strrchr($controller[0], "\\"), 1);
-
-            $c = '\\' . Convention::toCamel($controller[0]) . '\Controller\\' . Convention::toCamel($controller[1]);
-        }
-
-        $reflect = Reflect::create($c);
-
-        if (!$this->controller || get_class($this->controller) != get_class($reflect)) {
-            $this->controller = $reflect;
-        }
-
-        return $reflect;
     }
 
 }

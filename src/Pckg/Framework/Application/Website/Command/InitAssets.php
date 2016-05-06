@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\Application\Website\Command;
 
+use Pckg\Auth\Service\Auth;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Context;
 use Pckg\Framework\Request\Data\Flash;
@@ -23,17 +24,21 @@ class InitAssets extends AbstractChainOfReponsibility
 
     protected $flash;
 
+    protected $auth;
+
     public function __construct(
         Context $context,
         AssetManager $assetManager,
         MetaManager $metaManager,
         SeoManager $seoManager,
-        Flash $flash
+        Flash $flash,
+        Auth $auth
     ) {
         $this->assetManager = $assetManager;
         $this->metaManager = $metaManager;
         $this->seoManager = $seoManager;
         $this->flash = $flash;
+        $this->auth = $auth;
     }
 
     public function execute(callable $next)
@@ -42,6 +47,7 @@ class InitAssets extends AbstractChainOfReponsibility
         Twig::addStaticData('_metaManager', $this->metaManager);
         Twig::addStaticData('_seoManager', $this->seoManager);
         Twig::addStaticData('_flash', $this->flash);
+        Twig::addStaticData('_auth', $this->auth);
 
         return $next();
     }
