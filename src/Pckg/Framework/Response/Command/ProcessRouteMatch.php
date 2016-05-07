@@ -38,9 +38,9 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
         $this->controller = Reflect::create($this->match['controller']);
 
-        $viewData = $this->handleView($this->match);
-
-        $this->response->setViewData($viewData);
+        $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
+        $output = $this->parseViewToString($response);
+        $this->response->setOutput($output);
 
         /**
          * Apply afterwares/decorators.
@@ -50,13 +50,11 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         }
     }
 
-    public function handleView($match)
+    public function parseViewToString($viewData)
     {
-        $viewData = $this->loadView->set($match['view'], [], $this->controller)->execute();
-
         if ($viewData instanceof ViewInterface) {
             // parse layout into view
-            return $viewData;
+            return $viewData->autoparse();
 
         } else if (is_string($viewData)) {
             // print view as content

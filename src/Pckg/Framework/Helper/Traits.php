@@ -1,6 +1,8 @@
 <?php namespace Pckg\Framework\Helper;
 
 use Pckg\Framework\Request;
+use Pckg\Framework\Request\Data\Post;
+use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Auth\Service\Auth;
 
@@ -22,6 +24,16 @@ trait Traits
      */
     private $auth;
 
+    /**
+     * @var Post
+     */
+    private $post;
+
+    /**
+     * @var Session
+     */
+    private $session;
+
     public function response()
     {
         if (!$this->response) {
@@ -41,6 +53,30 @@ trait Traits
         }
 
         return $this->request;
+    }
+
+    /**
+     * @return Post
+     */
+    public function post()
+    {
+        if (!$this->post) {
+            $this->post = resolve(Post::class);
+        }
+
+        return $this->post;
+    }
+
+    /**
+     * @return Post
+     */
+    public function session()
+    {
+        if (!$this->session) {
+            $this->session = resolve(Session::class);
+        }
+
+        return $this->session;
     }
 
     public function auth()

@@ -7,6 +7,7 @@ use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
 use Pckg\Framework\View\AbstractView;
+use Pckg\Framework\View\Twig;
 
 class Response
 {
@@ -18,8 +19,6 @@ class Response
     protected $environment;
 
     protected $output;
-
-    protected $viewData;
 
     protected $http = [
         100 => "HTTP/1.1 100 Continue",
@@ -125,54 +124,18 @@ class Response
         return $this->output;
     }
 
-    public function getHeaders()
-    {
-        $headers = [];
-        if ($this->type == self::JSON) {
-            return json_encode($this->output);
-
-        } else if ($this->type == self::HTML) {
-            return $this->output;
-
-        }
-
-        return $this->output;
-    }
-
     public function output()
     {
         echo $this->output;
     }
 
-    public function setViewData($viewData)
-    {
-        $this->viewData = $viewData;
-
-        return $this;
-    }
-
-    public function getViewData()
-    {
-        return $this->viewData;
-    }
-
     public function run()
     {
-        $viewData = $this->viewData;
+        if ($this->output instanceof AbstractView || $this->output instanceof Twig) {
+            $this->setOutput($this->output->autoparse());
 
-        if (!$viewData && $this->output) {
-
-        } else if ($viewData instanceof AbstractView) {
-            $this->setOutput($viewData->autoparse());
-
-        } else if (is_array($viewData) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') {
-            $this->setOutput(json_encode($viewData));
-
-        } else if (is_array($viewData)) {
-            $this->setOutput(json_encode($viewData));
-
-        } elseif (is_string($viewData)) {
-            $this->setOutput($viewData);
+        } else if (is_array($this->output)) {
+            $this->setOutput(json_encode($this->output));
 
         }
 

@@ -3,7 +3,7 @@
 interface RouteResolver
 {
 
-    public function resolve();
+    public function resolve($value);
 
     public function parametrize($record);
 
