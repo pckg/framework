@@ -333,7 +333,6 @@ function d(...$mixed)
 function db($depth = 3, $start = 0)
 {
     $db = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-    echo 'Debuck backtrace result';
     for ($i = $start; $i <= $depth + $start && isset($db[$i]); $i++) {
         d($db[$i]);
     }
