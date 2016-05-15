@@ -358,6 +358,13 @@ function debugBar()
         : null;
 }
 
+function message($message)
+{
+    if ($debugBar = debugBar()) {
+        $debugBar->getCollector('messages')->addMessage($message);
+    }
+}
+
 function startMeasure($name)
 {
     if ($debugBar = debugBar()) {

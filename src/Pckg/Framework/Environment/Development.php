@@ -52,9 +52,6 @@ class Development extends Environment
     {
         return [
             function () {
-                /**
-                 * @T00D00 - this should be executed at the end.
-                 */
                 $renderer = $this->debugBar->getJavascriptRenderer();
 
                 return $renderer->renderHead() . $renderer->render();
