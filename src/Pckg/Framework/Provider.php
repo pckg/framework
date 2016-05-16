@@ -82,4 +82,9 @@ class Provider
         return [];
     }
 
+    public function viewObjects()
+    {
+        return [];
+    }
+
 }
