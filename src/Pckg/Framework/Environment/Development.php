@@ -52,6 +52,7 @@ class Development extends Environment
     {
         return [
             function () {
+                return '';
                 $renderer = $this->debugBar->getJavascriptRenderer();
 
                 return $renderer->renderHead() . $renderer->render();

@@ -52,6 +52,7 @@ class InitAssets extends AbstractChainOfReponsibility
         Twig::addStaticData('_flash', $this->flash);
         Twig::addStaticData('_auth', $this->auth);
         Twig::addStaticData('_menuService', $this->menuService);
+        Twig::addStaticData('_debugBar', debugBar());
 
         return $next();
     }
