@@ -1,10 +1,11 @@
 <?php namespace Pckg\Framework\Helper;
 
+use Pckg\Auth\Service\Auth;
 use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
-use Pckg\Auth\Service\Auth;
+use Pckg\Framework\Router;
 
 trait Traits
 {
@@ -33,6 +34,11 @@ trait Traits
      * @var Session
      */
     private $session;
+
+    /**
+     * @var Router
+     */
+    private $router;
 
     public function response()
     {
@@ -86,6 +92,15 @@ trait Traits
         }
 
         return $this->auth;
+    }
+
+    public function router()
+    {
+        if (!$this->router) {
+            $this->router = resolve(Router::class);
+        }
+
+        return $this->router;
     }
 
 }

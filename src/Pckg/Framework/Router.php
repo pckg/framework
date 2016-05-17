@@ -168,12 +168,12 @@ class Router
         }
     }
 
-    public function get($param = null)
+    public function get($param = null, $default = [])
     {
         return $param ?
             (isset($this->data[$param])
                 ? $this->data[$param]
-                : null)
+                : $default)
             : $this->data;
     }
 
