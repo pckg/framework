@@ -33,26 +33,33 @@ class Twig extends AbstractView implements ViewInterface
                 'cache' => path('cache') . 'view',
             ]
         );
-
-        $this->twig->addExtension(new Twig_Extension_Debug());
         $this->twig->addExtension(new Twig_Extension_StringLoader());
 
+        /**
+         * This should be added to Dev environment Provider.
+         */
+        $this->twig->addExtension(new Twig_Extension_Debug());
+
+        /**
+         * This should be added to Framework Provider.
+         */
         $this->twig->addFunction(new Twig_SimpleFunction('__', function ($text) {
             return \__($text);
         }));
-
         $this->twig->addFunction(new Twig_SimpleFunction('config', function ($text) {
             return context()->get(Config::class)->get($text);
         }));
-
         $this->twig->addFunction(new Twig_SimpleFunction('url', function ($url, $params = [], $absolute = false) {
             return context()->get(Router::class)->make($url, $params, $absolute);
         }));
 
+        /**
+         * This is not needed anymore ...
+         */
         $this->twig->addNodeVisitor(new TwigObjectizerNodeVisitor());
     }
 
-    function autoparse()
+    public function autoparse()
     {
         self::addDir(path('root'), Twig::PRIORITY_LAST);
 

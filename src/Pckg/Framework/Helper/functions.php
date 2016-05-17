@@ -1,6 +1,7 @@
 <?php
 
 use DebugBar\DebugBar;
+use Pckg\Auth\Service\Auth;
 use Pckg\Collection;
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;
@@ -15,7 +16,6 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
-use Pckg\Auth\Service\Auth;
 
 /* context */
 
@@ -412,6 +412,10 @@ function str_lreplace($search, $replace, $subject)
     return $subject;
 }
 
+/**
+ * @param Exception $e
+ * @return string
+ */
 function exception(Exception $e)
 {
     return $e->getMessage() . '@' . $e->getFile() . ':' . $e->getLine();
