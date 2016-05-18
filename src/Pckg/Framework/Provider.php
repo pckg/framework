@@ -21,6 +21,7 @@ class Provider
         $this->registerMiddlewares($this->middlewares());
         $this->registerAfterwares($this->afterwares());
         $this->registerPaths($this->paths());
+        $this->registerViewObjects($this->viewObjects());
         $this->registerConsoles($this->consoles());
         $this->registerAssets($this->assets());
 

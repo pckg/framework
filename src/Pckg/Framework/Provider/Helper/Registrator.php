@@ -130,4 +130,12 @@ trait Registrator
         }
     }
 
+    public function registerViewObjects($objects)
+    {
+        foreach ($objects as $key => $val) {
+            $val = context()->getOrCreate($val);
+            Twig::setStaticData($key, $val);
+        }
+    }
+
 }

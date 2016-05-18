@@ -52,11 +52,6 @@ class Twig extends AbstractView implements ViewInterface
         $this->twig->addFunction(new Twig_SimpleFunction('url', function ($url, $params = [], $absolute = false) {
             return context()->get(Router::class)->make($url, $params, $absolute);
         }));
-
-        /**
-         * This is not needed anymore ...
-         */
-        $this->twig->addNodeVisitor(new TwigObjectizerNodeVisitor());
     }
 
     public function autoparse()

@@ -24,7 +24,6 @@ abstract class AbstractView implements ViewInterface
 
     public static function addStaticData($key, $val)
     {
-
         if (!is_object($key) && is_array($key)) {
             foreach ($key AS $k => $v) {
                 static::addData($k, $v);
@@ -38,6 +37,11 @@ abstract class AbstractView implements ViewInterface
         } else {
             static::$staticData[$key] .= $val;
         }
+    }
+
+    public static function setStaticData($key, $val)
+    {
+        static::$staticData[$key] = $val;
     }
 
     public function addData($key, $val = null)
