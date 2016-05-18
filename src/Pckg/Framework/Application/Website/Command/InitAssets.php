@@ -40,12 +40,27 @@ class InitAssets extends AbstractChainOfReponsibility
         Menu $menuService,
         Plugin $pluginService
     ) {
+        /**
+         * @T00D00 - move this to asset provider
+         */
         $this->assetManager = $assetManager;
         $this->metaManager = $metaManager;
         $this->seoManager = $seoManager;
+        /**
+         * @T00D00 - move this to framework provider
+         */
         $this->flash = $flash;
+        /**
+         * @T00D00 - move this to auth provider
+         */
         $this->auth = $auth;
+        /**
+         * @T00D00 - move this to generic provider
+         */
         $this->menuService = $menuService;
+        /**
+         * @T00D00 - move this to framework provider
+         */
         $this->pluginService = $pluginService;
     }
 
