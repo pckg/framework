@@ -10,21 +10,7 @@ use Pckg\Manager\Asset as AssetManager;
 class InitAssets extends AbstractChainOfReponsibility
 {
 
-    protected $application;
-
-    protected $assetManager;
-
-    protected $metaManager;
-
-    protected $seoManager;
-
     protected $flash;
-
-    protected $auth;
-
-    protected $menuService;
-
-    protected $pluginService;
 
     public function __construct(
         Flash $flash
