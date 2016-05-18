@@ -11,7 +11,6 @@ use Twig_Extension_Debug;
 use Twig_Extension_StringLoader;
 use Twig_Loader_Chain;
 use Twig_Loader_Filesystem;
-use Twig_Loader_String;
 use Twig_SimpleFunction;
 
 class Twig extends AbstractView implements ViewInterface
@@ -21,11 +20,29 @@ class Twig extends AbstractView implements ViewInterface
     protected $file = null;
     protected $data = [];
 
-    function initTwig()
+    function initTwig($file = null)
     {
+        $dirs = $this->getDirs();
+
+        /**
+         * We need to duplicate every dir for proper relative includes ...
+         *
+         *
+         */
+        if ($file) {
+            $tempDirs = $dirs;
+            foreach ($dirs as $dir) {
+                $tempDir = $dir . (substr($dir, -1) == path('ds') ? '' : path('ds')) . substr(str_replace('\\',
+                        path('ds'), $file), 0, strrpos($file, '\\'));
+                if (is_dir($tempDir)) {
+                    $tempDirs[] = $tempDir;
+                }
+            }
+            $dirs = array_unique($tempDirs);
+        }
+
         $this->twig = new Twig_Environment(new Twig_Loader_Chain([
-                new Twig_Loader_Filesystem($this->getDirs()),
-                new Twig_Loader_String(),
+                new Twig_Loader_Filesystem($dirs),
             ]
         ),
             [
@@ -58,7 +75,7 @@ class Twig extends AbstractView implements ViewInterface
     {
         self::addDir(path('root'), Twig::PRIORITY_LAST);
 
-        $this->initTwig();
+        $this->initTwig($this->file);
 
         $this->twig = $this->twig->loadTemplate($this->file . ".twig");
 
