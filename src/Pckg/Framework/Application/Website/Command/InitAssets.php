@@ -5,6 +5,7 @@ namespace Pckg\Framework\Application\Website\Command;
 use Pckg\Auth\Service\Auth;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Request\Data\Flash;
+use Pckg\Framework\Service\Plugin;
 use Pckg\Framework\View\Twig;
 use Pckg\Generic\Service\Menu;
 use Pckg\Manager\Asset as AssetManager;
@@ -28,13 +29,16 @@ class InitAssets extends AbstractChainOfReponsibility
 
     protected $menuService;
 
+    protected $pluginService;
+
     public function __construct(
         AssetManager $assetManager,
         MetaManager $metaManager,
         SeoManager $seoManager,
         Flash $flash,
         Auth $auth,
-        Menu $menuService
+        Menu $menuService,
+        Plugin $pluginService
     ) {
         $this->assetManager = $assetManager;
         $this->metaManager = $metaManager;
@@ -42,6 +46,7 @@ class InitAssets extends AbstractChainOfReponsibility
         $this->flash = $flash;
         $this->auth = $auth;
         $this->menuService = $menuService;
+        $this->pluginService = $pluginService;
     }
 
     public function execute(callable $next)
@@ -53,6 +58,7 @@ class InitAssets extends AbstractChainOfReponsibility
         Twig::addStaticData('_auth', $this->auth);
         Twig::addStaticData('_menuService', $this->menuService);
         Twig::addStaticData('_debugBar', debugBar());
+        Twig::addStaticData('_pluginService', $this->pluginService);
 
         return $next();
     }
