@@ -93,13 +93,12 @@ class Twig extends AbstractView implements ViewInterface
             return $render;
 
         } catch (Twig_Error_Syntax $e) {
-            return "<pre>Twig error:" . $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() . "</pre>";
+            return "<pre>Twig error:" . exception($e) . "</pre>";
 
         } catch (Exception $e) {
-            return '<pre>' . $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine() . '</pre>';
-        }
+            return '<pre>' . exception($e) . '</pre>';
 
-        throw new Exception('Cannot parse file \'' . $this->file . '\'');
+        }
     }
 
 }
