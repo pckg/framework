@@ -365,6 +365,15 @@ function message($message)
     }
 }
 
+function measure($message, callable $callback)
+{
+    startMeasure($message);
+    $result = $callback();
+    stopMeasure($message);
+
+    return $result;
+}
+
 function startMeasure($name)
 {
     if ($debugBar = debugBar()) {
@@ -414,6 +423,7 @@ function str_lreplace($search, $replace, $subject)
 
 /**
  * @param Exception $e
+ *
  * @return string
  */
 function exception(Exception $e)
