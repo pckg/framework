@@ -25,7 +25,7 @@ class NamespaceProvider implements RouteProviderInterface
 
     public function init()
     {
-        startMeasure('Namespace RouterProvider: ' . $this->namespace);
+        //startMeasure('Namespace RouterProvider: ' . $this->namespace);
         $explNamespace = explode('\\', $this->namespace);
 
         $arrMethods = get_class_methods($this->namespace . '\Controller\\' . end($explNamespace));
@@ -47,7 +47,7 @@ class NamespaceProvider implements RouteProviderInterface
                                 'prefix' => isset($this->config['prefix']) ? $this->config['prefix'] : null
         ]);
         $phpProvider->load();
-        stopMeasure('Namespace RouterProvider: ' . $this->namespace);
+        //stopMeasure('Namespace RouterProvider: ' . $this->namespace);
     }
 
     public function getMatch()

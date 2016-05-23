@@ -26,9 +26,9 @@ class Method implements RouteProviderInterface
     public function init()
     {
         list($namespace, $method) = explode('::', $this->config);
-        startMeasure('Method RouterProvider: ' . $namespace . ' ' . $method);
+        //startMeasure('Method RouterProvider: ' . $namespace . ' ' . $method);
         Reflect::method($namespace, $method);
-        stopMeasure('Method RouterProvider: ' . $namespace . ' ' . $method);
+        //stopMeasure('Method RouterProvider: ' . $namespace . ' ' . $method);
     }
 
     public function getMatch()

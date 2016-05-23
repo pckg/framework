@@ -31,7 +31,7 @@ class Cache
 
         if (file_exists($file)) {
             $this->cache = json_decode(file_get_contents($file), true);
-            $this->built = !empty($this->cache);
+            $this->built = true;
         }
     }
 

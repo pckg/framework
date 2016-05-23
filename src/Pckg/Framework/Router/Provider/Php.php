@@ -17,7 +17,7 @@ class Php implements RouteProviderInterface
 
     public function init()
     {
-        startMeasure('Php RouterProvider: ' . $this->config['file']);
+        //startMeasure('Php RouterProvider: ' . $this->config['file']);
         $router = require $this->config['file'];
 
         $prefix = isset($this->config['prefix'])
@@ -40,7 +40,7 @@ class Php implements RouteProviderInterface
                 }
             }
         }
-        stopMeasure('Php RouterProvider: ' . $this->config['file']);
+        //stopMeasure('Php RouterProvider: ' . $this->config['file']);
     }
 
     public function getMatch()

@@ -69,16 +69,18 @@ class Config
         $settings = [];
         foreach ($files AS $key => $file) {
             $cache = new Cache($file);
-            startMeasure($file);
             if ($cache->isBuilt()) {
+                startMeasure('Reading from cache: ' . $file);
                 $settings[$key] = $cache->get();
+                stopMeasure('Reading from cache: ' . $file);
             } else {
+                startMeasure('Building cache: ' . $file);
                 $settings[$key] = is_file($file)
                     ? require $file
                     : [];
                 $cache->writeToCache($settings[$key]);
+                stopMeasure('Building cache: ' . $file);
             }
-            stopMeasure($file);
         }
 
         foreach ($settings AS $key => $parsed) {
@@ -87,9 +89,11 @@ class Config
             }
         }
 
-        foreach ($this->data['env'] as $key => $val) {
-            foreach ($val as $key2 => $val2) {
-                $this->data[$key][$key2] = array_merge($this->data[$key][$key2], $val2);
+        if (isset($this->data['env'])) {
+            foreach ($this->data['env'] as $key => $val) {
+                foreach ($val as $key2 => $val2) {
+                    $this->data[$key][$key2] = array_merge($this->data[$key][$key2], $val2);
+                }
             }
         }
     }

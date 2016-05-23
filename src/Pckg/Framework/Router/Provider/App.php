@@ -29,7 +29,7 @@ class App implements RouteProviderInterface
          * */
 
         $path = path('apps') . $this->app . path('ds') . 'Config' . path('ds') . 'router.php';
-        startMeasure('App RouterProvider: ' . $path);
+        //startMeasure('App RouterProvider: ' . $path);
         $phpProvider = new Php([
             'file'   => $path,
             'prefix' => isset($this->config['prefix'])
@@ -56,7 +56,7 @@ class App implements RouteProviderInterface
         /*
          * And then you finally realize this should be refactored to some kind of Command or AppInitializator
          * */
-        stopMeasure('App RouterProvider: ' . $path);
+        //stopMeasure('App RouterProvider: ' . $path);
     }
 
     public function getMatch()

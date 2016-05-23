@@ -25,7 +25,7 @@ class Src implements RouteProviderInterface
 
     public function init()
     {
-        startMeasure('Src RouterProvider: ' . $this->config['src']);
+        //startMeasure('Src RouterProvider: ' . $this->config['src']);
         foreach ([
                      path('app_src') . $this->config['src'] . path('ds'),
                      path('root') . $this->config['src'] . path('ds'),
@@ -60,7 +60,7 @@ class Src implements RouteProviderInterface
                 $provider->register();
             }
         }
-        stopMeasure('Src RouterProvider: ' . $this->config['src']);
+        //stopMeasure('Src RouterProvider: ' . $this->config['src']);
     }
 
     public function getMatch()

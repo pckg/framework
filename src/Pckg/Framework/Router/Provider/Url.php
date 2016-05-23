@@ -24,9 +24,9 @@ class Url implements RouteProviderInterface
 
     public function init()
     {
-        startMeasure('Url RouterProvider: ' . $this->url . ' ' . $this->name);
+        //startMeasure('Url RouterProvider: ' . $this->url . ' ' . $this->name);
         router()->add($this->url, $this->config, $this->name);
-        stopMeasure('Url RouterProvider: ' . $this->url . ' ' . $this->name);
+        //stopMeasure('Url RouterProvider: ' . $this->url . ' ' . $this->name);
     }
 
     public function getMatch()
