@@ -155,7 +155,7 @@ class Router
                     }
                     if (isset($route['resolvers'])) {
                         foreach ($route['resolvers'] as $key => $resolver) {
-                            $args['[' . $key . ']'] = Reflect::create($resolver)->parametrize($args['[' . $key . ']']);
+                            $args['[' . $key . ']'] = resolve($resolver)->parametrize($args['[' . $key . ']']);
                         }
                     }
                     if ($args) {

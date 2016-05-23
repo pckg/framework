@@ -59,7 +59,7 @@ class LoadView extends AbstractChainOfReponsibility
         $data = $this->router->get('data');
         if (isset($router['resolvers'])) {
             foreach ($router['resolvers'] as $urlKey => $resolver) {
-                $resolved = Reflect::create($resolver)->resolve($router[$urlKey]);
+                $resolved = resolve($resolver)->resolve($router[$urlKey]);
                 $this->router->resolve($urlKey, $resolved);
                 $data[] = $resolved;
                 /**
