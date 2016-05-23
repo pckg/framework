@@ -63,6 +63,7 @@ class Config
             "defaults" => $dir . 'config' . path('ds') . "defaults.php",
             "database" => $dir . 'config' . path('ds') . "database.php",
             "router"   => $dir . 'config' . path('ds') . "router.php",
+            "env"      => $dir . 'config' . path('ds') . "env.php",
         ];
 
         $settings = [];
@@ -83,6 +84,12 @@ class Config
         foreach ($settings AS $key => $parsed) {
             foreach ($parsed AS $key2 => $configs) {
                 $this->data[$key][$key2] = $configs;
+            }
+        }
+
+        foreach ($this->data['env'] as $key => $val) {
+            foreach ($val as $key2 => $val2) {
+                $this->data[$key][$key2] = array_merge($this->data[$key][$key2], $val2);
             }
         }
     }
