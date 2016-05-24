@@ -1,5 +1,6 @@
 <?php namespace Pckg\Framework\Console;
 
+use Pckg\Concept\Reflect;
 use Symfony\Component\Console\Command\Command as SymfonyConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,7 +29,7 @@ class Command extends SymfonyConsoleCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->handle();
+        Reflect::method($this, 'handle');
     }
 
     protected function quit($msg = null)

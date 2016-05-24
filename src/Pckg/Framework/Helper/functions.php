@@ -16,6 +16,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
+use Pckg\Queue\Service\Queue;
 
 /* context */
 
@@ -179,6 +180,14 @@ function url($url, $params = [])
 function resolve($class)
 {
     return context()->getOrCreate($class);
+}
+
+/**
+ * @return Queue
+ */
+function queue()
+{
+    return context()->getOrCreate(Queue::class);
 }
 
 /**
