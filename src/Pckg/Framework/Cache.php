@@ -55,7 +55,7 @@ class Cache
             unlink($cachePath);
         }
 
-        file_put_contents($this->getCachePath(), json_encode($this->cache));
+        file_put_contents($cachePath, json_encode($this->cache));
     }
 
     public function isBuilt()

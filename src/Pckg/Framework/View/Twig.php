@@ -71,6 +71,11 @@ class Twig extends AbstractView implements ViewInterface
         }));
     }
 
+    public function getFullData()
+    {
+        return array_merge(static::$staticData, $this->data);
+    }
+
     public function autoparse()
     {
         self::addDir(path('root'), Twig::PRIORITY_LAST);
@@ -81,7 +86,7 @@ class Twig extends AbstractView implements ViewInterface
 
         try {
             startMeasure('Rendering ' . $this->file);
-            $render = $this->twig->render(array_merge(static::$staticData, $this->data));
+            $render = $this->twig->render($this->getFullData());
             stopMeasure('Rendering ' . $this->file);
 
             if ($render == $this->file . '.twig') {

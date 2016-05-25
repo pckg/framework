@@ -39,7 +39,13 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         $this->controller = Reflect::create($this->match['controller']);
 
         $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
-        $output = $this->parseViewToString($response);
+
+        if (!request()->isAjax()) {
+            $output = $this->parseViewToString($response);
+        } else {
+            $output = $response;
+        }
+
         $this->response->setOutput($output);
 
         /**
