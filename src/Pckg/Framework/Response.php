@@ -135,7 +135,7 @@ class Response
     {
         if ($this->output instanceof AbstractView || $this->output instanceof Twig) {
             if (request()->isAjax()) {
-                $this->setOutput(json_encode(array_merge($this->output->getFullData(), ['_html' => $this->output->autoparse()])));
+                $this->setOutput(json_encode(array_merge($this->output->getData(), ['_html' => $this->output->autoparse()])));
             } else {
                 $this->setOutput($this->output->autoparse());
             }
