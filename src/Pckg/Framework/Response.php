@@ -161,7 +161,7 @@ class Response
 
     public function redirect($url = null, $httpParams = [], $routerParams = [])
     {
-        $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url . '" /></head><body></body></html>';
+        $output = null;
         if ($url === -1) {
             $url = $this->getMinusUrl();
 
@@ -179,6 +179,14 @@ class Response
 
         }
 
+        if (!$output) {
+            $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url . '" /></head><body></body></html>';
+        }
+
+        /**
+         * @T00D00 - implement event
+         */
+        trigger('response.redirect', [$this]);
         if (context()->exists(Flash::class)) {
             context()->get(Flash::class)->__destruct();
         }
@@ -223,7 +231,7 @@ class Response
     {
         return $this->respond([
             'success' => true,
-            'error'   => false,
+            'error' => false,
         ]);
     }
 
@@ -231,7 +239,7 @@ class Response
     {
         return $this->respond([
             'success' => false,
-            'error'   => true,
+            'error' => true,
         ]);
     }
 
@@ -242,8 +250,8 @@ class Response
         }
 
         return $this->respond([
-            'success'  => true,
-            'error'    => false,
+            'success' => true,
+            'error' => false,
             'redirect' => $url,
         ]);
     }
@@ -251,8 +259,8 @@ class Response
     public function respondWithAjaxSuccessAndRedirectBack()
     {
         return $this->respond([
-            'success'  => true,
-            'error'    => false,
+            'success' => true,
+            'error' => false,
             'redirect' => $this->getMinusUrl(),
         ]);
     }

@@ -18,6 +18,7 @@ class Provider
         $this->registerApps($this->apps());
         $this->registerProviders($this->providers());
         $this->registerRoutes($this->routes());
+        $this->registerListeners($this->listeners());
         $this->registerMiddlewares($this->middlewares());
         $this->registerAfterwares($this->afterwares());
         $this->registerPaths($this->paths());
@@ -84,6 +85,11 @@ class Provider
     }
 
     public function viewObjects()
+    {
+        return [];
+    }
+
+    public function listeners()
     {
         return [];
     }

@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\Provider\Helper;
 
+use Pckg\Concept\Event\Dispatcher;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider;
 use Pckg\Framework\Response;
@@ -27,7 +28,7 @@ trait Registrator
 
                 Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
                     $providerType => $provider,
-                    'config'      => $providerConfig,
+                    'config' => $providerConfig,
                 ])->init();
             }
         }
@@ -135,6 +136,20 @@ trait Registrator
         foreach ($objects as $key => $val) {
             $val = context()->getOrCreate($val);
             Twig::setStaticData($key, $val);
+        }
+    }
+
+    public function registerListeners($handlers)
+    {
+        $dispatcher = context()->getOrCreate(Dispatcher::class);
+        foreach ($handlers as $event => $listeners) {
+            if (!is_array($listeners)) {
+                $listeners = [$listeners];
+            }
+
+            foreach ($listeners as $listener) {
+                $dispatcher->listen($event, $listener);
+            }
         }
     }
 
