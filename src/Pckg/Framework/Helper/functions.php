@@ -37,6 +37,10 @@ function env()
     return context()->get(Environment::class);
 }
 
+function object_implements($object, $interface){
+    return in_array($interface, class_implements($object));
+}
+
 /**
  * @return Application
  */

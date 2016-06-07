@@ -143,6 +143,9 @@ class Response
         } else if (is_array($this->output)) {
             $this->setOutput(json_encode($this->output));
 
+        } else if (is_object($this->output) && method_exists($this->output, '__toString')) {
+            $this->setOutput((string)$this->output);
+
         }
 
         if (!$this->output) {
