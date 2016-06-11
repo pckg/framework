@@ -56,6 +56,7 @@ class Lazy implements ArrayAccess
     public function __get($name)
     {
         if (!$this->__isset($name)) {
+            return new Lazy();
             return null;
 
         } else if (!is_array($this->data[$name])) {
@@ -152,4 +153,9 @@ class Lazy implements ArrayAccess
     {
         return $this->__get($offset);
     }
+
+    public function jsonSerialize() {
+        return $this->toArray();
+    }
+
 }
