@@ -341,6 +341,8 @@ function d(...$mixed)
         echo '</pre>';
         echo "<br />\n";
     }
+
+    return true;
 }
 
 function db($depth = 3, $start = 0)
