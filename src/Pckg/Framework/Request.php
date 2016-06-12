@@ -80,11 +80,11 @@ class Request extends Lazy
             : $this->post->get($key);
     }
 
-    function get($key = null)
+    function get($key = null, $default = [])
     {
         return is_null($key)
             ? $this->get
-            : $this->get->get($key);
+            : $this->get->get($key, $default);
     }
 
     function files($key = null)
