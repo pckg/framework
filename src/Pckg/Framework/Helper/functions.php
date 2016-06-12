@@ -176,9 +176,9 @@ function router()
  *
  * @return string
  */
-function url($url, $params = [])
+function url($url, $params = [], $absolute = false)
 {
-    return router()->make($url, $params);
+    return router()->make($url, $params, $absolute);
 }
 
 function resolve($class)
