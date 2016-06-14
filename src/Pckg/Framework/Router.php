@@ -110,7 +110,7 @@ class Router
     public function writeCache() {
         $this->getCache()->writeToCache(
             [
-                'routes' => $this->routes,
+                'routes'     => $this->routes,
                 'cachedInit' => $this->cachedInit,
             ]
         );
@@ -166,10 +166,16 @@ class Router
                     if ($args) {
                         $route['url'] = str_replace(array_keys($args), $args, $route['url']);
                     }
-
-                    return ($absolute ? $this->config->get("defaults.protocol") . '://' . ($this->config->get(
-                                "defaults.domain"
-                            ) ?? $_SERVER['HTTP_HOST']) : "") . (dev() ? "/dev.php" : "") . $route["url"];
+                    
+                    return (
+                           $absolute
+                               ? $this->config->get("defaults.protocol") . '://' .
+                                 ($this->config->get("defaults.domain") ?? $_SERVER['HTTP_HOST'])
+                               : "") .
+                           (dev()
+                               ? "/dev.php"
+                               : ""
+                           ) . $route["url"];
                 }
             }
         }

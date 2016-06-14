@@ -92,7 +92,13 @@ class Config
         if (isset($this->data['env'])) {
             foreach ($this->data['env'] as $key => $val) {
                 foreach ($val as $key2 => $val2) {
-                    $this->data[$key][$key2] = array_merge($this->data[$key][$key2], $val2);
+                    if (is_array($val2)) {
+                        $this->data[$key][$key2] = array_merge($this->data[$key][$key2], $val2);
+
+                    } else {
+                        $this->data[$key][$key2] = $val2;
+
+                    }
                 }
             }
         }
