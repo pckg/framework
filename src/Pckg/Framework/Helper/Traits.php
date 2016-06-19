@@ -2,6 +2,7 @@
 
 use Pckg\Auth\Service\Auth;
 use Pckg\Framework\Request;
+use Pckg\Framework\Request\Data\Get;
 use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
@@ -29,6 +30,11 @@ trait Traits
      * @var Post
      */
     private $post;
+
+    /**
+     * @var Get
+     */
+    private $get;
 
     /**
      * @var Session
@@ -71,6 +77,18 @@ trait Traits
         }
 
         return $this->post;
+    }
+
+    /**
+     * @return Get
+     */
+    public function get()
+    {
+        if (!$this->get) {
+            $this->get = resolve(Get::class);
+        }
+
+        return $this->get;
     }
 
     /**
