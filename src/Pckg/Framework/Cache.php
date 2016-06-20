@@ -51,9 +51,6 @@ class Cache
         }
 
         $cachePath = $this->getCachePath();
-        if (is_file($cachePath)) {
-            unlink($cachePath);
-        }
 
         file_put_contents($cachePath, json_encode($this->cache));
     }
