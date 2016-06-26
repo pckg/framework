@@ -17,7 +17,7 @@ class Plugin
          */
         $view = Reflect::method($controller, $method . 'Action', $params);
 
-        return $view->autoparse();
+        return (string)$view;
     }
 
 }

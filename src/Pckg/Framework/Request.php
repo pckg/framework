@@ -18,7 +18,7 @@ class Request extends Lazy
 
     protected $url;
 
-    public $post, $get, $server;
+    public $post, $get, $server, $session;
 
     protected $router, $response;
 
@@ -85,6 +85,13 @@ class Request extends Lazy
         return is_null($key)
             ? $this->get
             : $this->get->get($key, $default);
+    }
+
+    function session($key = null, $default = [])
+    {
+        return is_null($key)
+            ? $this->session
+            : $this->session->get($key, $default);
     }
 
     function files($key = null)
