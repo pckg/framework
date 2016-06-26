@@ -443,5 +443,5 @@ function str_lreplace($search, $replace, $subject)
  */
 function exception(Exception $e)
 {
-    return $e->getMessage() . '@' . $e->getFile() . ':' . $e->getLine();
+    return $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine();
 }
