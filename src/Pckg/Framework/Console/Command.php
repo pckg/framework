@@ -97,16 +97,25 @@ class Command extends SymfonyConsoleCommand
         return $this->ask(new ChoiceQuestion($question, $choices, $default));
     }
 
-    public function exec($execs)
+    public function exec($execs, $printOutput = true)
     {
         if (!is_array($execs)) {
             $execs = [$execs];
         }
 
+        $outputs = [];
         foreach ($execs as $exec) {
+            $output = null;
             exec($exec, $output);
-            $this->output(implode("\n", $output));
+
+            if ($printOutput) {
+                $this->output(implode("\n", $output));
+            } else {
+                $outputs[] = $output;
+            }
         }
+
+        return $outputs;
     }
 
     protected function getApp()
