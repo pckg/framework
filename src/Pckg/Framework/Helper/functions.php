@@ -70,6 +70,10 @@ function response()
     return context()->get(Response::class);
 }
 
+function redirect($url = null) {
+    return response()->redirect($url);
+}
+
 /**
  * @param null $entity
  *
