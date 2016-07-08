@@ -57,6 +57,14 @@ function request()
     return context()->get(Request::class);
 }
 
+/**
+ * @return Request
+ */
+function post()
+{
+    return request()->post();
+}
+
 function auth()
 {
     return context()->getOrCreate(Auth::class);

@@ -206,19 +206,6 @@ class Response
         return $this;
     }
 
-    public function internal($url, $routerParams = [], $httpParams = [])
-    {
-        die('@T00D00: Internal redirect: ' . $url);
-        // use current environment and app instance, but create new context
-        if (substr($url, 0, 1) == '@') {
-            $url = (new URL())->setParams($httpParams)
-                ->setUrl($this->router->make(
-                    substr($url, 1),
-                    $routerParams
-                ))->relative();
-        }
-    }
-
     public function respondWithSuccessRedirect($url = -1)
     {
         if ($url == -1) {

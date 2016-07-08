@@ -35,6 +35,9 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         if ($middlewares = $this->response->getMiddlewares()) {
             chain($middlewares, 'execute');
         }
+        if (isset($this->match['middlewares'])) {
+            chain($this->match['middlewares'], 'execute');
+        }
 
         $this->controller = Reflect::create($this->match['controller']);
 
@@ -54,6 +57,9 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         if ($afterwares = $this->response->getAfterwares()) {
             chain($afterwares, 'execute', [$this->response]);
         }
+        if (isset($this->match['afterwares'])) {
+            chain($this->match['afterwares'], 'execute', [$this->response]);
+        }
     }
 
     public function parseViewToString($viewData)
@@ -62,17 +68,13 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             // parse layout into view
             return $viewData->autoparse();
 
-        } else if (is_string($viewData)) {
+        } else if (is_string($viewData) || is_array($viewData)) {
             // print view as content
             return $viewData;
 
         } else if (is_null($viewData) || is_int($viewData) || is_bool($viewData)) {
             // without view
             return null;
-
-        } else if (is_array($viewData)) {
-            // send data to layout ;-) // @T00D00 - layout doesn't exit anymore
-            return $viewData;
 
         } else if (is_object($viewData) && method_exists($viewData, '__toString')) {
             return (string)$viewData;

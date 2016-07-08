@@ -48,9 +48,9 @@ trait Registrator
         /**
          * @T00D00 - this needs to be implemented in provider
          */
-        if ($object && method_exists($object, 'autoloadApps')) {
+        /*if ($object && method_exists($object, 'autoloadApps')) {
             $this->registerApps($object->autoloadApps());
-        }
+        }*/
     }
 
     public function registerProviders($providers)

@@ -6,6 +6,12 @@ use Pckg\Framework\Router;
 use Pckg\Framework\Router\RouteProviderInterface;
 use Pckg\Framework\View\Twig;
 
+/**
+ * Class App
+ *
+ * @package Pckg\Framework\Router\Provider
+ * @deprecated
+ */
 class App implements RouteProviderInterface
 {
 
