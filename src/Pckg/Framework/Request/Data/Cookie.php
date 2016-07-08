@@ -25,8 +25,7 @@ class Cookie extends Lazy
         $domain = null,
         $secure = false,
         $httponly = false
-    )
-    {
+    ) {
         setcookie($name, $value, time() + $expiration, $path, $domain, $secure, $httponly);
 
         return $this;

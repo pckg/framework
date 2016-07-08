@@ -8,7 +8,9 @@ class Url implements RouteProviderInterface
 {
 
     protected $url;
+
     protected $config;
+
     protected $name;
 
     public function __construct($url, $config, $name = null)

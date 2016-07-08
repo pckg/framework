@@ -6,12 +6,19 @@ abstract class AbstractView implements ViewInterface
 {
 
     const PRIORITY_APP = 100;
+
     const PRIORITY_VENDOR = 200;
+
     const PRIORITY_MODULE = 300;
+
     const PRIORITY_LAST = 500;
+
     protected static $staticData = [];
+
     protected static $dirs = [];
+
     protected $file = null;
+
     protected $data = [];
 
     public function __construct($file, $data = [])
@@ -39,11 +46,6 @@ abstract class AbstractView implements ViewInterface
         }
     }
 
-    public static function setStaticData($key, $val)
-    {
-        static::$staticData[$key] = $val;
-    }
-
     public function addData($key, $val = null)
     {
         if (!is_object($key) && is_array($key)) {
@@ -59,6 +61,11 @@ abstract class AbstractView implements ViewInterface
         } else {
             $this->data[$key] .= $val;
         }
+    }
+
+    public static function setStaticData($key, $val)
+    {
+        static::$staticData[$key] = $val;
     }
 
     public static function addDir($path, $priority = 0)

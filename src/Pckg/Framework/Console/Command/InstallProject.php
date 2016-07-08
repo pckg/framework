@@ -5,12 +5,8 @@ use Pckg\Framework\Console\Command;
 class InstallProject extends Command
 {
 
-    protected function configure() {
-        $this->setName('project:install')
-             ->setDescription('Install project');
-    }
-
-    public function handle() {
+    public function handle()
+    {
         $dirs = [
             path('cache') . 'framework',
             path('cache') . 'view',
@@ -45,6 +41,12 @@ class InstallProject extends Command
 
             }
         }
+    }
+
+    protected function configure()
+    {
+        $this->setName('project:install')
+             ->setDescription('Install project');
     }
 
 }

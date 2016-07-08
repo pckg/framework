@@ -8,6 +8,10 @@ use Pckg\Framework\View\Twig;
 class Router
 {
 
+    protected $cache;
+
+    protected $resolved = [];
+
     private $routes = [];
 
     private $cachedInit = [];
@@ -18,15 +22,13 @@ class Router
 
     private $data = [];
 
-    protected $cache;
-
-    protected $resolved = [];
-
-    public function __construct(Config $config) {
+    public function __construct(Config $config)
+    {
         $this->config = $config;
     }
 
-    public function init() {
+    public function init()
+    {
         $cache = $this->getCache();
 
         autoloader()->add('', path('app') . 'src');
@@ -43,7 +45,26 @@ class Router
         return $this;
     }
 
-    protected function initDev() {
+    public function getCache()
+    {
+        if (!$this->cache) {
+            $this->cache = new Cache(
+                'framework/router_' . str_replace(
+                    [
+                        '\\',
+                        '/',
+                    ],
+                    '_',
+                    (get_class(app()) . '_' . get_class(env()))
+                ) . '.cache'
+            );
+        }
+
+        return $this->cache;
+    }
+
+    protected function initDev()
+    {
         $cache = $this->getCache();
         $data = $cache->get();
         $this->routes = $data['routes'];
@@ -62,7 +83,8 @@ class Router
         }
     }
 
-    protected function initProd() {
+    protected function initProd()
+    {
         $router = $this->config->get('router');
 
         if (isset($router['providers'])) {
@@ -84,30 +106,8 @@ class Router
         $this->writeCache();
     }
 
-    public function addCachedInit($cachedInit = []) {
-        $this->cachedInit = array_merge($this->cachedInit, $cachedInit);
-
-        return $this;
-    }
-
-    public function getCache() {
-        if (!$this->cache) {
-            $this->cache = new Cache(
-                'framework/router_' . str_replace(
-                    [
-                        '\\',
-                        '/',
-                    ],
-                    '_',
-                    (get_class(app()) . '_' . get_class(env()))
-                ) . '.cache'
-            );
-        }
-
-        return $this->cache;
-    }
-
-    public function writeCache() {
+    public function writeCache()
+    {
         $this->getCache()->writeToCache(
             [
                 'routes'     => $this->routes,
@@ -116,19 +116,30 @@ class Router
         );
     }
 
-    public function setPrefix($prefix = null) {
-        $this->prefix = $prefix;
+    public function addCachedInit($cachedInit = [])
+    {
+        $this->cachedInit = array_merge($this->cachedInit, $cachedInit);
+
+        return $this;
     }
 
-    public function getPrefix() {
+    public function getPrefix()
+    {
         return $this->prefix;
     }
 
-    public function getRoutes() {
+    public function setPrefix($prefix = null)
+    {
+        $this->prefix = $prefix;
+    }
+
+    public function getRoutes()
+    {
         return $this->routes;
     }
 
-    public function add($route, $conf = [], $name = null) {
+    public function add($route, $conf = [], $name = null)
+    {
         $conf["name"] = $name;
         $conf["url"] = $route;
 
@@ -139,11 +150,13 @@ class Router
         array_unshift($this->routes[$conf["url"]], $conf);
     }
 
-    public function getResources() {
+    public function getResources()
+    {
         return $this->resources;
     }
 
-    public function make($routeName = null, $arguments = [], $absolute = false) {
+    public function make($routeName = null, $arguments = [], $absolute = false)
+    {
         if (!$routeName) {
             $routeName = $this->data["name"];
         }
@@ -166,7 +179,7 @@ class Router
                     if ($args) {
                         $route['url'] = str_replace(array_keys($args), $args, $route['url']);
                     }
-                    
+
                     return (
                            $absolute
                                ? $this->config->get("defaults.protocol") . '://' .
@@ -181,7 +194,8 @@ class Router
         }
     }
 
-    public function get($param = null, $default = []) {
+    public function get($param = null, $default = [])
+    {
         return $param ?
             (isset($this->data[$param])
                 ? $this->data[$param]
@@ -189,31 +203,37 @@ class Router
             : $this->data;
     }
 
-    public function getUri($relative = true) {
-        return ($relative ? '' : $this->config->get("url")) . $_SERVER['REQUEST_URI'];
-    }
-
-    public function getURL($relative = true) {
+    public function getURL($relative = true)
+    {
         return $this->getUri($relative);
     }
 
-    public function getName() {
+    public function getUri($relative = true)
+    {
+        return ($relative ? '' : $this->config->get("url")) . $_SERVER['REQUEST_URI'];
+    }
+
+    public function getName()
+    {
         return $this->data['name'] ?: null;
     }
 
-    public function mergeData($data) {
+    public function mergeData($data)
+    {
         $this->data = array_merge($this->data, $data);
 
         return $this;
     }
 
-    public function resolve($key, $val) {
+    public function resolve($key, $val)
+    {
         $this->resolved[$key] = $val;
 
         return $this;
     }
 
-    public function resolved($key) {
+    public function resolved($key)
+    {
         return $this->resolved[$key];
     }
 

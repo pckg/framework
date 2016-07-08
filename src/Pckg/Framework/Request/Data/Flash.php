@@ -7,14 +7,11 @@ class Flash extends Lazy
 
     public function __construct()
     {
-        parent::__construct(isset($_SESSION) && isset($_SESSION['Flash'])
-            ? $_SESSION['Flash']
-            : []);
-    }
-
-    public function __destruct()
-    {
-        $_SESSION['Flash'] = $this->data;
+        parent::__construct(
+            isset($_SESSION) && isset($_SESSION['Flash'])
+                ? $_SESSION['Flash']
+                : []
+        );
     }
 
     public function set($name, $val)
@@ -24,6 +21,11 @@ class Flash extends Lazy
         $this->__destruct();
 
         return $this;
+    }
+
+    public function __destruct()
+    {
+        $_SESSION['Flash'] = $this->data;
     }
 
     public function get($name, $delete = true)

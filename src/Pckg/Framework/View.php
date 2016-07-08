@@ -8,7 +8,9 @@ class View
 {
 
     protected static $dirs = [];
+
     protected $view;
+
     protected $data;
 
     function __construct($view = null, $data = [])

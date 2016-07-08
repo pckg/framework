@@ -32,10 +32,13 @@ class Php implements RouteProviderInterface
                                 ? $providerConfig['prefix']
                                 : '');
                     }
-                    $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
-                        $providerType => $prefix . $provider,
-                        'config'      => $providerConfig,
-                    ]);
+                    $routeProvider = Reflect::create(
+                        'Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType),
+                        [
+                            $providerType => $prefix . $provider,
+                            'config'      => $providerConfig,
+                        ]
+                    );
                     $routeProvider->init();
                 }
             }
@@ -47,6 +50,5 @@ class Php implements RouteProviderInterface
     {
         // TODO: Implement getMatch() method.
     }
-
 
 }

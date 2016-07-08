@@ -58,7 +58,8 @@ trait Traits
      */
     private $vueManager;
 
-    public function response() {
+    public function response()
+    {
         if (!$this->response) {
             $this->response = resolve(Response::class);
         }
@@ -69,7 +70,8 @@ trait Traits
     /**
      * @return Request
      */
-    public function request() {
+    public function request()
+    {
         if (!$this->request) {
             $this->request = resolve(Request::class);
         }
@@ -80,7 +82,8 @@ trait Traits
     /**
      * @return Post
      */
-    public function post() {
+    public function post()
+    {
         if (!$this->post) {
             $this->post = resolve(Post::class);
         }
@@ -91,7 +94,8 @@ trait Traits
     /**
      * @return Get
      */
-    public function get() {
+    public function get()
+    {
         if (!$this->get) {
             $this->get = resolve(Get::class);
         }
@@ -102,7 +106,8 @@ trait Traits
     /**
      * @return Post
      */
-    public function session() {
+    public function session()
+    {
         if (!$this->session) {
             $this->session = resolve(Session::class);
         }
@@ -110,7 +115,8 @@ trait Traits
         return $this->session;
     }
 
-    public function auth() {
+    public function auth()
+    {
         if (!$this->auth) {
             $this->auth = resolve(Auth::class);
         }
@@ -118,7 +124,8 @@ trait Traits
         return $this->auth;
     }
 
-    public function router() {
+    public function router()
+    {
         if (!$this->router) {
             $this->router = resolve(Router::class);
         }
@@ -126,7 +133,8 @@ trait Traits
         return $this->router;
     }
 
-    public function assetManager() {
+    public function assetManager()
+    {
         if (!$this->assetManager) {
             $this->assetManager = resolve(Asset::class);
         }
@@ -137,7 +145,8 @@ trait Traits
     /**
      * @return Vue
      */
-    public function vueManager() {
+    public function vueManager()
+    {
         if (!$this->vueManager) {
             $this->vueManager = resolve(Vue::class);
         }

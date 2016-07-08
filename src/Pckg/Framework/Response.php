@@ -135,7 +135,9 @@ class Response
     {
         if ($this->output instanceof AbstractView || $this->output instanceof Twig) {
             if (request()->isAjax()) {
-                $this->setOutput(json_encode(array_merge($this->output->getData(), ['_html' => $this->output->autoparse()])));
+                $this->setOutput(
+                    json_encode(array_merge($this->output->getData(), ['_html' => $this->output->autoparse()]))
+                );
             } else {
                 $this->setOutput($this->output->autoparse());
             }
@@ -172,10 +174,12 @@ class Response
 
         } else if (substr($url, 0, 1) == '@') {
             $url = (new URL())->setParams($httpParams)
-                ->setUrl($this->router->make(
-                    substr($url, 1),
-                    $routerParams
-                ))->relative();
+                              ->setUrl(
+                                  $this->router->make(
+                                      substr($url, 1),
+                                      $routerParams
+                                  )
+                              )->relative();
 
         } else if ($url === null) {
             $url = $this->router->getUri();
@@ -219,18 +223,22 @@ class Response
 
     public function respondWithAjaxSuccess()
     {
-        return $this->respond([
-            'success' => true,
-            'error' => false,
-        ]);
+        return $this->respond(
+            [
+                'success' => true,
+                'error'   => false,
+            ]
+        );
     }
 
     public function respondWithAjaxError()
     {
-        return $this->respond([
-            'success' => false,
-            'error' => true,
-        ]);
+        return $this->respond(
+            [
+                'success' => false,
+                'error'   => true,
+            ]
+        );
     }
 
     public function respondWithAjaxSuccessAndRedirect($url)
@@ -239,20 +247,24 @@ class Response
             $url = $this->getMinusUrl();
         }
 
-        return $this->respond([
-            'success' => true,
-            'error' => false,
-            'redirect' => $url,
-        ]);
+        return $this->respond(
+            [
+                'success'  => true,
+                'error'    => false,
+                'redirect' => $url,
+            ]
+        );
     }
 
     public function respondWithAjaxSuccessAndRedirectBack()
     {
-        return $this->respond([
-            'success' => true,
-            'error' => false,
-            'redirect' => $this->getMinusUrl(),
-        ]);
+        return $this->respond(
+            [
+                'success'  => true,
+                'error'    => false,
+                'redirect' => $this->getMinusUrl(),
+            ]
+        );
     }
 
     public function respond($string)

@@ -12,8 +12,11 @@ class Request extends Lazy
 {
 
     const GET = 1;
+
     const POST = 2;
+
     const PUT = 3;
+
     const DELETE = 4;
 
     protected $url;
@@ -104,9 +107,9 @@ class Request extends Lazy
     function isMethod($method)
     {
         return ($method == self::GET && $_SERVER['REQUEST_METHOD'] == "GET")
-        || ($method == self::POST && $_SERVER['REQUEST_METHOD'] == "POST")
-        || ($method == self::PUT && $_SERVER['REQUEST_METHOD'] == "PUT")
-        || ($method == self::DELETE && $_SERVER['REQUEST_METHOD'] == "DELETE");
+               || ($method == self::POST && $_SERVER['REQUEST_METHOD'] == "POST")
+               || ($method == self::PUT && $_SERVER['REQUEST_METHOD'] == "PUT")
+               || ($method == self::DELETE && $_SERVER['REQUEST_METHOD'] == "DELETE");
     }
 
     public function getMethod()
@@ -116,7 +119,9 @@ class Request extends Lazy
 
     function isAjax()
     {
-        return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || isset($_POST['ajax']);
+        return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(
+                                                                 $_SERVER['HTTP_X_REQUESTED_WITH']
+                                                             ) == 'xmlhttprequest') || isset($_POST['ajax']);
     }
 
     function isPost()

@@ -5,7 +5,6 @@ namespace Pckg\Framework\Response\Command;
 use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
-use Pckg\Database\Helper\Convention;
 use Pckg\Framework\Response;
 use Pckg\Framework\View\ViewInterface;
 

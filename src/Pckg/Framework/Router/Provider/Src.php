@@ -38,19 +38,21 @@ class Src implements RouteProviderInterface
 
         foreach ([
                      path('app_src') . $this->config['src'] . path('ds') . 'Config/router.php',
-                     path('root') . $this->config['src'] . path('ds') . 'Config/router.php'
+                     path('root') . $this->config['src'] . path('ds') . 'Config/router.php',
                  ] AS $file) {
 
             if (!is_file($file)) {
                 continue;
             }
 
-            $phpProvider = new Php([
-                'file'   => $file,
-                'prefix' => isset($this->config['prefix'])
-                    ? $this->config['prefix']
-                    : null
-            ]);
+            $phpProvider = new Php(
+                [
+                    'file'   => $file,
+                    'prefix' => isset($this->config['prefix'])
+                        ? $this->config['prefix']
+                        : null,
+                ]
+            );
             $phpProvider->init();
 
             // then we have to find provider
@@ -67,6 +69,5 @@ class Src implements RouteProviderInterface
     {
         // TODO: Implement getMatch() method.
     }
-
 
 }

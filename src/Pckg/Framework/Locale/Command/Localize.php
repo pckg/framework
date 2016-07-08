@@ -52,10 +52,10 @@ class Localize extends AbstractChainOfReponsibility
                         $i18n['current'] = $key;
 
                     } else if ($i18n['type'] == "cookie"
-                        && isset($_COOKIE['lfw'])
-                        && ($cookie = json_decode($_COOKIE['lfw']))
-                        && isset($cookie['i18n'])
-                        && $cookie['i18n'] == $lang['code']
+                               && isset($_COOKIE['lfw'])
+                               && ($cookie = json_decode($_COOKIE['lfw']))
+                               && isset($cookie['i18n'])
+                               && $cookie['i18n'] == $lang['code']
                     ) {
                         $i18n['current'] = $key;
                     }
@@ -76,7 +76,11 @@ class Localize extends AbstractChainOfReponsibility
             if ($i18n['force'] == true) // perform redirect
             {
                 if ($i18n['type'] == "domain" && strpos($request->host(), $lang['code']) !== 0) {
-                    $this->response->redirect($request->scheme() . "://" . $i18n['langs'][$i18n['current']]['code'] . "." . $config['defaults']['domain'] . $request->url());
+                    $this->response->redirect(
+                        $request->scheme(
+                        ) . "://" . $i18n['langs'][$i18n['current']]['code'] . "." . $config['defaults']['domain'] . $request->url(
+                        )
+                    );
 
                 } else if ($i18n['type'] == "url" && strpos($request->url(), $lang['code']) !== 0) {
                     die("url doesnt work ... yet ... =)");

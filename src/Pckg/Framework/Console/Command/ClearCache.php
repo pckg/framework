@@ -10,21 +10,6 @@ use Symfony\Component\Console\Input\InputArgument;
 class ClearCache extends Command
 {
 
-    protected function configure()
-    {
-        $this->setName('cache:clear')
-            ->setDescription('Clear cache')
-            ->addOptions([
-                'skip-database' => 'Skip database cache clear',
-                'skip-defaults' => 'Skip defaults cache clear',
-                'skip-router'   => 'Skip router cache clear',
-                'skip-view'     => 'Skip router cache clear',
-                'skip-css'      => 'Skip CSS cache clear',
-                'skip-js'       => 'Skip JS cache clear',
-                'skip-img'      => 'Skip IMG cache clear',
-            ], InputArgument::OPTIONAL);
-    }
-
     public function handle()
     {
         $path = BASE_PATH . 'cache' . path('ds') . 'framework' . path('ds');
@@ -61,6 +46,24 @@ class ClearCache extends Command
                 unlink($path . $file);
             }
         }
+    }
+
+    protected function configure()
+    {
+        $this->setName('cache:clear')
+             ->setDescription('Clear cache')
+             ->addOptions(
+                 [
+                     'skip-database' => 'Skip database cache clear',
+                     'skip-defaults' => 'Skip defaults cache clear',
+                     'skip-router'   => 'Skip router cache clear',
+                     'skip-view'     => 'Skip router cache clear',
+                     'skip-css'      => 'Skip CSS cache clear',
+                     'skip-js'       => 'Skip JS cache clear',
+                     'skip-img'      => 'Skip IMG cache clear',
+                 ],
+                 InputArgument::OPTIONAL
+             );
     }
 
 }

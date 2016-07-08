@@ -9,6 +9,7 @@ class Method implements RouteProviderInterface
 {
 
     protected $namespace;
+
     protected $config;
 
     public function __construct($method, $config)

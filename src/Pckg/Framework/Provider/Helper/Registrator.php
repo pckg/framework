@@ -26,10 +26,13 @@ trait Registrator
                     $providerConfig['prefix'] = '';
                 }
 
-                Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
-                    $providerType => $provider,
-                    'config' => $providerConfig,
-                ])->init();
+                Reflect::create(
+                    'Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType),
+                    [
+                        $providerType => $provider,
+                        'config'      => $providerConfig,
+                    ]
+                )->init();
             }
         }
     }

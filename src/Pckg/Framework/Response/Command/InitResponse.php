@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Pckg\Framework\Response\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;

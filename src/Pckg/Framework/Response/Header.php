@@ -4,6 +4,7 @@ namespace Pckg\Framework\Response;
 
 class Header
 {
+
     public static function location($location)
     {
         self::header("Location", $location);

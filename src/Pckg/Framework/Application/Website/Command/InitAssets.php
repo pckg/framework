@@ -29,5 +29,4 @@ class InitAssets extends AbstractChainOfReponsibility
         return $next();
     }
 
-
 }

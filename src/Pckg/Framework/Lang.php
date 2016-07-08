@@ -6,8 +6,11 @@ use Exception;
 
 class Lang
 {
+
     const EN = 'en';
+
     const SI = 'si';
+
     const DEF = 'en';
 
     protected $languages = [
@@ -19,11 +22,12 @@ class Lang
         'si' => [
             "title"         => "Slovenski",
             "code"          => "slo",
-            "international" => "sl_SI"
+            "international" => "sl_SI",
         ],
     ];
 
     protected $default = 1;
+
     protected $current = 1;
 
     protected $values;

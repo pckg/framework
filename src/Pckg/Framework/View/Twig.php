@@ -17,7 +17,9 @@ class Twig extends AbstractView implements ViewInterface
 {
 
     protected $twig;
+
     protected $file = null;
+
     protected $data = [];
 
     function initTwig($file = null)
@@ -32,8 +34,15 @@ class Twig extends AbstractView implements ViewInterface
         if ($file) {
             $tempDirs = $dirs;
             foreach ($dirs as $dir) {
-                $tempDir = $dir . (substr($dir, -1) == path('ds') ? '' : path('ds')) . substr(str_replace('\\',
-                        path('ds'), $file), 0, strrpos($file, '\\'));
+                $tempDir = $dir . (substr($dir, -1) == path('ds') ? '' : path('ds')) . substr(
+                        str_replace(
+                            '\\',
+                            path('ds'),
+                            $file
+                        ),
+                        0,
+                        strrpos($file, '\\')
+                    );
                 if (is_dir($tempDir)) {
                     $tempDirs[] = $tempDir;
                 }
@@ -41,10 +50,12 @@ class Twig extends AbstractView implements ViewInterface
             $dirs = array_unique($tempDirs);
         }
 
-        $this->twig = new Twig_Environment(new Twig_Loader_Chain([
-                new Twig_Loader_Filesystem($dirs),
-            ]
-        ),
+        $this->twig = new Twig_Environment(
+            new Twig_Loader_Chain(
+                [
+                    new Twig_Loader_Filesystem($dirs),
+                ]
+            ),
             [
                 'debug' => true,
                 'cache' => path('cache') . 'view',
@@ -60,15 +71,27 @@ class Twig extends AbstractView implements ViewInterface
         /**
          * This should be added to Framework Provider.
          */
-        $this->twig->addFunction(new Twig_SimpleFunction('__', function ($text) {
-            return \__($text);
-        }));
-        $this->twig->addFunction(new Twig_SimpleFunction('config', function ($text) {
-            return context()->get(Config::class)->get($text);
-        }));
-        $this->twig->addFunction(new Twig_SimpleFunction('url', function ($url, $params = [], $absolute = false) {
-            return context()->get(Router::class)->make($url, $params, $absolute);
-        }));
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
+                '__', function($text) {
+                return \__($text);
+            }
+            )
+        );
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
+                'config', function($text) {
+                return context()->get(Config::class)->get($text);
+            }
+            )
+        );
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
+                'url', function($url, $params = [], $absolute = false) {
+                return context()->get(Router::class)->make($url, $params, $absolute);
+            }
+            )
+        );
     }
 
     public function getFullData()

@@ -38,15 +38,19 @@ class Production extends Environment
     public function registerExceptionHandler()
     {
         $whoops = new Run;
-        $whoops->pushHandler(function ($exception) {
-            Rollbar::init([
-                'access_token'      => conf('rollbar.access_token', 'd0d3d181ed0d4430b73bc46ed8dc8b98'),
-                'report_suppressed' => conf('rollbar.report_suppressed', true),
-            ]);
-            Rollbar::report_exception($exception);
+        $whoops->pushHandler(
+            function($exception) {
+                Rollbar::init(
+                    [
+                        'access_token'      => conf('rollbar.access_token', 'd0d3d181ed0d4430b73bc46ed8dc8b98'),
+                        'report_suppressed' => conf('rollbar.report_suppressed', true),
+                    ]
+                );
+                Rollbar::report_exception($exception);
 
-            $this->handleException($exception);
-        });
+                $this->handleException($exception);
+            }
+        );
         $whoops->register();
     }
 

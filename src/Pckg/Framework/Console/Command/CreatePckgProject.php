@@ -17,27 +17,6 @@ class CreatePckgProject extends Command
      */
     protected $app;
 
-    protected function configure()
-    {
-        $this->setName('app:create')
-            ->setDescription('Create new application')
-            ->addArguments([
-                'app'      => 'App name',
-                'hosts'    => 'List of hostnames, separated by ,',
-                'database' => 'Default database config',
-                'composer' => 'List of composer dependencies, separated by ,',
-            ], InputArgument::OPTIONAL)
-            ->addOptions([
-                'skip-existance-check' => 'Disable check if directories already exists',
-                'skip-dir-creation'    => 'Disable app directory creation',
-                'skip-app-creation'    => 'Disable creation of app class',
-                'skip-router'          => 'Disable global router changes',
-                'skip-database'        => 'Disable database configuration',
-                'skip-composer'        => 'Disable composer requirements',
-                'skip-commit'          => 'Disable commit after creation',
-            ], InputArgument::OPTIONAL);
-    }
-
     public function handle()
     {
         $this->fetchAppName();
@@ -210,9 +189,14 @@ class ' . ucfirst($this->app) . ' extends Website
         /**
          * Simply require each dependency separately.
          */
-        $this->exec(array_map(function ($dependency) {
-            return 'composer require ' . $dependency;
-        }, $dependencies));
+        $this->exec(
+            array_map(
+                function($dependency) {
+                    return 'composer require ' . $dependency;
+                },
+                $dependencies
+            )
+        );
 
         $this->output('Dependencies required.');
     }
@@ -232,14 +216,16 @@ class ' . ucfirst($this->app) . ' extends Website
         /**
          * We'll simply execute few git commands.
          */
-        $this->exec([
-            'git add app/' . $this->app . ' --all',
-            'git add config/router.php',
-            'git add composer.json',
-            'git add composer.lock',
-            'git commit -m "Created app \'' . $this->app . '\'"',
-            'git push --all',
-        ]);
+        $this->exec(
+            [
+                'git add app/' . $this->app . ' --all',
+                'git add config/router.php',
+                'git add composer.json',
+                'git add composer.lock',
+                'git commit -m "Created app \'' . $this->app . '\'"',
+                'git push --all',
+            ]
+        );
 
         $this->output('Changes commited.');
     }
@@ -247,6 +233,33 @@ class ' . ucfirst($this->app) . ' extends Website
     protected function finishCreation()
     {
         return $this->output("App " . $this->app . ' created');
+    }
+
+    protected function configure()
+    {
+        $this->setName('app:create')
+             ->setDescription('Create new application')
+             ->addArguments(
+                 [
+                     'app'      => 'App name',
+                     'hosts'    => 'List of hostnames, separated by ,',
+                     'database' => 'Default database config',
+                     'composer' => 'List of composer dependencies, separated by ,',
+                 ],
+                 InputArgument::OPTIONAL
+             )
+             ->addOptions(
+                 [
+                     'skip-existance-check' => 'Disable check if directories already exists',
+                     'skip-dir-creation'    => 'Disable app directory creation',
+                     'skip-app-creation'    => 'Disable creation of app class',
+                     'skip-router'          => 'Disable global router changes',
+                     'skip-database'        => 'Disable database configuration',
+                     'skip-composer'        => 'Disable composer requirements',
+                     'skip-commit'          => 'Disable commit after creation',
+                 ],
+                 InputArgument::OPTIONAL
+             );
     }
 
 }

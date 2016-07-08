@@ -62,5 +62,4 @@ class Environment implements AssetManager
         return [];
     }
 
-
 }

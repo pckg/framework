@@ -13,13 +13,15 @@ class Lazy implements ArrayAccess
 
     protected $parent = [];
 
-    public function __construct($arr = []) {
+    public function __construct($arr = [])
+    {
         $this->data = $arr instanceof \stdClass
             ? (array)$arr
             : $arr;
     }
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->original = $this->data;
 
         if ($this->parent) {
@@ -27,11 +29,13 @@ class Lazy implements ArrayAccess
         }
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return $this->__toArray();
     }
 
-    public function __toArray() {
+    public function __toArray()
+    {
         if (!is_array($this->data)) {
             return $this->data;
         }
@@ -44,11 +48,44 @@ class Lazy implements ArrayAccess
         return $arr;
     }
 
-    public function __isset($name) {
+    public function setParent($parent, $key)
+    {
+        $this->parent = [$parent, $key];
+
+        return $this;
+    }
+
+    public function has($keys)
+    {
+        if (!is_array($keys)) {
+            $keys = [$keys];
+        }
+
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $this->data)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public function get($name, $default = null)
+    {
+        if (!$this->__isset($name)) {
+            return $default;
+        }
+
+        return $this->__get($name);
+    }
+
+    public function __isset($name)
+    {
         return isset($this->data[$name]);
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         if (!$this->__isset($name)) {
             //return new Lazy();
 
@@ -63,10 +100,12 @@ class Lazy implements ArrayAccess
         //$lazy->setParent($this, $name);
 
         return $this->data[$name];
+
         return $lazy;
     }
 
-    public function __set($name, $val) {
+    public function __set($name, $val)
+    {
         if (!$name) {
             $this->data = $name;
         } else {
@@ -76,73 +115,55 @@ class Lazy implements ArrayAccess
         return $this;
     }
 
-    public function setParent($parent, $key) {
-        $this->parent = [$parent, $key];
-
-        return $this;
-    }
-
-    public function has($keys) {
-        if (!is_array($keys)) {
-            $keys = [$keys];
-        }
-
-        foreach ($keys as $key) {
-            if (!array_key_exists($key, $this->data)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    public function get($name, $default = null) {
-        if (!$this->__isset($name)) {
-            return $default;
-        }
-
-        return $this->__get($name);
-    }
-
-    public function all() {
+    public function all()
+    {
         return $this->data;
     }
 
-    public function __toInt() {
+    public function __toInt()
+    {
         return count($this->data);
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return (string)$this->data;
     }
 
-    public function __toBool() {
+    public function __toBool()
+    {
         return !empty($this->data);
     }
 
-    public function offsetSet($offset, $value) {
+    public function offsetSet($offset, $value)
+    {
         return $this->__set($offset, $value);
     }
 
-    public function offsetExists($offset) {
+    public function offsetExists($offset)
+    {
         return $this->__isset($offset);
     }
 
-    public function offsetUnset($offset) {
+    public function offsetUnset($offset)
+    {
         return $this->__unset($offset);
     }
 
-    public function __unset($name) {
+    public function __unset($name)
+    {
         unset($this->data[$name]);
 
         return $this;
     }
 
-    public function offsetGet($offset) {
+    public function offsetGet($offset)
+    {
         return $this->__get($offset);
     }
 
-    public function jsonSerialize() {
+    public function jsonSerialize()
+    {
         return $this->toArray();
     }
 

@@ -36,18 +36,22 @@ class App implements RouteProviderInterface
 
         $path = path('apps') . $this->app . path('ds') . 'Config' . path('ds') . 'router.php';
         //startMeasure('App RouterProvider: ' . $path);
-        $phpProvider = new Php([
-            'file'   => $path,
-            'prefix' => isset($this->config['prefix'])
-                ? $this->config['prefix']
-                : null,
-        ]);
+        $phpProvider = new Php(
+            [
+                'file'   => $path,
+                'prefix' => isset($this->config['prefix'])
+                    ? $this->config['prefix']
+                    : null,
+            ]
+        );
         $phpProvider->init();
 
-        $this->router->addCachedInit([
-            'autoloader' => [path('apps') . $this->app . path('ds') . 'src'],
-            'view'       => [path('apps') . $this->app . path('ds') . 'src' . path('ds')],
-        ])->writeCache();
+        $this->router->addCachedInit(
+            [
+                'autoloader' => [path('apps') . $this->app . path('ds') . 'src'],
+                'view'       => [path('apps') . $this->app . path('ds') . 'src' . path('ds')],
+            ]
+        )->writeCache();
 
         /*
          * And autoloader
@@ -69,6 +73,5 @@ class App implements RouteProviderInterface
     {
         // TODO: Implement getMatch() method.
     }
-
 
 }

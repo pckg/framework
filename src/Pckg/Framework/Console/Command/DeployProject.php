@@ -10,21 +10,24 @@ use Symfony\Component\Console\Input\InputArgument;
 class DeployProject extends Command
 {
 
+    public function handle()
+    {
+    }
+
     protected function configure()
     {
         $this->setName('project:deploy')
-            ->setDescription('Deploy project')
-            ->addOptions([
-                'remote'      => 'Set remote server',
-                'maintenance' => 'Put site under maintenance',
-                'initial'     => 'First deploy',
-                'composer'    => 'Use composer install',
-                'migrations'  => 'Run migrations',
-            ], InputArgument::OPTIONAL);
-    }
-
-    public function handle()
-    {
+             ->setDescription('Deploy project')
+             ->addOptions(
+                 [
+                     'remote'      => 'Set remote server',
+                     'maintenance' => 'Put site under maintenance',
+                     'initial'     => 'First deploy',
+                     'composer'    => 'Use composer install',
+                     'migrations'  => 'Run migrations',
+                 ],
+                 InputArgument::OPTIONAL
+             );
     }
 
 }

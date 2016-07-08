@@ -7,7 +7,6 @@ use DebugBar\StandardDebugBar;
 use Pckg\Concept\Context;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
-use Pckg\Framework\Request;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
@@ -36,7 +35,10 @@ class Development extends Environment
 
         $context->bind(DebugBar::class, $this->debugBar = new StandardDebugBar());
         $this->debugBar->setStorage(new \DebugBar\Storage\FileStorage('/tmp/debugbar_storage'));
-        if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') || isset($_POST['ajax'])) {
+        if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(
+                                                              $_SERVER['HTTP_X_REQUESTED_WITH']
+                                                          ) == 'xmlhttprequest') || isset($_POST['ajax'])
+        ) {
             //$this->debugBar->sendDataInHeaders();
         } else {
             //$this->debugBar->sendDataInHeaders(true);
@@ -59,7 +61,7 @@ class Development extends Environment
     public function assets()
     {
         return [
-            function () {
+            function() {
                 return '';
                 $renderer = $this->debugBar->getJavascriptRenderer();
 

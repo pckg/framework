@@ -27,12 +27,16 @@ class ResolveRoute
 
         foreach ($routes AS $routeArr) {
             foreach ($routeArr AS $route) {
-                if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[") || strpos($url,
-                            "]"))
+                if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[") || strpos(
+                            $url,
+                            "]"
+                        ))
                 ) {
                     // validate method
-                    if (isset($route['method']) && !empty($route['method']) && !in_array(strtolower($_SERVER['REQUEST_METHOD']),
-                            explode("|", $route['method']))
+                    if (isset($route['method']) && !empty($route['method']) && !in_array(
+                            strtolower($_SERVER['REQUEST_METHOD']),
+                            explode("|", $route['method'])
+                        )
                     ) {
                         break;
                     }
@@ -61,8 +65,10 @@ class ResolveRoute
                     }
 
                     // validate method
-                    if (isset($conf['method']) && !empty($conf['method']) && !in_array(strtolower($_SERVER['REQUEST_METHOD']),
-                            explode("|", $conf['method']))
+                    if (isset($conf['method']) && !empty($conf['method']) && !in_array(
+                            strtolower($_SERVER['REQUEST_METHOD']),
+                            explode("|", $conf['method'])
+                        )
                     ) {
                         continue;
                     }
@@ -123,13 +129,17 @@ class ResolveRoute
                                         $error = true;
                                         break;
                                     }
-                                } else if (is_array($conf["validate"][$var]) && in_array($arrUrl[$i],
-                                        $conf["validate"][$var])
+                                } else if (is_array($conf["validate"][$var]) && in_array(
+                                        $arrUrl[$i],
+                                        $conf["validate"][$var]
+                                    )
                                 ) {
                                     $regexData[$var] = $arrUrl[$i];
                                     // ok
-                                } else if (is_string($conf["validate"][$var]) && preg_match($conf["validate"][$var],
-                                        $arrUrl[$i])
+                                } else if (is_string($conf["validate"][$var]) && preg_match(
+                                        $conf["validate"][$var],
+                                        $arrUrl[$i]
+                                    )
                                 ) {
                                     $regexData[$var] = $arrUrl[$i];
                                     // ok
