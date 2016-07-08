@@ -23,7 +23,7 @@ $context = Pckg\Framework\Helper\Context::createInstance();
  * Create development environment.
  * We automatically display errors and load debugbar.
  */
-$environment = $context->createEnvironment(Pckg\Framework\Environment\Production::class);
+$environment = $context->createEnvironment(Pckg\Framework\Environment\Development::class);
 
 try {
     /**

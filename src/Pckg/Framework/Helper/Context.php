@@ -6,7 +6,7 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
 use Pckg\Framework\Application\Console;
 use Pckg\Framework\Application\Website;
-use Pckg\Framework\Console\Provider\Config as ConsoleProvider;
+use Pckg\Framework\Console\Provider\Console as ConsoleProvider;
 use Pckg\Framework\Environment;
 use Pckg\Framework\Provider;
 use Pckg\Framework\Provider\Helper\Registrator;

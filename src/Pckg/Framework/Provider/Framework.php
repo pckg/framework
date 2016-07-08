@@ -3,9 +3,9 @@
 use Pckg\Framework\Console\Command\ClearCache;
 use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Provider;
-use Pckg\Migration\Provider\Config as MigrationProvider;
+use Pckg\Migration\Provider\Migration as MigrationProvider;
 
-class Config extends Provider
+class Framework extends Provider
 {
 
     public function consoles()
