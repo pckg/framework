@@ -82,10 +82,14 @@ trait Traits
     /**
      * @return Post
      */
-    public function post()
+    public function post($key = null, $default = null)
     {
         if (!$this->post) {
             $this->post = resolve(Post::class);
+        }
+
+        if ($key) {
+            return $this->post->get($key, $default);
         }
 
         return $this->post;
