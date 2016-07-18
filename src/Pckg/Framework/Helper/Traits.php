@@ -8,6 +8,7 @@ use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Manager\Asset;
+use Pckg\Manager\Seo;
 use Pckg\Manager\Vue;
 
 trait Traits
@@ -52,6 +53,11 @@ trait Traits
      * @var Asset
      */
     private $assetManager;
+
+    /**
+     * @var Seo
+     */
+    private $seoManager;
 
     /**
      * @var Vue
@@ -144,6 +150,18 @@ trait Traits
         }
 
         return $this->assetManager;
+    }
+
+    /**
+     * @return Seo
+     */
+    public function seoManager()
+    {
+        if (!$this->seoManager) {
+            $this->seoManager = resolve(Seo::class);
+        }
+
+        return $this->seoManager;
     }
 
     /**

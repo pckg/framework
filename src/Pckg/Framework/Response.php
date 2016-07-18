@@ -275,7 +275,7 @@ class Response
 
         echo $string;
 
-        exit;
+        //exit;
 
         return $this;
     }

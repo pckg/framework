@@ -278,11 +278,22 @@ function path($key = null, $val = null)
 }
 
 /* quick helpers */
-function __($key, $lang = null)
-{
-    return $key;
+if (function_exists('__')) {
 
-    return Lang::get($key, $lang);
+    function ___($key, $lang = null)
+    {
+        return $key;
+
+        return Lang::get($key, $lang);
+    }
+} else {
+    function __($key, $lang = null)
+    {
+        return $key;
+
+        return Lang::get($key, $lang);
+    }
+
 }
 
 /**
