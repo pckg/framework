@@ -24,6 +24,11 @@ class Provider
         $this->registerPaths($this->paths());
         $this->registerViewObjects($this->viewObjects());
         $this->registerConsoles($this->consoles());
+
+        /**
+         * Those assets are always added.
+         * We need to find a way how to register assets conditionally.
+         */
         $this->registerAssets($this->assets());
 
         if (method_exists($this, 'registered')) {
