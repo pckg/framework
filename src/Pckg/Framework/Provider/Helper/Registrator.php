@@ -107,6 +107,10 @@ trait Registrator
 
     public function registerAssets($assets)
     {
+        if (!$assets) {
+            return;
+        }
+
         $assetManager = context()->getOrCreate(Asset::class);
         foreach ($assets as $key => $assets) {
             $assetManager->addProviderAssets($assets, is_array($assets) ? $key : 'main', $this);
