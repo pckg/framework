@@ -5,6 +5,7 @@ namespace Pckg\Framework\View;
 use Exception;
 use Pckg\Framework\Config;
 use Pckg\Framework\Router;
+use Pckg\Framework\View\Event\RenderingView;
 use Twig_Environment;
 use Twig_Error_Syntax;
 use Twig_Extension_Debug;
@@ -108,9 +109,20 @@ class Twig extends AbstractView implements ViewInterface
         $this->twig = $this->twig->loadTemplate($this->file . ".twig");
 
         try {
-            startMeasure('Rendering ' . $this->file);
-            $render = $this->twig->render($this->getFullData());
-            stopMeasure('Rendering ' . $this->file);
+            /**
+             * Trigger rendering event so we can attach some handlers.
+             */
+            trigger(RenderingView::class, ['view' => $this->file]);
+
+            /**
+             * Render template.
+             */
+            $render = measure(
+                'Rendering ' . $this->file,
+                function() {
+                    return $this->twig->render($this->getFullData());
+                }
+            );
 
             if ($render == $this->file . '.twig') {
                 d($this->getDirs());

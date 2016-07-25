@@ -123,10 +123,12 @@ abstract class AbstractView implements ViewInterface
     public function __toString()
     {
         try {
-            return $this->autoparse();
+            $html = $this->autoparse();
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+
+        return $html;
     }
 
 }

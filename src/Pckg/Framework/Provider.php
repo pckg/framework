@@ -10,11 +10,17 @@ class Provider
 
     use Registrator;
 
+    protected $registered = false;
+
     /**
      * Register options
      */
     public function register()
     {
+        if ($this->registered) {
+            return $this;
+        }
+
         $this->registerApps($this->apps());
         $this->registerProviders($this->providers());
         $this->registerRoutes($this->routes());
@@ -24,16 +30,15 @@ class Provider
         $this->registerPaths($this->paths());
         $this->registerViewObjects($this->viewObjects());
         $this->registerConsoles($this->consoles());
-
-        /**
-         * Those assets are always added.
-         * We need to find a way how to register assets conditionally.
-         */
         $this->registerAssets($this->assets());
 
         if (method_exists($this, 'registered')) {
             Reflect::method($this, 'registered');
         }
+
+        $this->registered = true;
+
+        return $this;
     }
 
     protected function getViewPaths()
