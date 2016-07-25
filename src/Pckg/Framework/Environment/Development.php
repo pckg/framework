@@ -4,6 +4,7 @@ namespace Pckg\Framework\Environment;
 
 use DebugBar\DebugBar;
 use DebugBar\StandardDebugBar;
+use DebugBar\Storage\FileStorage;
 use Pckg\Concept\Context;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
@@ -34,15 +35,7 @@ class Development extends Environment
         $this->registerExceptionHandler();
 
         $context->bind(DebugBar::class, $this->debugBar = new StandardDebugBar());
-        $this->debugBar->setStorage(new \DebugBar\Storage\FileStorage('/tmp/debugbar_storage'));
-        if ((!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(
-                                                              $_SERVER['HTTP_X_REQUESTED_WITH']
-                                                          ) == 'xmlhttprequest') || isset($_POST['ajax'])
-        ) {
-            //$this->debugBar->sendDataInHeaders();
-        } else {
-            //$this->debugBar->sendDataInHeaders(true);
-        }
+        $this->debugBar->setStorage(new FileStorage('/tmp/debugbar_storage'));
 
         $context->bind(Config::class, $config);
 
@@ -62,8 +55,10 @@ class Development extends Environment
     {
         return [
             function() {
-                return '';
                 $renderer = $this->debugBar->getJavascriptRenderer();
+
+                $renderer->setOpenHandlerUrl('/open.php');
+                $this->debugBar->sendDataInHeaders(true);
 
                 return $renderer->renderHead() . $renderer->render();
             },

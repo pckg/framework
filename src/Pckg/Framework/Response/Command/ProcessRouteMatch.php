@@ -6,6 +6,7 @@ use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Response;
+use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\View\ViewInterface;
 
 class ProcessRouteMatch extends AbstractChainOfReponsibility
@@ -29,33 +30,46 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
     public function execute()
     {
         /**
-         * Apply middlewares.
+         * Apply global middlewares.
          */
         if ($middlewares = $this->response->getMiddlewares()) {
             chain($middlewares, 'execute');
         }
+
+        /**
+         * Apply route middlewares.
+         */
         if (isset($this->match['middlewares'])) {
             chain($this->match['middlewares'], 'execute');
         }
 
+        /**
+         * Create controller object.
+         */
         $this->controller = Reflect::create($this->match['controller']);
 
-        $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
+        try {
+            $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
 
-        if (!request()->isAjax()) {
-            $output = $this->parseViewToString($response);
-        } else {
-            $output = $response;
+        } catch (TheEnd $e) {
+            exit;
+
         }
+
+        $output = $this->parseViewToString($response);
 
         $this->response->setOutput($output);
 
         /**
-         * Apply afterwares/decorators.
+         * Apply global afterwares/decorators.
          */
         if ($afterwares = $this->response->getAfterwares()) {
             chain($afterwares, 'execute', [$this->response]);
         }
+
+        /**
+         * Apply route afterwares/decorators.
+         */
         if (isset($this->match['afterwares'])) {
             chain($this->match['afterwares'], 'execute', [$this->response]);
         }
@@ -79,7 +93,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             return (string)$viewData;
         }
 
-        throw new Exception("View is unknown type ");
+        throw new Exception("View is unknown type " . (is_object($viewData) ? get_class($viewData) : ''));
     }
 
 }

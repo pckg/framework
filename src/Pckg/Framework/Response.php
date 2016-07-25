@@ -4,8 +4,8 @@ namespace Pckg\Framework;
 
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Request\Data\Flash;
+use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Response\Exceptions;
-use Pckg\Framework\Router\URL;
 use Pckg\Framework\View\AbstractView;
 use Pckg\Framework\View\Twig;
 
@@ -126,11 +126,6 @@ class Response
         return $this->output;
     }
 
-    public function output()
-    {
-        echo $this->output;
-    }
-
     public function run()
     {
         if ($this->output instanceof AbstractView || $this->output instanceof Twig) {
@@ -149,12 +144,12 @@ class Response
             $this->setOutput((string)$this->output);
 
         }
-
+        
         if (!$this->output) {
             $this->none();
         }
 
-        $this->output();
+        echo $this->output;
     }
 
     private function getMinusUrl()
@@ -202,10 +197,7 @@ class Response
         header("Location: " . $url);
 
         // fallback with html
-        $this->setOutput($output);
-
-        $this->output();
-        exit;
+        $this->respond($output);
 
         return $this;
     }
@@ -219,6 +211,13 @@ class Response
         return request()->isAjax()
             ? $this->respondWithAjaxSuccessAndRedirect($url)
             : $this->redirect($url);
+    }
+
+    public function respondWithSuccess()
+    {
+        return request()->isAjax()
+            ? $this->respondWithAjaxSuccess()
+            : $this->redirect();
     }
 
     public function respondWithAjaxSuccess()
@@ -275,7 +274,7 @@ class Response
 
         echo $string;
 
-        //exit;
+        throw new TheEnd();
 
         return $this;
     }
