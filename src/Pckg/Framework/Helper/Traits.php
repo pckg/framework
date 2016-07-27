@@ -64,6 +64,9 @@ trait Traits
      */
     private $vueManager;
 
+    /**
+     * @return Response
+     */
     public function response()
     {
         if (!$this->response) {

@@ -6,6 +6,7 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Response\Exceptions;
+use Pckg\Framework\Router\URL;
 use Pckg\Framework\View\AbstractView;
 use Pckg\Framework\View\Twig;
 
@@ -144,7 +145,7 @@ class Response
             $this->setOutput((string)$this->output);
 
         }
-        
+
         if (!$this->output) {
             $this->none();
         }
@@ -264,6 +265,19 @@ class Response
                 'redirect' => $this->getMinusUrl(),
             ]
         );
+    }
+
+    public function respondWithSuccessOrRedirectBack()
+    {
+        return $this->respondWithSuccessOrRedirect(-1);
+    }
+
+    public function respondWithSuccessOrRedirect($url)
+    {
+        return request()->isAjax()
+            ? $this->respondWithAjaxSuccessAndRedirect($url)
+            : $this->redirect($url);
+
     }
 
     public function respond($string)

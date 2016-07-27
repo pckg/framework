@@ -29,49 +29,47 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
     public function execute()
     {
-        /**
-         * Apply global middlewares.
-         */
-        if ($middlewares = $this->response->getMiddlewares()) {
-            chain($middlewares, 'execute');
-        }
-
-        /**
-         * Apply route middlewares.
-         */
-        if (isset($this->match['middlewares'])) {
-            chain($this->match['middlewares'], 'execute');
-        }
-
-        /**
-         * Create controller object.
-         */
-        $this->controller = Reflect::create($this->match['controller']);
-
         try {
+            /**
+             * Apply global middlewares.
+             */
+            if ($middlewares = $this->response->getMiddlewares()) {
+                chain($middlewares, 'execute');
+            }
+
+            /**
+             * Apply route middlewares.
+             */
+            if (isset($this->match['middlewares'])) {
+                chain($this->match['middlewares'], 'execute');
+            }
+
+            /**
+             * Create controller object.
+             */
+            $this->controller = Reflect::create($this->match['controller']);
             $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
 
+            $output = $this->parseViewToString($response);
+
+            $this->response->setOutput($output);
+
+            /**
+             * Apply global afterwares/decorators.
+             */
+            if ($afterwares = $this->response->getAfterwares()) {
+                chain($afterwares, 'execute', [$this->response]);
+            }
+
+            /**
+             * Apply route afterwares/decorators.
+             */
+            if (isset($this->match['afterwares'])) {
+                chain($this->match['afterwares'], 'execute', [$this->response]);
+            }
         } catch (TheEnd $e) {
             exit;
 
-        }
-
-        $output = $this->parseViewToString($response);
-
-        $this->response->setOutput($output);
-
-        /**
-         * Apply global afterwares/decorators.
-         */
-        if ($afterwares = $this->response->getAfterwares()) {
-            chain($afterwares, 'execute', [$this->response]);
-        }
-
-        /**
-         * Apply route afterwares/decorators.
-         */
-        if (isset($this->match['afterwares'])) {
-            chain($this->match['afterwares'], 'execute', [$this->response]);
         }
     }
 
