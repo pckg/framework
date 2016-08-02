@@ -27,6 +27,9 @@ class Localize extends AbstractChainOfReponsibility
     public function execute(callable $next)
     {
         $locale = 'sl_SI';
+        $timezone = 'Europe/Ljubljana';
+
+        date_default_timezone_set($timezone);
 
         setlocale(LC_ALL, $locale);
         setlocale(LC_TIME, $locale);

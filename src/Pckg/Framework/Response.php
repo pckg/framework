@@ -280,7 +280,7 @@ class Response
 
     }
 
-    public function respond($string)
+    public function respond($string = null)
     {
         if (is_array($string)) {
             $string = json_encode($string);
