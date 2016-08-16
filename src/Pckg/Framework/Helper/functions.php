@@ -16,6 +16,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
+use Pckg\Manager\Asset;
 use Pckg\Queue\Service\Queue;
 
 /* context */
@@ -316,13 +317,18 @@ function toCamel($text)
     return ucfirst(str_replace("_", "", implode($text)));
 }
 
+function email($subject, $receiver, $data = [])
+{
+
+}
+
 /**
  * @param       $view
  * @param array $data
  *
  * @return Twig
  */
-function view($view, $data = [])
+function view($view, $data = [], $assets = [])
 {
     $view = new Twig($view, $data);
     if ($parent = realpath(dirname(debug_backtrace()[0]['file']) . '/../View/')) {
@@ -330,7 +336,24 @@ function view($view, $data = [])
         $view->addDir(realpath(dirname(debug_backtrace()[0]['file']) . '/../../../'), Twig::PRIORITY_LAST);
     }
 
+    if ($assets) {
+        assets($assets);
+    }
+
     return $view;
+}
+
+/**
+ * @return Asset
+ */
+function assetManager()
+{
+    return context()->getOrCreate(Asset::class);
+}
+
+function assets($assets)
+{
+    assetManager()->addAssets($assets);
 }
 
 /**

@@ -2,6 +2,7 @@
 
 use Pckg\Auth\Service\Auth;
 use Pckg\Framework\Request;
+use Pckg\Framework\Request\Data\Cookie;
 use Pckg\Framework\Request\Data\Get;
 use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Session;
@@ -38,6 +39,11 @@ trait Traits
      * @var Get
      */
     private $get;
+
+    /**
+     * @var Cookie
+     */
+    private $cookie;
 
     /**
      * @var Session
@@ -89,7 +95,7 @@ trait Traits
     }
 
     /**
-     * @return Post
+     * @return Post|string|array
      */
     public function post($key = null, $default = null)
     {
@@ -107,10 +113,14 @@ trait Traits
     /**
      * @return Get
      */
-    public function get()
+    public function get($key = null, $default = null)
     {
         if (!$this->get) {
             $this->get = resolve(Get::class);
+        }
+
+        if ($key) {
+            return $this->get->get($key, $default);
         }
 
         return $this->get;
@@ -126,6 +136,19 @@ trait Traits
         }
 
         return $this->session;
+    }
+
+    public function cookie($key = null, $default = null)
+    {
+        if (!$this->cookie) {
+            $this->cookie = resolve(Cookie::class);
+        }
+
+        if ($key) {
+            return $this->cookie->get($key, $default);
+        }
+
+        return $this->cookie;
     }
 
     public function auth()
