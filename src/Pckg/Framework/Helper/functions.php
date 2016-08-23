@@ -12,6 +12,7 @@ use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
 use Pckg\Framework\Lang;
 use Pckg\Framework\Request;
+use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
@@ -230,7 +231,7 @@ function chain($chains, $method = 'execute', array $args = [], $firstChain = nul
  */
 function session()
 {
-    return context()->session();
+    return context()->getOrCreate(Session::class);
 }
 
 /**

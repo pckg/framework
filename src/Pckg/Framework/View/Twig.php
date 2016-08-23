@@ -6,6 +6,7 @@ use Exception;
 use Pckg\Framework\Config;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Event\RenderingView;
+use Pckg\Htmlbuilder\Element\Select;
 use Twig_Environment;
 use Twig_Error_Syntax;
 use Twig_Extension_Debug;
@@ -90,6 +91,21 @@ class Twig extends AbstractView implements ViewInterface
             new Twig_SimpleFunction(
                 'url', function($url, $params = [], $absolute = false) {
                 return context()->get(Router::class)->make($url, $params, $absolute);
+            }
+            )
+        );
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
+                'select', function($options, $attributes = [], $valueKey = null) {
+
+                $select = new Select();
+                $select->setAttributes($attributes ?? []);
+
+                foreach ($options as $key => $option) {
+                    $select->addOption($valueKey ? $option->id : $key, $valueKey ? $option->{$valueKey} : $option);
+                }
+
+                return $select;
             }
             )
         );
