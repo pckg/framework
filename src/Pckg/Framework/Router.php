@@ -171,9 +171,12 @@ class Router
                     if (isset($route['resolvers'])) {
                         foreach ($route['resolvers'] as $key => $resolver) {
                             /**
+                             * If index is not set, argument should be resolved by post/get data or similar.
                              * T00D00 - this needs to be resolved without proper index (find by class)
                              */
-                            $args['[' . $key . ']'] = resolve($resolver)->parametrize($args['[' . $key . ']']);
+                            if (isset($args['[' . $key . ']'])) {
+                                $args['[' . $key . ']'] = resolve($resolver)->parametrize($args['[' . $key . ']']);
+                            }
                         }
                     }
                     if ($args) {

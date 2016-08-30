@@ -5,6 +5,7 @@ use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Cookie;
 use Pckg\Framework\Request\Data\Get;
 use Pckg\Framework\Request\Data\Post;
+use Pckg\Framework\Request\Data\Server;
 use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
@@ -49,6 +50,11 @@ trait Traits
      * @var Session
      */
     private $session;
+
+    /**
+     * @var Server
+     */
+    private $server;
 
     /**
      * @var Router
@@ -136,6 +142,19 @@ trait Traits
         }
 
         return $this->session;
+    }
+
+    public function server($key = null, $default = null)
+    {
+        if (!$this->server) {
+            $this->server = resolve(Server::class);
+        }
+
+        if ($key) {
+            return $this->server->get($key, $default);
+        }
+
+        return $this->server;
     }
 
     public function cookie($key = null, $default = null)

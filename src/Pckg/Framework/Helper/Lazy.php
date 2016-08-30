@@ -79,6 +79,15 @@ class Lazy implements ArrayAccess
         return $this->__get($name);
     }
 
+    public function touch($key, $default = [])
+    {
+        if (!$this->__isset($key)) {
+            return $this->__set($key, $default);
+        }
+
+        return $this->__get($key);
+    }
+
     public function __isset($name)
     {
         return isset($this->data[$name]);
@@ -113,6 +122,11 @@ class Lazy implements ArrayAccess
         }
 
         return $this;
+    }
+
+    public function set($name, $val)
+    {
+        return $this->__set($name, $val);
     }
 
     public function all()
