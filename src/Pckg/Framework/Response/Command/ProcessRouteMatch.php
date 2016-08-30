@@ -75,15 +75,15 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * @T00D00 - this should be somewhere else
              */
             if (request()->isAjax() && request()->isPost()) {
-                $this->response->setOutput(
-                    json_encode(
-                        [
-                            'exception' => $e->getMessage(),
-                            'error'     => true,
-                            'success'   => false,
-                        ]
-                    )
+                $this->response->respond(
+                    [
+                        'exception' => exception($e),
+                        'error'     => true,
+                        'success'   => false,
+                    ]
                 );
+            } else {
+                throw $e;
             }
         }
     }

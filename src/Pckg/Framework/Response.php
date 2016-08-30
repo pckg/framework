@@ -120,6 +120,8 @@ class Response
     public function setOutput($output)
     {
         $this->output = $output;
+
+        return $this;
     }
 
     public function getOutput()
@@ -286,8 +288,13 @@ class Response
             $string = json_encode($string);
         }
 
+        if (!$string && func_get_args()) {
+            $string = $this->output;
+        }
+
         echo $string;
 
+        die();
         throw new TheEnd();
 
         return $this;

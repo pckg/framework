@@ -168,18 +168,21 @@ class Router
                     foreach ($arguments AS $key => $val) {
                         $args["[" . $key . "]"] = $val;
                     }
-                    if (isset($route['resolvers'])) {
-                        foreach ($route['resolvers'] as $key => $resolver) {
-                            /**
-                             * If index is not set, argument should be resolved by post/get data or similar.
-                             * T00D00 - this needs to be resolved without proper index (find by class)
-                             */
-                            if (isset($args['[' . $key . ']'])) {
-                                $args['[' . $key . ']'] = resolve($resolver)->parametrize($args['[' . $key . ']']);
-                            }
+
+                    foreach ($route['resolvers'] ?? [] as $key => $resolver) {
+                        /**
+                         * If index is not set, argument should be resolved by post/get data or similar.
+                         * T00D00 - this needs to be resolved without proper index (find by class)
+                         */
+                        if (isset($args['[' . $key . ']'])) {
+                            $args['[' . $key . ']'] = resolve($resolver)->parametrize($args['[' . $key . ']']);
                         }
                     }
-                    if ($args) {
+
+                    if ($args && isset($route['resolvers'])) {
+                        /**
+                         * Replace parameters in url.
+                         */
                         $route['url'] = str_replace(array_keys($args), $args, $route['url']);
                     }
 
