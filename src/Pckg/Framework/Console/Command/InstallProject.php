@@ -14,6 +14,7 @@ class InstallProject extends Command
             path('cache') . 'www' . path('ds') . 'css',
             path('cache') . 'www' . path('ds') . 'js',
             path('storage') . 'tmp',
+            path('storage') . 'environment',
         ];
 
         foreach ($dirs as $dir) {

@@ -19,6 +19,7 @@ use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
 use Pckg\Manager\Asset;
 use Pckg\Queue\Service\Queue;
+use Pckg\Translator\Service\Translator;
 
 /* context */
 
@@ -284,6 +285,9 @@ if (function_exists('__')) {
 
     function ___($key, $lang = null)
     {
+        $translator = context()->getOrCreate(Translator::class);
+
+        return $translator->get($key, $lang);
         return $key;
 
         return Lang::get($key, $lang);
@@ -291,6 +295,10 @@ if (function_exists('__')) {
 } else {
     function __($key, $lang = null)
     {
+        $translator = context()->getOrCreate(Translator::class);
+
+        return $translator->get($key, $lang);
+        
         return $key;
 
         return Lang::get($key, $lang);
