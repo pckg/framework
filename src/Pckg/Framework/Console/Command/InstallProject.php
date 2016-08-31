@@ -8,6 +8,7 @@ class InstallProject extends Command
     public function handle()
     {
         $dirs = [
+            path('storage'),
             path('cache') . 'framework',
             path('cache') . 'view',
             path('cache') . 'www' . path('ds') . 'img',

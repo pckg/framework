@@ -14,7 +14,7 @@ class Cache
     public function __construct($cachePath = null)
     {
         if ($cachePath) {
-            $this->cachePath = path('cache') . 'framework/' . str_replace(['\\', '/'], '_', $cachePath) . '.cache';
+            $this->cachePath = path('cache') . 'framework/' . str_replace(['\\', '/', '.'], '_', $cachePath) . '.cache';
         }
 
         $this->readFromCache();
