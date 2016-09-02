@@ -2,6 +2,7 @@
 
 use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Console\Command\InstallProject;
+use Pckg\Framework\Console\Command\TestProject;
 use Pckg\Framework\Provider;
 use Pckg\Migration\Provider\Migration as MigrationProvider;
 
@@ -13,6 +14,7 @@ class Console extends Provider
         return [
             CreatePckgProject::class,
             InstallProject::class,
+            TestProject::class,
         ];
     }
 
