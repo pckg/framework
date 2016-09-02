@@ -288,6 +288,7 @@ if (function_exists('__')) {
         $translator = context()->getOrCreate(Translator::class);
 
         return $translator->get($key, $lang);
+
         return $key;
 
         return Lang::get($key, $lang);
@@ -298,7 +299,7 @@ if (function_exists('__')) {
         $translator = context()->getOrCreate(Translator::class);
 
         return $translator->get($key, $lang);
-        
+
         return $key;
 
         return Lang::get($key, $lang);
@@ -376,6 +377,11 @@ function autoloader()
 function isConsole()
 {
     return !isset($_SERVER['HTTP_HOST']);
+}
+
+function isHttp()
+{
+    return isset($_SERVER['HTTP_HOST']);
 }
 
 function dd(...$mixed)
