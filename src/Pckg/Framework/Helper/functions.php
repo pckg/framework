@@ -342,8 +342,13 @@ function view($view, $data = [], $assets = [])
 {
     $view = new Twig($view, $data);
     if ($parent = realpath(dirname(debug_backtrace()[0]['file']) . '/../View/')) {
-        $view->addDir($parent, Twig::PRIORITY_LAST);
-        $view->addDir(realpath(dirname(debug_backtrace()[0]['file']) . '/../../../'), Twig::PRIORITY_LAST);
+        if (is_dir($parent)) {
+            $view->addDir($parent, Twig::PRIORITY_LAST);
+        }
+        $calculatedParent = realpath(dirname(debug_backtrace()[0]['file']) . '/../../../');
+        if (is_dir($calculatedParent)) {
+            $view->addDir($calculatedParent, Twig::PRIORITY_LAST);
+        }
     }
 
     if ($assets) {

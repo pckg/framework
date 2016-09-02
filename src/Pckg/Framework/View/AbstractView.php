@@ -95,7 +95,9 @@ abstract class AbstractView implements ViewInterface
         ksort(static::$dirs);
         foreach (static::$dirs as $priority => $dirs) {
             foreach ($dirs as $dir) {
-                $d[] = $dir;
+                if (is_dir($dir)) {
+                    $d[] = $dir;
+                }
             }
         }
 
