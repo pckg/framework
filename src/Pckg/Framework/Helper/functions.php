@@ -431,6 +431,16 @@ function prod()
     return env()->isPro();
 }
 
+function win()
+{
+    return env()->isWin();
+}
+
+function unix()
+{
+    return env()->isUnix();
+}
+
 /**
  * @return DebugBar
  */

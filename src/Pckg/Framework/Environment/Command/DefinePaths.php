@@ -9,7 +9,7 @@ class DefinePaths extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        path('ds', DIRECTORY_SEPARATOR);
+        path('ds', substr(BASE_PATH, 0, 1) == '/' ? '/' : '\\');
         path(
             'root',
             realpath(
