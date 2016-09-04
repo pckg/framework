@@ -17,7 +17,7 @@ class TestProject extends Command
     protected function configure()
     {
         $this->setName('project:test')
-             ->setDescription('Test project via codeception');
+             ->setDescription('Test project via codeception (execute this before deploy)');
     }
 
 }

@@ -19,7 +19,7 @@ class UpdateProject extends Command
     protected function configure()
     {
         $this->setName('project:update')
-             ->setDescription('Pull changes from origin, update composer and commit changes');
+             ->setDescription('Pull changes from origin, update composer and commit changes (execute this when you need to update dependencies)');
     }
 
 }

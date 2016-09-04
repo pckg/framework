@@ -2,7 +2,7 @@
 
 use Pckg\Framework\Console\Command;
 
-class InstallProject extends Command
+class InitProject extends Command
 {
 
     public function symlinks()
@@ -53,8 +53,8 @@ class InstallProject extends Command
 
     protected function configure()
     {
-        $this->setName('project:install')
-             ->setDescription('Install project');
+        $this->setName('project:init')
+             ->setDescription('Initialize project (create required directories)');
     }
 
 }

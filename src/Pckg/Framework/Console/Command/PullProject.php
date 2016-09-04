@@ -18,7 +18,7 @@ class PullProject extends Command
     protected function configure()
     {
         $this->setName('project:pull')
-             ->setDescription('Pull changes from origin and install composer');
+             ->setDescription('Pull changes from origin and install composer (execute as many times as possible)');
     }
 
 }

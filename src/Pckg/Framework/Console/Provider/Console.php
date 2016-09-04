@@ -1,7 +1,10 @@
 <?php namespace Pckg\Framework\Console\Provider;
 
 use Pckg\Framework\Console\Command\CreatePckgProject;
-use Pckg\Framework\Console\Command\InstallProject;
+use Pckg\Framework\Console\Command\FeatureProject;
+use Pckg\Framework\Console\Command\InitProject;
+use Pckg\Framework\Console\Command\PreprodProject;
+use Pckg\Framework\Console\Command\ProdProject;
 use Pckg\Framework\Console\Command\PullProject;
 use Pckg\Framework\Console\Command\TestProject;
 use Pckg\Framework\Console\Command\UpdateProject;
@@ -15,10 +18,13 @@ class Console extends Provider
     {
         return [
             CreatePckgProject::class,
-            InstallProject::class,
+            InitProject::class,
             TestProject::class,
             UpdateProject::class,
             PullProject::class,
+            FeatureProject::class,
+            ProdProject::class,
+            PreprodProject::class,
         ];
     }
 
