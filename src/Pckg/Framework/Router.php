@@ -238,9 +238,16 @@ class Router
         return $this;
     }
 
-    public function resolved($key)
+    public function resolved($key = null)
     {
-        return $this->resolved[$key];
+        return $key
+            ? $this->resolved[$key]
+            : $this->resolved;
+    }
+
+    public function hasResolved($key)
+    {
+        return array_key_exists($key, $this->resolved);
     }
 
 }
