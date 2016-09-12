@@ -20,9 +20,14 @@ class Twig extends AbstractView implements ViewInterface
 
     protected $twig;
 
-    protected $file = null;
+    protected $template = null;
 
-    protected $data = [];
+    public function setTemplate($template)
+    {
+        $this->template = $template;
+
+        return $this;
+    }
 
     function initTwig($file = null)
     {
@@ -56,6 +61,7 @@ class Twig extends AbstractView implements ViewInterface
             new Twig_Loader_Chain(
                 [
                     new Twig_Loader_Filesystem($dirs),
+                    new \Twig_Loader_String(),
                 ]
             ),
             [
@@ -63,6 +69,7 @@ class Twig extends AbstractView implements ViewInterface
                 'cache' => path('cache') . 'view',
             ]
         );
+
         $this->twig->addExtension(new Twig_Extension_StringLoader());
 
         /**
@@ -71,7 +78,7 @@ class Twig extends AbstractView implements ViewInterface
         $this->twig->addExtension(new Twig_Extension_Debug());
 
         /**
-         * This should be added to Framework Provider.
+         * This should be added to Framework/Inter Provider.
          */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
@@ -123,7 +130,11 @@ class Twig extends AbstractView implements ViewInterface
 
         $this->initTwig($this->file);
 
-        $this->twig = $this->twig->loadTemplate($this->file . ".twig");
+        if ($this->file) {
+            $this->twig = $this->twig->loadTemplate($this->file . ".twig");
+        } else {
+            $this->twig = $this->twig->createTemplate($this->template);
+        }
 
         try {
             /**
