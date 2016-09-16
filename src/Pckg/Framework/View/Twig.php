@@ -83,7 +83,7 @@ class Twig extends AbstractView implements ViewInterface
         $this->twig->addFunction(
             new Twig_SimpleFunction(
                 '__', function($text) {
-                return \__($text);
+                return trim(\__($text));
             },
                 ['is_safe' => ['html']]
             )
