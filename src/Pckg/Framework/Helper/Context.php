@@ -94,6 +94,8 @@ class Context extends ConceptContext
         $this->bind(SymfonyConsole::class, new SymfonyConsole());
 
         if ($appName) {
+            Context::bind('appName', $appName);
+
             path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
             path('app_src', path('app') . "src" . path('ds'));
 

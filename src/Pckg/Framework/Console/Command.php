@@ -120,7 +120,7 @@ class Command extends SymfonyConsoleCommand
 
     protected function getApp()
     {
-        return $_SERVER['argv'][1];
+        return context()->getOrDefault('appName');
     }
 
 }
