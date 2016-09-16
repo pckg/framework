@@ -53,13 +53,39 @@ class Context extends ConceptContext
         return $application;
     }
 
-    public function createConsoleApplication($appName = null)
+    public function createConsoleApplication($appName = null, $platformName = null)
     {
+        /**
+         * Examples:
+         *  - php console
+         *  - php console project:update
+         *  - php console derive
+         *  - php console derive bob.gonparty
+         *  - php console derive bob.gonparty migrator:install
+         *  - php console derive bob.gonparty migrator:install
+         */
+        $argv = $_SERVER['argv'];
+        $commandIndex = null;
+        foreach ($argv as $key => $arg) {
+            if (strpos($arg, ':')) {
+                $commandIndex = $key;
+            }
+        }
+
         $application = null;
         if (!$appName) {
-            if (isset($_SERVER['argv'][1]) && !strpos($_SERVER['argv'][1], ':')) {
-                $appName = $_SERVER['argv'][1];
+            if (!$commandIndex && isset($argv[1])) {
+                $appName = $argv[1];
+            } elseif ($commandIndex == 2) {
+                $appName = $argv[1];
+            } elseif (isset($argv[1]) && $commandIndex > 1) {
+                $appName = $argv[1];
             }
+        }
+
+        if (!$platformName && isset($argv[2]) && (!$commandIndex || $commandIndex == 3)) {
+            $platformName = $argv[2];
+            Context::bind('platformName', $platformName);
         }
 
         /**
