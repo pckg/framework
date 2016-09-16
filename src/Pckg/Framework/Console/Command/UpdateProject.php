@@ -9,6 +9,7 @@ class UpdateProject extends Command
     {
         $this->exec(
             [
+                'composer clear-cache',
                 'git pull --ff',
                 'composer update',
                 'git add . --all && git commit -m "Composer update"',
@@ -19,7 +20,9 @@ class UpdateProject extends Command
     protected function configure()
     {
         $this->setName('project:update')
-             ->setDescription('Pull changes from origin, update composer and commit changes (execute this when you need to update dependencies)');
+             ->setDescription(
+                 'Pull changes from origin, update composer and commit changes (execute this when you need to update dependencies)'
+             );
     }
 
 }
