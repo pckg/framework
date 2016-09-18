@@ -69,6 +69,7 @@ class Context extends ConceptContext
         foreach ($argv as $key => $arg) {
             if (strpos($arg, ':')) {
                 $commandIndex = $key;
+                break;
             }
         }
 
