@@ -24,7 +24,7 @@ class Config
             return $this->data;
         }
 
-        $value = isset($this->data[$key])
+        $value = array_key_exists($key, $this->data)
             ? $this->data[$key]
             : null;
 

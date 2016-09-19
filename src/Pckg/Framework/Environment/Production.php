@@ -42,8 +42,8 @@ class Production extends Environment
             function($exception) {
                 Rollbar::init(
                     [
-                        'access_token'      => conf('rollbar.access_token', 'd0d3d181ed0d4430b73bc46ed8dc8b98'),
-                        'report_suppressed' => conf('rollbar.report_suppressed', true),
+                        'access_token'      => config('rollbar.access_token', 'd0d3d181ed0d4430b73bc46ed8dc8b98'),
+                        'report_suppressed' => config('rollbar.report_suppressed', true),
                     ]
                 );
                 Rollbar::report_exception($exception);

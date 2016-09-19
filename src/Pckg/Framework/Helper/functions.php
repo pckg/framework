@@ -255,14 +255,32 @@ function flash($key, $val = null)
  *
  * @return array|null
  */
-function config($key = null)
+function config($key = null, $default = null)
 {
-    return context()->get(Config::class)->get($key);
+    $config = context()->get(Config::class);
+
+    if ($key) {
+        return $config->get($key) ?? $default;
+    }
+
+    return $config;
 }
 
+/**
+ * @param      $key
+ * @param null $default
+ *
+ * @return null
+ * @deprecated
+ */
 function conf($key, $default = null)
 {
     return config($key) ?: $default;
+}
+
+function platform()
+{
+    return Platforms::current();
 }
 
 /**
