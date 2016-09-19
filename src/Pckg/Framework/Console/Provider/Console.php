@@ -1,6 +1,7 @@
 <?php namespace Pckg\Framework\Console\Provider;
 
 use Pckg\Framework\Console\Command\CreatePckgProject;
+use Pckg\Framework\Console\Command\DeployProject;
 use Pckg\Framework\Console\Command\FeatureProject;
 use Pckg\Framework\Console\Command\InitProject;
 use Pckg\Framework\Console\Command\PreprodProject;
@@ -17,6 +18,7 @@ class Console extends Provider
     public function consoles()
     {
         return [
+            DeployProject::class,
             CreatePckgProject::class,
             InitProject::class,
             TestProject::class,

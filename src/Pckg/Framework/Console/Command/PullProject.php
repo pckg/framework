@@ -9,8 +9,8 @@ class PullProject extends Command
     {
         $this->exec(
             [
-                'git pull --ff',
-                'composer install',
+                'git pull --ff -C ' . path('root'),
+                'composer install --working-dir=' . path('root'),
             ]
         );
     }
