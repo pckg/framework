@@ -12,6 +12,7 @@ class UpdateProject extends Command
                 'composer clear-cache',
                 'git pull --ff',
                 'composer update',
+                'bower update',
                 'git add . --all && git commit -m "Composer update"',
             ]
         );

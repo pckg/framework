@@ -75,9 +75,10 @@ class Config
                 stopMeasure('Reading from cache: ' . $file);
             } else {
                 startMeasure('Building cache: ' . $file);
-                $settings[$key] = is_file($file)
+                $content = is_file($file)
                     ? require $file
                     : [];
+                $settings[$key] = $content;
                 $cache->writeToCache($settings[$key]);
                 stopMeasure('Building cache: ' . $file);
             }

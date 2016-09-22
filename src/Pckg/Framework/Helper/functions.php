@@ -306,10 +306,6 @@ if (function_exists('__')) {
         $translator = context()->getOrCreate(Translator::class);
 
         return $translator->get($key, $lang);
-
-        return $key;
-
-        return Lang::get($key, $lang);
     }
 } else {
     function __($key, $lang = null)
@@ -317,10 +313,6 @@ if (function_exists('__')) {
         $translator = context()->getOrCreate(Translator::class);
 
         return $translator->get($key, $lang);
-
-        return $key;
-
-        return Lang::get($key, $lang);
     }
 
 }

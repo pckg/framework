@@ -21,6 +21,7 @@ class Provider
             return $this;
         }
 
+        $this->registerAutoloaders($this->autoload());
         $this->registerApps($this->apps());
         $this->registerProviders($this->providers());
         $this->registerRoutes($this->routes());
@@ -102,6 +103,11 @@ class Provider
     public function listeners()
     {
         return [];
+    }
+
+    public function autoload()
+    {
+
     }
 
 }

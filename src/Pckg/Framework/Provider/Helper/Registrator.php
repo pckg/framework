@@ -47,13 +47,6 @@ trait Registrator
             autoloader()->add('', $autoloader);
             Twig::addDir($autoloader);
         }
-
-        /**
-         * @T00D00 - this needs to be implemented in provider
-         */
-        /*if ($object && method_exists($object, 'autoloadApps')) {
-            $this->registerApps($object->autoloadApps());
-        }*/
     }
 
     public function registerProviders($providers)
@@ -81,10 +74,12 @@ trait Registrator
             $appDir = path('apps') . strtolower($app) . path('ds') . 'src';
             $this->registerAutoloaders($appDir);
 
-            $appObject = Reflect::create($app);
+            $appObject = Reflect::create(ucfirst($app));
 
-            $this->registerAutoloaders($appObject->autoload(), $appObject);
-            $this->registerProviders($appObject->providers(), $appObject);
+            config()->parseDir(path('apps') . strtolower($app) . path('ds'));
+            $appObject->register();
+            /*$this->registerAutoloaders($appObject->autoload(), $appObject);
+            $this->registerProviders($appObject->providers(), $appObject);*/
         }
     }
 
