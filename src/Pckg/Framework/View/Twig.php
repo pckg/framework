@@ -5,6 +5,7 @@ namespace Pckg\Framework\View;
 use Exception;
 use Pckg\Framework\Config;
 use Pckg\Framework\Router;
+use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Translator\Service\Translator;
@@ -83,10 +84,14 @@ class Twig extends AbstractView implements ViewInterface
          */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
-                '__', function($key) {
+                '__', function($key, $data = []) {
                 $translator = context()->getOrCreate(Translator::class);
 
-                return trim($translator->get($key));
+                $translation = trim($translator->get($key));
+
+                return $data
+                    ? (new Twig(null, $data))->setTemplate($translation)->autoparse()
+                    : $translation;
             },
                 ['is_safe' => ['html']]
             )
