@@ -9,7 +9,6 @@ class UpdateProject extends Command
     {
         $this->exec(
             [
-                'composer clear-cache',
                 'git pull --ff',
                 'composer update',
                 'bower update',
