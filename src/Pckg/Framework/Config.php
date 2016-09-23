@@ -11,11 +11,11 @@ class Config
     {
         $appConfig = $this->get();
 
-        $this->set('domain', $appConfig['defaults']['domain']);
-        $this->set('title', $appConfig['defaults']['title']);
-        $this->set('protocol', $appConfig['defaults']['protocol']);
-        $this->set('url', $appConfig['defaults']['protocol'] . "://" . $appConfig['defaults']['domain']);
-        $this->set('hash', $appConfig['defaults']['security']['hash']);
+        $this->set('domain', $appConfig['domain']);
+        $this->set('title', $appConfig['title']);
+        $this->set('protocol', $appConfig['protocol']);
+        $this->set('url', $appConfig['protocol'] . "://" . $appConfig['domain']);
+        $this->set('hash', $appConfig['security']['hash']);
     }
 
     public function get($key = null)
@@ -71,35 +71,53 @@ class Config
             $cache = new Cache($file);
             if (false && $cache->isBuilt()) {
                 startMeasure('Reading from cache: ' . $file);
-                $settings[$key] = $cache->get();
+                if ($key == 'defaults') {
+                    // defaults
+                    $settings = array_merge_recursive($settings, $cache->get());
+                } else {
+                    $settings[$key] = $cache->get();
+                }
                 stopMeasure('Reading from cache: ' . $file);
             } else {
                 startMeasure('Building cache: ' . $file);
                 $content = is_file($file)
                     ? require $file
                     : [];
-                $settings[$key] = $content;
-                $cache->writeToCache($settings[$key]);
+                if ($key == 'defaults') {
+                    // defaults
+                    $settings = array_merge_recursive($settings, $content);
+                } else {
+                    $settings[$key] = $content;
+                }
+                //$cache->writeToCache($settings[$key]);
                 stopMeasure('Building cache: ' . $file);
             }
         }
 
         foreach ($settings AS $key => $parsed) {
-            foreach ($parsed AS $key2 => $configs) {
-                $this->data[$key][$key2] = $configs;
+            if (is_array($parsed)) {
+                foreach ($parsed AS $key2 => $configs) {
+                    $this->data[$key][$key2] = $configs;
+                }
+            } else {
+                $this->data[$key] = $parsed;
             }
         }
 
         if (isset($this->data['env'])) {
             foreach ($this->data['env'] as $key => $val) {
-                foreach ($val as $key2 => $val2) {
-                    if (is_array($val2)) {
-                        $this->data[$key][$key2] = array_merge($this->data[$key][$key2] ?? [], $val2);
+                if (is_array($val)) {
+                    foreach ($val as $key2 => $val2) {
+                        if (is_array($val2)) {
+                            $this->data[$key][$key2] = array_merge($this->data[$key][$key2] ?? [], $val2);
 
-                    } else {
-                        $this->data[$key][$key2] = $val2;
+                        } else {
+                            $this->data[$key][$key2] = $val2;
 
+                        }
                     }
+                } else {
+                    $this->data[$key] = $val;
                 }
             }
         }

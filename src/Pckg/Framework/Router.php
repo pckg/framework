@@ -188,8 +188,8 @@ class Router
 
                     return (
                            $absolute
-                               ? $this->config->get("defaults.protocol") . '://' .
-                                 ($this->config->get("defaults.domain") ?? $_SERVER['HTTP_HOST'])
+                               ? $this->config->get("protocol") . '://' .
+                                 ($this->config->get("domain") ?? $_SERVER['HTTP_HOST'])
                                : "") .
                            (dev()
                                ? "/dev.php"

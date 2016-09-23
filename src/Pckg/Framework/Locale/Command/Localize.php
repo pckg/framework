@@ -37,8 +37,8 @@ class Localize extends AbstractChainOfReponsibility
         $this->context->bind(Lang::class, new Lang());
 
         $config = $this->config->__toArray();
-        if (isset($config['defaults']['i18n'])) {
-            $i18n = $config['defaults']['i18n'];
+        if (isset($config['i18n'])) {
+            $i18n = $config['i18n'];
             if (!isset($i18n['type'])) {
                 $i18n['type'] = "session";
             }
@@ -81,7 +81,7 @@ class Localize extends AbstractChainOfReponsibility
                 if ($i18n['type'] == "domain" && strpos($request->host(), $lang['code']) !== 0) {
                     $this->response->redirect(
                         $request->scheme(
-                        ) . "://" . $i18n['langs'][$i18n['current']]['code'] . "." . $config['defaults']['domain'] . $request->url(
+                        ) . "://" . $i18n['langs'][$i18n['current']]['code'] . "." . $config['domain'] . $request->url(
                         )
                     );
 
