@@ -15,6 +15,7 @@ use Twig_Extension_Debug;
 use Twig_Extension_StringLoader;
 use Twig_Loader_Chain;
 use Twig_Loader_Filesystem;
+use Twig_SimpleFilter;
 use Twig_SimpleFunction;
 
 class Twig extends AbstractView implements ViewInterface
@@ -122,6 +123,17 @@ class Twig extends AbstractView implements ViewInterface
                 }
 
                 return $select;
+            }
+            )
+        );
+        $this->twig->addFilter(
+            new Twig_SimpleFilter(
+                'price', function($price, $decimals = 2) {
+                if (is_null($price)) {
+                    $price = 0.0;
+                }
+
+                return number_format($price, 2, '.', ',');
             }
             )
         );
