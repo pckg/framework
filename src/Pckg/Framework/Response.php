@@ -146,6 +146,10 @@ class Response
         } else if (is_object($this->output) && method_exists($this->output, '__toString')) {
             $this->setOutput((string)$this->output);
 
+        } else if (is_string($this->output)) {
+            if (request()->isAjax()) {
+                $this->setOutput(json_encode(['_html' => $this->output]));
+            }
         }
 
         if (!$this->output) {
