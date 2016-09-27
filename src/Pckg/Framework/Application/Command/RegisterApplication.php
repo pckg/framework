@@ -18,6 +18,7 @@ class RegisterApplication
     public function execute(callable $next)
     {
         $this->application->getProvider()->register();
+        config()->parseDir(path('app'));
 
         return $next();
     }

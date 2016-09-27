@@ -59,68 +59,68 @@ class Config
 
     public function parseDir($dir)
     {
-        $files = [
-            "defaults" => $dir . 'config' . path('ds') . "defaults.php",
-            "database" => $dir . 'config' . path('ds') . "database.php",
-            "router"   => $dir . 'config' . path('ds') . "router.php",
-            "env"      => $dir . 'config' . path('ds') . "env.php",
-        ];
-
+        $cache = new Cache($dir);
         $settings = [];
-        foreach ($files AS $key => $file) {
-            $cache = new Cache($file);
-            if (false && $cache->isBuilt()) {
-                startMeasure('Reading from cache: ' . $file);
-                if ($key == 'defaults') {
-                    // defaults
-                    $settings = array_merge_recursive($settings, $cache->get());
-                } else {
-                    $settings[$key] = $cache->get();
-                }
-                stopMeasure('Reading from cache: ' . $file);
-            } else {
-                startMeasure('Building cache: ' . $file);
+        if (false && $cache->isBuilt()) {
+            $settings = $cache->get();
+
+        } else {
+            $files = [
+                "defaults" => $dir . 'config' . path('ds') . "defaults.php",
+                "database" => $dir . 'config' . path('ds') . "database.php",
+                "router"   => $dir . 'config' . path('ds') . "router.php",
+                "env"      => $dir . 'config' . path('ds') . "env.php",
+            ];
+
+            foreach ($files AS $key => $file) {
                 $content = is_file($file)
                     ? require $file
                     : [];
-                if ($key == 'defaults') {
-                    // defaults
-                    $settings = array_merge_recursive($settings, $content);
+                if (in_array($key, ['defaults', 'env'])) {
+                    $settings = $this->merge($settings, $content);
                 } else {
                     $settings[$key] = $content;
                 }
-                //$cache->writeToCache($settings[$key]);
-                stopMeasure('Building cache: ' . $file);
             }
         }
 
-        foreach ($settings AS $key => $parsed) {
-            if (is_array($parsed)) {
-                foreach ($parsed AS $key2 => $configs) {
-                    $this->data[$key][$key2] = $configs;
-                }
-            } else {
-                $this->data[$key] = $parsed;
+        $this->data = $this->merge($this->data, $settings);
+    }
+
+    private function merge($to, $merge)
+    {
+        foreach ($merge as $key => $val) {
+            /**
+             * Value is set first time.
+             */
+            if (!array_key_exists($key, $to)) {
+                $to[$key] = $val;
+                continue;
             }
+
+            /**
+             * Value is final.
+             */
+            if (!is_array($val)) {
+                $to[$key] = $val;
+                continue;
+            }
+
+            /**
+             * Value is list of items.
+             */
+            if (array_key_exists(0, $val)) {
+                $to[$key] = $val;
+                continue;
+            }
+
+            /**
+             * Value is keyed array.
+             */
+            $to[$key] = $this->merge($to[$key], $val);
         }
 
-        if (isset($this->data['env'])) {
-            foreach ($this->data['env'] as $key => $val) {
-                if (is_array($val)) {
-                    foreach ($val as $key2 => $val2) {
-                        if (is_array($val2)) {
-                            $this->data[$key][$key2] = array_merge($this->data[$key][$key2] ?? [], $val2);
-
-                        } else {
-                            $this->data[$key][$key2] = $val2;
-
-                        }
-                    }
-                } else {
-                    $this->data[$key] = $val;
-                }
-            }
-        }
+        return $to;
     }
 
     public function __toArray()
@@ -130,15 +130,11 @@ class Config
 
     public function __get($key)
     {
-        return isset($this->data[$key])
+        return array_key_exists($key, $this->data)
             ? $this->data[$key]
             : null;
     }
 
-    protected function findKey($key, $arr)
-    {
-
-    }
 }
 
 ?>

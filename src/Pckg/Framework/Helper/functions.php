@@ -253,7 +253,7 @@ function flash($key, $val = null)
 /**
  * @param $text
  *
- * @return array|null
+ * @return array|null|Config
  */
 function config($key = null, $default = null)
 {
