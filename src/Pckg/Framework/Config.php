@@ -59,12 +59,21 @@ class Config
 
     public function parseDir($dir)
     {
+        if (!$dir) {
+            return;
+        }
+
         $cache = new Cache($dir);
         $settings = [];
         if (false && $cache->isBuilt()) {
             $settings = $cache->get();
 
         } else {
+            /**
+             * @T00D00
+             * We need to parse config directory recursively.
+             * defaults.php and env.php needs to be taken differently (as root namespace).
+             */
             $files = [
                 "defaults" => $dir . 'config' . path('ds') . "defaults.php",
                 "database" => $dir . 'config' . path('ds') . "database.php",
