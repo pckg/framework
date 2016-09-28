@@ -6,6 +6,7 @@ use Pckg\Concept\Event\Dispatcher;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider;
 use Pckg\Framework\Response;
+use Pckg\Framework\Stack;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
 use Symfony\Component\Console\Application as SymfonyConsole;
@@ -66,20 +67,28 @@ trait Registrator
 
     public function registerApps($apps)
     {
+        /**
+         * Apps need to be initialized in reverse direction.
+         * Now, how will we manage to do this?
+         *
+         */
         if (!is_array($apps)) {
             $apps = [$apps];
         }
 
+        $stack = context()->get(Stack::class);
         foreach ($apps as $app) {
             $appDir = path('apps') . strtolower($app) . path('ds') . 'src';
             $this->registerAutoloaders($appDir);
 
             $appObject = Reflect::create(ucfirst($app));
-
-            config()->parseDir(path('apps') . strtolower($app) . path('ds'));
             $appObject->register();
-            /*$this->registerAutoloaders($appObject->autoload(), $appObject);
-            $this->registerProviders($appObject->providers(), $appObject);*/
+
+            $stack->push(
+                function() use ($app) {
+                    config()->parseDir(path('apps') . strtolower($app) . path('ds'));
+                }
+            );
         }
     }
 

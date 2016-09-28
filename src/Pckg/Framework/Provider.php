@@ -21,6 +21,11 @@ class Provider
             return $this;
         }
 
+        $hadStack = context()->exists(Stack::class);
+        if (!$hadStack) {
+            context()->bind(Stack::class, new Stack());
+        }
+
         $this->registerAutoloaders($this->autoload());
         $this->registerApps($this->apps());
         $this->registerProviders($this->providers());
@@ -38,6 +43,14 @@ class Provider
         }
 
         $this->registered = true;
+
+        /**
+         * Some actions needs to be executed in reverse direction, for example config initialization.
+         */
+        if (!$hadStack) {
+            $stack = context()->get(Stack::class);
+            $stack->execute();
+        }
 
         return $this;
     }
@@ -107,7 +120,7 @@ class Provider
 
     public function autoload()
     {
-
+        return [];
     }
 
 }

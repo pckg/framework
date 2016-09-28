@@ -142,7 +142,7 @@ class Context extends ConceptContext
             }
 
             foreach ($config['host'] as $host) {
-                if (preg_match('/' . $host . '/', $_SERVER['HTTP_HOST'])) {
+                if (strpos($host, '(') !== false && preg_match('/' . $host . '/', $_SERVER['HTTP_HOST'])) {
                     return $app;
                 }
             }
