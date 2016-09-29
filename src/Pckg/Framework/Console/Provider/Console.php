@@ -1,5 +1,6 @@
 <?php namespace Pckg\Framework\Console\Provider;
 
+use Pckg\Framework\Console\Command\ComposerProject;
 use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Console\Command\DeployProject;
 use Pckg\Framework\Console\Command\FeatureProject;
@@ -27,6 +28,7 @@ class Console extends Provider
             FeatureProject::class,
             ProdProject::class,
             PreprodProject::class,
+            ComposerProject::class,
         ];
     }
 
