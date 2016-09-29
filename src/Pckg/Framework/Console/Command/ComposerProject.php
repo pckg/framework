@@ -28,6 +28,7 @@ class ComposerProject extends Command
         ];
 
         $clean = 'nothing to commit, working directory clean';
+        $composer = json_decode(file_get_contents(path('root') . 'composer.lock'), true);
 
         foreach ($packets as $packet) {
             $this->output('Checking ' . $packet);
@@ -36,6 +37,7 @@ class ComposerProject extends Command
             $diffCommand = 'cd ' . $path . '; git diff';
             $pullCommand = 'cd ' . $path . '; git pull --ff';
             $pushCommand = 'cd ' . $path . '; git push';
+            $logCommand = 'cd ' . $path . '; git log';
             $commitCommand = 'cd ' . $path . '; git add . --all; git commit -m';
             $outputs = $this->exec($statusCommand, false);
             if (isset($outputs[0])) {
@@ -58,6 +60,18 @@ class ComposerProject extends Command
                         }
                     } else {
                         $this->output('Skipping commit.');
+                    }
+                }
+                foreach ($composer['packages'] as $composerPacket) {
+                    if ($composerPacket['name'] == 'pckg/' . $packet) {
+                        $installed = $composerPacket['source']['reference'];
+                        $logOutput = $this->exec($logCommand, false);
+                        $git = str_replace('commit ', '', $logOutput[0][0]);
+                        $this->output('Installed: ' . $installed);
+                        $this->output('Git: ' . $git);
+                        if ($git != $installed) {
+                            $this->output('Run composer update or project update command');
+                        }
                     }
                 }
             }
