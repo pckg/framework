@@ -77,10 +77,11 @@ class ComposerProject extends Command
                     }
                 }
             }
-            if ($outdated) {
-                $this->output('Some packages are outdated!');
-            }
             $this->output();
+        }
+        
+        if ($outdated) {
+            $this->output('Some packages are outdated!');
         }
     }
 
