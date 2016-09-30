@@ -7,11 +7,12 @@ class TestProject extends Command
 
     public function handle()
     {
-        $this->exec(
-            [
-                'php vendor/bin/codecept run --steps',
-            ]
-        );
+        $exec = ['codecept run --steps'];
+        $packages = ['database'];
+        foreach ($packages as $package) {
+            $exec[] = 'codecept run --steps -c ./vendor/pckg/' . $package;
+        }
+        $this->exec($exec);
     }
 
     protected function configure()
