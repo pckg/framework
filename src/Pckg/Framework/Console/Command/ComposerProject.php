@@ -29,6 +29,7 @@ class ComposerProject extends Command
 
         $clean = 'nothing to commit, working directory clean';
         $composer = json_decode(file_get_contents(path('root') . 'composer.lock'), true);
+        $outdated = false;
 
         foreach ($packets as $packet) {
             $this->output('Checking ' . $packet);
@@ -71,9 +72,13 @@ class ComposerProject extends Command
                         $this->output('Git: ' . $git);
                         if ($git != $installed) {
                             $this->output('Run composer update or project update command');
+                            $outdated = true;
                         }
                     }
                 }
+            }
+            if ($outdated) {
+                $this->output('Some packages are outdated!');
             }
             $this->output();
         }
