@@ -25,6 +25,7 @@ class InitProject extends Command
             path('cache') . 'www',
             path('cache') . 'www' . path('ds') . 'img',
             path('cache') . 'www' . path('ds') . 'css',
+            path('cache') . 'www' . path('ds') . 'less',
             path('cache') . 'www' . path('ds') . 'js',
         ];
     }

@@ -1,6 +1,7 @@
 <?php
 
 use DebugBar\DebugBar;
+use Derive\Platform\Entity\Platforms;
 use Pckg\Auth\Service\Auth;
 use Pckg\Collection;
 use Pckg\Concept\ChainOfResponsibility;
