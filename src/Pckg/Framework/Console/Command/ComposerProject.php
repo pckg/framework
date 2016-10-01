@@ -9,12 +9,10 @@ class ComposerProject extends Command
     {
         $packets = [
             'auth',
-            'backend',
             'collection',
             'concept',
             'database',
             'framework',
-            'frontend',
             'generic',
             'htmlbuilder',
             'import',
