@@ -360,6 +360,7 @@ function view($view, $data = [], $assets = [])
         if (is_dir($calculatedParent)) {
             $view->addDir($calculatedParent, Twig::PRIORITY_LAST);
         }
+
     }
 
     if ($assets) {
