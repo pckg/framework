@@ -4,9 +4,19 @@ var http = {
     formToData: function (vueElement, keys) {
         var data = {};
 
-        $.each(keys, function (i, key) {
-            data[key] = vueElement.form[key];
-        });
+        if (typeof keys === 'undefined') {
+            $.each(vueElement.form, function (key, val) {
+                data[key] = vueElement.form[key];
+            });
+
+        } else {
+            $.each(keys, function (i, key) {
+                data[key] = vueElement.form[key];
+            });
+
+        }
+
+        console.log(data, vueElement.form);
 
         return data;
     },
@@ -16,9 +26,7 @@ var http = {
         var $form = $(vueElement.$el);
         var url = $form.attr('action');
 
-        $.post(url, data, function (data) {
-
-        }, 'JSON');
+        return http.post(url, data);
     },
 
     get: function (url, whenDone, whenError) {
