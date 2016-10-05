@@ -20,6 +20,11 @@ class InitConfig extends AbstractChainOfReponsibility
         $this->config->initSettings();
         $this->config->parseDir(path('app'));
 
+        \Locale::setDefault(config('pckg.locale.default', 'en_US'));
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+            \Locale::acceptFromHttp($_SERVER['HTTP_ACCEPT_LANGUAGE']);
+        }
+
         return $next();
     }
 

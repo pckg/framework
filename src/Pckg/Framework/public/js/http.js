@@ -112,9 +112,9 @@ var locale = {
     },
 
     date: function (date) {
-        date = new Date(date);
+        moment.locale(props.locale);
 
-        return date.getDate() + '. ' + (date.getMonth() + 1) + '. ' + date.getFullYear();
+        return moment(date).format('LL');
     },
 
     trans: function (trans, params) {
