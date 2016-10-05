@@ -183,6 +183,11 @@ class Router
                         /**
                          * Replace parameters in url.
                          */
+                        foreach ($args as &$arg) {
+                            if (is_string($arg)) {
+                                $arg = urlencode($arg);
+                            }
+                        }
                         $route['url'] = str_replace(array_keys($args), $args, $route['url']);
                     }
 
