@@ -70,6 +70,9 @@ function post()
     return request()->post();
 }
 
+/**
+ * @return Auth
+ */
 function auth()
 {
     return context()->getOrCreate(Auth::class);

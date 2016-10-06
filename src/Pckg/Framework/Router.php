@@ -229,6 +229,11 @@ class Router
         return $this->data['name'] ?: null;
     }
 
+    public function getCssName()
+    {
+        return str_replace(['.'], '-', strtolower($this->getName()));
+    }
+
     public function mergeData($data)
     {
         $this->data = array_merge($this->data, $data);

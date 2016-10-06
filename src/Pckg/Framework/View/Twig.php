@@ -44,15 +44,9 @@ class Twig extends AbstractView implements ViewInterface
         if ($file) {
             $tempDirs = $dirs;
             foreach ($dirs as $dir) {
-                $tempDir = $dir . (substr($dir, -1) == path('ds') ? '' : path('ds')) . substr(
-                        str_replace(
-                            '\\',
-                            path('ds'),
-                            $file
-                        ),
-                        0,
-                        strrpos($file, '\\')
-                    );
+                $partDir = realpath($dir) . path('ds');
+
+                $tempDir = $partDir . substr(str_replace('\\', path('ds'), $file), 0, strrpos($file, path('ds')));
                 if (is_dir($tempDir)) {
                     $tempDirs[] = $tempDir;
                 }
@@ -97,6 +91,9 @@ class Twig extends AbstractView implements ViewInterface
                 ['is_safe' => ['html']]
             )
         );
+        /**
+         * This should be added to Framework provider.
+         */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
                 'config', function($text) {
@@ -104,6 +101,9 @@ class Twig extends AbstractView implements ViewInterface
             }
             )
         );
+        /**
+         * This should be added to Framework provider.
+         */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
                 'url', function($url, $params = [], $absolute = false) {
@@ -111,6 +111,9 @@ class Twig extends AbstractView implements ViewInterface
             }
             )
         );
+        /**
+         * This should be added to Framework provider.
+         */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
                 'select', function($options, $attributes = [], $valueKey = null) {
@@ -126,6 +129,9 @@ class Twig extends AbstractView implements ViewInterface
             }
             )
         );
+        /**
+         * This should be added to Framework provider.
+         */
         $this->twig->addFilter(
             new Twig_SimpleFilter(
                 'price', function($price, $decimals = 2) {
