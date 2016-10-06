@@ -45,6 +45,7 @@ class ComposerProject extends Command
                     $this->output('Packet is clean.');
                 } else {
                     $this->output('Packet is changed.');
+                    $this->exec($statusCommand);
                     $this->exec($diffCommand);
                     if ($message = $this->askQuestion(
                         'Enter commit message (or leave empty if you want to skip commit)'
