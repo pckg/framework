@@ -37,7 +37,7 @@ class Request extends Lazy
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
 
-        $parsedUrl = parse_url($_SERVER['REQUEST_URI']);
+        $parsedUrl = parse_url($_SERVER['REQUEST_URI'] ?? '/');
 
         $url = $parsedUrl['path'];
 
