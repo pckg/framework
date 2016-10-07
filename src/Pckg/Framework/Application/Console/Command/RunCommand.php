@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\Application\Console\Command;
 
+use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Response;
 use Symfony\Component\Console\Application;
@@ -35,15 +36,19 @@ class RunCommand extends AbstractChainOfReponsibility
         /**
          * Remove platform name.
          */
-        if (isset($argv[2]) && !strpos($argv[2], ':')) {
+        if (isset($argv[2]) && !strpos($argv[2], ':') && false === strpos($argv[2], '-')) {
             unset($argv[2]);
         }
-        
+
         /**
          * Get Symfony Console Application, find available commands and run app.
          */
         $application = context()->get(SymfonyConsole::class);
-        $application->run(new ArgvInput(array_values($argv)));
+        try {
+            $application->run(new ArgvInput(array_values($argv)));
+        } catch (Exception $e) {
+            die("EXCEPTION: " . exception($e));
+        }
 
         /**
          * This is here just for better readability. =)
