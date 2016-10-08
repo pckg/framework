@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\Provider\Helper;
 
+use Composer\Autoload\ClassLoader;
 use Pckg\Concept\Event\Dispatcher;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider;
@@ -45,9 +46,30 @@ trait Registrator
         }
 
         foreach ($autoloaders as $autoloader) {
-            autoloader()->add('', $autoloader);
-            Twig::addDir($autoloader);
+            if (!is_array($autoloader)) {
+                $autoloader = [$autoloader];
+            }
+            foreach ($autoloader as $a) {
+                message('Registering autoloader (Registrator) ' . $a);
+                autoloader()->add('', $a, $a == path('app_src'));
+                Twig::addDir($a);
+            }
         }
+    }
+
+    public function registerClassMaps($classMap)
+    {
+        if (!$classMap) {
+            return;
+        }
+
+        if (!is_array($classMap)) {
+            $classMap = [$classMap];
+        }
+
+        $loader = new ClassLoader();
+        $loader->addClassMap($classMap);
+        $loader->register(true);
     }
 
     public function registerProviders($providers)

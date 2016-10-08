@@ -57,12 +57,14 @@ class App implements RouteProviderInterface
          * And autoloader
          * */
         // @T00D00 - this needs to be called on initialization ...
-        autoloader()->add('', path('apps') . $this->app . path('ds') . 'src');
+        $path = path('apps') . $this->app . path('ds') . 'src';
+        message('Registering autoloader (App route provider) ' . $path);
+        autoloader()->add('', $path);
 
         /*
          * And add to twig?
          * */
-        Twig::addDir(path('apps') . $this->app . path('ds') . 'src' . path('ds'), Twig::PRIORITY_APP);
+        Twig::addDir($path . path('ds'), Twig::PRIORITY_APP);
         /*
          * And then you finally realize this should be refactored to some kind of Command or AppInitializator
          * */

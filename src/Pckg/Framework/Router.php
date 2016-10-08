@@ -31,10 +31,10 @@ class Router
     {
         $cache = $this->getCache();
 
-        autoloader()->add('', path('app') . 'src');
-        Twig::addDir(path('app') . 'src' . path('ds'));
+        //autoloader()->add('', path('app') . 'src');
+        //Twig::addDir(path('app') . 'src' . path('ds'));
 
-        if (!dev() && $cache->isBuilt()) {
+        if (false && !dev() && $cache->isBuilt()) {
             $this->initDev();
 
         } else {
@@ -72,6 +72,7 @@ class Router
 
         if (isset($this->cachedInit['autoloader'])) {
             foreach ($this->cachedInit['autoloader'] as $dir) {
+                message('Register autoloader (Dev Router) ' . $dir);
                 autoloader()->add('', $dir);
             }
         }

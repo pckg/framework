@@ -27,6 +27,7 @@ class Provider
         }
 
         $this->registerAutoloaders($this->autoload());
+        $this->registerClassMaps($this->classMaps());
         $this->registerApps($this->apps());
         $this->registerProviders($this->providers());
         $this->registerRoutes($this->routes());
@@ -119,6 +120,11 @@ class Provider
     }
 
     public function autoload()
+    {
+        return [];
+    }
+
+    public function classMaps()
     {
         return [];
     }
