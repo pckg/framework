@@ -3,10 +3,12 @@
 namespace Pckg\Framework\Response\Command;
 
 use Exception;
+use Pckg\Collection;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Response;
 use Pckg\Framework\Response\Exception\TheEnd;
+use Pckg\Framework\View;
 use Pckg\Framework\View\ViewInterface;
 
 class ProcessRouteMatch extends AbstractChainOfReponsibility
@@ -48,6 +50,10 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * Create controller object.
              */
             $this->controller = Reflect::create($this->match['controller']);
+
+            /**
+             * Get main action response.
+             */
             $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
 
             $output = $this->parseViewToString($response);
@@ -101,6 +107,10 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         } else if (is_null($viewData) || is_int($viewData) || is_bool($viewData)) {
             // without view
             return null;
+
+        } else if (is_object($viewData) && $viewData instanceof Collection) {
+            // convert to array
+            return $viewData->toArray();
 
         } else if (is_object($viewData) && method_exists($viewData, '__toString')) {
             return (string)$viewData;

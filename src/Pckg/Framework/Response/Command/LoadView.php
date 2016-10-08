@@ -47,6 +47,9 @@ class LoadView extends AbstractChainOfReponsibility
             throw new Exception('Method ' . $viewHttp . 'Action() does not exist in ' . get_class($this->controller));
         }
 
+        /**
+         * Call main route action.
+         */
         $result = Reflect::method($this->controller, $viewHttp . "Action", array_merge($this->data, $data));
 
         return $result;
