@@ -5,6 +5,7 @@ namespace Pckg\Framework\Environment;
 use DebugBar\DebugBar;
 use DebugBar\StandardDebugBar;
 use DebugBar\Storage\FileStorage;
+use Exception;
 use Pckg\Concept\Context;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
@@ -42,6 +43,10 @@ class Development extends Environment
         $this->init();
 
         $config->parseDir(path('root'));
+
+        if (isset($_SERVER['REMOTE_ADDR']) && !in_array($_SERVER['REMOTE_ADDR'], config('pckg.framework.dev', []))) {
+            die('Unauthorized for dev!');
+        }
     }
 
     public function registerExceptionHandler()

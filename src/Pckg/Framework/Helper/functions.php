@@ -257,7 +257,7 @@ function flash($key, $val = null)
 /**
  * @param $text
  *
- * @return array|null|Config
+ * @return mixed
  */
 function config($key = null, $default = null)
 {
