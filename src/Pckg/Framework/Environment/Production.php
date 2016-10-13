@@ -40,13 +40,15 @@ class Production extends Environment
         $whoops = new Run;
         $whoops->pushHandler(
             function($exception) {
-                Rollbar::init(
-                    [
-                        'access_token'      => config('rollbar.access_token', 'd0d3d181ed0d4430b73bc46ed8dc8b98'),
-                        'report_suppressed' => config('rollbar.report_suppressed', true),
-                    ]
-                );
-                Rollbar::report_exception($exception);
+                if (config('rollbar.access_token')) {
+                    Rollbar::init(
+                        [
+                            'access_token'      => config('rollbar.access_token'),
+                            'report_suppressed' => config('rollbar.report_suppressed', true),
+                        ]
+                    );
+                    Rollbar::report_exception($exception);
+                }
 
                 $this->handleException($exception);
             }
