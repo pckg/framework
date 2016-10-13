@@ -17,7 +17,7 @@ class DefinePaths extends AbstractChainOfReponsibility
         path("www", path('root') . "www" . path('ds'));
         path("cache", path('storage') . "cache" . path('ds'));
         path("tmp", path('storage') . "tmp" . path('ds'));
-        path("uploads", path('www') . "uploads" . path('ds'));
+        path("uploads", path('storage') . "uploads" . path('ds'));
         path("vendor", path('root') . "vendor" . path('ds'));
 
         return $next();

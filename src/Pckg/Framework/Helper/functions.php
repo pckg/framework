@@ -11,7 +11,6 @@ use Pckg\Concept\Event\Dispatcher;
 use Pckg\Framework\Application;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
-use Pckg\Framework\Lang;
 use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
@@ -355,11 +354,18 @@ function email($subject, $receiver, $data = [])
 function view($view, $data = [], $assets = [])
 {
     $view = new Twig($view, $data);
-    if ($parent = realpath(dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . 'View' . path('ds'))) {
+    if ($parent = realpath(
+        dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . 'View' . path('ds')
+    )
+    ) {
         if (is_dir($parent)) {
             $view->addDir($parent, Twig::PRIORITY_LAST);
         }
-        $calculatedParent = realpath(dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . '..' . path('ds') . '..' . path('ds'));
+        $calculatedParent = realpath(
+            dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . '..' . path('ds') . '..' . path(
+                'ds'
+            )
+        );
         if (is_dir($calculatedParent)) {
             $view->addDir($calculatedParent, Twig::PRIORITY_LAST);
         }
@@ -537,6 +543,25 @@ function str_lreplace($search, $replace, $subject)
 function exception(Exception $e)
 {
     return $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine();
+}
+
+function img($name, $dir = null, $relative = true, $base = null)
+{
+    if (!$base) {
+        $base = path('app_uploads');
+    }
+
+    if (!$dir) {
+        $dir = path('app_uploads');
+    }
+
+    if (strpos($dir, path('ds')) !== 0) {
+        $dir = $base . $dir;
+    }
+
+    return $relative
+        ? str_replace(path('root'), path('ds'), $base) . $name
+        : $dir . $name;
 }
 
 function get_date_diff($time1, $time2, $precision = 2)
