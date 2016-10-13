@@ -75,9 +75,33 @@ class Helper extends Module
 
     }
 
-    public function importDatabase($repository, $connection, $file)
+    public function importDatabase($filename)
     {
+        $repository = context()->get(Repository::class);
 
+        $prepare = $repository->prepareSQL('DROP DATABASE pckg_database');
+        $repository->executePrepared($prepare);
+
+        $prepare = $repository->prepareSQL('CREATE DATABASE pckg_database');
+        $repository->executePrepared($prepare);
+
+        $prepare = $repository->prepareSQL('USE pckg_database');
+        $repository->executePrepared($prepare);
+
+        $templine = '';
+        $lines = file($filename);
+        foreach ($lines as $line) {
+            if (substr($line, 0, 2) == '/*' || substr($line, 0, 2) == '--' || $line == '') {
+                continue;
+            }
+
+            $templine .= $line;
+            if (substr(trim($line), -1, 1) == ';') {
+                $prepare = $repository->prepareSQL($templine);
+                $repository->executePrepared($prepare);
+                $templine = '';
+            }
+        }
     }
 
     public function listenToQueries()
