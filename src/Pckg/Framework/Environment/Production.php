@@ -40,7 +40,9 @@ class Production extends Environment
         $whoops = new Run;
         $whoops->pushHandler(
             function($exception) {
-                if (config('rollbar.access_token')) {
+                $whitelist = config('rollbar.whitelist');
+                
+                if (config('rollbar.access_token') && $whitelist()) {
                     Rollbar::init(
                         [
                             'access_token'      => config('rollbar.access_token'),
