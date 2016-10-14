@@ -23,6 +23,7 @@ class ComposerProject extends Command
             'queue',
             'tempus',
             'translator',
+            'charts',
         ];
 
         $clean = 'nothing to commit, working directory clean';
@@ -78,7 +79,7 @@ class ComposerProject extends Command
             }
             $this->output();
         }
-        
+
         if ($outdated) {
             $this->output('Some packages are outdated!');
         }
