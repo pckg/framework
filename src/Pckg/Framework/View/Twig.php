@@ -2,12 +2,14 @@
 
 namespace Pckg\Framework\View;
 
+use Carbon\Carbon;
 use Exception;
 use Pckg\Framework\Config;
 use Pckg\Framework\Router;
 use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Pckg\Htmlbuilder\Element\Select;
+use Pckg\Manager\Locale;
 use Pckg\Translator\Service\Translator;
 use Twig_Environment;
 use Twig_Error_Syntax;
@@ -140,6 +142,13 @@ class Twig extends AbstractView implements ViewInterface
                 }
 
                 return number_format($price, 2, '.', ',') . ' €';
+            }
+            )
+        );
+        $this->twig->addFilter(
+            new Twig_SimpleFilter(
+                'datetime', function($date) {
+                return (new Carbon($date))->format(resolve(Locale::class)->getDatetimeFormat());
             }
             )
         );
