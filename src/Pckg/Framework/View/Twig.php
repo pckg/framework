@@ -55,7 +55,7 @@ class Twig extends AbstractView implements ViewInterface
             }
             $dirs = array_unique($tempDirs);
         }
-
+        
         $this->twig = new Twig_Environment(
             new Twig_Loader_Chain(
                 [
