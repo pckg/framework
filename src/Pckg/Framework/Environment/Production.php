@@ -60,6 +60,7 @@ class Production extends Environment
 
     protected function handleException(Exception $e)
     {
+        response()->code(404);
         $code = $e->getCode();
         $message = $e->getMessage();
 
