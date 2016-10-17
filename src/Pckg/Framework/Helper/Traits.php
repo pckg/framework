@@ -10,6 +10,7 @@ use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Manager\Asset;
+use Pckg\Manager\Locale;
 use Pckg\Manager\Seo;
 use Pckg\Manager\Vue;
 
@@ -75,6 +76,11 @@ trait Traits
      * @var Vue
      */
     private $vueManager;
+
+    /**
+     * @var Locale
+     */
+    private $localeManager;
 
     /**
      * @return Response
@@ -219,6 +225,18 @@ trait Traits
         }
 
         return $this->vueManager;
+    }
+
+    /**
+     * @return Locale
+     */
+    public function localeManager()
+    {
+        if (!$this->localeManager) {
+            $this->localeManager = resolve(Locale::class);
+        }
+
+        return $this->localeManager;
     }
 
 }

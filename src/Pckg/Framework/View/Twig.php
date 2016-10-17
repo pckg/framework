@@ -152,6 +152,15 @@ class Twig extends AbstractView implements ViewInterface
             }
             )
         );
+        $this->twig->addFilter(
+            new Twig_SimpleFilter(
+                'date', function($date) {
+                return (new Carbon($date))->format(resolve(Locale::class)->getDateFormat());
+            }
+            )
+        );
+        
+        $this->twig->getExtension('core')->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
     }
 
     public function getFullData()
