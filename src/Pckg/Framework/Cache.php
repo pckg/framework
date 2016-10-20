@@ -53,6 +53,7 @@ class Cache
         $cachePath = $this->getCachePath();
 
         file_put_contents($cachePath, json_encode($this->cache));
+        chmod($cachePath, 0755);
     }
 
     public function isBuilt()
