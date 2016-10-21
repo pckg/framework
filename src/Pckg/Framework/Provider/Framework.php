@@ -8,6 +8,7 @@ use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Server;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
+use Pckg\Htmlbuilder\Provider\Htmlbuilder;
 use Pckg\Migration\Provider\Migration as MigrationProvider;
 
 class Framework extends Provider
@@ -25,6 +26,7 @@ class Framework extends Provider
     {
         return [
             MigrationProvider::class,
+            Htmlbuilder::class,
         ];
     }
 

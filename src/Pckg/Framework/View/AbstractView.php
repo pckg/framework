@@ -53,7 +53,7 @@ abstract class AbstractView implements ViewInterface
                 $this->addData($k, $v);
             }
 
-            return;
+            return $this;
         }
 
         if (!isset($this->data[$key])) {
@@ -61,6 +61,8 @@ abstract class AbstractView implements ViewInterface
         } else {
             $this->data[$key] .= $val;
         }
+
+        return $this;
     }
 
     public static function setStaticData($key, $val)
@@ -120,6 +122,8 @@ abstract class AbstractView implements ViewInterface
     public function setData($data = [])
     {
         $this->data = $data;
+
+        return $this;
     }
 
     public function __toString()

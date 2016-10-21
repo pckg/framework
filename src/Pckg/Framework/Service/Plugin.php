@@ -5,7 +5,7 @@ use Pckg\Concept\Reflect;
 class Plugin
 {
 
-    public function make($controller, $method, $params = [])
+    public function make($controller, $method, $params = [], $byRequest = false)
     {
         /**
          * Create controller.
@@ -15,7 +15,7 @@ class Plugin
         /**
          * Call action.
          */
-        $view = Reflect::method($controller, $method . 'Action', $params);
+        $view = Reflect::method($controller, (!$byRequest ? $method : ((request()->isPost() ? 'post' : 'get') . ucfirst($method))) . 'Action', $params);
 
         return (string)$view;
     }

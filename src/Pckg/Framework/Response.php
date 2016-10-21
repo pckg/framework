@@ -220,6 +220,11 @@ class Response
             : $this->redirect($url);
     }
 
+    /**
+     * @T00D00 - rename this to success()
+     *
+     * @return Response
+     */
     public function respondWithSuccess()
     {
         return request()->isAjax()
@@ -227,6 +232,11 @@ class Response
             : $this->redirect();
     }
 
+    /**
+     * @T00D00 - rename this to ajaxSuccess()
+     *
+     * @return Response
+     */
     public function respondWithAjaxSuccess()
     {
         return $this->respond(
