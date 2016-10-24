@@ -222,7 +222,7 @@ class Router
 
     public function getUri($relative = true)
     {
-        return ($relative ? '' : $this->config->get("url")) . $_SERVER['REQUEST_URI'];
+        return ($relative ? '' : $this->config->get("url")) . ($_SERVER['REQUEST_URI'] ?? '/');
     }
 
     public function getName()
