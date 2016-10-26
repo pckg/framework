@@ -67,7 +67,7 @@ class Command extends SymfonyConsoleCommand
 
     public function option($name, $default = null)
     {
-        return $this->input->getOption($name) ?: $default;
+        return $this->input->getOption($name) ?? $default;
     }
 
     public function output($msg = '')
@@ -82,9 +82,19 @@ class Command extends SymfonyConsoleCommand
         return $this->getQuestionHelper()->ask($this->input, $this->output, $question);
     }
 
-    public function askQuestion($question, $default = null)
+    public function askQuestion($question, $default = null, $attempts = null, $validator = null)
     {
-        return $this->ask(new Question($question, $default));
+        $question = new Question($question, $default);
+
+        if ($attempts) {
+            $question->setMaxAttempts($attempts);
+        }
+
+        if ($validator) {
+            $question->setValidator($validator);
+        }
+
+        return $this->ask($question);
     }
 
     public function askConfirmation($question, $default = true, $trueAnswerRegex = '/^y/i')
@@ -97,7 +107,7 @@ class Command extends SymfonyConsoleCommand
         return $this->ask(new ChoiceQuestion($question, $choices, $default));
     }
 
-    public function exec($execs, $printOutput = true)
+    public function exec($execs, $printOutput = true, $cd = false)
     {
         if (!is_array($execs)) {
             $execs = [$execs];
@@ -106,7 +116,7 @@ class Command extends SymfonyConsoleCommand
         $outputs = [];
         foreach ($execs as $exec) {
             $output = null;
-            exec($exec, $output);
+            exec(($cd ? 'cd ' . (is_bool($cd) ? path('root') : $cd) . ' && ' : '') . $exec, $output);
 
             if ($printOutput) {
                 $this->output(implode("\n", $output));

@@ -2,6 +2,7 @@
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class CreatePckgProject
@@ -16,6 +17,33 @@ class CreatePckgProject extends Command
      * @var string
      */
     protected $app;
+
+    protected function configure()
+    {
+        $this->setName('app:create')
+             ->setDescription('Create new application')
+             ->addArguments(
+                 [
+                     'app'      => 'App name',
+                     'hosts'    => 'List of hostnames, separated by ,',
+                     'database' => 'Default database config',
+                     'composer' => 'List of composer dependencies, separated by ,',
+                 ],
+                 InputArgument::OPTIONAL
+             )
+             ->addOptions(
+                 [
+                     'skip-existance-check' => 'Disable check if directories already exists',
+                     'skip-dir-creation'    => 'Disable app directory creation',
+                     'skip-app-creation'    => 'Disable creation of app class',
+                     'skip-router'          => 'Disable global router changes',
+                     'skip-database'        => 'Disable database configuration',
+                     'skip-composer'        => 'Disable composer requirements',
+                     'skip-commit'          => 'Disable commit after creation',
+                 ],
+                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_NONE
+             );
+    }
 
     public function handle()
     {
@@ -70,6 +98,7 @@ class CreatePckgProject extends Command
         mkdir($path, 0777);
         mkdir($path . 'config', 0777);
         mkdir($path . 'src', 0777);
+        mkdir($path . 'public', 0777);
 
         $this->output('Directories created.');
     }
@@ -233,33 +262,6 @@ class ' . ucfirst($this->app) . ' extends Website
     protected function finishCreation()
     {
         return $this->output("App " . $this->app . ' created');
-    }
-
-    protected function configure()
-    {
-        $this->setName('app:create')
-             ->setDescription('Create new application')
-             ->addArguments(
-                 [
-                     'app'      => 'App name',
-                     'hosts'    => 'List of hostnames, separated by ,',
-                     'database' => 'Default database config',
-                     'composer' => 'List of composer dependencies, separated by ,',
-                 ],
-                 InputArgument::OPTIONAL
-             )
-             ->addOptions(
-                 [
-                     'skip-existance-check' => 'Disable check if directories already exists',
-                     'skip-dir-creation'    => 'Disable app directory creation',
-                     'skip-app-creation'    => 'Disable creation of app class',
-                     'skip-router'          => 'Disable global router changes',
-                     'skip-database'        => 'Disable database configuration',
-                     'skip-composer'        => 'Disable composer requirements',
-                     'skip-commit'          => 'Disable commit after creation',
-                 ],
-                 InputArgument::OPTIONAL
-             );
     }
 
 }
