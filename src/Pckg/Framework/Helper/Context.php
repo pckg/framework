@@ -90,7 +90,7 @@ class Context extends ConceptContext
         if (!$platformName && isset($argv[2]) && (!$commandIndex || $commandIndex == 3)) {
             $platformName = $argv[2];
         }
-
+        
         if ($platformName) {
             Context::bind('platformName', $platformName);
         }

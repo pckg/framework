@@ -6,6 +6,7 @@ use Pckg\Framework\Application\Command\RegisterApplication;
 use Pckg\Framework\Application\Console\Command\RunCommand;
 use Pckg\Framework\Config\Command\InitConfig;
 use Pckg\Framework\Locale\Command\Localize;
+use Pckg\Framework\Request\Session\Command\InitSession;
 use Pckg\Framework\Router\Command\InitRouter;
 
 class Console extends Application
