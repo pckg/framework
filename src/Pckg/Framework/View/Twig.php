@@ -65,7 +65,7 @@ class Twig extends AbstractView implements ViewInterface
             ),
             [
                 'debug' => true,
-                'cache' => path('cache') . 'view',
+                //'cache' => path('cache') . 'view',
             ]
         );
 
