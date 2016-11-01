@@ -56,7 +56,18 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              */
             $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
 
-            $output = $this->parseViewToString($response);
+            try {
+                $output = $this->parseViewToString($response);
+
+            } catch (Exception $e) {
+                // @T00D00 - log!
+                if (dev()) {
+                    $output = exception($e);
+                } else {
+                    $output = '';
+                }
+
+            }
 
             $this->response->setOutput($output);
 

@@ -247,8 +247,8 @@ function session()
 function flash($key, $val = null)
 {
     return $val
-        ? content()->session()->setFlash($key, $val)
-        : content()->session()->getFlash($key);
+        ? session()->setFlash($key, $val)
+        : session()->getFlash($key);
 }
 
 /* config */
@@ -256,7 +256,7 @@ function flash($key, $val = null)
 /**
  * @param $text
  *
- * @return mixed|Config
+ * @return mixed|Config|array
  */
 function config($key = null, $default = null)
 {
