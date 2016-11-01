@@ -180,7 +180,7 @@ class Router
                         }
                     }
 
-                    if ($args && isset($route['resolvers'])) {
+                    if ($args/* && isset($route['resolvers'])*/) {
                         /**
                          * Replace parameters in url.
                          */
