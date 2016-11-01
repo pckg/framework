@@ -11,7 +11,6 @@ use Pckg\Framework\View\Event\RenderingView;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Manager\Locale;
 use Pckg\Translator\Service\Translator;
-use Twig_Environment;
 use Twig_Error_Syntax;
 use Twig_Extension_Debug;
 use Twig_Extension_StringLoader;
@@ -55,7 +54,7 @@ class Twig extends AbstractView implements ViewInterface
             }
             $dirs = array_unique($tempDirs);
         }
-        
+
         $this->twig = new TwigEnv(
             new Twig_Loader_Chain(
                 [
@@ -64,7 +63,7 @@ class Twig extends AbstractView implements ViewInterface
                 ]
             ),
             [
-                'debug' => true,
+                'debug' => dev(),
                 //'cache' => path('cache') . 'view',
             ]
         );
@@ -159,7 +158,7 @@ class Twig extends AbstractView implements ViewInterface
             }
             )
         );
-        
+
         $this->twig->getExtension('core')->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
     }
 
