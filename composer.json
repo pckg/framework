@@ -14,7 +14,7 @@
     "pckg/database": "dev-master",
     "pckg/manager": "dev-master",
     "pckg/htmlbuilder": "dev-master",
-    "twig/twig": "1.26.*",
+    "twig/twig": "1.25.*",
     "filp/whoops": "2.*",
     "maximebf/debugbar": "1.*",
     "rollbar/rollbar": "^0.15.0"
