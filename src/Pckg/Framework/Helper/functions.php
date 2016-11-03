@@ -564,6 +564,11 @@ function img($name, $dir = null, $relative = true, $base = null)
         : $dir . $name;
 }
 
+function media($name, $dir = null, $relative = true, $base = null)
+{
+    return img($name, $dir, $relative, $base);
+}
+
 function get_date_diff($time1, $time2, $precision = 2)
 {
     // If not numeric then convert timestamps
