@@ -565,12 +565,14 @@ function img($name, $dir = null, $relative = true, $base = null)
         $dir = path('app_uploads');
     }
 
-    if (strpos($dir, path('ds')) !== 0) {
+    if (strpos($dir, path('ds')) !== false) {
         $dir = $base . $dir;
+    } else {
+        $dir .= '/';
     }
 
     return $relative
-        ? str_replace(path('root'), path('ds'), $base) . $name
+        ? str_replace(path('root'), path('ds'), $base) . $dir . $name
         : $dir . $name;
 }
 
