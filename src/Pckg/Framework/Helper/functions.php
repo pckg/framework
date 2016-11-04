@@ -198,7 +198,17 @@ function router()
  */
 function url($url, $params = [], $absolute = false)
 {
-    return router()->make($url, $params, $absolute);
+    try {
+        $url = router()->make($url, $params, $absolute);
+
+        return $url;
+    } catch (Exception $e) {
+        if (prod()) {
+            return null;
+        }
+
+        return exception($e);
+    }
 }
 
 function resolve($class)
