@@ -222,12 +222,14 @@ class Router
 
     public function getUri($relative = true)
     {
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+
         return ($relative
             ? ''
             : $this->config->get("url")) .
-               ((strpos($_SERVER['REQUEST_URI'], '?') === false
-                       ? $_SERVER['REQUEST_URI']
-                       : substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'))) ?? '/');
+               ((strpos($requestUri, '?') === false
+                       ? $requestUri
+                       : substr($requestUri, 0, strpos($requestUri, '?'))) ?? '/');
     }
 
     public function getCleanUri($relative = true)
