@@ -100,21 +100,36 @@ var http = {
 var locale = {
 
     price: function (price, decimals) {
-        if (typeof price == 'undefined') {
-            return '0 €';
+        if (typeof decimals == 'undefined' || decimals === null) {
+            decimals = 2;
         }
 
-        if (price === null) {
+        if (typeof price == 'undefined' || price === null) {
             price = 0.0;
         }
 
-        return parseFloat(price).toFixed((typeof decimals == 'undefined') ? 2 : decimals) + ' €';
+        return parseFloat(price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
+            currency: 'eur',
+            currencyDisplay: 'symbol',
+            maximumFractionDigits: decimals == 'undefined'
+                ? 2
+                : decimals,
+            minimumFractionDigits: decimals == 'undefined'
+                ? 2
+                : decimals
+        }) + ' €';
     },
 
     date: function (date) {
         moment.locale(props.locale);
 
         return moment(date).format('LL');
+    },
+
+    time: function (time) {
+        moment.locale(props.locale);
+
+        return moment(time).format('LT');
     },
 
     trans: function (trans, params) {

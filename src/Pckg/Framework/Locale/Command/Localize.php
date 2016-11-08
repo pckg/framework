@@ -3,40 +3,26 @@
 namespace Pckg\Framework\Locale\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-use Pckg\Concept\Context;
-use Pckg\Framework\Config;
 use Pckg\Framework\Locale\Lang;
 use Pckg\Framework\Response;
 
 class Localize extends AbstractChainOfReponsibility
 {
 
-    protected $config;
-
-    protected $response;
-
-    protected $context;
-
-    public function __construct(Config $config, Response $response, Context $context)
-    {
-        $this->config = $config;
-        $this->context = $context;
-        $this->response = $response;
-    }
-
     public function execute(callable $next)
     {
-        $locale = 'sl_SI';
-        $timezone = 'Europe/Ljubljana';
+        $locale = config('pckg.locale.default', 'en_GB');
+        $timezone = config('pckg.locale.timezone', 'Europe/Ljubljana');
 
+        message('Using locale ' . $locale . ' and timezone ' . $timezone);
         date_default_timezone_set($timezone);
 
         setlocale(LC_ALL, $locale);
         setlocale(LC_TIME, $locale);
 
-        $this->context->bind(Lang::class, new Lang());
+        context()->bind(Lang::class, new Lang());
 
-        $config = $this->config->__toArray();
+        $config = config()->__toArray();
         if (isset($config['i18n'])) {
             $i18n = $config['i18n'];
             if (!isset($i18n['type'])) {
@@ -79,10 +65,9 @@ class Localize extends AbstractChainOfReponsibility
             if ($i18n['force'] == true) // perform redirect
             {
                 if ($i18n['type'] == "domain" && strpos($request->host(), $lang['code']) !== 0) {
-                    $this->response->redirect(
+                    response()->redirect(
                         $request->scheme(
-                        ) . "://" . $i18n['langs'][$i18n['current']]['code'] . "." . $config['domain'] . $request->url(
-                        )
+                        ) . "://" . $i18n['langs'][$i18n['current']]['code'] . "." . $config['domain'] . $request->url()
                     );
 
                 } else if ($i18n['type'] == "url" && strpos($request->url(), $lang['code']) !== 0) {

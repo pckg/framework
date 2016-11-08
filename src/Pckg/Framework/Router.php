@@ -222,7 +222,17 @@ class Router
 
     public function getUri($relative = true)
     {
-        return ($relative ? '' : $this->config->get("url")) . ($_SERVER['REQUEST_URI'] ?? '/');
+        return ($relative
+            ? ''
+            : $this->config->get("url")) .
+               ((strpos($_SERVER['REQUEST_URI'], '?') === false
+                       ? $_SERVER['REQUEST_URI']
+                       : substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], '?'))) ?? '/');
+    }
+
+    public function getCleanUri($relative = true)
+    {
+        return str_replace(['/dev.php/', '/index.php/'], '/', $this->getUri($relative));
     }
 
     public function getName()
