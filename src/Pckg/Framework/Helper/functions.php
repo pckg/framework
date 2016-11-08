@@ -557,23 +557,21 @@ function exception(Exception $e)
 
 function img($name, $dir = null, $relative = true, $base = null)
 {
+    if (!$name) {
+        return null;
+    }
+
     if (!$base) {
         $base = path('app_uploads');
     }
-
-    if (!$dir) {
-        $dir = path('app_uploads');
-    }
-
-    if (strpos($dir, path('ds')) !== false) {
-        $dir = $base . $dir;
-    } else {
-        $dir .= '/';
+    
+    if ($dir) {
+        $base .= $dir . '/';
     }
 
     return $relative
-        ? str_replace(path('root'), path('ds'), $base) . $dir . $name
-        : $dir . $name;
+        ? str_replace(path('root'), path('ds'), $base) . $name
+        : $base . $name;
 }
 
 function media($name, $dir = null, $relative = true, $base = null)
