@@ -140,7 +140,14 @@ class Twig extends AbstractView implements ViewInterface
                     $price = 0.0;
                 }
 
-                return number_format($price, 2, '.', ',') . ' €';
+                $localeManager = resolve(Locale::class);
+
+                return number_format(
+                           $price,
+                           2,
+                           $localeManager->getDecimalPoint(),
+                           $localeManager->getThousandSeparator()
+                       ) . ' €';
             }
             )
         );

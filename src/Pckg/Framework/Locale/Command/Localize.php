@@ -5,9 +5,20 @@ namespace Pckg\Framework\Locale\Command;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Locale\Lang;
 use Pckg\Framework\Response;
+use Pckg\Manager\Locale;
 
 class Localize extends AbstractChainOfReponsibility
 {
+
+    /**
+     * @var Locale
+     */
+    protected $localeManager;
+
+    public function __construct(Locale $localeManager)
+    {
+        $this->localeManager = $localeManager;
+    }
 
     public function execute(callable $next)
     {
@@ -15,10 +26,8 @@ class Localize extends AbstractChainOfReponsibility
         $timezone = config('pckg.locale.timezone', 'Europe/Ljubljana');
 
         message('Using locale ' . $locale . ' and timezone ' . $timezone);
-        date_default_timezone_set($timezone);
-
-        setlocale(LC_ALL, $locale);
-        setlocale(LC_TIME, $locale);
+        $this->localeManager->setLocale($locale);
+        $this->localeManager->setTimezone($timezone);
 
         context()->bind(Lang::class, new Lang());
 
