@@ -24,17 +24,17 @@ class Config
             return $this->data;
         }
 
-        $value = array_key_exists($key, $this->data)
-            ? $this->data[$key]
-            : null;
+        if (array_key_exists($key, $this->data)) {
+            return $this->data[$key];
+        }
 
-        if (!$value && strpos($key, '.')) {
+        if (strpos($key, '.')) {
             $keys = explode('.', $key);
 
             return $this->recursive($keys, 0, $this->data);
         }
 
-        return $value;
+        return null;
     }
 
     protected function recursive($keys, $i, $data)
