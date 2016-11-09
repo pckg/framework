@@ -2,7 +2,7 @@
 
 use Exception;
 
-class NotFound extends Exception
+class Unauthorized extends Exception
 {
 
 }

@@ -18,6 +18,7 @@ use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
 use Pckg\Manager\Asset;
+use Pckg\Manager\Vue;
 use Pckg\Queue\Service\Queue;
 use Pckg\Translator\Service\Translator;
 
@@ -397,6 +398,14 @@ function assetManager()
     return context()->getOrCreate(Asset::class);
 }
 
+/**
+ * @return Asset
+ */
+function vueManager()
+{
+    return context()->getOrCreate(Vue::class);
+}
+
 function assets($assets)
 {
     assetManager()->addAssets($assets);
@@ -564,7 +573,7 @@ function img($name, $dir = null, $relative = true, $base = null)
     if (!$base) {
         $base = path('app_uploads');
     }
-    
+
     if ($dir) {
         $base .= $dir . '/';
     }
