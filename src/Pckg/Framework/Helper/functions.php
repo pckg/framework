@@ -351,11 +351,6 @@ function toCamel($text)
     return ucfirst(str_replace("_", "", implode($text)));
 }
 
-function email($subject, $receiver, $data = [])
-{
-
-}
-
 /**
  * @param       $view
  * @param array $data
