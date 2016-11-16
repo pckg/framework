@@ -68,6 +68,8 @@ class Response
 
     protected $afterwares = [];
 
+    protected $code = 200;
+
     public function __construct(Router $router, Environment $environment)
     {
         $this->router = $router;
@@ -100,9 +102,15 @@ class Response
 
     public function code($code)
     {
+        $this->code = $code;
         header($this->http[$code]);
 
         return $this;
+    }
+
+    public function getCode()
+    {
+        return $this->code;
     }
 
     public function init()

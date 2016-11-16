@@ -213,6 +213,10 @@ class Twig extends AbstractView implements ViewInterface
             );
 
             if ($render == $this->file . '.twig') {
+                if (prod()) {
+                    return null;
+                }
+                
                 return '<!-- ' . 'Cannot load file ' . $this->file . ' -->';
             }
 

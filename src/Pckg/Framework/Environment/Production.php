@@ -41,7 +41,7 @@ class Production extends Environment
         $whoops->pushHandler(
             function($exception) {
                 $whitelist = config('rollbar.whitelist');
-                
+
                 if (config('rollbar.access_token') && $whitelist()) {
                     Rollbar::init(
                         [
@@ -61,15 +61,33 @@ class Production extends Environment
     protected function handleException(Exception $e)
     {
         response()->code(404);
-        $code = $e->getCode();
+        $code = $e->getCode() ? $e->getCode() : response()->getCode();
         $message = $e->getMessage();
 
-        $path = realpath(substr(__FILE__, 0, -strlen('Production.php')) . '../Response/') . '/View/';
-        if (is_numeric($code) && file_exists($path . $code . '.php')) {
-            include $path . $code . '.php';
+        $handled = false;
+        do {
+            try {
+                $response = view(
+                    'Pckg\Framework:error/' . $code,
+                    [
+                        'message' => $message,
+                        'code'    => $code,
+                    ]
+                )->autoparse();
+
+                if ($response) {
+                    $handled = true;
+                }
+            } catch (Exception $e) {
+            }
+        } while (!$handled);
+
+        if ($handled) {
+            echo $response;
+        } else {
+            echo $code . ' : ' . $message;
         }
 
-        include $path . '400.php';
         exit;
     }
 
