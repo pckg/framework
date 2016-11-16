@@ -11,6 +11,8 @@ class Lang
 
     const SI = 'si';
 
+    const HR = 'hr';
+
     const DEF = 'en';
 
     protected $languages = [
@@ -23,6 +25,11 @@ class Lang
             "title"         => "Slovenski",
             "code"          => "slo",
             "international" => "sl_SI",
+        ],
+        'hr' => [
+            "title"         => "Hrvatski",
+            "code"          => "hrv",
+            "international" => "hr_HR",
         ],
     ];
 

@@ -4,11 +4,13 @@ use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Concept\Reflect\Resolver;
 use Pckg\Framework\Config;
+use Pckg\Framework\Locale\Lang;
 use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Manager\Asset as AssetManager;
+use Pckg\Manager\Locale;
 use Pckg\Manager\Meta as MetaManager;
 use Pckg\Manager\Seo as SeoManager;
 
@@ -25,6 +27,8 @@ class FrameworkResolver implements Resolver
         Flash::class,
         Response::class,
         Request::class,
+        Lang::class,
+        Locale::class,
     ];
 
     protected static $bind = [
@@ -37,6 +41,8 @@ class FrameworkResolver implements Resolver
         Flash::class        => 'Flash',
         Response::class     => 'Response',
         Request::class      => 'Request',
+        Lang::class         => 'Lang',
+        Locale::class       => 'Locale',
     ];
 
     public function resolve($class)
