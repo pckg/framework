@@ -44,7 +44,7 @@ class Production extends Environment
             function($exception) {
                 $whitelist = config('rollbar.whitelist');
 
-                if (config('rollbar.access_token') && $whitelist()) {
+                if (config('rollbar.access_token') && Reflect::call($whitelist)) {
                     Rollbar::init(
                         [
                             'access_token'      => config('rollbar.access_token'),
