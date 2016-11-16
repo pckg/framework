@@ -207,10 +207,10 @@ class Twig extends AbstractView implements ViewInterface
 
             if ($render == $this->file . '.twig') {
                 if (prod()) {
-                    return null;
+                    return '<!-- error rendering template -->';
                 }
 
-                return '<!-- ' . 'Cannot load file ' . $this->file . ' -->';
+                return '<p style="color: black; font-weight: bold; background-color: red;">' . 'Cannot load file ' . $this->file . '</p>';
             }
 
             return $render;
