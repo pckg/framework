@@ -176,10 +176,14 @@ trait Traits
         return $this->cookie;
     }
 
-    public function auth()
+    public function auth($provider = null)
     {
         if (!$this->auth) {
             $this->auth = resolve(Auth::class);
+        }
+
+        if ($provider) {
+            $this->auth->useProvider($provider);
         }
 
         return $this->auth;
