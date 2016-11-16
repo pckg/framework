@@ -114,7 +114,11 @@ class Command extends SymfonyConsoleCommand
         }
 
         $outputs = [];
-        foreach ($execs as $exec) {
+        foreach ($execs as $help => $exec) {
+            if (is_string($help)) {
+                $this->output("\n" . $help);
+            }
+
             $output = null;
             exec(($cd ? 'cd ' . (is_bool($cd) ? path('root') : $cd) . ' && ' : '') . $exec, $output);
 

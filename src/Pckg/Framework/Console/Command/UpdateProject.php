@@ -9,10 +9,10 @@ class UpdateProject extends Command
     {
         $this->exec(
             [
-                'git pull --ff',
-                'composer update',
-                'bower update',
-                'git add . --all && git commit -m "Composer update"',
+                'Pulling git changes' => 'git pull --ff',
+                'Updating composer'  => 'composer update',
+                'Updating bower'      => 'bower update',
+                'Commiting changes'   => 'git add . --all && git commit -m "Composer update"',
             ]
         );
     }
