@@ -26,6 +26,10 @@ class Router
     {
         $this->config = $config;
     }
+    public function getRoute($url)
+    {
+        return $this->routes[$url][0];
+    }
 
     public function init()
     {

@@ -73,9 +73,15 @@ function post()
 /**
  * @return Auth
  */
-function auth()
+function auth($provider = null)
 {
-    return context()->getOrCreate(Auth::class);
+    $auth = context()->getOrCreate(Auth::class);
+
+    if ($provider) {
+        $auth->useProvider($provider);
+    }
+
+    return $auth;
 }
 
 /**
