@@ -63,14 +63,19 @@ class LoadView extends AbstractChainOfReponsibility
         if (isset($router['resolvers'])) {
             foreach ($router['resolvers'] as $urlKey => $resolver) {
                 $resolved = resolve($resolver)->resolve($router[$urlKey] ?? $this->router->getCleanUri());
+                if (is_string($urlKey)) {
+                    $data[$urlKey] = $resolved;
+                }
+
                 $data[] = $resolved;
                 if (!is_int($urlKey)) {
                     $this->router->resolve($urlKey, $resolved);
                     /**
                      * Remove resolved key.
+                     * Why? Can we delete it?
                      */
                     if (isset($data[$urlKey])) {
-                        unset($data[$urlKey]);
+                        //unset($data[$urlKey]);
                     }
                 }
             }

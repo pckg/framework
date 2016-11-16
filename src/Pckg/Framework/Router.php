@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework;
 
+use Pckg\Collection;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\View\Twig;
 
@@ -190,7 +191,10 @@ class Router
                                 $arg = urlencode($arg);
                             }
                         }
-                        $route['url'] = str_replace(array_keys($args), $args, $route['url']);
+                        $filteredArgs = (new Collection($args))->reduce(function($item){
+                           return !is_object($item);
+                        }, true)->all();
+                        $route['url'] = str_replace(array_keys($filteredArgs), $filteredArgs, $route['url']);
                     }
 
                     return (
