@@ -18,6 +18,7 @@ use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
 use Pckg\Manager\Asset;
+use Pckg\Manager\Seo;
 use Pckg\Manager\Vue;
 use Pckg\Queue\Service\Queue;
 use Pckg\Translator\Service\Translator;
@@ -410,6 +411,14 @@ function assetManager()
 function vueManager()
 {
     return context()->getOrCreate(Vue::class);
+}
+
+/**
+ * @return Seo
+ */
+function seoManager()
+{
+    return context()->getOrCreate(Seo::class);
 }
 
 function assets($assets)
