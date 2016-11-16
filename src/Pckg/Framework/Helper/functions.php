@@ -313,22 +313,27 @@ function path($key = null, $val = null)
 }
 
 /* quick helpers */
-if (function_exists('__')) {
 
-    function ___($key, $lang = null)
-    {
+function __i18n($key, $data = [], $lang = null)
+{
+    try {
         $translator = context()->getOrCreate(Translator::class);
 
-        return $translator->get($key, $lang);
+        $translation = trim($translator->get($key, $lang));
+
+        return $data
+            ? (new Twig(null, $data))->setTemplate($translation)->autoparse()
+            : $translation;
+    } catch (Exception $e) {
+        return $key;
     }
-} else {
-    function __($key, $lang = null)
+}
+
+if (!function_exists('__')) {
+    function __($key, $data = [], $lang = null)
     {
-        $translator = context()->getOrCreate(Translator::class);
-
-        return $translator->get($key, $lang);
+        return __i18n($key, $data, $lang);
     }
-
 }
 
 /**

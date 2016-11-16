@@ -31,9 +31,6 @@ class Router
     {
         $cache = $this->getCache();
 
-        //autoloader()->add('', path('app') . 'src');
-        //Twig::addDir(path('app') . 'src' . path('ds'));
-
         if (false && !dev() && $cache->isBuilt()) {
             $this->initDev();
 

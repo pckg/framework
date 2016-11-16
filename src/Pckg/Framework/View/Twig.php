@@ -10,7 +10,6 @@ use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Manager\Locale;
-use Pckg\Translator\Service\Translator;
 use Twig_Error_Syntax;
 use Twig_Extension_Debug;
 use Twig_Extension_StringLoader;
@@ -80,14 +79,8 @@ class Twig extends AbstractView implements ViewInterface
          */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
-                '__', function($key, $data = []) {
-                $translator = context()->getOrCreate(Translator::class);
-
-                $translation = trim($translator->get($key));
-
-                return $data
-                    ? (new Twig(null, $data))->setTemplate($translation)->autoparse()
-                    : $translation;
+                '__', function($key, $data = [], $lang = null) {
+                return __($key, $data, $lang);
             },
                 ['is_safe' => ['html']]
             )
@@ -216,7 +209,7 @@ class Twig extends AbstractView implements ViewInterface
                 if (prod()) {
                     return null;
                 }
-                
+
                 return '<!-- ' . 'Cannot load file ' . $this->file . ' -->';
             }
 

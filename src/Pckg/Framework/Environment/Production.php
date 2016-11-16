@@ -2,8 +2,10 @@
 
 namespace Pckg\Framework\Environment;
 
+use Derive\Layout\Provider\DeriveAssets;
 use Exception;
 use Pckg\Concept\Context;
+use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
 use Rollbar;
@@ -64,11 +66,16 @@ class Production extends Environment
         $code = $e->getCode() ? $e->getCode() : response()->getCode();
         $message = $e->getMessage();
 
+        if (class_exists(DeriveAssets::class)) {
+            Reflect::create(DeriveAssets::class)->register();
+        }
+
         $handled = false;
-        do {
+        $codes = [$code, 'default'];
+        foreach ($codes as $file) {
             try {
                 $response = view(
-                    'Pckg\Framework:error/' . $code,
+                    'Pckg\Framework:error/' . $file,
                     [
                         'message' => $message,
                         'code'    => $code,
@@ -77,10 +84,12 @@ class Production extends Environment
 
                 if ($response) {
                     $handled = true;
+                    break;
                 }
             } catch (Exception $e) {
+                dd(exception($e));
             }
-        } while (!$handled);
+        }
 
         if ($handled) {
             echo $response;
