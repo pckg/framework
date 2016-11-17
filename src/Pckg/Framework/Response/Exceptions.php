@@ -3,6 +3,7 @@
 namespace Pckg\Framework\Response;
 
 use Exception;
+use Pckg\Framework\Exception\NotFound;
 
 trait Exceptions
 {
@@ -12,13 +13,17 @@ trait Exceptions
         $this->exception($message, 400);
     }
 
-    public function exception($message, $code = 400)
+    public function exception($message, $code = 400, $class = Exception::class)
     {
         if ($code) {
-            $this->code($code);
+            $this->code = $code;
         }
 
-        throw new Exception($message, $code);
+        $up = new $class($message, $code);
+
+        //d($up->getTraceAsString());
+
+        throw $up;
     }
 
     public function bad($message = 'Bad request')
@@ -38,7 +43,7 @@ trait Exceptions
 
     public function notFound($message = 'Not found')
     {
-        $this->exception($message, 404);
+        $this->exception($message, 404, NotFound::class);
     }
 
     public function fatal($message = 'Fatal error')

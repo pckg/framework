@@ -10,6 +10,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\View;
 use Pckg\Framework\View\ViewInterface;
+use Throwable;
 
 class ProcessRouteMatch extends AbstractChainOfReponsibility
 {
@@ -59,14 +60,15 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             try {
                 $output = $this->parseViewToString($response);
 
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 // @T00D00 - log!
                 if (dev()) {
                     $output = exception($e);
-                } else {
-                    $output = '';
-                }
 
+                } else {
+                    throw $e;
+
+                }
             }
 
             $this->response->setOutput($output);
@@ -87,7 +89,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         } catch (TheEnd $e) {
             exit;
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             /**
              * @T00D00 - this should be somewhere else
              */

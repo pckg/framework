@@ -314,6 +314,8 @@ class Response
             $string = $this->output;
         }
 
+        $this->code($this->code);
+
         echo $string;
 
         die();

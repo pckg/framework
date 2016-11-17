@@ -44,6 +44,6 @@ try {
      * Everything was preset, we need to run command.
      */
     $application->run();
-} catch (Exception $e) {
+} catch (Throwable $e) {
     dd(exception($e));
 }
