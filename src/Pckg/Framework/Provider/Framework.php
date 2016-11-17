@@ -3,6 +3,7 @@
 use Pckg\Framework\Console\Command\ClearCache;
 use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Environment;
+use Pckg\Framework\Locale\Lang;
 use Pckg\Framework\Provider;
 use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Server;
@@ -38,6 +39,7 @@ class Framework extends Provider
             '_server'   => Server::class,
             '_router'   => Router::class,
             '_env'      => Environment::class,
+            '_lang'     => Lang::class,
         ];
     }
 
