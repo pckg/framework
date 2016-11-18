@@ -204,10 +204,10 @@ function router()
  *
  * @return string
  */
-function url($url, $params = [], $absolute = false)
+function url($url, $params = [], $absolute = false, $envPrefix = true)
 {
     try {
-        $url = router()->make($url, $params, $absolute);
+        $url = router()->make($url, $params, $absolute, $envPrefix);
 
         return $url;
     } catch (Exception $e) {

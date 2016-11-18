@@ -158,7 +158,7 @@ class Router
         return $this->resources;
     }
 
-    public function make($routeName = null, $arguments = [], $absolute = false)
+    public function make($routeName = null, $arguments = [], $absolute = false, $envPrefix = true)
     {
         if (!$routeName) {
             $routeName = $this->data["name"];
@@ -202,7 +202,7 @@ class Router
                                ? $this->config->get("protocol") . '://' .
                                  ($this->config->get("domain") ?? $_SERVER['HTTP_HOST'])
                                : "") .
-                           (dev()
+                           ($envPrefix && dev()
                                ? "/dev.php"
                                : ""
                            ) . $route["url"];
