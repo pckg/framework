@@ -304,6 +304,17 @@ function config($key = null, $default = null)
     return $config;
 }
 
+function first(...$args)
+{
+    foreach ($args as $arg) {
+        if ($arg) {
+            return $arg;
+        }
+    }
+
+    return null;
+}
+
 /**
  * @param      $key
  * @param null $default
