@@ -66,9 +66,9 @@ function request()
 /**
  * @return Request
  */
-function post()
+function post($key = null)
 {
-    return request()->post();
+    return request()->post($key);
 }
 
 /**
@@ -217,6 +217,20 @@ function url($url, $params = [], $absolute = false)
 
         return exception($e);
     }
+}
+
+function email($template, $receiver, $data = [], $fetch = [])
+{
+    return
+        queue()->create(
+            'mail:send',
+            [
+                'user'     => $receiver,
+                'template' => $template,
+                'data'     => $data,
+                'fetch'    => $fetch,
+            ]
+        );
 }
 
 function resolve($class)
