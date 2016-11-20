@@ -219,12 +219,8 @@ function url($url, $params = [], $absolute = false, $envPrefix = true)
     }
 }
 
-function email($template, $receiver, $data = [], $fetch = [])
+function email($template, $receiver, $data = [])
 {
-    if ($fetch) {
-        $data['fetch'] = array_merge(isset($data['fetch']) ? $data['fetch'] : [], $fetch);
-    }
-
     return
         queue()->create(
             'mail:send',
