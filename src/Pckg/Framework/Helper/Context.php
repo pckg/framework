@@ -90,7 +90,7 @@ class Context extends ConceptContext
         if (!$platformName && isset($argv[2]) && (!$commandIndex || $commandIndex == 3)) {
             $platformName = $argv[2];
         }
-        
+
         if ($platformName) {
             Context::bind('platformName', $platformName);
         }
@@ -108,7 +108,8 @@ class Context extends ConceptContext
             path('app_public', path('app') . "public" . path('ds'));
             path('app_uploads', path('uploads') . strtolower($appName) . path('ds'));
             path('app_storage', path('storage') . strtolower($appName) . path('ds'));
-            
+            path('app_private', path('private') . strtolower($appName) . path('ds'));
+
             /**
              * Add app src dir to autoloader and template engine.
              */
