@@ -186,9 +186,13 @@ class Router
                         /**
                          * Replace parameters in url.
                          */
-                        foreach ($args as &$arg) {
+                        foreach ($args as $key => &$arg) {
                             if (is_string($arg)) {
-                                $arg = urlencode($arg);
+                                if (strpos(strtolower($key), 'url') !== false) {
+                                    $arg = sluggify($arg);
+                                } else {
+                                    $arg = urlencode($arg);
+                                }
                             }
                         }
                         $filteredArgs = (new Collection($args))->reduce(function($item){
