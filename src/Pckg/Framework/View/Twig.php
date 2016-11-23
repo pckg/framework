@@ -3,13 +3,13 @@
 namespace Pckg\Framework\View;
 
 use Carbon\Carbon;
-use Exception;
 use Pckg\Framework\Config;
 use Pckg\Framework\Router;
 use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Manager\Locale;
+use Throwable;
 use Twig_Error_Syntax;
 use Twig_Extension_Debug;
 use Twig_Extension_StringLoader;
@@ -218,7 +218,7 @@ class Twig extends AbstractView implements ViewInterface
         } catch (Twig_Error_Syntax $e) {
             return "<pre>Twig error:" . exception($e) . "</pre>";
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return '<pre>' . exception($e) . '</pre>';
 
         }

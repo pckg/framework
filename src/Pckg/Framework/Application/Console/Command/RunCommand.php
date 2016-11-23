@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework\Application\Console\Command;
 
-use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Response;
 use Symfony\Component\Console\Application;
@@ -12,6 +11,7 @@ use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Throwable;
 
 class RunCommand extends AbstractChainOfReponsibility
 {
@@ -46,7 +46,7 @@ class RunCommand extends AbstractChainOfReponsibility
         $application = context()->get(SymfonyConsole::class);
         try {
             $application->run(new ArgvInput(array_values($argv)));
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             die("EXCEPTION: " . exception($e));
         }
 

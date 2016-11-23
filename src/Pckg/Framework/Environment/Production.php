@@ -9,6 +9,7 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
 use Rollbar;
+use Throwable;
 use Whoops\Run;
 
 class Production extends Environment
@@ -88,7 +89,7 @@ class Production extends Environment
                     $handled = true;
                     break;
                 }
-            } catch (Exception $e) {
+            } catch (Throwable $e) {
                 dd(exception($e));
             }
         }

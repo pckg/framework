@@ -210,7 +210,7 @@ function url($url, $params = [], $absolute = false, $envPrefix = true)
         $url = router()->make($url, $params, $absolute, $envPrefix);
 
         return $url;
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         if (prod()) {
             return null;
         }
@@ -355,7 +355,7 @@ function __i18n($key, $data = [], $lang = null)
         return $data
             ? (new Twig(null, $data))->setTemplate($translation)->autoparse()
             : $translation;
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         return $key;
     }
 }
@@ -551,7 +551,7 @@ function startMeasure($name)
     if ($debugBar = debugBar()) {
         try {
             $debugBar['time']->startMeasure($name);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             // fail silently
         }
     }
@@ -562,7 +562,7 @@ function stopMeasure($name)
     if ($debugBar = debugBar()) {
         try {
             $debugBar['time']->stopMeasure($name);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             // fail silently
         }
     }
