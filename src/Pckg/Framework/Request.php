@@ -78,9 +78,20 @@ class Request extends Lazy
 
     function post($key = null)
     {
-        return is_null($key)
-            ? $this->post
-            : $this->post->get($key);
+        if (is_array($key)) {
+            $return = [];
+            foreach ($key as $k) {
+                $return[$key] = $this->post->get($k);
+            }
+
+            return $return;
+
+        } elseif (!$key) {
+            return $this->post;
+
+        }
+
+        return $this->post->get($key);
     }
 
     function get($key = null, $default = [])
