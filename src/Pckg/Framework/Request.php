@@ -81,7 +81,7 @@ class Request extends Lazy
         if (is_array($key)) {
             $return = [];
             foreach ($key as $k) {
-                $return[$key] = $this->post->get($k);
+                $return[$k] = $this->post->get($k);
             }
 
             return $return;
