@@ -598,7 +598,7 @@ function str_lreplace($search, $replace, $subject)
  *
  * @return string
  */
-function exception(Exception $e)
+function exception(Throwable $e)
 {
     return $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine();
 }
