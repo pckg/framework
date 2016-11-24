@@ -29,12 +29,13 @@ class Context extends ConceptContext
         if (!($appName = $this->getApplicationNameFromGlobalRouter())) {
             throw new Exception('Cannot fetch app from global router.');
         }
-
+        
         path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
         path('app_public', path('app') . "public" . path('ds'));
         path('app_uploads', path('uploads') . strtolower($appName) . path('ds'));
         path('app_storage', path('storage') . strtolower($appName) . path('ds'));
+        path('app_private', path('private') . strtolower($appName) . path('ds'));
 
         /**
          * Add app src dir to autoloader and template engine.
