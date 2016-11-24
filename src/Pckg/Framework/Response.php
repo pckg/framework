@@ -385,7 +385,7 @@ class Response
 
     public function download($file, $filename)
     {
-        header("Content-Disposition: attachment; filename=" . urlencode($filename));
+        header("Content-Disposition: attachment; filename=" . $filename);
         header("Content-Type: application/octet-stream");
         header("Content-Type: application/download");
         header("Content-Description: File Transfer");
