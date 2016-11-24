@@ -3,6 +3,7 @@
 namespace Pckg\Framework\View;
 
 use Carbon\Carbon;
+use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Router;
 use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
@@ -91,6 +92,16 @@ class Twig extends AbstractView implements ViewInterface
             new Twig_SimpleFunction(
                 'config', function($text, $default = null) {
                 return config($text, $default);
+            }
+            )
+        );
+        /**
+         * This should be added to Framework provider.
+         */
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
+                'flash', function($key, $delete = true) {
+                return context()->getOrCreate(Flash::class)->get($key, $delete);
             }
             )
         );

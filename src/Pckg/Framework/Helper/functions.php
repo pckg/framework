@@ -12,6 +12,7 @@ use Pckg\Framework\Application;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
 use Pckg\Framework\Request;
+use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
@@ -273,13 +274,11 @@ function session()
  * @param      $key
  * @param null $val
  *
- * @return mixed
+ * @return mixed|Flash
  */
-function flash($key, $val = null)
+function flash($key, $val)
 {
-    return $val
-        ? session()->setFlash($key, $val)
-        : session()->getFlash($key);
+    return context()->getOrCreate(Flash::class)->set($key, $val);
 }
 
 /* config */
