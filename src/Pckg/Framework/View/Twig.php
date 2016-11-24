@@ -3,7 +3,6 @@
 namespace Pckg\Framework\View;
 
 use Carbon\Carbon;
-use Pckg\Framework\Config;
 use Pckg\Framework\Router;
 use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
@@ -90,8 +89,8 @@ class Twig extends AbstractView implements ViewInterface
          */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
-                'config', function($text) {
-                return context()->get(Config::class)->get($text);
+                'config', function($text, $default = null) {
+                return config($text, $default);
             }
             )
         );
