@@ -3,7 +3,6 @@
 namespace Pckg\Framework\Environment;
 
 use Derive\Layout\Provider\DeriveAssets;
-use Exception;
 use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
@@ -61,7 +60,7 @@ class Production extends Environment
         $whoops->register();
     }
 
-    protected function handleException(Exception $e)
+    protected function handleException(Throwable $e)
     {
         if (response()->getCode() == 200) {
             response()->code(404);

@@ -5,7 +5,6 @@ namespace Pckg\Framework\Environment;
 use DebugBar\DebugBar;
 use DebugBar\StandardDebugBar;
 use DebugBar\Storage\FileStorage;
-use Exception;
 use Pckg\Concept\Context;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
