@@ -4,6 +4,7 @@ namespace Pckg\Framework\Response;
 
 use Exception;
 use Pckg\Framework\Exception\NotFound;
+use Throwable;
 
 trait Exceptions
 {
@@ -19,7 +20,13 @@ trait Exceptions
             $this->code = $code;
         }
 
-        $up = new $class($message, $code);
+        if (is_string($class)) {
+            $up = new $class($message, $code);
+
+        } else {
+            $up = $class;
+            
+        }
 
         //d($up->getTraceAsString());
 
@@ -51,9 +58,9 @@ trait Exceptions
         $this->exception($message, 500);
     }
 
-    public function unavailable($message = 'Service unavailable')
+    public function unavailable($message = 'Service unavailable', Throwable $e = null)
     {
-        $this->exception($message, 503);
+        $this->exception($message, 503, $e);
     }
 
 }

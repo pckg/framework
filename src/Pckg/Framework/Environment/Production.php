@@ -79,8 +79,9 @@ class Production extends Environment
                 $response = view(
                     'Pckg\Framework:error/' . $file,
                     [
-                        'message' => $message,
-                        'code'    => $code,
+                        'message'   => $message,
+                        'code'      => $code,
+                        'exception' => $e,
                     ]
                 )->autoparse();
 
