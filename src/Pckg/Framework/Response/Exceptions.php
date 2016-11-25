@@ -16,6 +16,10 @@ trait Exceptions
 
     public function exception($message, $code = 400, $class = Exception::class)
     {
+        if (!$class) {
+            $class = Exception::class;
+        }
+        
         if ($code) {
             $this->code = $code;
         }
@@ -25,7 +29,7 @@ trait Exceptions
 
         } else {
             $up = $class;
-            
+
         }
 
         //d($up->getTraceAsString());
