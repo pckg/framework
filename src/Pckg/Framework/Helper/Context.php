@@ -114,7 +114,7 @@ class Context extends ConceptContext
             /**
              * We register console provider so consoles can be easily accessable.
              */
-            (new ConsoleProvider())->register();
+            // (new ConsoleProvider())->register();
         } else {
             $applicationProvider = new ConsoleProvider();
         }
