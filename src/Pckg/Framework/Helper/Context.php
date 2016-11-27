@@ -64,9 +64,7 @@ class Context extends ConceptContext
          *  - php console
          *  - php console project:update
          *  - php console derive
-         *  - php console derive bob.gonparty
-         *  - php console derive bob.gonparty migrator:install
-         *  - php console derive bob.gonparty migrator:install
+         *  - php console derive migrator:install
          */
         $argv = $_SERVER['argv'];
         $commandIndex = null;

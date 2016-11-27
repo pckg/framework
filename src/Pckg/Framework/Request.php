@@ -117,10 +117,12 @@ class Request extends Lazy
 
     function isMethod($method)
     {
-        return ($method == self::GET && $_SERVER['REQUEST_METHOD'] == "GET")
-               || ($method == self::POST && $_SERVER['REQUEST_METHOD'] == "POST")
-               || ($method == self::PUT && $_SERVER['REQUEST_METHOD'] == "PUT")
-               || ($method == self::DELETE && $_SERVER['REQUEST_METHOD'] == "DELETE");
+        $requestMethod = $_SERVER['REQUEST_METHOD'] ?? null;
+
+        return ($method == self::GET && $requestMethod == "GET")
+               || ($method == self::POST && $requestMethod == "POST")
+               || ($method == self::PUT && $requestMethod == "PUT")
+               || ($method == self::DELETE && $requestMethod == "DELETE");
     }
 
     public function getMethod()

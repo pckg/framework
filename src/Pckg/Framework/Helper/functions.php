@@ -349,7 +349,11 @@ function __i18n($key, $data = [], $lang = null)
             ? (new Twig(null, $data))->setTemplate($translation)->autoparse()
             : $translation;
     } catch (Throwable $e) {
-        return $key;
+        if (prod()) {
+            return $key;
+        }
+
+        throw $e;
     }
 }
 
