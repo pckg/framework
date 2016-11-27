@@ -1,6 +1,6 @@
 <?php
 
-return function($app, $platform = null) {
+return function($app) {
     /**
      * Define base path if it's not defined yet.
      * We need to know this because it's used in a lot of things.
@@ -30,7 +30,7 @@ return function($app, $platform = null) {
      * Create application.
      * It should be passed as parameter.
      */
-    $application = $context->createConsoleApplication($app, $platform);
+    $application = $context->createConsoleApplication($app);
 
     /**
      * Initialize application.

@@ -29,16 +29,13 @@ class Helper extends Module
 
     public function loadPckg()
     {
-        $this->loadApp(
-            $this->getCodeceptConfig()['pckg']['application'],
-            $this->getCodeceptConfig()['pckg']['platform']
-        );
+        $this->loadApp($this->getCodeceptConfig()['pckg']['application']);
     }
 
-    public function loadApp($app, $platform = null)
+    public function loadApp($app)
     {
         $pckg = include realpath(__DIR__ . '/../../../../../../../vendor/pckg/framework/src/bootstrap.php');
-        $pckg($app, $platform);
+        $pckg($app);
     }
 
     public function autoloadPath($dir)

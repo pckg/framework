@@ -57,7 +57,7 @@ class Context extends ConceptContext
         return $application;
     }
 
-    public function createConsoleApplication($appName = null, $platformName = null)
+    public function createConsoleApplication($appName = null)
     {
         /**
          * Examples:
@@ -86,14 +86,6 @@ class Context extends ConceptContext
             } elseif (isset($argv[1]) && $commandIndex > 1) {
                 $appName = $argv[1];
             }
-        }
-
-        if (!$platformName && isset($argv[2]) && (!$commandIndex || $commandIndex == 3)) {
-            $platformName = $argv[2];
-        }
-
-        if ($platformName) {
-            Context::bind('platformName', $platformName);
         }
 
         /**

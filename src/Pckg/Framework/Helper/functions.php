@@ -1,7 +1,6 @@
 <?php
 
 use DebugBar\DebugBar;
-use Derive\Platform\Entity\Platforms;
 use Pckg\Auth\Service\Auth;
 use Pckg\Collection;
 use Pckg\Concept\ChainOfResponsibility;
@@ -320,11 +319,6 @@ function first(...$args)
 function conf($key, $default = null)
 {
     return config($key) ?: $default;
-}
-
-function platform()
-{
-    return Platforms::current();
 }
 
 /**
