@@ -76,7 +76,7 @@ class Request extends Lazy
         Reflect::create(ProcessRouteMatch::class, ['match' => $this->match])->execute();
     }
 
-    function post($key = null)
+    function post($key = null, $default = [])
     {
         if (is_array($key)) {
             $return = [];

@@ -18,6 +18,8 @@ use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
 use Pckg\Manager\Asset;
+use Pckg\Manager\Gtm;
+use Pckg\Manager\Meta;
 use Pckg\Manager\Seo;
 use Pckg\Manager\Vue;
 use Pckg\Queue\Service\Queue;
@@ -66,9 +68,17 @@ function request()
 /**
  * @return Request
  */
-function post($key = null)
+function post($key = null, $default = [])
 {
-    return request()->post($key);
+    return request()->post($key, $default);
+}
+
+/**
+ * @return Request
+ */
+function get($key = null, $default = [])
+{
+    return request()->get($key, $default);
 }
 
 /**
@@ -440,6 +450,22 @@ function vueManager()
 function seoManager()
 {
     return context()->getOrCreate(Seo::class);
+}
+
+/**
+ * @return Seo
+ */
+function metaManager()
+{
+    return context()->getOrCreate(Meta::class);
+}
+
+/**
+ * @return Gtm
+ */
+function gtmManager()
+{
+    return context()->getOrCreate(Gtm::class);
 }
 
 function assets($assets)
