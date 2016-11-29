@@ -72,7 +72,7 @@ class ComposerProject extends Command
                         $logOutput = $this->exec($logCommand, false);
                         $git = str_replace('commit ', '', $logOutput[0][0]);
                         $this->output('Installed: ' . $installed);
-                        $this->output('Git: ' . $git);
+                        $this->output('Git:       ' . $git);
                         if ($git != $installed) {
                             $this->output('Run composer update or project update command');
                             $outdated = true;
