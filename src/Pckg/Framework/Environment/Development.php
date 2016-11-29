@@ -43,7 +43,7 @@ class Development extends Environment
 
         $config->parseDir(path('root'));
 
-        if (isset($_SERVER['REMOTE_ADDR']) && !in_array($_SERVER['REMOTE_ADDR'], config('pckg.framework.dev', []))) {
+        if (isHttp() && !implicitDev()) {
             die('Unauthorized for dev!');
         }
     }

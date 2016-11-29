@@ -507,6 +507,11 @@ function prod()
     return env()->isPro();
 }
 
+function implicitDev()
+{
+    return (isset($_SERVER['REMOTE_ADDR']) && in_array($_SERVER['REMOTE_ADDR'], config('pckg.framework.dev', [])));
+}
+
 function win()
 {
     return env()->isWin();

@@ -115,6 +115,27 @@ class Twig extends AbstractView implements ViewInterface
             }
             )
         );
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
+                'dev', function() {
+                return dev();
+            }
+            )
+        );
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
+                'implicitDev', function() {
+                return implicitDev();
+            }
+            )
+        );
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
+                'prod', function() {
+                return prod();
+            }
+            )
+        );
         /**
          * This should be added to Framework provider.
          */
