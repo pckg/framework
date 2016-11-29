@@ -221,7 +221,7 @@ class Response
     {
         return request()->isAjax()
             ? $this->respondWithAjaxError($data)
-            : $this->notFound('Error response');
+            : $this->notFound();
     }
 
     public function respondWithSuccessRedirect($url = -1)
