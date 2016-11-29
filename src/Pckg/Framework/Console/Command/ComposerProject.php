@@ -44,6 +44,7 @@ class ComposerProject extends Command
                 $output = $outputs[0];
                 if (isset($output[2]) && $output[2] === $clean) {
                     $this->output('Packet is clean.');
+                    $this->exec($pullCommand);
                 } else {
                     $this->output('Packet is changed.');
                     $this->exec($statusCommand);
@@ -59,8 +60,10 @@ class ComposerProject extends Command
                         if ($this->askConfirmation('Push changes?')) {
                             $this->exec($pushCommand);
                         }
+                        $this->exec($pullCommand);
                     } else {
                         $this->output('Skipping commit.');
+                        $this->exec($pullCommand);
                     }
                 }
                 foreach ($composer['packages'] as $composerPacket) {
