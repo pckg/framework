@@ -27,6 +27,7 @@ class Router
     {
         $this->config = $config;
     }
+
     public function getRoute($url)
     {
         return $this->routes[$url][0];
@@ -195,18 +196,21 @@ class Router
                                 }
                             }
                         }
-                        $filteredArgs = (new Collection($args))->reduce(function($item){
-                           return !is_object($item);
-                        }, true)->all();
+                        $filteredArgs = (new Collection($args))->reduce(
+                            function($item) {
+                                return !is_object($item);
+                            },
+                            true
+                        )->all();
                         $route['url'] = str_replace(array_keys($filteredArgs), $filteredArgs, $route['url']);
                     }
 
                     return (
-                           $absolute
+                           $absolute || isConsole()
                                ? $this->config->get("protocol") . '://' .
                                  ($this->config->get("domain") ?? $_SERVER['HTTP_HOST'])
                                : "") .
-                           ($envPrefix && dev()
+                           ($envPrefix && dev() && !isConsole()
                                ? "/dev.php"
                                : ""
                            ) . $route["url"];

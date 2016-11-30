@@ -157,7 +157,18 @@ var utils = {
     },
 
     pushToVue: function (obj) {
-        $.extend(true, $vue, obj);
+        if (false && data.$root) {
+            console.log('Overwriting main Vue.js object', obj);
+            $.extend(true, data.$root, obj);
+            if (obj.on) {
+                $.each(obj.on, function(event, callback){
+                    console.log('live registering ' + event);
+                    data.$root.$on(event, callback.bind(data.$root));
+                });
+            }
+        } else {
+            $.extend(true, $vue, obj);
+        }
     },
 
     nl2br: function (str, is_xhtml) {
