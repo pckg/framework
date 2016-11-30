@@ -2,6 +2,8 @@
 
 namespace Pckg\Framework\View;
 
+use Throwable;
+
 abstract class AbstractView implements ViewInterface
 {
 
@@ -130,7 +132,7 @@ abstract class AbstractView implements ViewInterface
     {
         try {
             $html = $this->autoparse();
-        } catch (\Exception $e) {
+        } catch (Throwable $e) {
             return $e->getMessage();
         }
 
