@@ -277,7 +277,9 @@ class Router
     public function resolved($key = null)
     {
         return $key
-            ? $this->resolved[$key]
+            ? (array_key_exists($key, $this->resolved)
+                ? $this->resolved[$key]
+                : null)
             : $this->resolved;
     }
 
