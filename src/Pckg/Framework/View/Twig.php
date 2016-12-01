@@ -179,7 +179,7 @@ class Twig extends AbstractView implements ViewInterface
          */
         $this->twig->addFilter(
             new Twig_SimpleFilter(
-                'price', function($price, $decimals = 2) {
+                'price', function($price) {
                 if (is_null($price)) {
                     $price = 0.0;
                 }
@@ -192,6 +192,28 @@ class Twig extends AbstractView implements ViewInterface
                            $localeManager->getDecimalPoint(),
                            $localeManager->getThousandSeparator()
                        ) . ' €';
+            }
+            )
+        );
+        $this->twig->addFilter(
+            new Twig_SimpleFilter(
+                'roundPrice', function($price) {
+                if (is_null($price)) {
+                    $price = 0.0;
+                }
+
+                $localeManager = resolve(Locale::class);
+
+                return trim(
+                           (string)number_format(
+                               $price,
+                               2,
+                               $localeManager->getDecimalPoint(),
+                               $localeManager->getThousandSeparator()
+                           ),
+                           '0'
+                       ) . ' €';
+
             }
             )
         );

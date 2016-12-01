@@ -109,15 +109,28 @@ var locale = {
         }
 
         return parseFloat(price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
-            currency: 'eur',
-            currencyDisplay: 'symbol',
-            maximumFractionDigits: decimals == 'undefined'
-                ? 2
-                : decimals,
-            minimumFractionDigits: decimals == 'undefined'
-                ? 2
-                : decimals
-        }) + ' €';
+                currency: 'eur',
+                currencyDisplay: 'symbol',
+                maximumFractionDigits: decimals,
+                minimumFractionDigits: decimals
+            }) + ' €';
+    },
+
+    roundPrice: function (price, decimals) {
+        if (typeof decimals == 'undefined' || decimals === null) {
+            decimals = 2;
+        }
+
+        if (typeof price == 'undefined' || price === null) {
+            price = 0.0;
+        }
+
+        return parseFloat(price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
+                currency: 'eur',
+                currencyDisplay: 'symbol',
+                maximumFractionDigits: decimals,
+                minimumFractionDigits: 0
+            }) + ' €';
     },
 
     date: function (date) {
@@ -161,7 +174,7 @@ var utils = {
             console.log('Overwriting main Vue.js object', obj);
             $.extend(true, data.$root, obj);
             if (obj.on) {
-                $.each(obj.on, function(event, callback){
+                $.each(obj.on, function (event, callback) {
                     console.log('live registering ' + event);
                     data.$root.$on(event, callback.bind(data.$root));
                 });
