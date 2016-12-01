@@ -151,6 +151,16 @@ class Twig extends AbstractView implements ViewInterface
          */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
+                'relativePath', function($key) {
+                return relativePath($key);
+            }
+            )
+        );
+        /**
+         * This should be added to Framework provider.
+         */
+        $this->twig->addFunction(
+            new Twig_SimpleFunction(
                 'select', function($options, $attributes = [], $valueKey = null) {
 
                 $select = new Select();
