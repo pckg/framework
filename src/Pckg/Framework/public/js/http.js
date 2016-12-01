@@ -169,16 +169,41 @@ var utils = {
         return url;
     },
 
+    vues: {},
+
+    lastVue: null,
+
+    createVue: function (key, data) {
+        console.log('Initializing Vue.js ' + key);
+        this.lastVue = this.vues[key] = new Vue(data);
+        console.log(this.lastVue);
+        return this.lastVue;
+    },
+
+    prepareVue: function (key, data) {
+        console.log('Initializing Vue.js ' + key);
+        this.lastVue = this.vues[key] = data;
+        console.log(this.lastVue);
+        return this.lastVue;
+    },
+
     pushToVue: function (obj) {
-        if (false && data.$root) {
-            console.log('Overwriting main Vue.js object', obj);
-            $.extend(true, data.$root, obj);
-            if (obj.on) {
-                $.each(obj.on, function (event, callback) {
-                    console.log('live registering ' + event);
-                    data.$root.$on(event, callback.bind(data.$root));
-                });
-            }
+        if (false && this.lastVue) {
+            console.log('Overwriting last Vue.js object', obj);
+            $.each(obj, function (type, datas) {
+                if (['methods', 'data'].indexOf(type) >= 0) {
+                    console.log('to root', type);
+                    $.each(datas, function (key, data) {
+                        this.lastVue[key] = data;
+                    }.bind(this));
+                } else if (type == 'on') {
+                    console.log('events', type);
+                    $.each(datas, function (event, callback) {
+                        console.log('live registering ' + event);
+                        this.lastVue.$on(event, callback.bind(this.lastVue));
+                    }.bind(this));
+                }
+            }.bind(this));
         } else {
             $.extend(true, $vue, obj);
         }
