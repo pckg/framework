@@ -346,6 +346,17 @@ function path($key = null, $val = null)
     return $val = config('path.' . $key);
 }
 
+/**
+ * @param      $key
+ * @param null $val
+ *
+ * @return array|null
+ */
+function relativePath($key = null)
+{
+    return str_replace(path('root'), '/', config('path.' . $key));
+}
+
 /* quick helpers */
 
 function __i18n($key, $data = [], $lang = null)
