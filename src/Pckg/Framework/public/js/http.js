@@ -173,37 +173,47 @@ var utils = {
 
     lastVue: null,
 
-    createVue: function (key, data) {
-        console.log('Initializing Vue.js ' + key);
-        this.lastVue = this.vues[key] = new Vue(data);
-        console.log(this.lastVue);
-        return this.lastVue;
-    },
+    firstVue: null,
 
-    prepareVue: function (key, data) {
-        console.log('Initializing Vue.js ' + key);
-        this.lastVue = this.vues[key] = data;
-        console.log(this.lastVue);
+    createVue: function (key, data) {
+        this.lastVue = this.vues[key] = new Vue(data);
+
+        if (this.firstVue) {
+            //this.firstVue.$addChild(this.lastVue);
+        } else {
+            this.firstVue = this.lastVue;
+        }
+
         return this.lastVue;
     },
 
     pushToVue: function (obj) {
-        if (false && this.lastVue) {
+        if (this.firstVue) {
             console.log('Overwriting last Vue.js object', obj);
             $.each(obj, function (type, datas) {
-                if (['methods', 'data'].indexOf(type) >= 0) {
-                    console.log('to root', type);
+                if (type == 'methods') {
+                    console.log(" " + type);
                     $.each(datas, function (key, data) {
-                        this.lastVue[key] = data;
+                        console.log("  " + key);
+                        this.firstVue[key] = data.bind(this.firstVue);
+                    }.bind(this));
+                } else if (type == 'data') {
+                    console.log(" " + type);
+                    $.each(datas, function (key, data) {
+                        console.log("  " + key);
+                        this.firstVue[key] = data;
                     }.bind(this));
                 } else if (type == 'on') {
-                    console.log('events', type);
+                    console.log(" " + type);
                     $.each(datas, function (event, callback) {
-                        console.log('live registering ' + event);
-                        this.lastVue.$on(event, callback.bind(this.lastVue));
+                        console.log("  " + event);
+                        this.firstVue.$on(event, callback.bind(this.firstVue));
                     }.bind(this));
+                } else {
+                    console.log('unknown', type, datas);
                 }
             }.bind(this));
+            console.log(this.firstVue);
         } else {
             $.extend(true, $vue, obj);
         }
