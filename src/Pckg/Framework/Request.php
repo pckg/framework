@@ -21,7 +21,7 @@ class Request extends Lazy
 
     protected $url;
 
-    public $post, $get, $server, $session;
+    public $post, $get, $server, $session, $cookie, $files;
 
     protected $router, $response;
 
@@ -40,6 +40,7 @@ class Request extends Lazy
         $this->get = new Lazy($_GET);
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
+        $this->cookie = new Lazy($_COOKIE);
 
         $this->fetchUrl();
     }
@@ -123,6 +124,13 @@ class Request extends Lazy
         return is_null($key)
             ? $this->get
             : $this->get->get($key, $default);
+    }
+
+    function server($key = null, $default = [])
+    {
+        return is_null($key)
+            ? $this->server
+            : $this->server->get($key, $default);
     }
 
     function session($key = null, $default = [])

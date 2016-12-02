@@ -82,6 +82,14 @@ function get($key = null, $default = [])
 }
 
 /**
+ * @return Request
+ */
+function server($key = null, $default = [])
+{
+    return request()->server($key, $default);
+}
+
+/**
  * @return Auth
  */
 function auth($provider = null)
