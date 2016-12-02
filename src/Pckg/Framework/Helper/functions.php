@@ -66,7 +66,7 @@ function request()
 }
 
 /**
- * @return Request
+ * @return Request|mixed
  */
 function post($key = null, $default = [])
 {
@@ -74,7 +74,7 @@ function post($key = null, $default = [])
 }
 
 /**
- * @return Request
+ * @return Request|mixed
  */
 function get($key = null, $default = [])
 {
