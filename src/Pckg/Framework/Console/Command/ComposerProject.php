@@ -26,23 +26,23 @@ class ComposerProject extends Command
             'charts',
         ];
 
-        $clean = 'nothing to commit, working directory clean';
+        $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];
         $composer = json_decode(file_get_contents(path('root') . 'composer.lock'), true);
         $outdated = false;
 
         foreach ($packets as $packet) {
             $this->output('Checking ' . $packet);
             $path = path('root') . 'vendor' . path('ds') . 'pckg' . path('ds') . $packet;
-            $statusCommand = 'cd ' . $path . '; git status';
-            $diffCommand = 'cd ' . $path . '; git diff';
-            $pullCommand = 'cd ' . $path . '; git pull --ff';
-            $pushCommand = 'cd ' . $path . '; git push';
-            $logCommand = 'cd ' . $path . '; git log';
-            $commitCommand = 'cd ' . $path . '; git add . --all; git commit -m';
+            $statusCommand = 'cd ' . $path . ' && git status';
+            $diffCommand = 'cd ' . $path . ' && git diff';
+            $pullCommand = 'cd ' . $path . ' && git pull --ff';
+            $pushCommand = 'cd ' . $path . ' && git push';
+            $logCommand = 'cd ' . $path . ' && git log';
+            $commitCommand = 'cd ' . $path . ' && git add . --all && git commit -m';
             $outputs = $this->exec($statusCommand, false);
             if (isset($outputs[0])) {
                 $output = $outputs[0];
-                if (isset($output[2]) && $output[2] === $clean) {
+                if (isset($output[2]) && in_array($output[2], $clean)) {
                     $this->output('Packet is clean.');
                     $this->exec($pullCommand);
                 } else {
