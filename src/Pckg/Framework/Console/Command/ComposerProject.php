@@ -42,7 +42,8 @@ class ComposerProject extends Command
             $outputs = $this->exec($statusCommand, false);
             if (isset($outputs[0])) {
                 $output = $outputs[0];
-                if (isset($output[2]) && in_array($output[2], $clean)) {
+                $end = end($output);
+                if (in_array($end, $clean)) {
                     $this->output('Packet is clean.');
                     $this->exec($pullCommand);
                 } else {
