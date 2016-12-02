@@ -9,6 +9,7 @@ use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
 use Pckg\Framework\View\AbstractView;
 use Pckg\Framework\View\Twig;
+use Throwable;
 
 class Response
 {
@@ -172,6 +173,65 @@ class Response
         if (isset($_SERVER['HTTP_REFERER'])) {
             return $_SERVER['HTTP_REFERER'];
         }
+    }
+
+    public function internal($url = null)
+    {
+        try {
+            if (!$url) {
+                $url = $_SERVER['REQUEST_URI'];
+            }
+
+            message('Internal redirect to ' . $url);
+
+            /**
+             * Set GET method.
+             */
+            $_SERVER['REQUEST_METHOD'] = 'GET';
+            $_SERVER['REQUEST_URI'] = $url;
+            $_POST = [];
+
+            /**
+             * Replace prefix in url because environment was already set.
+             */
+            $url = env()->replaceUrlPrefix($url);
+
+            /**
+             * Set request url.
+             */
+            request()->setUrl($url);
+
+            /**
+             * Make request internal so we increase counter.
+             */
+            request()->setInternal();
+
+            /**
+             * Find match.
+             */
+            request()->init();
+
+            /**
+             * Run actions.
+             */
+            request()->run();
+
+            /**
+             * Output.
+             */
+            response()->run();
+
+            exit;
+        } catch (Throwable $e) {
+            if (prod()) {
+                die(exception($e));
+                die("Unknown internal error");
+            }
+
+            die(exception($e));
+        }
+
+        exit;
     }
 
     public function redirect($url = null, $httpParams = [], $routerParams = [])

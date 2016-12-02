@@ -108,6 +108,11 @@ function redirect($url = null)
     return response()->redirect($url);
 }
 
+function internal($url = null)
+{
+    return response()->internal($url);
+}
+
 /**
  * @param null $entity
  *

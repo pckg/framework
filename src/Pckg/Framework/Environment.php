@@ -19,6 +19,15 @@ class Environment implements AssetManager
         return $this->urlPrefix;
     }
 
+    public function replaceUrlPrefix($url)
+    {
+        if (strpos($url, $this->urlPrefix . '/') === 0) {
+            $url = substr($url, strlen($this->urlPrefix));
+        }
+
+        return $url;
+    }
+
     public function init()
     {
         chain($this->initArray());

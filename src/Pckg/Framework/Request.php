@@ -27,6 +27,10 @@ class Request extends Lazy
 
     protected $match;
 
+    protected $internal = 0;
+
+    protected $internals = [];
+
     function __construct(Router $router, Response $response)
     {
         $this->router = $router;
@@ -37,6 +41,21 @@ class Request extends Lazy
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
 
+        $this->fetchUrl();
+    }
+
+    public function setInternal()
+    {
+        $this->internal++;
+        $this->internals[] = $this->url;
+
+        if ($this->internal > 2) {
+            die($this->internal . ' internal redirects');
+        }
+    }
+
+    public function fetchUrl()
+    {
         $parsedUrl = parse_url($_SERVER['REQUEST_URI'] ?? '/');
 
         $url = $parsedUrl['path'];
@@ -59,6 +78,11 @@ class Request extends Lazy
 
         }
 
+        $this->setUrl($url);
+    }
+
+    public function setUrl($url)
+    {
         $this->url = $url;
     }
 
