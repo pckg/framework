@@ -116,7 +116,7 @@ class Request extends Lazy
 
         }
 
-        return $this->post->get($key);
+        return $this->post->get($key, $default);
     }
 
     function get($key = null, $default = [])
