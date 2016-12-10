@@ -19,6 +19,7 @@ use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Element\Form;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Gtm;
+use Pckg\Manager\Locale;
 use Pckg\Manager\Meta;
 use Pckg\Manager\Seo;
 use Pckg\Manager\Vue;
@@ -477,6 +478,14 @@ function seoManager()
 }
 
 /**
+ * @return Locale
+ */
+function localeManager()
+{
+    return context()->getOrCreate(Locale::class);
+}
+
+/**
  * @return Seo
  */
 function metaManager()
@@ -677,6 +686,20 @@ function img($name, $dir = null, $relative = true, $base = null)
 function media($name, $dir = null, $relative = true, $base = null)
 {
     return img($name, $dir, $relative, $base);
+}
+
+function runInLocale($call, $locale)
+{
+    $prevLocale = localeManager()->getCurrent();
+    if ($locale != $prevLocale) {
+        localeManager()->setCurrent($locale);
+        $response = $call();
+        localeManager()->setCurrent($prevLocale);
+    } else {
+        $response = $call();
+    }
+
+    return $response;
 }
 
 function sluggify($str)
