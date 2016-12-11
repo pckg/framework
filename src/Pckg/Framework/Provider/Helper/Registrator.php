@@ -10,6 +10,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Stack;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
+use Pckg\Queue\Service\Cron;
 use Symfony\Component\Console\Application as SymfonyConsole;
 
 trait Registrator
@@ -183,6 +184,15 @@ trait Registrator
             foreach ($listeners as $listener) {
                 $dispatcher->listen($event, $listener);
             }
+        }
+    }
+
+    public function registerJobs($jobs)
+    {
+        foreach ($jobs as $job) {
+            /**
+             * @T00D00
+             */
         }
     }
 

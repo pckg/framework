@@ -129,4 +129,9 @@ class Provider
         return [];
     }
 
+    public function jobs()
+    {
+        return [];
+    }
+
 }
