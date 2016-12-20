@@ -17,7 +17,7 @@
     "twig/twig": "1.25.*",
     "filp/whoops": "2.*",
     "maximebf/debugbar": "1.*",
-    "rollbar/rollbar": "^0.15.0"
+    "rollbar/rollbar": "1.*"
   },
   "autoload": {
     "psr-0": {
