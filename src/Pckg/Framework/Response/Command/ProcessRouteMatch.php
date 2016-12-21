@@ -90,6 +90,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             exit;
 
         } catch (Throwable $e) {
+            $this->response->code(500);
             /**
              * @T00D00 - this should be somewhere else
              */
