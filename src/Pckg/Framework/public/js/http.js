@@ -231,6 +231,10 @@ var utils = {
     sendToParent: function (data) {
         console.log("Sending event", data);
         parent.postMessage(data, window.location.origin);
+    },
+
+    isIframe: function () {
+        return parent.window != window;
     }
 
 };
