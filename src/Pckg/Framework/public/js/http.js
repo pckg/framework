@@ -238,3 +238,59 @@ var utils = {
     }
 
 };
+
+var settings = settings || {};
+settings.vue = settings.vue || {};
+settings.vue.gmaps = {
+    themes: {
+        getOptions: function (theme) {
+            var themes = settings.vue.gmaps.themes;
+            var options = themes.base;
+
+            // merge with defaults
+            if (typeof themes[theme] != 'undefined') {
+                options = this.mergeOptions(options, themes[theme]);
+            }
+
+            return options;
+        },
+        mergeOptions: function (original, overwrite) {
+            $.each(overwrite, function (i, values) {
+                original[i] = values;
+            });
+
+            return original;
+        },
+        base: {
+            zoom: 15,
+            center: new google.maps.LatLng(46.055144, 14.512284),
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeControl: false,
+            scrollwheel: false
+        },
+        detail: {
+            zoom: 17
+        },
+        creation: {
+            zoom: 14,
+            maxZoom: 16,
+            minZoom: 12,
+            scroolwheel: true,
+            streetViewControl: false,
+            panControl: false,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.SMALL,
+                position: google.maps.ControlPosition.RIGHT_TOP
+            }
+        },
+        results: {
+            zoom: 15,
+            maxZoom: 16,
+            minZoom: 12,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.SMALL,
+                position: google.maps.ControlPosition.LEFT_TOP
+            }
+        }
+    }
+};
