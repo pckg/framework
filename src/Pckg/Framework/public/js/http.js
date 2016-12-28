@@ -262,35 +262,15 @@ settings.vue.gmaps = {
             return original;
         },
         base: {
-            zoom: 15,
+            zoom: 10,
             center: new google.maps.LatLng(46.055144, 14.512284),
             mapTypeId: google.maps.MapTypeId.ROADMAP,
-            mapTypeControl: false,
-            scrollwheel: false
-        },
-        detail: {
-            zoom: 17
-        },
-        creation: {
-            zoom: 14,
-            maxZoom: 16,
-            minZoom: 12,
-            scroolwheel: true,
-            streetViewControl: false,
-            panControl: false,
-            zoomControlOptions: {
-                style: google.maps.ZoomControlStyle.SMALL,
-                position: google.maps.ControlPosition.RIGHT_TOP
-            }
-        },
-        results: {
-            zoom: 15,
-            maxZoom: 16,
-            minZoom: 12,
-            zoomControlOptions: {
-                style: google.maps.ZoomControlStyle.SMALL,
-                position: google.maps.ControlPosition.LEFT_TOP
-            }
+            //mapTypeControl: false,
+            //scrollwheel: false
         }
     }
+};
+
+var d = function (data) {
+    console.log(data);
 };
