@@ -263,8 +263,7 @@ settings.vue.gmaps = {
         },
         base: {
             zoom: 10,
-            center: new google.maps.LatLng(46.055144, 14.512284),
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            center: [46.055144, 14.512284],
             //mapTypeControl: false,
             //scrollwheel: false
         }
