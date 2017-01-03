@@ -126,6 +126,11 @@ class Response
         return $this;
     }
 
+    /**
+     * @param $output
+     *
+     * @return $this
+     */
     public function setOutput($output)
     {
         $this->output = $output;
