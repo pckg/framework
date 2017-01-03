@@ -7,6 +7,7 @@ use Pckg\Framework\Locale\Lang;
 use Pckg\Framework\Provider;
 use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Server;
+use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Htmlbuilder\Provider\Htmlbuilder;
@@ -40,6 +41,7 @@ class Framework extends Provider
             '_router'   => Router::class,
             '_env'      => Environment::class,
             '_lang'     => Lang::class,
+            '_session'  => Session::class,
         ];
     }
 

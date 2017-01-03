@@ -1,8 +1,7 @@
-<?php
-
-namespace Pckg\Framework\Locale;
+<?php namespace Pckg\Framework\Locale;
 
 use Pckg\Database\Entity\Extension\Adapter\Lang as LangAdapter;
+use Pckg\Framework\Inter\Entity\Languages;
 
 class Lang implements LangAdapter
 {
@@ -16,9 +15,14 @@ class Lang implements LangAdapter
         return $this;
     }
 
-    public function langId()
+    public function langId($section = null)
     {
         return $this->langId;
+    }
+
+    public function getLanguages()
+    {
+        return (new Languages())->joinTranslations()->all();
     }
 
 }
