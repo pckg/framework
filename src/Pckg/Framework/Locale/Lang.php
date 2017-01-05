@@ -22,7 +22,7 @@ class Lang implements LangAdapter
 
     public function getLanguages()
     {
-        return (new Languages())->joinTranslations()->all();
+        return (new Languages())->all();
     }
 
 }

@@ -13,4 +13,9 @@ class Languages extends Entity
 
     protected $record = Language::class;
 
+    public function boot()
+    {
+        $this->joinTranslations();
+    }
+
 }
