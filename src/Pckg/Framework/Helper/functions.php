@@ -462,7 +462,7 @@ function assetManager()
 }
 
 /**
- * @return Asset
+ * @return Vue
  */
 function vueManager()
 {
