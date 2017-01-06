@@ -702,6 +702,19 @@ function runInLocale($call, $locale)
     return $response;
 }
 
+function isArrayList($array)
+{
+    $i = 0;
+    foreach (array_keys($array) as $key) {
+        if ($key !== $i) {
+            return false;
+        }
+        $i++;
+    }
+
+    return true;
+}
+
 function sluggify($str)
 {
     # special accents

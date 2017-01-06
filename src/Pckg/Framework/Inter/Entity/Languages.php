@@ -1,6 +1,4 @@
-<?php
-
-namespace Pckg\Framework\Inter\Entity;
+<?php namespace Pckg\Framework\Inter\Entity;
 
 use Pckg\Database\Entity;
 use Pckg\Database\Entity\Extension\Translatable;

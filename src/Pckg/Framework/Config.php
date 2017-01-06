@@ -118,7 +118,7 @@ class Config
             /**
              * Value is list of items.
              */
-            if (array_key_exists(0, $val)) {
+            if (isArrayList($val)) {
                 $to[$key] = $val;
                 continue;
             }
@@ -126,7 +126,9 @@ class Config
             /**
              * Value is keyed array.
              */
-            $to[$key] = $this->merge($to[$key], $val);
+            if (is_array($to[$key])) {
+                $to[$key] = $this->merge($to[$key], $val);
+            }
         }
 
         return $to;
