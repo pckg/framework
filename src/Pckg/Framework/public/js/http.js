@@ -71,6 +71,12 @@ var http = {
             } else if (typeof val == 'undefined') {
                 data[key] = '';
 
+            } else if (val === true) {
+                data[key] = 1;
+
+            } else if (val === false || val === '' || val === null) {
+                data[key] = null;
+
             }
         });
 
