@@ -70,9 +70,9 @@ class Command extends SymfonyConsoleCommand
         return $this->input->getOption($name) ?? $default;
     }
 
-    public function output($msg = '')
+    public function output($msg = '', $type = null) // info, comment, question, error
     {
-        $this->output->write($msg . "\n");
+        $this->output->write(($type ? '<' . $type . '>' : '') . $msg . "\n" . ($type ? '</' . $type . '>' : ''));
 
         return $this;
     }
@@ -84,7 +84,7 @@ class Command extends SymfonyConsoleCommand
 
     public function askQuestion($question, $default = null, $attempts = null, $validator = null)
     {
-        $question = new Question($question, $default);
+        $question = new Question('<question>' . $question . '</question>', $default);
 
         if ($attempts) {
             $question->setMaxAttempts($attempts);
@@ -99,12 +99,12 @@ class Command extends SymfonyConsoleCommand
 
     public function askConfirmation($question, $default = true, $trueAnswerRegex = '/^y/i')
     {
-        return $this->ask(new ConfirmationQuestion($question, $default, $trueAnswerRegex));
+        return $this->ask(new ConfirmationQuestion('<question>' . $question . '</question>', $default, $trueAnswerRegex));
     }
 
     public function askChoice($question, array $choices, $default = null)
     {
-        return $this->ask(new ChoiceQuestion($question, $choices, $default));
+        return $this->ask(new ChoiceQuestion('<question>' . $question . '</question>', $choices, $default));
     }
 
     public function exec($execs, $printOutput = true, $cd = false)
