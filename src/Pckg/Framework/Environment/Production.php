@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework\Environment;
 
-use Derive\Layout\Provider\DeriveAssets;
 use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
@@ -67,10 +66,6 @@ class Production extends Environment
         }
         $code = $e->getCode() ? $e->getCode() : response()->getCode();
         $message = $e->getMessage();
-
-        if (class_exists(DeriveAssets::class)) {
-            Reflect::create(DeriveAssets::class)->register();
-        }
 
         $handled = false;
         $codes = [$code, 'default'];
