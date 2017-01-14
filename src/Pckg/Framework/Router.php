@@ -178,7 +178,7 @@ class Router
                          * If index is not set, argument should be resolved by post/get data or similar.
                          * T00D00 - this needs to be resolved without proper index (find by class)
                          */
-                        if (isset($args['[' . $key . ']'])) {
+                        if (isset($args['[' . $key . ']']) && is_object($args['[' . $key . ']'])) {
                             $args['[' . $key . ']'] = resolve($resolver)->parametrize($args['[' . $key . ']']);
                         }
                     }
