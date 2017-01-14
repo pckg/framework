@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework;
 
+use Pckg\Collection;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Response\Exception\TheEnd;
@@ -161,8 +162,8 @@ class Response
             $this->setOutput((string)$this->output);
 
         } else if (is_string($this->output)) {
-            if (request()->isAjax()) {
-                $this->setOutput(json_encode(['_html' => $this->output]));
+            if (request()->isAjax()/* && strpos($this->output, '[') !== 0 && strpos($this->output, '{') !== 0*/) {
+                //$this->setOutput(json_encode(['_html' => $this->output]));
             }
         }
 

@@ -58,7 +58,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
 
             try {
-                $output = $this->parseViewToString($response);
+                $output = $this->parseView($response);
 
             } catch (Throwable $e) {
                 // @T00D00 - log!
@@ -108,11 +108,19 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         }
     }
 
-    public function parseViewToString($viewData)
+    public function parseView($viewData)
     {
-        if ($viewData instanceof ViewInterface) {
-            // parse layout into view
-            return $viewData->autoparse();
+        if (is_object($viewData)) {
+            if ($viewData instanceof ViewInterface) {
+                // parse layout into view
+                return $viewData->autoparse();
+            } else if ($viewData instanceof Collection) {
+                // convert to array
+                return $viewData->toArray();
+            } else if (method_exists($viewData, '__toString')) {
+                return (string)$viewData;
+
+            }
 
         } else if (is_string($viewData) || is_array($viewData)) {
             // print view as content
@@ -122,12 +130,6 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             // without view
             return null;
 
-        } else if (is_object($viewData) && $viewData instanceof Collection) {
-            // convert to array
-            return $viewData->toArray();
-
-        } else if (is_object($viewData) && method_exists($viewData, '__toString')) {
-            return (string)$viewData;
         }
 
         throw new Exception("View is unknown type " . (is_object($viewData) ? get_class($viewData) : ''));
