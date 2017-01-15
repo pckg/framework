@@ -27,6 +27,7 @@ class ComposerProject extends Command
         ];
 
         $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];
+        $ahead = ['Your branch is ahead of '];
         $composer = json_decode(file_get_contents(path('root') . 'composer.lock'), true);
         $outdated = false;
 
@@ -46,6 +47,17 @@ class ComposerProject extends Command
                 if (in_array($end, $clean)) {
                     $this->output('Packet is clean.');
                     $this->exec($pullCommand);
+
+                    if (isset($output[1])) {
+                        foreach ($ahead as $a) {
+                            if (strpos($output[1], $a) === 0) {
+                                if ($this->askConfirmation('Push changes?')) {
+                                    $this->exec($pushCommand);
+                                }
+                                break;
+                            }
+                        }
+                    }
                 } else {
                     $this->output('Packet is changed.');
                     $this->exec($statusCommand);
