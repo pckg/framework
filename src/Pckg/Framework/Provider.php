@@ -63,10 +63,12 @@ class Provider
         $file = $db[0]['file'];
         $class = $db[1]['class'];
 
-        return [
+        $paths = [
             realpath(substr($file, 0, strrpos($file, path('ds'))) . path('ds') . '..' . path('ds') . 'View'),
             substr($file, 0, -strlen($class) - strlen('.php')),
         ];
+
+        return $paths;
     }
 
     public function apps()
