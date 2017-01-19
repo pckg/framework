@@ -7,17 +7,6 @@ class Config
 
     protected $data = [];
 
-    public function initSettings()
-    {
-        $appConfig = $this->get();
-
-        $this->set('domain', $appConfig['domain']);
-        $this->set('title', $appConfig['title']);
-        $this->set('protocol', $appConfig['protocol']);
-        $this->set('url', $appConfig['protocol'] . "://" . $appConfig['domain']);
-        $this->set('hash', $appConfig['security']['hash']);
-    }
-
     public function get($key = null, $default = null)
     {
         if (!$key) {
@@ -94,6 +83,8 @@ class Config
         }
 
         $this->data = $this->merge($this->data, $settings);
+
+        $this->set('url', config('protocol') . "://" . config('domain'));
     }
 
     private function merge($to, $merge)

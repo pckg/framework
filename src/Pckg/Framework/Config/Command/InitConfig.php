@@ -1,14 +1,15 @@
-<?php
-
-namespace Pckg\Framework\Config\Command;
+<?php namespace Pckg\Framework\Config\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
-use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
-use Pckg\Framework\Router;
 
 class InitConfig extends AbstractChainOfReponsibility
 {
+
+    /**
+     * @var Config
+     */
+    protected $config;
 
     public function __construct(Config $config)
     {
@@ -17,7 +18,6 @@ class InitConfig extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        $this->config->initSettings();
         $this->config->parseDir(path('app'));
 
         return $next();
