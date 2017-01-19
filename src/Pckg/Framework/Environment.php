@@ -30,7 +30,11 @@ class Environment implements AssetManager
 
     public function init()
     {
+        trigger('env.initializing', [$this]);
+
         chain($this->initArray());
+
+        trigger('env.initialized', [$this]);
 
         return $this;
     }

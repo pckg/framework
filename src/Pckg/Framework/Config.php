@@ -18,7 +18,7 @@ class Config
         $this->set('hash', $appConfig['security']['hash']);
     }
 
-    public function get($key = null)
+    public function get($key = null, $default = null)
     {
         if (!$key) {
             return $this->data;
@@ -34,7 +34,7 @@ class Config
             return $this->recursive($keys, 0, $this->data);
         }
 
-        return null;
+        return $default;
     }
 
     protected function recursive($keys, $i, $data)
