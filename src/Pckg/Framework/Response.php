@@ -283,11 +283,18 @@ class Response
         return $this;
     }
 
-    public function respondWithError($data = [])
+    /**
+     * @T00D00 - rename this to success()
+     *
+     * @return Response
+     */
+    public function respondWithSuccess($data = [])
     {
+        $this->code = 200;
+
         return request()->isAjax()
-            ? $this->respondWithAjaxError($data)
-            : $this->notFound();
+            ? $this->respondWithAjaxSuccess($data)
+            : $this->redirect();
     }
 
     public function respondWithSuccessRedirect($url = -1)
@@ -301,33 +308,6 @@ class Response
         return request()->isAjax()
             ? $this->respondWithAjaxSuccessAndRedirect($url)
             : $this->redirect($url);
-    }
-
-    public function respondWithErrorRedirect($url = -1)
-    {
-        if ($url == -1) {
-            $url = $this->getMinusUrl();
-        }
-
-        $this->code = 200;
-
-        return request()->isAjax()
-            ? $this->respondWithAjaxErrorAndRedirect()
-            : $this->redirect($url);
-    }
-
-    /**
-     * @T00D00 - rename this to success()
-     *
-     * @return Response
-     */
-    public function respondWithSuccess($data = [])
-    {
-        $this->code = 200;
-
-        return request()->isAjax()
-            ? $this->respondWithAjaxSuccess($data)
-            : $this->redirect();
     }
 
     /**
@@ -344,21 +324,6 @@ class Response
                 [
                     'success' => true,
                     'error'   => false,
-                ],
-                $data
-            )
-        );
-    }
-
-    public function respondWithAjaxError($data = [])
-    {
-        $this->code = 200;
-
-        return $this->respond(
-            array_merge(
-                [
-                    'success' => false,
-                    'error'   => true,
                 ],
                 $data
             )
@@ -382,6 +347,71 @@ class Response
         );
     }
 
+    public function respondWithAjaxSuccessAndRedirectBack()
+    {
+        $this->code = 200;
+
+        return $this->respond(
+            [
+                'success'  => true,
+                'error'    => false,
+                'redirect' => $this->getMinusUrl(),
+            ]
+        );
+    }
+
+    public function respondWithSuccessOrRedirect($url)
+    {
+        $this->code = 200;
+
+        return request()->isAjax()
+            ? $this->respondWithAjaxSuccessAndRedirect($url)
+            : $this->redirect($url);
+
+    }
+
+    public function respondWithSuccessOrRedirectBack()
+    {
+        $this->code = 200;
+
+        return $this->respondWithSuccessOrRedirect(-1);
+    }
+
+    public function respondWithError($data = [])
+    {
+        return request()->isAjax()
+            ? $this->respondWithAjaxError($data)
+            : $this->notFound();
+    }
+
+    public function respondWithErrorRedirect($url = -1)
+    {
+        if ($url == -1) {
+            $url = $this->getMinusUrl();
+        }
+
+        $this->code = 200;
+
+        return request()->isAjax()
+            ? $this->respondWithAjaxErrorAndRedirect($url)
+            : $this->redirect($url);
+    }
+
+    public function respondWithAjaxError($data = [])
+    {
+        $this->code = 200;
+
+        return $this->respond(
+            array_merge(
+                [
+                    'success' => false,
+                    'error'   => true,
+                ],
+                $data
+            )
+        );
+    }
+
     public function respondWithAjaxErrorAndRedirect($url)
     {
         if ($url == -1) {
@@ -397,36 +427,6 @@ class Response
                 'redirect' => $url,
             ]
         );
-    }
-
-    public function respondWithAjaxSuccessAndRedirectBack()
-    {
-        $this->code = 200;
-
-        return $this->respond(
-            [
-                'success'  => true,
-                'error'    => false,
-                'redirect' => $this->getMinusUrl(),
-            ]
-        );
-    }
-
-    public function respondWithSuccessOrRedirectBack()
-    {
-        $this->code = 200;
-
-        return $this->respondWithSuccessOrRedirect(-1);
-    }
-
-    public function respondWithSuccessOrRedirect($url)
-    {
-        $this->code = 200;
-
-        return request()->isAjax()
-            ? $this->respondWithAjaxSuccessAndRedirect($url)
-            : $this->redirect($url);
-
     }
 
     public function respond($string = null)

@@ -591,10 +591,14 @@ function debugBar()
         : null;
 }
 
-function message($message)
+function message($message, $collector = 'messages')
 {
     if ($debugBar = debugBar()) {
-        $debugBar->getCollector('messages')->addMessage($message);
+        if (!$debugBar->hasCollector($collector)) {
+            $debugBar->addCollector(new \DebugBar\DataCollector\MessagesCollector($collector));
+        }
+
+        $debugBar->getCollector($collector)->addMessage($message);
     }
 }
 
