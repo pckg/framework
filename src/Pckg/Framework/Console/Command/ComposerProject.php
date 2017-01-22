@@ -32,8 +32,11 @@ class ComposerProject extends Command
         $outdated = false;
 
         foreach ($packets as $packet) {
-            $this->output('Checking ' . $packet);
             $path = path('root') . 'vendor' . path('ds') . 'pckg' . path('ds') . $packet;
+            if (!is_dir($path)) {
+                continue;
+            }
+            $this->output('Checking ' . $packet);
             $statusCommand = 'cd ' . $path . ' && git status';
             $diffCommand = 'cd ' . $path . ' && git diff';
             $pullCommand = 'cd ' . $path . ' && git pull --ff';
