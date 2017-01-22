@@ -32,9 +32,19 @@ use Pckg\Translator\Service\Translator;
  * @return Context
  * @throws Exception
  */
-function context()
+function context($key = null, $val = null)
 {
-    return Context::getInstance();
+    $context = Context::getInstance();
+
+    if ($val) {
+        return $context->bind($key, $val);
+
+    } else if ($key) {
+        return $context->get($key);
+
+    }
+
+    return $context;
 }
 
 /**
