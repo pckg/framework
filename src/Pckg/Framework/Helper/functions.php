@@ -1217,3 +1217,11 @@ function get_date_diff($time1, $time2, $precision = 2)
     // Return string with times
     return implode(", ", $times);
 }
+
+function br2nl($string)
+{
+    $string = str_replace(['<br />', '<br/>', '<br>'], "\n", $string);
+    $string = str_replace('"', '\"', $string);
+
+    return '"' . $string . '"';
+}
