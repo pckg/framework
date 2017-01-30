@@ -718,15 +718,7 @@ function runInLocale($call, $locale)
 
 function isArrayList($array)
 {
-    $i = 0;
-    foreach (array_keys($array) as $key) {
-        if ($key !== $i) {
-            return false;
-        }
-        $i++;
-    }
-
-    return true;
+    return array_keys($array) === range(0, count($array) - 1);
 }
 
 function sluggify($str)
