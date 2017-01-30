@@ -32,373 +32,431 @@ use Pckg\Translator\Service\Translator;
  * @return Context
  * @throws Exception
  */
-function context($key = null, $val = null)
-{
-    $context = Context::getInstance();
+if (!function_exists('context')) {
+    function context($key = null, $val = null)
+    {
+        $context = Context::getInstance();
 
-    if ($val) {
-        return $context->bind($key, $val);
+        if ($val) {
+            return $context->bind($key, $val);
 
-    } else if ($key) {
-        return $context->get($key);
+        } else if ($key) {
+            return $context->get($key);
 
+        }
+
+        return $context;
     }
-
-    return $context;
 }
 
 /**
  * @return Environment
  */
-function env()
-{
-    return context()->get(Environment::class);
+if (!function_exists('env')) {
+    function env()
+    {
+        return context()->get(Environment::class);
+    }
 }
 
-function object_implements($object, $interface)
-{
-    return in_array($interface, class_implements($object));
+if (!function_exists('object_implements')) {
+    function object_implements($object, $interface)
+    {
+        return in_array($interface, class_implements($object));
+    }
 }
 
 /**
  * @return Application
  */
-function app()
-{
-    return context()->get(Application::class);
+if (!function_exists('app')) {
+    function app()
+    {
+        return context()->get(Application::class);
+    }
 }
 
 /**
  * @return Request
  */
-function request()
-{
-    return context()->get(Request::class);
+if (!function_exists('request')) {
+    function request()
+    {
+        return context()->get(Request::class);
+    }
 }
 
 /**
  * @return Request|mixed
  */
-function post($key = null, $default = [])
-{
-    return request()->post($key, $default);
+if (!function_exists('post')) {
+    function post($key = null, $default = [])
+    {
+        return request()->post($key, $default);
+    }
 }
 
 /**
  * @return Request|mixed
  */
-function get($key = null, $default = [])
-{
-    return request()->get($key, $default);
+if (!function_exists('get')) {
+    function get($key = null, $default = [])
+    {
+        return request()->get($key, $default);
+    }
 }
 
 /**
  * @return Request
  */
-function server($key = null, $default = [])
-{
-    return request()->server($key, $default);
+if (!function_exists('server')) {
+    function server($key = null, $default = [])
+    {
+        return request()->server($key, $default);
+    }
 }
 
 /**
  * @return Auth
  */
-function auth($provider = null)
-{
-    $auth = context()->getOrCreate(Auth::class);
+if (!function_exists('auth')) {
+    function auth($provider = null)
+    {
+        $auth = context()->getOrCreate(Auth::class);
 
-    if ($provider) {
-        $auth->useProvider($provider);
+        if ($provider) {
+            $auth->useProvider($provider);
+        }
+
+        return $auth;
     }
-
-    return $auth;
 }
 
-/**
- * @return Response
- */
-function response()
-{
-    return context()->get(Response::class);
+if (!function_exists('response')) {
+    /**
+     * @return Response
+     */
+    function response()
+    {
+        return context()->get(Response::class);
+    }
 }
 
-function redirect($url = null)
-{
-    return response()->redirect($url);
+if (!function_exists('redirect')) {
+    function redirect($url = null)
+    {
+        return response()->redirect($url);
+    }
 }
 
-function internal($url = null)
-{
-    return response()->internal($url);
+if (!function_exists('internal')) {
+    function internal($url = null)
+    {
+        return response()->internal($url);
+    }
 }
 
-/**
- * @param null $entity
- *
- * @return \Pckg\Database\Entity
- */
-function entity($entity = null)
-{
-    return context()->getEntity($entity);
+if (!function_exists('entity')) {
+    /**
+     * @param null $entity
+     *
+     * @return \Pckg\Database\Entity
+     */
+    function entity($entity = null)
+    {
+        return context()->getEntity($entity);
+    }
 }
 
-/**
- * @param null $form
- *
- * @return \Htmlbuilder\Element\Form
- */
-function form($form = null)
-{
-    return context()->getForm($form);
+if (!function_exists('form')) {
+    /**
+     * @param null $form
+     *
+     * @return \Htmlbuilder\Element\Form
+     */
+    function form($form = null)
+    {
+        return context()->getForm($form);
+    }
 }
 
-/**
- * @param $factory
- *
- * @return \Pckg\Concept\Factory
- */
-function factory($factory)
-{
-    return context()->getFactory($factory);
+if (!function_exists('factory')) {
+    /**
+     * @param $factory
+     *
+     * @return \Pckg\Concept\Factory
+     */
+    function factory($factory)
+    {
+        return context()->getFactory($factory);
+    }
 }
 
 /* event */
 
-/**
- *
- * @return Dispatcher
- * */
-function dispatcher()
-{
-    return context()->get(Dispatcher::class);
-}
-
-/**
- * @param       $event
- * @param null  $method
- * @param array $args
- *
- * @return mixed|null|object
- */
-function trigger($event, array $args = [], $method = null)
-{
-    return dispatcher()->trigger($event, $args, $method);
-}
-
-/**
- * @param \Event $event
- * @param        $strtotime
- */
-function schedule(AbstractEvent $event, $strtotime)
-{
-    // Event::schedule($event, $strtotime);
-}
-
-/**
- *
- * @return Pckg\Concept\Event\Dispatcher
- * */
-function listen($event, $eventHandler)
-{
-    return dispatcher()->listen($event, $eventHandler);
-}
-
-function listenOnce($event, $eventHandler)
-{
-    if (dispatcher()->hasListener($event, $eventHandler)) {
-        return;
+if (!function_exists('dispatcher')) {
+    /**
+     *
+     * @return Dispatcher
+     * */
+    function dispatcher()
+    {
+        return context()->get(Dispatcher::class);
     }
-
-    return dispatcher()->listen($event, $eventHandler);
 }
 
-function registerEvent(AbstractEvent $event)
-{
-    return dispatcher()->registerEvent($event);
+if (!function_exists('trigger')) {
+    /**
+     * @param       $event
+     * @param null  $method
+     * @param array $args
+     *
+     * @return mixed|null|object
+     */
+    function trigger($event, array $args = [], $method = null)
+    {
+        return dispatcher()->trigger($event, $args, $method);
+    }
 }
 
-function triggerEvent($event, $args = [])
-{
-    return dispatcher()->trigger($event, $args, 'handle');
+if (!function_exists('schedule')) {
+    /**
+     * @param \Event $event
+     * @param        $strtotime
+     */
+    function schedule(AbstractEvent $event, $strtotime)
+    {
+        // Event::schedule($event, $strtotime);
+    }
+}
+
+if (!function_exists('listen')) {
+    /**
+     *
+     * @return Pckg\Concept\Event\Dispatcher
+     * */
+    function listen($event, $eventHandler)
+    {
+        return dispatcher()->listen($event, $eventHandler);
+    }
+}
+
+if (!function_exists('listenOnce')) {
+    function listenOnce($event, $eventHandler)
+    {
+        if (dispatcher()->hasListener($event, $eventHandler)) {
+            return;
+        }
+
+        return dispatcher()->listen($event, $eventHandler);
+    }
+}
+
+if (!function_exists('registerEvent')) {
+    function registerEvent(AbstractEvent $event)
+    {
+        return dispatcher()->registerEvent($event);
+    }
+}
+
+if (!function_exists('triggerEvent')) {
+    function triggerEvent($event, $args = [])
+    {
+        return dispatcher()->trigger($event, $args, 'handle');
+    }
 }
 
 /* router */
 
-/**
- * @return \Pckg\Framework\Router
- */
-function router()
-{
-    return context()->get(Router::class);
-}
-
-/**
- * @param       $url
- * @param array $params
- *
- * @return string
- */
-function url($url, $params = [], $absolute = false, $envPrefix = true)
-{
-    try {
-        $url = router()->make($url, $params, $absolute, $envPrefix);
-
-        return $url;
-    } catch (Throwable $e) {
-        if (prod()) {
-            return null;
-        }
-
-        return exception($e);
+if (!function_exists('router')) {
+    /**
+     * @return \Pckg\Framework\Router
+     */
+    function router()
+    {
+        return context()->get(Router::class);
     }
 }
 
-function email($template, $receiver, $data = [])
-{
-    return
-        queue()->create(
-            'mail:send',
-            [
-                'user'     => $receiver,
-                'template' => $template,
-                'data'     => $data,
-            ]
-        );
+if (!function_exists('url')) {
+    /**
+     * @param       $url
+     * @param array $params
+     *
+     * @return string
+     */
+    function url($url, $params = [], $absolute = false, $envPrefix = true)
+    {
+        try {
+            $url = router()->make($url, $params, $absolute, $envPrefix);
+
+            return $url;
+        } catch (Throwable $e) {
+            if (prod()) {
+                return null;
+            }
+
+            return exception($e);
+        }
+    }
 }
 
-function resolve($class)
-{
-    return context()->getOrCreate($class);
+if (!function_exists('email')) {
+    function email($template, $receiver, $data = [])
+    {
+        return
+            queue()->create(
+                'mail:send',
+                [
+                    'user'     => $receiver,
+                    'template' => $template,
+                    'data'     => $data,
+                ]
+            );
+    }
 }
 
-/**
- * @return Queue
- */
-function queue()
-{
-    return context()->getOrCreate(Queue::class);
+if (!function_exists('resolve')) {
+    function resolve($class)
+    {
+        return context()->getOrCreate($class);
+    }
 }
 
-/**
- * @param       $chains
- * @param null  $method
- * @param array $args
- * @param null  $firstChain
- *
- * @return mixed|null|object
- * @throws Exception
- */
-function chain($chains, $method = 'execute', array $args = [], $firstChain = null)
-{
-    return (new ChainOfResponsibility($chains, $method, $args, $firstChain))->runChains();
+if (!function_exists('queue')) {
+    /**
+     * @return Queue
+     */
+    function queue()
+    {
+        return context()->getOrCreate(Queue::class);
+    }
+}
+
+if (!function_exists('chain')) {
+    /**
+     * @param       $chains
+     * @param null  $method
+     * @param array $args
+     * @param null  $firstChain
+     *
+     * @return mixed|null|object
+     * @throws Exception
+     */
+    function chain($chains, $method = 'execute', array $args = [], $firstChain = null)
+    {
+        return (new ChainOfResponsibility($chains, $method, $args, $firstChain))->runChains();
+    }
 }
 
 /* session */
 
-/**
- * @return mixed
- */
-function session()
-{
-    return context()->getOrCreate(Session::class);
+if (!function_exists('session')) {
+    /**
+     * @return mixed
+     */
+    function session()
+    {
+        return context()->getOrCreate(Session::class);
+    }
 }
 
-/**
- * @param      $key
- * @param null $val
- *
- * @return mixed|Flash
- */
-function flash($key, $val)
-{
-    return context()->getOrCreate(Flash::class)->set($key, $val);
+if (!function_exists('flash')) {
+    /**
+     * @param      $key
+     * @param null $val
+     *
+     * @return mixed|Flash
+     */
+    function flash($key, $val)
+    {
+        return context()->getOrCreate(Flash::class)->set($key, $val);
+    }
 }
 
 /* config */
 
-/**
- * @param $text
- *
- * @return mixed|Config|array|callable
- */
-function config($key = null, $default = null)
-{
-    $config = context()->get(Config::class);
+if (!function_exists('config')) {
+    /**
+     * @param $text
+     *
+     * @return mixed|Config|array|callable
+     */
+    function config($key = null, $default = null)
+    {
+        $config = context()->get(Config::class);
 
-    if ($key) {
-        return $config->get($key) ?? $default;
-    }
-
-    return $config;
-}
-
-function first(...$args)
-{
-    foreach ($args as $arg) {
-        if ($arg) {
-            return $arg;
+        if ($key) {
+            return $config->get($key) ?? $default;
         }
+
+        return $config;
     }
-
-    return null;
 }
 
-/**
- * @param      $key
- * @param null $default
- *
- * @return null
- * @deprecated
- */
-function conf($key, $default = null)
-{
-    return config($key) ?: $default;
-}
+if (!function_exists('first')) {
+    function first(...$args)
+    {
+        foreach ($args as $arg) {
+            if ($arg) {
+                return $arg;
+            }
+        }
 
-/**
- * @param      $key
- * @param null $val
- *
- * @return array|null
- */
-function path($key = null, $val = null)
-{
-    if ($val) {
-        context()->getOrCreate(Config::class)->set('path.' . $key, $val);
+        return null;
     }
-
-    return $val = config('path.' . $key);
 }
 
-/**
- * @param      $key
- * @param null $val
- *
- * @return array|null
- */
-function relativePath($key = null)
-{
-    return str_replace(path('root'), '/', config('path.' . $key));
+if (!function_exists('path')) {
+    /**
+     * @param      $key
+     * @param null $val
+     *
+     * @return array|null
+     */
+    function path($key = null, $val = null)
+    {
+        if ($val) {
+            context()->getOrCreate(Config::class)->set('path.' . $key, $val);
+        }
+
+        return $val = config('path.' . $key);
+    }
+}
+
+if (!function_exists('relativePath')) {
+    /**
+     * @param      $key
+     * @param null $val
+     *
+     * @return array|null
+     */
+    function relativePath($key = null)
+    {
+        return str_replace(path('root'), '/', config('path.' . $key));
+    }
 }
 
 /* quick helpers */
 
-function __i18n($key, $data = [], $lang = null)
-{
-    try {
-        $translator = context()->getOrCreate(Translator::class);
+if (!function_exists('__i18n')) {
+    function __i18n($key, $data = [], $lang = null)
+    {
+        try {
+            $translator = context()->getOrCreate(Translator::class);
 
-        $translation = trim($translator->get($key, $lang));
+            $translation = trim($translator->get($key, $lang));
 
-        return $data
-            ? (new Twig(null, $data))->setTemplate($translation)->autoparse()
-            : $translation;
-    } catch (Throwable $e) {
-        if (prod()) {
-            return $key;
+            return $data
+                ? (new Twig(null, $data))->setTemplate($translation)->autoparse()
+                : $translation;
+        } catch (Throwable $e) {
+            if (prod()) {
+                return $key;
+            }
+
+            throw $e;
         }
-
-        throw $e;
     }
 }
 
@@ -409,811 +467,883 @@ if (!function_exists('__')) {
     }
 }
 
-/**
- * @param $text
- *
- * @return string
- */
-function toCamel($text)
-{
-    $text = str_split($text, 1);
+if (!function_exists('toCamel')) {
+    /**
+     * @param $text
+     *
+     * @return string
+     */
+    function toCamel($text)
+    {
+        $text = str_split($text, 1);
 
-    foreach ($text AS $index => $char) {
-        if (($char == "_" && isset($text[$index + 1]))
-            || ($char == "\\" && isset($text[$index + 1]))
-        ) {
-            $text[$index + 1] = mb_strtoupper($text[$index + 1]);
-        }
-    }
-
-    return ucfirst(str_replace("_", "", implode($text)));
-}
-
-/**
- * @param       $view
- * @param array $data
- *
- * @return Twig
- */
-function view($view, $data = [], $assets = [])
-{
-    $view = new Twig($view, $data);
-    if ($parent = realpath(
-        dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . 'View' . path('ds')
-    )
-    ) {
-        if (is_dir($parent)) {
-            $view->addDir($parent, Twig::PRIORITY_LAST);
-        }
-        $calculatedParent = realpath(
-            dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . '..' . path('ds') . '..' . path(
-                'ds'
-            )
-        );
-        if (is_dir($calculatedParent)) {
-            $view->addDir($calculatedParent, Twig::PRIORITY_LAST);
-        }
-
-    }
-
-    if ($assets) {
-        assets($assets);
-    }
-
-    return $view;
-}
-
-/**
- * @return Asset
- */
-function assetManager()
-{
-    return context()->getOrCreate(Asset::class);
-}
-
-/**
- * @return Vue
- */
-function vueManager()
-{
-    return context()->getOrCreate(Vue::class);
-}
-
-/**
- * @return Seo
- */
-function seoManager()
-{
-    return context()->getOrCreate(Seo::class);
-}
-
-/**
- * @return Locale
- */
-function localeManager()
-{
-    return context()->getOrCreate(Locale::class);
-}
-
-/**
- * @return Seo
- */
-function metaManager()
-{
-    return context()->getOrCreate(Meta::class);
-}
-
-/**
- * @return Gtm
- */
-function gtmManager()
-{
-    return context()->getOrCreate(Gtm::class);
-}
-
-function assets($assets)
-{
-    assetManager()->addAssets($assets);
-}
-
-/**
- * @return mixed
- */
-function autoloader()
-{
-    return require BASE_PATH . "vendor/autoload.php";
-}
-
-function isConsole()
-{
-    return !isset($_SERVER['HTTP_HOST']);
-}
-
-function isHttp()
-{
-    return isset($_SERVER['HTTP_HOST']);
-}
-
-function dd(...$mixed)
-{
-    foreach ($mixed as $m) {
-        d($m);
-    }
-    die();
-}
-
-function d(...$mixed)
-{
-    foreach ($mixed as $m) {
-        echo '<pre>';
-        if (is_string($m)) {
-            echo $m;
-        } else {
-            var_dump($m);
-        }
-        echo '</pre>';
-        echo "<br />\n";
-    }
-
-    return true;
-}
-
-function db($depth = 3, $start = 0)
-{
-    $db = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
-    for ($i = $start; $i <= $depth + $start && isset($db[$i]); $i++) {
-        d($db[$i]);
-    }
-}
-
-function dev()
-{
-    return env()->isDev();
-}
-
-function prod()
-{
-    return env()->isPro();
-}
-
-function implicitDev()
-{
-    return (isset($_SERVER['REMOTE_ADDR']) && in_array($_SERVER['REMOTE_ADDR'], config('pckg.framework.dev', [])));
-}
-
-function win()
-{
-    return env()->isWin();
-}
-
-function unix()
-{
-    return env()->isUnix();
-}
-
-/**
- * @return DebugBar
- */
-function debugBar()
-{
-    return context()->exists(DebugBar::class)
-        ? context()->get(DebugBar::class)
-        : null;
-}
-
-function message($message, $collector = 'messages')
-{
-    if ($debugBar = debugBar()) {
-        if (!$debugBar->hasCollector($collector)) {
-            $debugBar->addCollector(new \DebugBar\DataCollector\MessagesCollector($collector));
-        }
-
-        $debugBar->getCollector($collector)->addMessage($message);
-    }
-}
-
-function measure($message, callable $callback)
-{
-    startMeasure($message);
-    $result = $callback();
-    stopMeasure($message);
-
-    return $result;
-}
-
-function startMeasure($name)
-{
-    if ($debugBar = debugBar()) {
-        try {
-            $debugBar['time']->startMeasure($name);
-        } catch (Throwable $e) {
-            // fail silently
-        }
-    }
-}
-
-function stopMeasure($name)
-{
-    if ($debugBar = debugBar()) {
-        try {
-            $debugBar['time']->stopMeasure($name);
-        } catch (Throwable $e) {
-            // fail silently
-        }
-    }
-}
-
-function collect($data)
-{
-    return new Collection($data);
-}
-
-function array_merge_array($merge, $to)
-{
-    foreach ($to as $key => &$val) {
-        $val = array_merge($merge, $val);
-    }
-
-    return $to;
-}
-
-function str_lreplace($search, $replace, $subject)
-{
-    $pos = strrpos($subject, $search);
-
-    if ($pos !== false) {
-        $subject = substr_replace($subject, $replace, $pos, strlen($search));
-    }
-
-    return $subject;
-}
-
-/**
- * @param Exception $e
- *
- * @return string
- */
-function exception(Throwable $e)
-{
-    return $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine();
-}
-
-function img($name, $dir = null, $relative = true, $base = null)
-{
-    if (!$name) {
-        return null;
-    }
-
-    if (!$base) {
-        $base = path('app_uploads');
-    }
-
-    if ($dir) {
-        $base .= $dir . '/';
-    }
-
-    return $relative
-        ? str_replace(path('root'), path('ds'), $base) . $name
-        : $base . $name;
-}
-
-function media($name, $dir = null, $relative = true, $base = null)
-{
-    return img($name, $dir, $relative, $base);
-}
-
-function runInLocale($call, $locale)
-{
-    $prevLocale = localeManager()->getCurrent();
-    if ($locale != $prevLocale) {
-        localeManager()->setCurrent($locale);
-        $response = $call();
-        localeManager()->setCurrent($prevLocale);
-    } else {
-        $response = $call();
-    }
-
-    return $response;
-}
-
-function isArrayList($array)
-{
-    $i = 0;
-    foreach (array_keys($array) as $key) {
-        if ($key !== $i) {
-            return false;
-        }
-        $i++;
-    }
-
-    return true;
-}
-
-function sluggify($str)
-{
-    # special accents
-    $a = [
-        'À',
-        'Á',
-        'Â',
-        'Ã',
-        'Ä',
-        'Å',
-        'Æ',
-        'Ç',
-        'È',
-        'É',
-        'Ê',
-        'Ë',
-        'Ì',
-        'Í',
-        'Î',
-        'Ï',
-        'Ð',
-        'Ñ',
-        'Ò',
-        'Ó',
-        'Ô',
-        'Õ',
-        'Ö',
-        'Ø',
-        'Ù',
-        'Ú',
-        'Û',
-        'Ü',
-        'Ý',
-        'ß',
-        'à',
-        'á',
-        'â',
-        'ã',
-        'ä',
-        'å',
-        'æ',
-        'ç',
-        'è',
-        'é',
-        'ê',
-        'ë',
-        'ì',
-        'í',
-        'î',
-        'ï',
-        'ñ',
-        'ò',
-        'ó',
-        'ô',
-        'õ',
-        'ö',
-        'ø',
-        'ù',
-        'ú',
-        'û',
-        'ü',
-        'ý',
-        'ÿ',
-        'A',
-        'a',
-        'A',
-        'a',
-        'A',
-        'a',
-        'C',
-        'c',
-        'C',
-        'c',
-        'C',
-        'c',
-        'C',
-        'c',
-        'D',
-        'd',
-        'Ð',
-        'd',
-        'E',
-        'e',
-        'E',
-        'e',
-        'E',
-        'e',
-        'E',
-        'e',
-        'E',
-        'e',
-        'G',
-        'g',
-        'G',
-        'g',
-        'G',
-        'g',
-        'G',
-        'g',
-        'H',
-        'h',
-        'H',
-        'h',
-        'I',
-        'i',
-        'I',
-        'i',
-        'I',
-        'i',
-        'I',
-        'i',
-        'I',
-        'i',
-        '?',
-        '?',
-        'J',
-        'j',
-        'K',
-        'k',
-        'L',
-        'l',
-        'L',
-        'l',
-        'L',
-        'l',
-        '?',
-        '?',
-        'L',
-        'l',
-        'N',
-        'n',
-        'N',
-        'n',
-        'N',
-        'n',
-        '?',
-        'O',
-        'o',
-        'O',
-        'o',
-        'O',
-        'o',
-        'Œ',
-        'œ',
-        'R',
-        'r',
-        'R',
-        'r',
-        'R',
-        'r',
-        'S',
-        's',
-        'S',
-        's',
-        'S',
-        's',
-        'Š',
-        'š',
-        'T',
-        't',
-        'T',
-        't',
-        'T',
-        't',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'W',
-        'w',
-        'Y',
-        'y',
-        'Ÿ',
-        'Z',
-        'z',
-        'Z',
-        'z',
-        'Ž',
-        'ž',
-        '?',
-        'ƒ',
-        'O',
-        'o',
-        'U',
-        'u',
-        'A',
-        'a',
-        'I',
-        'i',
-        'O',
-        'o',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        '?',
-        '?',
-        '?',
-        '?',
-        '?',
-        '?',
-    ];
-    $b = [
-        'A',
-        'A',
-        'A',
-        'A',
-        'A',
-        'A',
-        'AE',
-        'C',
-        'E',
-        'E',
-        'E',
-        'E',
-        'I',
-        'I',
-        'I',
-        'I',
-        'D',
-        'N',
-        'O',
-        'O',
-        'O',
-        'O',
-        'O',
-        'O',
-        'U',
-        'U',
-        'U',
-        'U',
-        'Y',
-        's',
-        'a',
-        'a',
-        'a',
-        'a',
-        'a',
-        'a',
-        'ae',
-        'c',
-        'e',
-        'e',
-        'e',
-        'e',
-        'i',
-        'i',
-        'i',
-        'i',
-        'n',
-        'o',
-        'o',
-        'o',
-        'o',
-        'o',
-        'o',
-        'u',
-        'u',
-        'u',
-        'u',
-        'y',
-        'y',
-        'A',
-        'a',
-        'A',
-        'a',
-        'A',
-        'a',
-        'C',
-        'c',
-        'C',
-        'c',
-        'C',
-        'c',
-        'C',
-        'c',
-        'D',
-        'd',
-        'D',
-        'd',
-        'E',
-        'e',
-        'E',
-        'e',
-        'E',
-        'e',
-        'E',
-        'e',
-        'E',
-        'e',
-        'G',
-        'g',
-        'G',
-        'g',
-        'G',
-        'g',
-        'G',
-        'g',
-        'H',
-        'h',
-        'H',
-        'h',
-        'I',
-        'i',
-        'I',
-        'i',
-        'I',
-        'i',
-        'I',
-        'i',
-        'I',
-        'i',
-        'IJ',
-        'ij',
-        'J',
-        'j',
-        'K',
-        'k',
-        'L',
-        'l',
-        'L',
-        'l',
-        'L',
-        'l',
-        'L',
-        'l',
-        'l',
-        'l',
-        'N',
-        'n',
-        'N',
-        'n',
-        'N',
-        'n',
-        'n',
-        'O',
-        'o',
-        'O',
-        'o',
-        'O',
-        'o',
-        'OE',
-        'oe',
-        'R',
-        'r',
-        'R',
-        'r',
-        'R',
-        'r',
-        'S',
-        's',
-        'S',
-        's',
-        'S',
-        's',
-        'S',
-        's',
-        'T',
-        't',
-        'T',
-        't',
-        'T',
-        't',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'W',
-        'w',
-        'Y',
-        'y',
-        'Y',
-        'Z',
-        'z',
-        'Z',
-        'z',
-        'Z',
-        'z',
-        's',
-        'f',
-        'O',
-        'o',
-        'U',
-        'u',
-        'A',
-        'a',
-        'I',
-        'i',
-        'O',
-        'o',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'U',
-        'u',
-        'A',
-        'a',
-        'AE',
-        'ae',
-        'O',
-        'o',
-    ];
-
-    return strtolower(
-        preg_replace(['/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'], ['', '-', ''], str_replace($a, $b, $str))
-    );
-}
-
-function get_date_diff($time1, $time2, $precision = 2)
-{
-    // If not numeric then convert timestamps
-    if (!is_int($time1)) {
-        $time1 = strtotime($time1);
-    }
-    if (!is_int($time2)) {
-        $time2 = strtotime($time2);
-    }
-    // If time1 > time2 then swap the 2 values
-    if ($time1 > $time2) {
-        list($time1, $time2) = [$time2, $time1];
-    }
-    // Set up intervals and diffs arrays
-    $intervals = ['year', 'month', 'day', 'hour', 'minute', 'second'];
-    $diffs = [];
-    foreach ($intervals as $interval) {
-        // Create temp time from time1 and interval
-        $ttime = strtotime('+1 ' . $interval, $time1);
-        // Set initial values
-        $add = 1;
-        $looped = 0;
-        // Loop until temp time is smaller than time2
-        while ($time2 >= $ttime) {
-            // Create new temp time from time1 and interval
-            $add++;
-            $ttime = strtotime("+" . $add . " " . $interval, $time1);
-            $looped++;
-        }
-        $time1 = strtotime("+" . $looped . " " . $interval, $time1);
-        $diffs[$interval] = $looped;
-    }
-    $count = 0;
-    $times = [];
-    foreach ($diffs as $interval => $value) {
-        // Break if we have needed precission
-        if ($count >= $precision) {
-            break;
-        }
-        // Add value and interval if value is bigger than 0
-        if ($value > 0) {
-            if ($value != 1) {
-                $interval .= "s";
+        foreach ($text AS $index => $char) {
+            if (($char == "_" && isset($text[$index + 1]))
+                || ($char == "\\" && isset($text[$index + 1]))
+            ) {
+                $text[$index + 1] = mb_strtoupper($text[$index + 1]);
             }
-            // Add value and interval to times array
-            $times[] = $value . " " . $interval;
-            $count++;
+        }
+
+        return ucfirst(str_replace("_", "", implode($text)));
+    }
+}
+
+if (!function_exists('view')) {
+    /**
+     * @param       $view
+     * @param array $data
+     *
+     * @return Twig
+     */
+    function view($view, $data = [], $assets = [])
+    {
+        $view = new Twig($view, $data);
+        if ($parent = realpath(
+            dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . 'View' . path('ds')
+        )
+        ) {
+            if (is_dir($parent)) {
+                $view->addDir($parent, Twig::PRIORITY_LAST);
+            }
+            $calculatedParent = realpath(
+                dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . '..' . path(
+                    'ds'
+                ) . '..' . path(
+                    'ds'
+                )
+            );
+            if (is_dir($calculatedParent)) {
+                $view->addDir($calculatedParent, Twig::PRIORITY_LAST);
+            }
+
+        }
+
+        if ($assets) {
+            assets($assets);
+        }
+
+        return $view;
+    }
+}
+
+if (!function_exists('assetManager')) {
+    /**
+     * @return Asset
+     */
+    function assetManager()
+    {
+        return context()->getOrCreate(Asset::class);
+    }
+}
+
+if (!function_exists('vueManager')) {
+    /**
+     * @return Vue
+     */
+    function vueManager()
+    {
+        return context()->getOrCreate(Vue::class);
+    }
+}
+
+if (!function_exists('seoManager')) {
+    /**
+     * @return Seo
+     */
+    function seoManager()
+    {
+        return context()->getOrCreate(Seo::class);
+    }
+}
+
+if (!function_exists('localeManager')) {
+    /**
+     * @return Locale
+     */
+    function localeManager()
+    {
+        return context()->getOrCreate(Locale::class);
+    }
+}
+
+if (!function_exists('metaManager')) {
+    /**
+     * @return Seo
+     */
+    function metaManager()
+    {
+        return context()->getOrCreate(Meta::class);
+    }
+}
+
+if (!function_exists('gtmManager')) {
+    /**
+     * @return Gtm
+     */
+    function gtmManager()
+    {
+        return context()->getOrCreate(Gtm::class);
+    }
+}
+
+if (!function_exists('assets')) {
+    function assets($assets)
+    {
+        assetManager()->addAssets($assets);
+    }
+}
+
+if (!function_exists('autoloader')) {
+    /**
+     * @return mixed
+     */
+    function autoloader()
+    {
+        return require BASE_PATH . "vendor/autoload.php";
+    }
+}
+
+if (!function_exists('isConsole')) {
+    function isConsole()
+    {
+        return !isset($_SERVER['HTTP_HOST']);
+    }
+}
+
+if (!function_exists('isHttp')) {
+    function isHttp()
+    {
+        return isset($_SERVER['HTTP_HOST']);
+    }
+}
+
+if (!function_exists('dd')) {
+    function dd(...$mixed)
+    {
+        foreach ($mixed as $m) {
+            d($m);
+        }
+        die();
+    }
+}
+
+if (!function_exists('d')) {
+    function d(...$mixed)
+    {
+        foreach ($mixed as $m) {
+            echo '<pre>';
+            if (is_string($m)) {
+                echo $m;
+            } else {
+                var_dump($m);
+            }
+            echo '</pre>';
+            echo "<br />\n";
+        }
+
+        return true;
+    }
+}
+
+if (!function_exists('db')) {
+    function db($depth = 3, $start = 0)
+    {
+        $db = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        for ($i = $start; $i <= $depth + $start && isset($db[$i]); $i++) {
+            d($db[$i]);
         }
     }
+}
 
-    // Return string with times
-    return implode(", ", $times);
+if (!function_exists('dev')) {
+    function dev()
+    {
+        return env()->isDev();
+    }
+}
+
+if (!function_exists('prod')) {
+    function prod()
+    {
+        return env()->isPro();
+    }
+}
+
+if (!function_exists('implicitDev')) {
+    function implicitDev()
+    {
+        return (isset($_SERVER['REMOTE_ADDR']) && in_array($_SERVER['REMOTE_ADDR'], config('pckg.framework.dev', [])));
+    }
+}
+
+if (!function_exists('win')) {
+    function win()
+    {
+        return env()->isWin();
+    }
+}
+
+if (!function_exists('unix')) {
+    function unix()
+    {
+        return env()->isUnix();
+    }
+}
+
+if (!function_exists('debugBar')) {
+    /**
+     * @return DebugBar
+     */
+    function debugBar()
+    {
+        return context()->exists(DebugBar::class)
+            ? context()->get(DebugBar::class)
+            : null;
+    }
+}
+
+if (!function_exists('message')) {
+    function message($message, $collector = 'messages')
+    {
+        if ($debugBar = debugBar()) {
+            if (!$debugBar->hasCollector($collector)) {
+                $debugBar->addCollector(new \DebugBar\DataCollector\MessagesCollector($collector));
+            }
+
+            $debugBar->getCollector($collector)->addMessage($message);
+        }
+    }
+}
+
+if (!function_exists('measure')) {
+    function measure($message, callable $callback)
+    {
+        startMeasure($message);
+        $result = $callback();
+        stopMeasure($message);
+
+        return $result;
+    }
+}
+
+if (!function_exists('startMeasure')) {
+    function startMeasure($name)
+    {
+        if ($debugBar = debugBar()) {
+            try {
+                $debugBar['time']->startMeasure($name);
+            } catch (Throwable $e) {
+                // fail silently
+            }
+        }
+    }
+}
+
+if (!function_exists('stopMeasure')) {
+    function stopMeasure($name)
+    {
+        if ($debugBar = debugBar()) {
+            try {
+                $debugBar['time']->stopMeasure($name);
+            } catch (Throwable $e) {
+                // fail silently
+            }
+        }
+    }
+}
+
+if (!function_exists('collect')) {
+    function collect($data)
+    {
+        return new Collection($data);
+    }
+}
+
+if (!function_exists('array_merge_array')) {
+    function array_merge_array($merge, $to)
+    {
+        foreach ($to as $key => &$val) {
+            $val = array_merge($merge, $val);
+        }
+
+        return $to;
+    }
+}
+
+if (!function_exists('str_lreplace')) {
+    function str_lreplace($search, $replace, $subject)
+    {
+        $pos = strrpos($subject, $search);
+
+        if ($pos !== false) {
+            $subject = substr_replace($subject, $replace, $pos, strlen($search));
+        }
+
+        return $subject;
+    }
+}
+
+if (!function_exists('exception')) {
+    /**
+     * @param Exception $e
+     *
+     * @return string
+     */
+    function exception(Throwable $e)
+    {
+        return $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine();
+    }
+}
+
+if (!function_exists('img')) {
+    function img($name, $dir = null, $relative = true, $base = null)
+    {
+        if (!$name) {
+            return null;
+        }
+
+        if (!$base) {
+            $base = path('app_uploads');
+        }
+
+        if ($dir) {
+            $base .= $dir . '/';
+        }
+
+        return $relative
+            ? str_replace(path('root'), path('ds'), $base) . $name
+            : $base . $name;
+    }
+}
+
+if (!function_exists('media')) {
+    function media($name, $dir = null, $relative = true, $base = null)
+    {
+        return img($name, $dir, $relative, $base);
+    }
+}
+
+if (!function_exists('runInLocale')) {
+    function runInLocale($call, $locale)
+    {
+        $prevLocale = localeManager()->getCurrent();
+        if ($locale != $prevLocale) {
+            localeManager()->setCurrent($locale);
+            $response = $call();
+            localeManager()->setCurrent($prevLocale);
+        } else {
+            $response = $call();
+        }
+
+        return $response;
+    }
+}
+
+if (!function_exists('isArrayList')) {
+    function isArrayList($array)
+    {
+        $i = 0;
+        foreach (array_keys($array) as $key) {
+            if ($key !== $i) {
+                return false;
+            }
+            $i++;
+        }
+
+        return true;
+    }
+}
+
+if (!function_exists('sluggify')) {
+    function sluggify($str)
+    {
+        # special accents
+        $a = [
+            'À',
+            'Á',
+            'Â',
+            'Ã',
+            'Ä',
+            'Å',
+            'Æ',
+            'Ç',
+            'È',
+            'É',
+            'Ê',
+            'Ë',
+            'Ì',
+            'Í',
+            'Î',
+            'Ï',
+            'Ð',
+            'Ñ',
+            'Ò',
+            'Ó',
+            'Ô',
+            'Õ',
+            'Ö',
+            'Ø',
+            'Ù',
+            'Ú',
+            'Û',
+            'Ü',
+            'Ý',
+            'ß',
+            'à',
+            'á',
+            'â',
+            'ã',
+            'ä',
+            'å',
+            'æ',
+            'ç',
+            'è',
+            'é',
+            'ê',
+            'ë',
+            'ì',
+            'í',
+            'î',
+            'ï',
+            'ñ',
+            'ò',
+            'ó',
+            'ô',
+            'õ',
+            'ö',
+            'ø',
+            'ù',
+            'ú',
+            'û',
+            'ü',
+            'ý',
+            'ÿ',
+            'A',
+            'a',
+            'A',
+            'a',
+            'A',
+            'a',
+            'C',
+            'c',
+            'C',
+            'c',
+            'C',
+            'c',
+            'C',
+            'c',
+            'D',
+            'd',
+            'Ð',
+            'd',
+            'E',
+            'e',
+            'E',
+            'e',
+            'E',
+            'e',
+            'E',
+            'e',
+            'E',
+            'e',
+            'G',
+            'g',
+            'G',
+            'g',
+            'G',
+            'g',
+            'G',
+            'g',
+            'H',
+            'h',
+            'H',
+            'h',
+            'I',
+            'i',
+            'I',
+            'i',
+            'I',
+            'i',
+            'I',
+            'i',
+            'I',
+            'i',
+            '?',
+            '?',
+            'J',
+            'j',
+            'K',
+            'k',
+            'L',
+            'l',
+            'L',
+            'l',
+            'L',
+            'l',
+            '?',
+            '?',
+            'L',
+            'l',
+            'N',
+            'n',
+            'N',
+            'n',
+            'N',
+            'n',
+            '?',
+            'O',
+            'o',
+            'O',
+            'o',
+            'O',
+            'o',
+            'Œ',
+            'œ',
+            'R',
+            'r',
+            'R',
+            'r',
+            'R',
+            'r',
+            'S',
+            's',
+            'S',
+            's',
+            'S',
+            's',
+            'Š',
+            'š',
+            'T',
+            't',
+            'T',
+            't',
+            'T',
+            't',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'W',
+            'w',
+            'Y',
+            'y',
+            'Ÿ',
+            'Z',
+            'z',
+            'Z',
+            'z',
+            'Ž',
+            'ž',
+            '?',
+            'ƒ',
+            'O',
+            'o',
+            'U',
+            'u',
+            'A',
+            'a',
+            'I',
+            'i',
+            'O',
+            'o',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            '?',
+            '?',
+            '?',
+            '?',
+            '?',
+            '?',
+        ];
+        $b = [
+            'A',
+            'A',
+            'A',
+            'A',
+            'A',
+            'A',
+            'AE',
+            'C',
+            'E',
+            'E',
+            'E',
+            'E',
+            'I',
+            'I',
+            'I',
+            'I',
+            'D',
+            'N',
+            'O',
+            'O',
+            'O',
+            'O',
+            'O',
+            'O',
+            'U',
+            'U',
+            'U',
+            'U',
+            'Y',
+            's',
+            'a',
+            'a',
+            'a',
+            'a',
+            'a',
+            'a',
+            'ae',
+            'c',
+            'e',
+            'e',
+            'e',
+            'e',
+            'i',
+            'i',
+            'i',
+            'i',
+            'n',
+            'o',
+            'o',
+            'o',
+            'o',
+            'o',
+            'o',
+            'u',
+            'u',
+            'u',
+            'u',
+            'y',
+            'y',
+            'A',
+            'a',
+            'A',
+            'a',
+            'A',
+            'a',
+            'C',
+            'c',
+            'C',
+            'c',
+            'C',
+            'c',
+            'C',
+            'c',
+            'D',
+            'd',
+            'D',
+            'd',
+            'E',
+            'e',
+            'E',
+            'e',
+            'E',
+            'e',
+            'E',
+            'e',
+            'E',
+            'e',
+            'G',
+            'g',
+            'G',
+            'g',
+            'G',
+            'g',
+            'G',
+            'g',
+            'H',
+            'h',
+            'H',
+            'h',
+            'I',
+            'i',
+            'I',
+            'i',
+            'I',
+            'i',
+            'I',
+            'i',
+            'I',
+            'i',
+            'IJ',
+            'ij',
+            'J',
+            'j',
+            'K',
+            'k',
+            'L',
+            'l',
+            'L',
+            'l',
+            'L',
+            'l',
+            'L',
+            'l',
+            'l',
+            'l',
+            'N',
+            'n',
+            'N',
+            'n',
+            'N',
+            'n',
+            'n',
+            'O',
+            'o',
+            'O',
+            'o',
+            'O',
+            'o',
+            'OE',
+            'oe',
+            'R',
+            'r',
+            'R',
+            'r',
+            'R',
+            'r',
+            'S',
+            's',
+            'S',
+            's',
+            'S',
+            's',
+            'S',
+            's',
+            'T',
+            't',
+            'T',
+            't',
+            'T',
+            't',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'W',
+            'w',
+            'Y',
+            'y',
+            'Y',
+            'Z',
+            'z',
+            'Z',
+            'z',
+            'Z',
+            'z',
+            's',
+            'f',
+            'O',
+            'o',
+            'U',
+            'u',
+            'A',
+            'a',
+            'I',
+            'i',
+            'O',
+            'o',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'U',
+            'u',
+            'A',
+            'a',
+            'AE',
+            'ae',
+            'O',
+            'o',
+        ];
+
+        return strtolower(
+            preg_replace(['/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'], ['', '-', ''], str_replace($a, $b, $str))
+        );
+    }
+}
+
+if (!function_exists('get_date_diff')) {
+    function get_date_diff($time1, $time2, $precision = 2)
+    {
+        // If not numeric then convert timestamps
+        if (!is_int($time1)) {
+            $time1 = strtotime($time1);
+        }
+        if (!is_int($time2)) {
+            $time2 = strtotime($time2);
+        }
+        // If time1 > time2 then swap the 2 values
+        if ($time1 > $time2) {
+            list($time1, $time2) = [$time2, $time1];
+        }
+        // Set up intervals and diffs arrays
+        $intervals = ['year', 'month', 'day', 'hour', 'minute', 'second'];
+        $diffs = [];
+        foreach ($intervals as $interval) {
+            // Create temp time from time1 and interval
+            $ttime = strtotime('+1 ' . $interval, $time1);
+            // Set initial values
+            $add = 1;
+            $looped = 0;
+            // Loop until temp time is smaller than time2
+            while ($time2 >= $ttime) {
+                // Create new temp time from time1 and interval
+                $add++;
+                $ttime = strtotime("+" . $add . " " . $interval, $time1);
+                $looped++;
+            }
+            $time1 = strtotime("+" . $looped . " " . $interval, $time1);
+            $diffs[$interval] = $looped;
+        }
+        $count = 0;
+        $times = [];
+        foreach ($diffs as $interval => $value) {
+            // Break if we have needed precission
+            if ($count >= $precision) {
+                break;
+            }
+            // Add value and interval if value is bigger than 0
+            if ($value > 0) {
+                if ($value != 1) {
+                    $interval .= "s";
+                }
+                // Add value and interval to times array
+                $times[] = $value . " " . $interval;
+                $count++;
+            }
+        }
+
+        // Return string with times
+        return implode(", ", $times);
+    }
 }

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php $message = $message ?? ''; $code = $code ?? ''; ?><!DOCTYPE html>
 <html style="padding: 0; margin: 0; width: 100%; height: 100%;">
 <head>
     <title><?= $message ?><?php if ($code): ?> (<?= $code ?>)<?php endif; ?></title>
