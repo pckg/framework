@@ -10,9 +10,11 @@ class PullProject extends Command
         $this->exec(
             [
                 'git pull --ff',
-                'composer install --working-dir=' . path('root') . ' --no-dev --prefer-dist',
+                'composer install --no-dev --prefer-dist',
                 'bower install',
-            ]
+            ],
+            true,
+            path('root')
         );
     }
 

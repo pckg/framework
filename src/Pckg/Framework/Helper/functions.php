@@ -843,15 +843,7 @@ if (!function_exists('runInLocale')) {
 if (!function_exists('isArrayList')) {
     function isArrayList($array)
     {
-        $i = 0;
-        foreach (array_keys($array) as $key) {
-            if ($key !== $i) {
-                return false;
-            }
-            $i++;
-        }
-
-        return true;
+        return array_keys($array) === range(0, count($array) - 1);
     }
 }
 
@@ -1346,4 +1338,12 @@ if (!function_exists('get_date_diff')) {
         // Return string with times
         return implode(", ", $times);
     }
+}
+
+function br2nl($string)
+{
+    $string = str_replace(['<br />', '<br/>', '<br>'], "\n", $string);
+    $string = str_replace('"', '\"', $string);
+
+    return '"' . $string . '"';
 }
