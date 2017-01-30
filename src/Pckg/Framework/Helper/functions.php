@@ -1340,10 +1340,12 @@ if (!function_exists('get_date_diff')) {
     }
 }
 
-function br2nl($string)
-{
-    $string = str_replace(['<br />', '<br/>', '<br>'], "\n", $string);
-    $string = str_replace('"', '\"', $string);
+if (!function_exists('br2nl')) {
+    function br2nl($string)
+    {
+        $string = str_replace(['<br />', '<br/>', '<br>'], "\n", $string);
+        $string = str_replace('"', '\"', $string);
 
-    return '"' . $string . '"';
+        return '"' . $string . '"';
+    }
 }
