@@ -16,11 +16,11 @@ class DeployProject extends Command
         $remote = config('pckg.framework.' . DeployProject::class . '.remotes.' . $this->option('remote'));
 
         if (!$remote) {
-            throw new Exception("Remote does not exitst");
+            throw new Exception("Remote does not exist!");
         }
 
         if (!$this->option('no-test')) {
-            $this->exec(['php console project:test']);
+            $this->exec(['php console project:test --compact']);
             if (!$this->askConfirmation('Continue with deploy?')) {
                 return;
             }

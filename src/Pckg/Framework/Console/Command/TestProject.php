@@ -1,16 +1,20 @@
 <?php namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 class TestProject extends Command
 {
 
     public function handle()
     {
-        $exec = ['codecept run --steps'];
+        $compact = $this->option('compact')
+            ? ''
+            : ' --steps';
+        $exec = ['codecept run' . $compact];
         $packages = ['database'];
         foreach ($packages as $package) {
-            $exec[] = 'codecept run --steps -c ./vendor/pckg/' . $package;
+            $exec[] = 'codecept run' . $compact . ' -c ./vendor/pckg/' . $package;
         }
         $this->exec($exec);
     }
@@ -18,7 +22,13 @@ class TestProject extends Command
     protected function configure()
     {
         $this->setName('project:test')
-             ->setDescription('Test project via codeception (execute this before deploy)');
+             ->setDescription('Test project via codeception (execute this before deploy)')
+             ->addOptions(
+                 [
+                     'compact' => 'Simplify output',
+                 ],
+                 InputOption::VALUE_NONE
+             );
     }
 
 }
