@@ -21,6 +21,13 @@ class DeployProject extends Command
 
         if (!$this->option('no-test')) {
             $this->exec(['php console project:test']);
+            if (!$this->askConfirmation('Continue with deploy?')) {
+                return;
+            }
+        }
+
+        if (date('w') == 5) {
+            $this->output('Happy FRIDAY deploy!');
         }
 
         $this->output('Estamblishing SSH connection to ' . $remote['host'] . '.');
