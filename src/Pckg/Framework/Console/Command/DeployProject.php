@@ -19,6 +19,10 @@ class DeployProject extends Command
             throw new Exception("Remote does not exitst");
         }
 
+        if (!$this->option('no-test')) {
+            $this->exec(['php console project:test']);
+        }
+
         $this->output('Estamblishing SSH connection to ' . $remote['host'] . '.');
         $sshConnection = ssh2_connect($remote['host'], $remote['port']);
         $this->output('SSH connection estamblished.');
@@ -90,6 +94,12 @@ class DeployProject extends Command
                      'remote' => 'Set remote server',
                  ],
                  InputOption::VALUE_REQUIRED
+             )
+             ->addOptions(
+                 [
+                     'no-test' => 'Disable testing',
+                 ],
+                 InputOption::VALUE_NONE
              );
     }
 
