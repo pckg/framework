@@ -12,7 +12,7 @@ class ClearCache extends Command
 
     public function handle()
     {
-        $path = BASE_PATH . 'cache' . path('ds') . 'framework' . path('ds');
+        $path = path('cache') . 'framework' . path('ds');
 
         if ($this->option('skip-database')) {
             $this->output('Skipping database cache');

@@ -1,5 +1,6 @@
 <?php namespace Pckg\Framework\Console\Provider;
 
+use Pckg\Framework\Console\Command\ClearCache;
 use Pckg\Framework\Console\Command\ComposerProject;
 use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Console\Command\DeployProject;
@@ -29,6 +30,7 @@ class Console extends Provider
             ProdProject::class,
             PreprodProject::class,
             ComposerProject::class,
+            ClearCache::class,
         ];
     }
 
