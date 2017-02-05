@@ -8,7 +8,8 @@ trait Language
     public function language()
     {
         return $this->belongsTo(Languages::class)
-                    ->foreignKey('language_id');
+                    ->foreignKey('language_id')
+                    ->primaryKey('slug');
     }
 
 }
