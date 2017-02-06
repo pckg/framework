@@ -75,14 +75,15 @@ class Helper extends Module
     public function importDatabase($filename)
     {
         $repository = context()->get(Repository::class);
+        $databaseName = $this->getCodeceptConfig()['pckg']['database']['default']['db'];
 
-        $prepare = $repository->prepareSQL('DROP DATABASE pckg_database');
+        $prepare = $repository->prepareSQL('DROP DATABASE ' . $databaseName);
         $repository->executePrepared($prepare);
 
-        $prepare = $repository->prepareSQL('CREATE DATABASE pckg_database');
+        $prepare = $repository->prepareSQL('CREATE DATABASE ' . $databaseName);
         $repository->executePrepared($prepare);
 
-        $prepare = $repository->prepareSQL('USE pckg_database');
+        $prepare = $repository->prepareSQL('USE ' . $databaseName);
         $repository->executePrepared($prepare);
 
         $templine = '';
