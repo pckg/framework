@@ -443,7 +443,13 @@ if (!function_exists('__i18n')) {
     function __i18n($key, $data = [], $lang = null)
     {
         try {
-            $translator = context()->getOrCreate(Translator::class);
+            $translator = context()->getOrCreate(
+                Translator::class,
+                [],
+                function(Translator $translator) {
+                    $translator->boot();
+                }
+            );
 
             $translation = trim($translator->get($key, $lang));
 
