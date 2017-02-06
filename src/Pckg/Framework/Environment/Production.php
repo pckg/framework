@@ -48,6 +48,8 @@ class Production extends Environment
                         [
                             'access_token'      => config('rollbar.access_token'),
                             'report_suppressed' => config('rollbar.report_suppressed', true),
+                            'environment'       => 'production',
+                            'root'              => path('root'),
                         ]
                     );
                     Rollbar::report_exception($exception);
