@@ -39,11 +39,35 @@ class Config
 
     public function set($key, $val)
     {
-        if ($key) {
-            $this->data[$key] = $val;
+        /**
+         * Get all keys, separated by dot.
+         */
+        if (strpos($key, '.')) {
+            $keys = explode('.', $key);
         } else {
-            $this->data = $val;
+            $keys = [$key];
         }
+
+        $this->data = $this->setRecursive($keys, $val, $this->data, 0);
+    }
+
+    private function setRecursive($keys, $val, &$data, $i)
+    {
+        if ($i >= count($keys)) {
+            $data = $val;
+
+            return $data;
+        }
+
+        $key = $keys[$i];
+
+        if (!array_key_exists($key, $data)) {
+            $data[$key] = [];
+        }
+
+        $this->setRecursive($keys, $val, $data[$key], $i + 1);
+
+        return $data;
     }
 
     public function parseDir($dir)
