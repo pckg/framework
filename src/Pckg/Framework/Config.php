@@ -51,7 +51,7 @@ class Config
         $this->data = $this->setRecursive($keys, $val, $this->data, 0);
     }
 
-    private function setRecursive($keys, $val, &$data, $i)
+    private function setRecursive($keys, $val, $data, $i)
     {
         if ($i >= count($keys)) {
             $data = $val;
@@ -61,11 +61,17 @@ class Config
 
         $key = $keys[$i];
 
+        if (!is_array($data)) {
+            $data = $val;
+            return $data;
+
+        }
+
         if (!array_key_exists($key, $data)) {
             $data[$key] = [];
         }
 
-        $this->setRecursive($keys, $val, $data[$key], $i + 1);
+        $data[$key] = $this->setRecursive($keys, $val, $data[$key], $i + 1);
 
         return $data;
     }
