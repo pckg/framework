@@ -10,6 +10,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Stack;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
+use Pckg\Manager\Job;
 use Pckg\Queue\Service\Cron;
 use Symfony\Component\Console\Application as SymfonyConsole;
 
@@ -189,10 +190,10 @@ trait Registrator
 
     public function registerJobs($jobs)
     {
+        $jobManager = context()->getOrCreate(Job::class);
+
         foreach ($jobs as $job) {
-            /**
-             * @T00D00
-             */
+            $jobManager->add($job);
         }
     }
 

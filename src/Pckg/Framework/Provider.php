@@ -38,6 +38,7 @@ class Provider
         $this->registerViewObjects($this->viewObjects());
         $this->registerConsoles($this->consoles());
         $this->registerAssets($this->assets());
+        $this->registerJobs($this->jobs());
 
         if (method_exists($this, 'registered')) {
             Reflect::method($this, 'registered');
