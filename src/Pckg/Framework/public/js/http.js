@@ -175,54 +175,38 @@ var utils = {
         return url;
     },
 
-    vues: {},
-
-    lastVue: null,
-
-    firstVue: null,
-
-    createVue: function (key, data) {
-        this.lastVue = this.vues[key] = new Vue(data);
-
-        if (this.firstVue) {
-            //this.firstVue.$addChild(this.lastVue);
-        } else {
-            this.firstVue = this.lastVue;
-        }
-
-        return this.lastVue;
-    },
-
     pushToVue: function (obj) {
-        if (this.firstVue) {
-            console.log('Overwriting last Vue.js object', obj);
-            $.each(obj, function (type, datas) {
-                if (type == 'methods') {
-                    console.log(" " + type);
-                    $.each(datas, function (key, data) {
-                        console.log("  " + key);
-                        this.firstVue[key] = data.bind(this.firstVue);
-                    }.bind(this));
-                } else if (type == 'data') {
-                    console.log(" " + type);
-                    $.each(datas, function (key, data) {
-                        console.log("  " + key);
-                        this.firstVue[key] = data;
-                    }.bind(this));
-                } else if (type == 'on') {
-                    console.log(" " + type);
-                    $.each(datas, function (event, callback) {
-                        console.log("  " + event);
-                        this.firstVue.$on(event, callback.bind(this.firstVue));
-                    }.bind(this));
-                } else {
-                    console.log('unknown', type, datas);
-                }
-            }.bind(this));
-            console.log(this.firstVue);
-        } else {
+        console.log('(deprecated) pushToVue');
+
+        if (!data.$vue) {
             $.extend(true, $vue, obj);
+            return;
         }
+
+        console.log('Extending existing data.$vue', obj);
+        $.each(obj, function (type, datas) {
+            if (type == 'methods') {
+                console.log(" " + type);
+                $.each(datas, function (key, d) {
+                    console.log("  " + key);
+                    data.$vue[key] = d.bind(data.$vue);
+                }.bind(this));
+            } else if (type == 'data') {
+                console.log(" " + type);
+                $.each(datas, function (key, d) {
+                    console.log("  " + key);
+                    data.$vue[key] = d;
+                }.bind(this));
+            } else if (type == 'on') {
+                console.log(" " + type);
+                $.each(datas, function (event, callback) {
+                    console.log("  " + event);
+                    data.$vue.$on(event, callback.bind(data.$vue));
+                }.bind(this));
+            } else {
+                console.log('unknown', type, datas);
+            }
+        }.bind(this));
     },
 
     nl2br: function (str, is_xhtml) {
