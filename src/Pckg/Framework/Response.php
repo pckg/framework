@@ -230,14 +230,15 @@ class Response
             exit;
         } catch (Throwable $e) {
             if (prod()) {
-                die(exception($e));
-                die("Unknown internal error");
+                return null;
             }
 
-            die(exception($e));
+            return exception($e);
         }
 
         exit;
+
+        return $this;
     }
 
     public function redirect($url = null, $httpParams = [], $routerParams = [])

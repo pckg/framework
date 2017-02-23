@@ -76,10 +76,10 @@ if (!function_exists('app')) {
     }
 }
 
-/**
- * @return Request
- */
 if (!function_exists('request')) {
+    /**
+     * @return Request
+     */
     function request()
     {
         return context()->get(Request::class);
