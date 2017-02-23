@@ -229,11 +229,9 @@ class Response
 
             exit;
         } catch (Throwable $e) {
-            if (prod()) {
-                return null;
+            if (!prod()) {
+                echo exception($e);
             }
-
-            return exception($e);
         }
 
         exit;
