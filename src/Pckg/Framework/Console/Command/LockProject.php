@@ -113,13 +113,17 @@ class LockProject extends Command
                 } else {
                     $logOutputs = $this->exec($logCommand, false);
                     $commit = substr($logOutputs[0][0], strlen('commit '));
-                    $lock = $required . '#' . $commit;
+                    if ($loc = strpos($required, '#')) {
+                        $lock = substr($required, 0, $loc) . '#' . $commit;
+                    } else {
+                        $lock = $required . '#' . $commit;
+                    }
 
                     $this->output('Locking to ' . $lock, 'info');
                     $composerJson['require']['pckg/' . $packet] = $lock;
                     $pckgLock['pckg/' . $packet] = [
-                        'from' => $required,
-                        'to' => $branch,
+                        'from'   => $required,
+                        'to'     => $branch,
                         'commit' => $commit,
                     ];
                 }
