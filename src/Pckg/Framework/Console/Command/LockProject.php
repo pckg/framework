@@ -24,17 +24,19 @@ class LockProject extends Command
         foreach ($pckgLock as $packet => $config) {
             $lock = $config['from'] . '#' . $config['commit'];
             $set = $composerJson['require'][$packet];
+            $from = $config['from'];
+            $to = $config['to'];
 
             if ($lock != $set) {
-                continue;
+                $to = $config['from'];
             }
 
-            $this->output('Checking out ' . $packet . ' to ' . $config['to']);
+            $this->output('Checking out ' . $packet . ' to ' . $to);
             $this->exec(
                 [
                     'cd ' . path(
                         'root'
-                    ) . 'vendor/' . $packet . ' && git checkout ' . $config['to'] . ' && git pull --ff',
+                    ) . 'vendor/' . $packet . ' && git checkout ' . $to . ' && git pull --ff',
                 ]
             );
         }
