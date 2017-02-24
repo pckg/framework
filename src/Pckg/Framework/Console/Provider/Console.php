@@ -6,6 +6,7 @@ use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Console\Command\DeployProject;
 use Pckg\Framework\Console\Command\FeatureProject;
 use Pckg\Framework\Console\Command\InitProject;
+use Pckg\Framework\Console\Command\LockProject;
 use Pckg\Framework\Console\Command\PreprodProject;
 use Pckg\Framework\Console\Command\ProdProject;
 use Pckg\Framework\Console\Command\PullProject;
@@ -30,6 +31,7 @@ class Console extends Provider
             ProdProject::class,
             PreprodProject::class,
             ComposerProject::class,
+            LockProject::class,
             ClearCache::class,
         ];
     }
