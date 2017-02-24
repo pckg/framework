@@ -34,7 +34,7 @@ class LockProject extends Command
                 [
                     'cd ' . path(
                         'root'
-                    ) . 'vendor/' . $packet . ' && git checkout ' . $config['to'] . ' && git branch --set-upstream-to=origin/' . $config['to'] . ' ' . $config['to'] . ' && git pull --ff',
+                    ) . 'vendor/' . $packet . ' && git checkout ' . $config['to'] . ' && git pull --ff',
                 ]
             );
         }
