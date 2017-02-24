@@ -7,6 +7,41 @@ class LockProject extends Command
 
     public function handle()
     {
+        if ($this->option('checkout')) {
+            $this->checkout();
+        } else {
+            $this->lock();
+        }
+
+        return $this;
+    }
+
+    public function checkout()
+    {
+        $pckgLock = json_decode(file_get_contents(path('root') . 'pckg.json'), true);
+        $composerJson = json_decode(file_get_contents(path('root') . 'composer.json'), true);
+
+        foreach ($pckgLock as $packet => $config) {
+            $lock = $config['from'] . '#' . $config['commit'];
+            $set = $composerJson['require'][$packet];
+
+            if ($lock != $set) {
+                continue;
+            }
+
+            $this->output('Checking out ' . $packet . ' to ' . $config['to']);
+            $this->exec(
+                [
+                    'cd ' . path(
+                        'root'
+                    ) . 'vendor/' . $packet . ' && git checkout ' . $config['to'] . ' && git branch --set-upstream-to=origin/' . $config['to'] . ' ' . $config['to'] . ' && git pull --ff',
+                ]
+            );
+        }
+    }
+
+    public function lock()
+    {
         $packets = [
             'auth',
             'collection',
@@ -26,13 +61,10 @@ class LockProject extends Command
             'charts',
         ];
 
-        $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];
-        $ahead = ['Your branch is ahead of '];
         $composer = json_decode(file_get_contents(path('root') . 'composer.lock'), true);
         $composerJson = json_decode(file_get_contents(path('root') . 'composer.json'), true);
+        $pckgLock = json_decode(file_get_contents(path('root') . 'pckg.json'), true);
         $requiredPackages = $composerJson['require'];
-
-        $outdated = false;
 
         foreach ($packets as $packet) {
             $path = path('root') . 'vendor' . path('ds') . 'pckg' . path('ds') . $packet;
@@ -41,6 +73,7 @@ class LockProject extends Command
             }
             $this->output('Checking ' . $packet);
             $statusCommand = 'cd ' . $path . ' && git status';
+            $logCommand = 'cd ' . $path . ' && git log';
             $outputs = $this->exec($statusCommand, false);
 
             if (strpos($outputs[0][0], 'On branch ') === 0) {
@@ -60,10 +93,22 @@ class LockProject extends Command
                         'Checked out to ' . $branch . ' branch, leaving untouched ...',
                         $branch != 'master' ? 'comment' : null
                     );
+                } elseif (strpos($required, 'dev-' . $branch . '#')) {
+                    /**
+                     * Already locked ...
+                     */
                 } else {
-                    $this->output('Changing to dev-' . $branch, 'info');
-                    $composerJson['require']['pckg/' . $packet] = 'dev-' . $branch;
-                    $outdated = true;
+                    $logOutputs = $this->exec($logCommand, false);
+                    $commit = substr($logOutputs[0][0], strlen('commit '));
+                    $lock = $required . '#' . $commit;
+
+                    $this->output('Locking to ' . $lock, 'info');
+                    $composerJson['require']['pckg/' . $packet] = $lock;
+                    $pckgLock['pckg/' . $packet] = [
+                        'from' => $required,
+                        'to' => $branch,
+                        'commit' => $commit,
+                    ];
                 }
             } else {
                 dd('not on branch');
@@ -71,17 +116,23 @@ class LockProject extends Command
             $this->output();
         }
 
-        if (true || $outdated) {
-            file_put_contents(
-                path('root') . 'composer.json',
-                str_replace(
-                    ['    ', "\n"],
-                    ['  ', "\r\n"],
-                    json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
-                )
-            );
-            $this->output('Wrote changes to composer.json');
-        }
+        file_put_contents(
+            path('root') . 'composer.json',
+            str_replace(
+                ['    ', "\n"],
+                ['  ', "\r\n"],
+                json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+            )
+        );
+        file_put_contents(
+            path('root') . 'pckg.json',
+            str_replace(
+                ['    ', "\n"],
+                ['  ', "\r\n"],
+                json_encode($pckgLock, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+            )
+        );
+        $this->output('Wrote changes to composer.json');
     }
 
     protected function configure()
@@ -89,6 +140,11 @@ class LockProject extends Command
         $this->setName('project:lock')
              ->setDescription(
                  'Lock composer dependencies (composer.json) as currently checked out'
+             )
+             ->addOptions(
+                 [
+                     'checkout' => 'Checkout to branch listed in pckg.json',
+                 ]
              );
     }
 
