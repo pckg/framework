@@ -41,6 +41,16 @@ class LockProject extends Command
             );
             unset($pckgLock[$packet]);
         }
+
+        file_put_contents(
+            path('root') . 'pckg.json',
+            str_replace(
+                ['    ', "\n"],
+                ['  ', "\r\n"],
+                json_encode($pckgLock, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+            )
+        );
+        $this->output('Wrote changes to pckg.json');
     }
 
     public function lock()
@@ -135,7 +145,7 @@ class LockProject extends Command
                 json_encode($pckgLock, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
             )
         );
-        $this->output('Wrote changes to composer.json');
+        $this->output('Wrote changes to composer.json and pckg.json');
     }
 
     protected function configure()
