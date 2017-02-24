@@ -117,6 +117,14 @@ class LockProject extends Command
                     $from = $commitPosition ? substr($required, 0, $commitPosition) : $required;
                     $lock = $from . '#' . $commit;
 
+                    if ($lock == $composerJson['require']['pckg/' . $packet]) {
+                        $this->output(
+                            'Already locked to ' . $lock . ', leaving untouched ...',
+                            $branch != 'master' ? 'comment' : null
+                        );
+                        continue;
+                    }
+
                     $this->output('Locking to ' . $lock, 'info');
                     $composerJson['require']['pckg/' . $packet] = $lock;
                     $pckgLock['pckg/' . $packet] = [
