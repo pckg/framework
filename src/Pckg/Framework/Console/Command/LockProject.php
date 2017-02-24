@@ -31,6 +31,10 @@ class LockProject extends Command
                 $to = $config['from'];
             }
 
+            if ($to == 'dev-master') {
+                $to = 'master';
+            }
+
             $this->output('Checking out ' . $packet . ' to ' . $to);
             $this->exec(
                 [
