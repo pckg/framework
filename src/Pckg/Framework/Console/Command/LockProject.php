@@ -39,6 +39,7 @@ class LockProject extends Command
                     ) . 'vendor/' . $packet . ' && git checkout ' . $to . ' && git pull --ff',
                 ]
             );
+            unset($pckgLock[$packet]);
         }
     }
 
