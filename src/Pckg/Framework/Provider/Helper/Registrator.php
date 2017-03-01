@@ -39,6 +39,9 @@ trait Registrator
                 if (isset($providerConfig['prefix'])) {
                     $providerConfig['prefix'] = '';
                 }
+                if (is_array($providerConfig)) {
+                    $providerConfig['provider'] = get_class($this);
+                }
 
                 Reflect::create(
                     'Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType),
