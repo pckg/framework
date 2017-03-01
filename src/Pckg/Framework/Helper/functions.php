@@ -1355,3 +1355,14 @@ if (!function_exists('br2nl')) {
         return '"' . $string . '"';
     }
 }
+
+if (!function_exists('array_union')) {
+    function array_union($one, $two)
+    {
+        return array_merge(
+            array_intersect($one, $two),
+            array_diff($one, $two),
+            array_diff($two, $one)
+        );
+    }
+}
