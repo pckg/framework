@@ -1366,3 +1366,10 @@ if (!function_exists('array_union')) {
         );
     }
 }
+
+if (!function_exists('transform')) {
+    function transform($collection, $rules)
+    {
+        return collect($collection)->map($rules)->all();
+    }
+}

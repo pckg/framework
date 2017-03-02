@@ -140,12 +140,20 @@ var locale = {
     },
 
     date: function (date) {
+        if (!date) {
+            return null;
+        }
+
         moment.locale(props.locale);
 
         return moment(date).format('LL');
     },
 
     time: function (time) {
+        if (!time) {
+            return null;
+        }
+
         moment.locale(props.locale);
 
         return moment(time).format('LT');
@@ -162,6 +170,10 @@ var locale = {
 };
 
 var utils = {
+
+    isSameDate: function (first, second) {
+        return locale.date(first) == locale.date(second);
+    },
 
     fix: function (value) {
         return value ? value : null;
@@ -226,6 +238,18 @@ var utils = {
         });
 
         return to;
+    },
+    first: function (items, callback) {
+        var first = null;
+
+        $.each(items, function (i, item) {
+            if (callback(item, i)) {
+                first = item;
+                return false;
+            }
+        });
+
+        return first;
     }
 
 };
