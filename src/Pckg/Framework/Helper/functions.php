@@ -116,10 +116,10 @@ if (!function_exists('server')) {
     }
 }
 
-/**
- * @return Auth
- */
 if (!function_exists('auth')) {
+    /**
+     * @return Auth
+     */
     function auth($provider = null)
     {
         $auth = context()->getOrCreate(Auth::class);

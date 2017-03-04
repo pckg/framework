@@ -179,7 +179,10 @@ class Router
                          * T00D00 - this needs to be resolved without proper index (find by class)
                          */
                         if (isset($args['[' . $key . ']']) && is_object($args['[' . $key . ']'])) {
-                            $args['[' . $key . ']'] = resolve($resolver)->parametrize($args['[' . $key . ']']);
+                            $realResolver = is_object($resolver)
+                                ? $resolver
+                                : resolve($resolver);
+                            $args['[' . $key . ']'] = $realResolver->parametrize($args['[' . $key . ']']);
                         }
                     }
 

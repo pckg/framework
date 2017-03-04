@@ -13,6 +13,8 @@ class Route
 
     protected $name;
 
+    protected $resolvers = [];
+
     public function __construct($url = null, $view = null, $controller = null)
     {
         $this->url($url);
@@ -48,7 +50,7 @@ class Route
 
     public function register($parentData)
     {
-        $mains = ['url', 'controller', 'view', 'name'];
+        $mains = ['url', 'controller', 'view', 'name', 'resolvers'];
         $data = [];
         foreach ($mains as $main) {
             if (!$this->{$main}) {
@@ -58,8 +60,15 @@ class Route
             $data[$main] = $this->{$main};
         }
         $mergedData = $this->mergeData($parentData, $data);
-        
+
         router()->add($mergedData['url'], $mergedData, $mergedData['name']);
+    }
+
+    public function resolvers($resolvers = [])
+    {
+        $this->resolvers = $resolvers;
+
+        return $this;
     }
 
 }
