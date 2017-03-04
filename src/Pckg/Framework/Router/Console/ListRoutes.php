@@ -35,7 +35,7 @@ class ListRoutes extends Command
         $data = [];
         $lastProvider = null;
         $search = $this->option('search');
-        foreach (router()->getRoutes() as $url => $routes) {
+        foreach (router()->getRoutes() as $routes) {
             foreach ($routes as $route) {
                 $row = [
                     'name'    => $route['name'],
