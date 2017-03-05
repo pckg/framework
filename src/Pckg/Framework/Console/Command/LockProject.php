@@ -7,6 +7,58 @@ class LockProject extends Command
 
     public function handle()
     {
+        if ($this->option('checkout')) {
+            $this->checkout();
+        } else {
+            $this->lock();
+        }
+
+        return $this;
+    }
+
+    public function checkout()
+    {
+        $pckgLock = json_decode(file_get_contents(path('root') . 'pckg.json'), true);
+        $composerJson = json_decode(file_get_contents(path('root') . 'composer.json'), true);
+
+        foreach ($pckgLock as $packet => $config) {
+            $lock = $config['from'] . '#' . $config['commit'];
+            $set = $composerJson['require'][$packet];
+            $from = $config['from'];
+            $to = $config['to'];
+
+            if ($lock != $set) {
+                $to = $config['from'];
+            }
+
+            if ($to == 'dev-master') {
+                $to = 'master';
+            }
+
+            $this->output('Checking out ' . $packet . ' to ' . $to);
+            $this->exec(
+                [
+                    'cd ' . path(
+                        'root'
+                    ) . 'vendor/' . $packet . ' && git checkout ' . $to . ' && git pull --ff',
+                ]
+            );
+            unset($pckgLock[$packet]);
+        }
+
+        file_put_contents(
+            path('root') . 'pckg.json',
+            str_replace(
+                ['    ', "\n"],
+                ['  ', "\r\n"],
+                json_encode($pckgLock, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+            )
+        );
+        $this->output('Wrote changes to pckg.json');
+    }
+
+    public function lock()
+    {
         $packets = [
             'auth',
             'collection',
@@ -26,13 +78,10 @@ class LockProject extends Command
             'charts',
         ];
 
-        $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];
-        $ahead = ['Your branch is ahead of '];
         $composer = json_decode(file_get_contents(path('root') . 'composer.lock'), true);
         $composerJson = json_decode(file_get_contents(path('root') . 'composer.json'), true);
+        $pckgLock = json_decode(file_get_contents(path('root') . 'pckg.json'), true);
         $requiredPackages = $composerJson['require'];
-
-        $outdated = false;
 
         foreach ($packets as $packet) {
             $path = path('root') . 'vendor' . path('ds') . 'pckg' . path('ds') . $packet;
@@ -41,6 +90,7 @@ class LockProject extends Command
             }
             $this->output('Checking ' . $packet);
             $statusCommand = 'cd ' . $path . ' && git status';
+            $logCommand = 'cd ' . $path . ' && git log';
             $outputs = $this->exec($statusCommand, false);
 
             if (strpos($outputs[0][0], 'On branch ') === 0) {
@@ -60,10 +110,32 @@ class LockProject extends Command
                         'Checked out to ' . $branch . ' branch, leaving untouched ...',
                         $branch != 'master' ? 'comment' : null
                     );
+                } elseif (strpos($required, 'dev-' . $branch . '#')) {
+                    /**
+                     * Already locked ...
+                     */
                 } else {
-                    $this->output('Changing to dev-' . $branch, 'info');
-                    $composerJson['require']['pckg/' . $packet] = 'dev-' . $branch;
-                    $outdated = true;
+                    $logOutputs = $this->exec($logCommand, false);
+                    $commit = substr($logOutputs[0][0], strlen('commit '));
+                    $commitPosition = strpos($required, '#');
+                    $from = $commitPosition ? substr($required, 0, $commitPosition) : $required;
+                    $lock = $from . '#' . $commit;
+
+                    if ($lock == $composerJson['require']['pckg/' . $packet]) {
+                        $this->output(
+                            'Already locked to ' . $lock . ', leaving untouched ...',
+                            $branch != 'master' ? 'comment' : null
+                        );
+                        continue;
+                    }
+
+                    $this->output('Locking to ' . $lock, 'info');
+                    $composerJson['require']['pckg/' . $packet] = $lock;
+                    $pckgLock['pckg/' . $packet] = [
+                        'from'   => $from,
+                        'to'     => $branch,
+                        'commit' => $commit,
+                    ];
                 }
             } else {
                 dd('not on branch');
@@ -71,17 +143,23 @@ class LockProject extends Command
             $this->output();
         }
 
-        if (true || $outdated) {
-            file_put_contents(
-                path('root') . 'composer.json',
-                str_replace(
-                    ['    ', "\n"],
-                    ['  ', "\r\n"],
-                    json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
-                )
-            );
-            $this->output('Wrote changes to composer.json');
-        }
+        file_put_contents(
+            path('root') . 'composer.json',
+            str_replace(
+                ['    ', "\n"],
+                ['  ', "\r\n"],
+                json_encode($composerJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+            )
+        );
+        file_put_contents(
+            path('root') . 'pckg.json',
+            str_replace(
+                ['    ', "\n"],
+                ['  ', "\r\n"],
+                json_encode($pckgLock, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
+            )
+        );
+        $this->output('Wrote changes to composer.json and pckg.json');
     }
 
     protected function configure()
@@ -89,6 +167,11 @@ class LockProject extends Command
         $this->setName('project:lock')
              ->setDescription(
                  'Lock composer dependencies (composer.json) as currently checked out'
+             )
+             ->addOptions(
+                 [
+                     'checkout' => 'Checkout to branch listed in pckg.json',
+                 ]
              );
     }
 
