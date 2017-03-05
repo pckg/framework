@@ -117,7 +117,6 @@ class Response
 
     public function init()
     {
-
     }
 
     public function setType($type)
@@ -154,22 +153,21 @@ class Response
             } else {
                 $this->setOutput($this->output->autoparse());
             }
-
         } else if (is_array($this->output)) {
             $this->setOutput(json_encode($this->output));
-
         } else if (is_object($this->output) && method_exists($this->output, '__toString')) {
             $this->setOutput((string)$this->output);
-
         } else if (is_string($this->output)) {
             if (request()->isAjax()/* && strpos($this->output, '[') !== 0 && strpos($this->output, '{') !== 0*/) {
                 //$this->setOutput(json_encode(['_html' => $this->output]));
                 if (get('html')) {
+                    $html = (string)$this->output;
+                    $vue = vueManager()->getViews();
                     $this->setOutput(
                         json_encode(
                             [
-                                'html' => $this->output,
-                                'vue'  => vueManager()->getViews(),
+                                'html' => $html,
+                                'vue'  => $vue,
                             ]
                         )
                     );
@@ -254,7 +252,6 @@ class Response
             $url = $this->getMinusUrl();
 
             $output = '<html><body><script>history.go(-1);</script></body></html>';
-
         } else if (substr($url, 0, 1) == '@') {
             $url = (new URL())->setParams($httpParams)
                               ->setUrl(
@@ -263,14 +260,13 @@ class Response
                                       $routerParams
                                   )
                               )->relative();
-
         } else if ($url === null) {
             $url = $this->router->getUri();
-
         }
 
         if (!$output) {
-            $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url . '" /></head><body></body></html>';
+            $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url .
+                      '" /></head><body></body></html>';
         }
 
         /**
@@ -374,7 +370,6 @@ class Response
         return request()->isAjax()
             ? $this->respondWithAjaxSuccessAndRedirect($url)
             : $this->redirect($url);
-
     }
 
     public function respondWithSuccessOrRedirectBack()
