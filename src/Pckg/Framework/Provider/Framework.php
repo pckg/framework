@@ -11,6 +11,7 @@ use Pckg\Framework\Request\Data\Server;
 use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
+use Pckg\Framework\Router\Console\ListRoutes;
 use Pckg\Htmlbuilder\Provider\Htmlbuilder;
 use Pckg\Migration\Provider\Migration as MigrationProvider;
 
@@ -22,6 +23,7 @@ class Framework extends Provider
         return [
             CreatePckgProject::class,
             ClearCache::class,
+            ListRoutes::class,
         ];
     }
 

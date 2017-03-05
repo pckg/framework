@@ -116,10 +116,10 @@ if (!function_exists('server')) {
     }
 }
 
-/**
- * @return Auth
- */
 if (!function_exists('auth')) {
+    /**
+     * @return Auth
+     */
     function auth($provider = null)
     {
         $auth = context()->getOrCreate(Auth::class);
@@ -1353,5 +1353,23 @@ if (!function_exists('br2nl')) {
         $string = str_replace('"', '\"', $string);
 
         return '"' . $string . '"';
+    }
+}
+
+if (!function_exists('array_union')) {
+    function array_union($one, $two)
+    {
+        return array_merge(
+            array_intersect($one, $two),
+            array_diff($one, $two),
+            array_diff($two, $one)
+        );
+    }
+}
+
+if (!function_exists('transform')) {
+    function transform($collection, $rules)
+    {
+        return collect($collection)->map($rules)->all();
     }
 }
