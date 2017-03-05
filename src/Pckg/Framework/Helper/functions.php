@@ -575,7 +575,7 @@ if (!function_exists('localeManager')) {
 
 if (!function_exists('metaManager')) {
     /**
-     * @return Seo
+     * @return Meta
      */
     function metaManager()
     {
