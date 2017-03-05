@@ -263,6 +263,13 @@ class Router
         return str_replace(['.'], '-', strtolower($this->getName()));
     }
 
+    public function setData($data = [])
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
     public function mergeData($data)
     {
         $this->data = array_merge($this->data, $data);

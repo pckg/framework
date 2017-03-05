@@ -15,6 +15,10 @@ class Route
 
     protected $resolvers = [];
 
+    protected $afterwares = [];
+
+    protected $data = [];
+
     public function __construct($url = null, $view = null, $controller = null)
     {
         $this->url($url);
@@ -50,8 +54,8 @@ class Route
 
     public function register($parentData)
     {
-        $mains = ['url', 'controller', 'view', 'name', 'resolvers'];
-        $data = [];
+        $mains = ['url', 'controller', 'view', 'name', 'resolvers', 'afterwares'];
+        $data = $this->data;
         foreach ($mains as $main) {
             if (!$this->{$main}) {
                 continue;
@@ -67,6 +71,20 @@ class Route
     public function resolvers($resolvers = [])
     {
         $this->resolvers = $resolvers;
+
+        return $this;
+    }
+
+    public function afterwares($afterwares = [])
+    {
+        $this->afterwares = $afterwares;
+
+        return $this;
+    }
+
+    public function data($data = [])
+    {
+        $this->data = $data;
 
         return $this;
     }

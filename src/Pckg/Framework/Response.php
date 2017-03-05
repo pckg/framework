@@ -198,8 +198,6 @@ class Response
                 $url = $_SERVER['REQUEST_URI'];
             }
 
-            message('Internal redirect to ' . $url);
-
             /**
              * Set GET method.
              */
