@@ -206,7 +206,7 @@ var utils = {
     },
 
     collect: function (item) {
-        return typeof item == Array
+        return Array.isArray(item)
             ? item
             : [item];
     },
