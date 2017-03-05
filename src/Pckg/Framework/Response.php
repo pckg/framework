@@ -164,6 +164,16 @@ class Response
         } else if (is_string($this->output)) {
             if (request()->isAjax()/* && strpos($this->output, '[') !== 0 && strpos($this->output, '{') !== 0*/) {
                 //$this->setOutput(json_encode(['_html' => $this->output]));
+                if (get('html')) {
+                    $this->setOutput(
+                        json_encode(
+                            [
+                                'html' => $this->output,
+                                'vue'  => vueManager()->getViews(),
+                            ]
+                        )
+                    );
+                }
             }
         }
 
@@ -187,8 +197,6 @@ class Response
             if (!$url) {
                 $url = $_SERVER['REQUEST_URI'];
             }
-
-            message('Internal redirect to ' . $url);
 
             /**
              * Set GET method.

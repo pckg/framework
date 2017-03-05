@@ -140,12 +140,20 @@ var locale = {
     },
 
     date: function (date) {
+        if (!date) {
+            return null;
+        }
+
         moment.locale(props.locale);
 
         return moment(date).format('LL');
     },
 
     time: function (time) {
+        if (!time) {
+            return null;
+        }
+
         moment.locale(props.locale);
 
         return moment(time).format('LT');
@@ -163,6 +171,10 @@ var locale = {
 
 var utils = {
 
+    isSameDate: function (first, second) {
+        return locale.date(first) == locale.date(second);
+    },
+
     fix: function (value) {
         return value ? value : null;
     },
@@ -173,40 +185,6 @@ var utils = {
         });
 
         return url;
-    },
-
-    pushToVue: function (obj) {
-        console.log('(deprecated) pushToVue');
-
-        if (!data.$vue) {
-            $.extend(true, $vue, obj);
-            return;
-        }
-
-        console.log('Extending existing data.$vue', obj);
-        $.each(obj, function (type, datas) {
-            if (type == 'methods') {
-                console.log(" " + type);
-                $.each(datas, function (key, d) {
-                    console.log("  " + key);
-                    data.$vue[key] = d.bind(data.$vue);
-                }.bind(this));
-            } else if (type == 'data') {
-                console.log(" " + type);
-                $.each(datas, function (key, d) {
-                    console.log("  " + key);
-                    data.$vue[key] = d;
-                }.bind(this));
-            } else if (type == 'on') {
-                console.log(" " + type);
-                $.each(datas, function (event, callback) {
-                    console.log("  " + event);
-                    data.$vue.$on(event, callback.bind(data.$vue));
-                }.bind(this));
-            } else {
-                console.log('unknown', type, datas);
-            }
-        }.bind(this));
     },
 
     nl2br: function (str, is_xhtml) {
@@ -225,6 +203,53 @@ var utils = {
 
     isIframe: function () {
         return parent.window != window;
+    },
+
+    collect: function (item) {
+        return typeof item == Array
+            ? item
+            : [item];
+    },
+    prepend: function (value, array) {
+        var newArray = array.slice(0);
+
+        newArray.unshift(value);
+
+        return newArray;
+    },
+    sort: function (obj) {
+        var sorted = {};
+        Object.keys(obj).sort().forEach(function (value, key) {
+            sorted[key] = value;
+        });
+
+        return sorted;
+    },
+    mergeObject: function (to, from) {
+        $.each(from, function (key, value) {
+            to[key] = value;
+        });
+
+        return to;
+    },
+    pushTo: function (to, from) {
+        $.each(from, function (key, value) {
+            to.push(value);
+        });
+
+        return to;
+    },
+    first: function (items, callback) {
+        var first = null;
+
+        $.each(items, function (i, item) {
+            if (callback(item, i)) {
+                first = item;
+                return false;
+            }
+        });
+
+        return first;
     }
 
 };

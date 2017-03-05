@@ -25,9 +25,22 @@ trait Registrator
     public function registerRoutes($routes)
     {
         foreach ($routes AS $providerType => $arrProviders) {
+            if (is_object($arrProviders)) {
+                /**
+                 * $arrProviders is instance of Group or Route.
+                 */
+                $arrProviders->register([
+                                            'provider' => get_class($this),
+                                        ]);
+                continue;
+            }
+
             foreach ($arrProviders AS $provider => $providerConfig) {
                 if (isset($providerConfig['prefix'])) {
                     $providerConfig['prefix'] = '';
+                }
+                if (is_array($providerConfig)) {
+                    $providerConfig['provider'] = get_class($this);
                 }
 
                 Reflect::create(
