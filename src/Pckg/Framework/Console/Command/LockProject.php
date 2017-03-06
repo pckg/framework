@@ -98,6 +98,9 @@ class LockProject extends Command
                 $required = $requiredPackages['pckg/' . $packet] ?? null;
 
                 if (!$required) {
+                    /**
+                     * It is dependency.
+                     */
                     foreach ($composer['packages'] as $composerPacket) {
                         if ($composerPacket['name'] == 'pckg/' . $packet) {
                             $required = $composerPacket['version'];
@@ -131,7 +134,7 @@ class LockProject extends Command
 
                     $this->output('Locking to ' . $lock, 'info');
                     $composerJson['require']['pckg/' . $packet] = $lock;
-                    $pckgLock['pckg/' . $packet] = [
+                    $pckgLock[$branch]['pckg/' . $packet] = [
                         'from'   => $from,
                         'to'     => $branch,
                         'commit' => $commit,
