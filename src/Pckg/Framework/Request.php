@@ -66,17 +66,14 @@ class Request extends Lazy
         // replace environment prefix
         if (strpos($url, $envPrefix) === 0) {
             $url = substr($url, strlen($envPrefix));
-
         }
 
         // default url if empty
         if (!$url) {
             $url = '/';
-
         } else if (strlen($url) > 1 && substr($url, -1) == "/") {
             // add / to beginning
             $url = substr($url, 0, -1);
-
         }
 
         $this->setUrl($url);
@@ -109,6 +106,11 @@ class Request extends Lazy
         trigger('request.ran', [$this]);
     }
 
+    public function method()
+    {
+        return strtolower($_SERVER['REQUEST_METHOD']) ?? 'GET';
+    }
+
     function post($key = null, $default = [])
     {
         if (is_array($key)) {
@@ -118,10 +120,8 @@ class Request extends Lazy
             }
 
             return $return;
-
         } elseif (!$key) {
             return $this->post;
-
         }
 
         return $this->post->get($key, $default);
@@ -157,12 +157,7 @@ class Request extends Lazy
 
     function isMethod($method)
     {
-        $requestMethod = $_SERVER['REQUEST_METHOD'] ?? null;
-
-        return ($method == self::GET && $requestMethod == "GET")
-               || ($method == self::POST && $requestMethod == "POST")
-               || ($method == self::PUT && $requestMethod == "PUT")
-               || ($method == self::DELETE && $requestMethod == "DELETE");
+        return $this->method() == strtoupper($method);
     }
 
     public function getMethod()

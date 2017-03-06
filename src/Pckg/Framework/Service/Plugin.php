@@ -15,7 +15,7 @@ class Plugin
         /**
          * Call action.
          */
-        $view = Reflect::method($controller, (!$byRequest ? $method : ((request()->isPost() ? 'post' : 'get') . ucfirst($method))) . 'Action', $params);
+        $view = Reflect::method($controller, (!$byRequest ? $method : (strtolower(request()->method()) . ucfirst($method))) . 'Action', $params);
 
         return (string)$view;
     }

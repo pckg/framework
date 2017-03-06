@@ -36,9 +36,7 @@ class LoadView extends AbstractChainOfReponsibility
 
     public function execute()
     {
-        $viewHttp = $this->request->isPost()
-            ? 'post' . ucfirst($this->view)
-            : 'get' . ucfirst($this->view);
+        $viewHttp = strtolower($this->request->method()) . ucfirst($this->view);
 
         $result = null;
         $data = $this->getResolved();

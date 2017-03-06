@@ -16,8 +16,6 @@ var http = {
 
         }
 
-        console.log(data, vueElement.form);
-
         return data;
     },
 
@@ -41,6 +39,14 @@ var http = {
             url: url,
             dataType: 'JSON',
             method: 'get'
+        }).done(whenDone).error(whenError);
+    },
+
+    deleteJSON: function (url, whenDone, whenError) {
+        return $.ajax({
+            url: url,
+            dataType: 'JSON',
+            method: 'delete'
         }).done(whenDone).error(whenError);
     },
 
