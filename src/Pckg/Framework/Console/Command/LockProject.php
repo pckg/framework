@@ -21,6 +21,20 @@ class LockProject extends Command
         $pckgLock = json_decode(file_get_contents(path('root') . 'pckg.json'), true);
         $composerJson = json_decode(file_get_contents(path('root') . 'composer.json'), true);
 
+        $projectStatusCommand = 'cd ' . path('root') . ' && git status';
+        $outputs = $this->exec($projectStatusCommand, false);
+        $projectBranch = str_replace('On branch ', '', $outputs[0][0]);
+
+        if (!$projectBranch) {
+            $this->output('Cannot resolve project branch.');
+            exit;
+        }
+
+        if (!array_key_exists($projectBranch, $pckgLock)) {
+            $this->output('No locks defined for branch ' . $projectBranch);
+            exit;
+        }
+
         foreach ($pckgLock as $packet => $config) {
             $lock = $config['from'] . '#' . $config['commit'];
             $set = $composerJson['require'][$packet];
@@ -83,6 +97,15 @@ class LockProject extends Command
         $pckgLock = json_decode(file_get_contents(path('root') . 'pckg.json'), true);
         $requiredPackages = $composerJson['require'];
 
+        $projectStatusCommand = 'cd ' . path('root') . ' && git status';
+        $outputs = $this->exec($projectStatusCommand, false);
+        $projectBranch = str_replace('On branch ', '', $outputs[0][0]);
+
+        if (!$projectBranch) {
+            $this->output('Cannot resolve project branch.');
+            exit;
+        }
+
         foreach ($packets as $packet) {
             $path = path('root') . 'vendor' . path('ds') . 'pckg' . path('ds') . $packet;
             if (!is_dir($path)) {
@@ -134,7 +157,7 @@ class LockProject extends Command
 
                     $this->output('Locking to ' . $lock, 'info');
                     $composerJson['require']['pckg/' . $packet] = $lock;
-                    $pckgLock[$branch]['pckg/' . $packet] = [
+                    $pckgLock[$projectBranch]['pckg/' . $packet] = [
                         'from'   => $from,
                         'to'     => $branch,
                         'commit' => $commit,
