@@ -1,6 +1,7 @@
 <?php namespace Pckg\Framework\Service;
 
 use Pckg\Concept\Reflect;
+use Throwable;
 
 class Plugin
 {
@@ -15,9 +16,18 @@ class Plugin
         /**
          * Call action.
          */
-        $view = Reflect::method($controller, (!$byRequest ? $method : (strtolower(request()->method()) . ucfirst($method))) . 'Action', $params);
+        try {
+            $view = (string)Reflect::method($controller, (!$byRequest ? $method : (strtolower(request()->method()) .
+                                                                                   ucfirst($method))) . 'Action',
+                                            $params);
+            return $view;
+        } catch (Throwable $e) {
+            if (prod()) {
+                return null;
+            }
 
-        return (string)$view;
+            throw $e;
+        }
     }
 
 }

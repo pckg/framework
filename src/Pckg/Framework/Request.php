@@ -160,9 +160,14 @@ class Request extends Lazy
         return $this->method() == strtoupper($method);
     }
 
+    /**
+     * @return string
+     * @deprecated
+     * @see method()
+     */
     public function getMethod()
     {
-        return $_SERVER['REQUEST_METHOD'];
+        return $this->method();
     }
 
     function isAjax()
