@@ -11,13 +11,13 @@ use Pckg\Framework\Router\Command\ResolveRoute;
 class Request extends Lazy
 {
 
-    const GET = 1;
+    const GET = 'GET';
 
-    const POST = 2;
+    const POST = 'POST';
 
-    const PUT = 3;
+    const PUT = 'PUT';
 
-    const DELETE = 4;
+    const DELETE = 'DELETE';
 
     protected $url;
 
@@ -108,7 +108,7 @@ class Request extends Lazy
 
     public function method()
     {
-        return strtolower($_SERVER['REQUEST_METHOD']) ?? 'GET';
+        return $_SERVER['REQUEST_METHOD'] ?? 'GET';
     }
 
     function post($key = null, $default = [])
