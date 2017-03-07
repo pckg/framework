@@ -6,7 +6,7 @@ use Throwable;
 class Plugin
 {
 
-    public function make($controller, $method, $params = [], $byRequest = false)
+    public function make($controller, $method, $params = [], $byRequest = true)
     {
         /**
          * Create controller.
@@ -17,7 +17,7 @@ class Plugin
          * Call action.
          */
         try {
-            $view = (string)Reflect::method($controller, (!$byRequest ? $method : (strtolower(request()->method()) .
+            $view = (string)Reflect::method($controller, ($byRequest !== true ? $method : (strtolower(request()->method()) .
                                                                                    ucfirst($method))) . 'Action',
                                             $params);
             return $view;
