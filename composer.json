@@ -1,6 +1,6 @@
 {
   "name": "pckg/framework",
-  "description": "LightWeight PHP MVC Framework with TWIG templating engine, YAML configuration and tons of features",
+  "description": "Fully featured lightweight php framework with multilingual support, twig templating engine, and tons of other features.",
   "homepage": "https://github.com/pckg/framework",
   "license": "MIT",
   "authors": [
