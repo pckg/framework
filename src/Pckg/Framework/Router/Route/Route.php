@@ -57,7 +57,7 @@ class Route
         $mains = ['url', 'controller', 'view', 'name', 'resolvers', 'afterwares'];
         $data = $this->data;
         foreach ($mains as $main) {
-            if (!$this->{$main}) {
+            if (!isset($this->{$main})) {
                 continue;
             }
 
@@ -65,7 +65,7 @@ class Route
         }
         $mergedData = $this->mergeData($parentData, $data);
 
-        router()->add($mergedData['url'], $mergedData, $mergedData['name']);
+        router()->add($mergedData['url'] ?? '@', $mergedData, $mergedData['name'] ?? '@');
     }
 
     public function resolvers($resolvers = [])

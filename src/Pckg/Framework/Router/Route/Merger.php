@@ -36,6 +36,9 @@ trait Merger
                 if ($separator && strpos($data[$prefixed], $separator) === 0) {
                     $realSeparator = '';
                 }
+                if (!$data[$prefixed]) {
+                    $realSeparator = '';
+                }
                 $data[$prefixed] = $prefix . $realSeparator . $data[$prefixed];
             }
         }

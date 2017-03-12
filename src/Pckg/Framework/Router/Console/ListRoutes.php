@@ -37,9 +37,16 @@ class ListRoutes extends Command
         $search = $this->option('search');
         foreach (router()->getRoutes() as $routes) {
             foreach ($routes as $route) {
+                if (array_key_exists('provider', $route) && $route['provider'] != $lastProvider) {
+                    $data[] = new TableSeparator();
+                    $data[] = [new TableCell("\n# " . $route['provider'] . '', ['colspan' => 3])];
+                    $data[] = new TableSeparator();
+                    $lastProvider = $route['provider'];
+                }
+
                 $row = [
                     'name'    => $route['name'],
-                    'url'     => $route['url'],
+                    'url'     => substr($route['url'], 0, 40),
                     'action'  => $route['controller'] . ' @ ' . $route['view'],
                     'methods' => 'POST|GET',
                 ];
@@ -58,13 +65,6 @@ class ListRoutes extends Command
                 }
 
                 $data[] = $row;
-
-                if (array_key_exists('provider', $route) && $route['provider'] != $lastProvider) {
-                    $data[] = new TableSeparator();
-                    $data[] = [new TableCell("\n# " . $route['provider'] . '', ['colspan' => 3])];
-                    $data[] = new TableSeparator();
-                    $lastProvider = $route['provider'];
-                }
             }
         }
 
