@@ -207,7 +207,6 @@ var utils = {
     },
 
     sendToParent: function (data) {
-        console.log("Sending event", data);
         parent.postMessage(data, window.location.origin);
     },
 
@@ -321,12 +320,7 @@ var Pckg = {
             }
 
             $set(key, val) {
-                console.log('setting in vue');
                 $vue.$set(this, key, val);
-            }
-
-            get(key) {
-                console.log("__get " + key);
             }
 
             getData() {
@@ -344,9 +338,7 @@ var Pckg = {
                 var data = this.getData();
 
                 if (typeof callback == 'undefined') {
-                    callback = function (data) {
-                        console.log('auto callback', data);
-                    }
+                    callback = function (data) {}
                 }
 
                 http.post(this.getUrl('insert'), data, callback);
@@ -380,8 +372,6 @@ var Pckg = {
                 if (type == 'insert') {
                     return utils.url()
                 }
-
-                console.log('unknown url');
             }
 
         }
