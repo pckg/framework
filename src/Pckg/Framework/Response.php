@@ -245,7 +245,7 @@ class Response
         return $this;
     }
 
-    public function redirect($url = null, $httpParams = [], $routerParams = [])
+    public function redirect($url = null, $routerParams = [], $httpParams = [])
     {
         $output = null;
         if ($url === -1) {

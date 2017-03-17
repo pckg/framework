@@ -121,7 +121,7 @@ class URL
 
     public function relative()
     {
-        return '/' . $this->url . http_build_query($this->params);
+        return $this->url . http_build_query($this->params);
     }
 
 }
