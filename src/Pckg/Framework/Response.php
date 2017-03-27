@@ -441,9 +441,13 @@ class Response
             $string = $this->output;
         }
 
+        trigger(Response::class . '.responding');
+
         $this->code($this->code);
 
         echo $string;
+
+        trigger(Response::class . '.responded');
 
         die();
         throw new TheEnd();
