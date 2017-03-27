@@ -502,7 +502,7 @@ if (!function_exists('view')) {
      *
      * @return Twig
      */
-    function view($view, $data = [], $assets = [])
+    function view($view = null, $data = [], $assets = [])
     {
         $view = new Twig($view, $data);
         if ($parent = realpath(
