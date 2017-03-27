@@ -115,8 +115,8 @@ class Request extends Lazy
     {
         if (is_array($key)) {
             $return = [];
-            foreach ($key as $k) {
-                $return[$k] = $this->post->get($k);
+            foreach ($key as $k => $v) {
+                $return[is_int($k) ? $v : $k] = $this->post->get($v);
             }
 
             return $return;
