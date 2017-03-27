@@ -181,6 +181,10 @@ class ResolveRoute
             }
         }
 
+        if (!$match['method']) {
+            $match['method'] = 'GET|POST';
+        }
+
         if (!$match["controller"]) {
             throw new Exception("Controller not set." . print_r($match, true));
         }
