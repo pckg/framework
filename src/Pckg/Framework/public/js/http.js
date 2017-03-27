@@ -125,7 +125,7 @@ var locale = {
                 currencyDisplay: 'symbol',
                 maximumFractionDigits: decimals,
                 minimumFractionDigits: decimals
-            }) + ' €';
+            }) + ' ' + Pckg.locale.currencySign;
     },
 
     roundPrice: function (price, decimals) {
@@ -142,7 +142,7 @@ var locale = {
                 currencyDisplay: 'symbol',
                 maximumFractionDigits: decimals,
                 minimumFractionDigits: 0
-            }) + ' €';
+            }) + ' ' + Pckg.locale.currencySign;
     },
 
     date: function (date) {
@@ -152,7 +152,7 @@ var locale = {
 
         moment.locale(props.locale);
 
-        return moment(date).format('LL');
+        return moment(date).format(Pckg.config.locale.format.dateMoment);
     },
 
     time: function (time) {
@@ -162,7 +162,7 @@ var locale = {
 
         moment.locale(props.locale);
 
-        return moment(time).format('LT');
+        return moment(time).format(Pckg.config.locale.format.timeMoment);
     },
 
     datetime: function (datetime) {
