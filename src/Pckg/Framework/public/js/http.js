@@ -125,7 +125,7 @@ var locale = {
                 currencyDisplay: 'symbol',
                 maximumFractionDigits: decimals,
                 minimumFractionDigits: decimals
-            }) + ' ' + Pckg.locale.currencySign;
+            }) + ' ' + Pckg.config.locale.currencySign;
     },
 
     roundPrice: function (price, decimals) {
@@ -142,7 +142,7 @@ var locale = {
                 currencyDisplay: 'symbol',
                 maximumFractionDigits: decimals,
                 minimumFractionDigits: 0
-            }) + ' ' + Pckg.locale.currencySign;
+            }) + ' ' + Pckg.config.locale.currencySign;
     },
 
     date: function (date) {
