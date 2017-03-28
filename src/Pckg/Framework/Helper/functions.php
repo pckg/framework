@@ -116,6 +116,16 @@ if (!function_exists('server')) {
     }
 }
 
+/**
+ * @return Request
+ */
+if (!function_exists('files')) {
+    function files($key = null, $default = [])
+    {
+        return request()->files($key, $default);
+    }
+}
+
 if (!function_exists('auth')) {
     /**
      * @return Auth
