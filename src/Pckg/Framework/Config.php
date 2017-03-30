@@ -105,54 +105,16 @@ class Config
                     ? require $file
                     : [];
                 if (in_array($key, ['defaults', 'env'])) {
-                    $settings = $this->merge($settings, $content);
+                    $settings = merge_arrays($settings, $content);
                 } else {
                     $settings[$key] = $content;
                 }
             }
         }
 
-        $this->data = $this->merge($this->data, $settings);
+        $this->data = merge_arrays($this->data, $settings);
 
         $this->set('url', config('protocol') . "://" . config('domain'));
-    }
-
-    private function merge($to, $merge)
-    {
-        foreach ($merge as $key => $val) {
-            /**
-             * Value is set first time.
-             */
-            if (!array_key_exists($key, $to)) {
-                $to[$key] = $val;
-                continue;
-            }
-
-            /**
-             * Value is final.
-             */
-            if (!is_array($val)) {
-                $to[$key] = $val;
-                continue;
-            }
-
-            /**
-             * Value is list of items.
-             */
-            if (isArrayList($val)) {
-                $to[$key] = $val;
-                continue;
-            }
-
-            /**
-             * Value is keyed array.
-             */
-            if (is_array($to[$key])) {
-                $to[$key] = $this->merge($to[$key], $val);
-            }
-        }
-
-        return $to;
     }
 
     public function __toArray()

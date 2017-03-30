@@ -787,6 +787,45 @@ if (!function_exists('array_merge_array')) {
     }
 }
 
+if (!function_exists('merge_arrays')) {
+    function merge_arrays($to, $merge) {
+        foreach ($merge as $key => $val) {
+            /**
+             * Value is set first time.
+             */
+            if (!array_key_exists($key, $to)) {
+                $to[$key] = $val;
+                continue;
+            }
+
+            /**
+             * Value is final.
+             */
+            if (!is_array($val)) {
+                $to[$key] = $val;
+                continue;
+            }
+
+            /**
+             * Value is list of items.
+             */
+            if (isArrayList($val)) {
+                $to[$key] = $val;
+                continue;
+            }
+
+            /**
+             * Value is keyed array.
+             */
+            if (is_array($to[$key])) {
+                $to[$key] = merge_arrays($to[$key], $val);
+            }
+        }
+
+        return $to;
+    }
+}
+
 if (!function_exists('str_lreplace')) {
     function str_lreplace($search, $replace, $subject)
     {

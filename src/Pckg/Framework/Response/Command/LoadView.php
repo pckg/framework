@@ -39,7 +39,7 @@ class LoadView extends AbstractChainOfReponsibility
         $viewHttp = strtolower($this->request->method()) . ucfirst($this->view);
 
         $result = null;
-        $data = $this->getResolved();
+        $data = (new Router\Command\ResolveDependencies($this->router, $this->router->get('resolvers')))->execute();
 
         if (!method_exists($this->controller, $viewHttp . "Action")) {
             throw new Exception('Method ' . $viewHttp . 'Action() does not exist in ' . get_class($this->controller));
@@ -51,39 +51,6 @@ class LoadView extends AbstractChainOfReponsibility
         $result = Reflect::method($this->controller, $viewHttp . "Action", array_merge($this->data, $data));
 
         return $result;
-    }
-
-    protected function getResolved()
-    {
-        $router = $this->router->get();
-
-        $data = $this->router->get('data');
-        if (isset($router['resolvers'])) {
-            foreach ($router['resolvers'] as $urlKey => $resolver) {
-                $realResolver = is_object($resolver)
-                    ? $resolver
-                    : resolve($resolver);
-                $resolved = $realResolver->resolve($router[$urlKey] ?? $this->router->getCleanUri());
-
-                if (is_string($urlKey)) {
-                    $data[$urlKey] = $resolved;
-                }
-
-                $data[] = $resolved;
-                if (!is_int($urlKey)) {
-                    $this->router->resolve($urlKey, $resolved);
-                    /**
-                     * Remove resolved key.
-                     * Why? Can we delete it?
-                     */
-                    if (isset($data[$urlKey])) {
-                        //unset($data[$urlKey]);
-                    }
-                }
-            }
-        }
-
-        return $data;
     }
 
 }
