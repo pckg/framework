@@ -12,6 +12,7 @@ class UpdateProject extends Command
                 'Pulling git changes' => 'git pull --ff',
                 'Updating composer'  => 'composer update',
                 'Updating bower'      => 'bower update',
+                'Updating npm'      => 'npm update',
                 'Commiting changes'   => 'git add . --all && git commit -m "Composer update"',
             ]
         );

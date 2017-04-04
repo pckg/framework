@@ -8,12 +8,10 @@ var http = {
             $.each(vueElement.form, function (key, val) {
                 data[key] = vueElement.form[key];
             });
-
         } else {
             $.each(keys, function (i, key) {
                 data[key] = vueElement.form[key];
             });
-
         }
 
         return data;
@@ -79,16 +77,12 @@ var http = {
         $.each(data, function (key, val) {
             if (Array.isArray(val) || typeof val == 'object') {
                 data[key] = http.fixUndefined(val);
-
             } else if (typeof val == 'undefined') {
                 data[key] = '';
-
             } else if (val === true) {
                 data[key] = 1;
-
             } else if (val === false || val === '' || val === null) {
                 data[key] = null;
-
             }
         });
 
@@ -99,18 +93,14 @@ var http = {
         if (typeof json.redirect !== 'undefined') {
             if (typeof window.parent !== 'undefined' && window.parent.location.href.indexOf(json.redirect)) {
                 parent.postMessage('refresh', window.location.origin);
-
             } else {
                 window.location.href = json.redirect;
-
             }
         }
     },
 
     redirect: function (url) {
-        window.location.href = url != null
-            ? url
-            : window.location.href;
+        window.location.href = url != null ? url : window.location.href;
     }
 
 };
@@ -127,11 +117,11 @@ var locale = {
         }
 
         return parseFloat(price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
-                currency: 'eur',
-                currencyDisplay: 'symbol',
-                maximumFractionDigits: decimals,
-                minimumFractionDigits: decimals
-            }) + ' ' + Pckg.config.locale.currencySign;
+            currency: 'eur',
+            currencyDisplay: 'symbol',
+            maximumFractionDigits: decimals,
+            minimumFractionDigits: decimals
+        }) + ' ' + Pckg.config.locale.currencySign;
     },
 
     roundPrice: function (price, decimals) {
@@ -144,11 +134,11 @@ var locale = {
         }
 
         return parseFloat(price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
-                currency: 'eur',
-                currencyDisplay: 'symbol',
-                maximumFractionDigits: decimals,
-                minimumFractionDigits: 0
-            }) + ' ' + Pckg.config.locale.currencySign;
+            currency: 'eur',
+            currencyDisplay: 'symbol',
+            maximumFractionDigits: decimals,
+            minimumFractionDigits: 0
+        }) + ' ' + Pckg.config.locale.currencySign;
     },
 
     date: function (date) {
@@ -204,7 +194,7 @@ var utils = {
     },
 
     nl2br: function (str, is_xhtml) {
-        var breakTag = (is_xhtml || typeof is_xhtml === 'undefined') ? '<br />' : '<br>';
+        var breakTag = is_xhtml || typeof is_xhtml === 'undefined' ? '<br />' : '<br>';
         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
     },
 
@@ -221,9 +211,7 @@ var utils = {
     },
 
     collect: function (item) {
-        return Array.isArray(item)
-            ? item
-            : [item];
+        return Array.isArray(item) ? item : [item];
     },
     prepend: function (value, array) {
         var newArray = array.slice(0);
@@ -293,9 +281,7 @@ settings.vue.gmaps = {
         },
         base: {
             zoom: 10,
-            center: [46.055144, 14.512284],
-            //mapTypeControl: false,
-            //scrollwheel: false
+            center: [46.055144, 14.512284]
         }
     }
 };
@@ -307,7 +293,7 @@ var d = function (data) {
 var Pckg = {
     Collection: class extends Array {
 
-        static collect (items, type) {
+        static collect(items, type) {
             var collection = new Pckg.Collection();
 
             $.each(items, function (i, item) {
@@ -344,8 +330,7 @@ var Pckg = {
                 var data = this.getData();
 
                 if (typeof callback == 'undefined') {
-                    callback = function (data) {
-                    }
+                    callback = function (data) {};
                 }
 
                 http.post(this.getUrl('insert'), data, callback);
@@ -377,7 +362,7 @@ var Pckg = {
 
             getUrl(type, data) {
                 if (type == 'insert') {
-                    return utils.url()
+                    return utils.url();
                 }
             }
 

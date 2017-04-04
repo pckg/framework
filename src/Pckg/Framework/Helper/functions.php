@@ -16,7 +16,6 @@ use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
-use Pckg\Htmlbuilder\Element\Form;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Gtm;
 use Pckg\Manager\Locale;
@@ -39,10 +38,8 @@ if (!function_exists('context')) {
 
         if ($val) {
             return $context->bind($key, $val);
-
         } else if ($key) {
             return $context->get($key);
-
         }
 
         return $context;
@@ -532,7 +529,6 @@ if (!function_exists('view')) {
             if (is_dir($calculatedParent)) {
                 $view->addDir($calculatedParent, Twig::PRIORITY_LAST);
             }
-
         }
 
         if ($assets) {
@@ -788,7 +784,8 @@ if (!function_exists('array_merge_array')) {
 }
 
 if (!function_exists('merge_arrays')) {
-    function merge_arrays($to, $merge) {
+    function merge_arrays($to, $merge)
+    {
         foreach ($merge as $key => $val) {
             /**
              * Value is set first time.
@@ -1420,5 +1417,14 @@ if (!function_exists('transform')) {
     function transform($collection, $rules)
     {
         return collect($collection)->map($rules)->all();
+    }
+}
+
+if (!function_exists('cache')) {
+    function cache($key, $value, $type = 'request', $time = 0)
+    {
+        $cache = context()->getOrCreate(\Pckg\Manager\Cache::class);
+
+        return $cache->cache($key, $value, $type, $time);
     }
 }
