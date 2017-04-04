@@ -1428,3 +1428,17 @@ if (!function_exists('cache')) {
         return $cache->cache($key, $value, $type, $time);
     }
 }
+
+if (!function_exists('between')) {
+    function between($value, $min, $max)
+    {
+        $value = (int)$value;
+        if ($value < $min) {
+            $value = $min;
+        } else if ($value > $max) {
+            $value = $max;
+        }
+
+        return $value;
+    }
+}
