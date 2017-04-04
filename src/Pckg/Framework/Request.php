@@ -41,6 +41,7 @@ class Request extends Lazy
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
         $this->cookie = new Lazy($_COOKIE);
+        $this->request = new Lazy($_COOKIE);
 
         $this->fetchUrl();
     }
@@ -146,6 +147,13 @@ class Request extends Lazy
         return is_null($key)
             ? $this->session
             : $this->session->get($key, $default);
+    }
+
+    function request($key = null, $default = [])
+    {
+        return is_null($key)
+            ? $this->request
+            : $this->request->get($key, $default);
     }
 
     function files($key = null)
