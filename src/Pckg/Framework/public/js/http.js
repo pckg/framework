@@ -304,83 +304,80 @@ var d = function (data) {
     console.log(data);
 };
 
-var Pckg = {
-    Collection: class extends Array {
+var Pckg = {};
+Pckg.Collection = class Collection extends Array {
 
-        static collect (items, type) {
-            var collection = new Pckg.Collection();
+    static collect(items, type) {
+        var collection = new Pckg.Collection();
 
-            $.each(items, function (i, item) {
-                collection.push(new type(item));
-            }.bind(this));
+        $.each(items, function (i, item) {
+            collection.push(new type(item));
+        }.bind(this));
 
-            return collection;
+        return collection;
+    }
+};
+Pckg.Database = {};
+Pckg.Database.Record = class Record {
+    constructor(data) {
+        $.each(data, function (key, val) {
+            this[key] = val;
+        }.bind(this));
+    }
+
+    $set(key, val) {
+        $vue.$set(this, key, val);
+    }
+
+    getData() {
+        var fields = this.getEntity().getFields();
+        var data = {};
+
+        $.each(fields, function (i, field) {
+            return data[field] = this[field] ? this[field] : null;
+        });
+
+        return data;
+    }
+
+    insert(callback) {
+        var data = this.getData();
+
+        if (typeof callback == 'undefined') {
+            callback = function (data) {
+            }
         }
-    },
-    Database: {
-        Record: class {
-            constructor(data) {
-                $.each(data, function (key, val) {
-                    this[key] = val;
-                }.bind(this));
-            }
 
-            $set(key, val) {
-                $vue.$set(this, key, val);
-            }
+        http.post(this.getUrl('insert'), data, callback);
+    }
 
-            getData() {
-                var fields = this.getEntity().getFields();
-                var data = {};
+    /**
+     *
+     * @returns {{getFields: (function()), $set: (function(*=, *=))}|*}
+     */
+    getEntity() {
+        return new Pckg.Database.Entity();
+    }
+};
+Pckg.Database.Entity = class Entity {
+    constructor(data) {
+        $.each(data, function (key, val) {
+            this[key] = val;
+        }.bind(this));
+    }
 
-                $.each(fields, function (i, field) {
-                    return data[field] = this[field] ? this[field] : null;
-                });
+    $set(key, val) {
+        $vue.$set(this, key, val);
+    }
 
-                return data;
-            }
+    getFields() {
+        return [];
+    }
 
-            insert(callback) {
-                var data = this.getData();
-
-                if (typeof callback == 'undefined') {
-                    callback = function (data) {
-                    }
-                }
-
-                http.post(this.getUrl('insert'), data, callback);
-            }
-
-            /**
-             *
-             * @returns {{getFields: (function()), $set: (function(*=, *=))}|*}
-             */
-            getEntity() {
-                return new Pckg.Database.Entity();
-            }
-        },
-
-        Entity: class {
-            constructor(data) {
-                $.each(data, function (key, val) {
-                    this[key] = val;
-                }.bind(this));
-            }
-
-            $set(key, val) {
-                $vue.$set(this, key, val);
-            }
-
-            getFields() {
-                return [];
-            }
-
-            getUrl(type, data) {
-                if (type == 'insert') {
-                    return utils.url()
-                }
-            }
-
+    getUrl(type, data) {
+        if (type == 'insert') {
+            return utils.url();
         }
     }
+
 };
