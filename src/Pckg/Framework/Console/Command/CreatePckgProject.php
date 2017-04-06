@@ -121,7 +121,7 @@ class CreatePckgProject extends Command
         $path = path('apps') . $this->app . path('ds') . 'src' . path('ds') . ucfirst($this->app) . '.php';
         $content = '<?php
 
-use Pckg\Framework\Provider
+use Pckg\Framework\Provider;
 
 class ' . ucfirst($this->app) . ' extends Provider
 {
