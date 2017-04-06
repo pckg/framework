@@ -266,7 +266,7 @@ class Twig extends AbstractView implements ViewInterface
             /**
              * Trigger rendering event so we can attach some handlers.
              */
-            trigger(RenderingView::class, ['view' => $this->file]);
+            trigger(RenderingView::class, ['view' => $this->file, 'twig' => $this]);
 
             /**
              * Render template.
