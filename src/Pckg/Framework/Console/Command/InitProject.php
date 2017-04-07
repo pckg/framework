@@ -2,7 +2,6 @@
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class InitProject extends Command
 {
@@ -19,7 +18,6 @@ class InitProject extends Command
         return [
             path('storage'),
             path('storage') . 'cache',
-            path('storage') . 'environment', // @T00D00 - remove this
             path('storage') . 'env',
             path('storage') . 'tmp',
             path('cache') . 'framework',
@@ -38,10 +36,8 @@ class InitProject extends Command
             if (!is_dir($dir)) {
                 $this->output('Creating directory ' . $dir);
                 mkdir($dir, 0777, true);
-
             } else {
                 $this->output('Directory ' . $dir . ' already exists');
-
             }
         }
     }
@@ -52,10 +48,8 @@ class InitProject extends Command
             if (!is_link($link)) {
                 $this->output('Creating symlink ' . $link . ' -> ' . $target);
                 symlink($target, $link);
-
             } else {
                 $this->output('Symlink/directory ' . $link . ' -> ' . $target . ' already exists');
-
             }
         }
     }
