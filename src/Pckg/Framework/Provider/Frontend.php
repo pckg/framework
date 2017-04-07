@@ -9,8 +9,8 @@ class Frontend extends Provider
     {
         return [
             'main' => [
-                'js/http.js',
-                'js/pckg.js',
+                'js/http.compiled.js',
+                'js/pckg.compiled.js',
             ],
         ];
     }

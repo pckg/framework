@@ -112,10 +112,8 @@ abstract class AbstractView implements ViewInterface
     {
         if (!$key) {
             return $this->data;
-
         } else if (array_key_exists($key, $this->data)) {
             return $this->data['key'];
-
         }
 
         return null;
@@ -124,6 +122,13 @@ abstract class AbstractView implements ViewInterface
     public function setData($data = [])
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+    public function setFile($file)
+    {
+        $this->file = $file;
 
         return $this;
     }

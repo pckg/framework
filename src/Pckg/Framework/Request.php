@@ -3,9 +3,7 @@
 namespace Pckg\Framework;
 
 use Exception;
-use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
-use Pckg\Framework\Response\Command\ProcessRouteMatch;
 use Pckg\Framework\Router\Command\ResolveRoute;
 
 class Request extends Lazy
@@ -41,6 +39,7 @@ class Request extends Lazy
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
         $this->cookie = new Lazy($_COOKIE);
+        $this->request = new Lazy($_COOKIE);
 
         $this->fetchUrl();
     }
@@ -97,13 +96,16 @@ class Request extends Lazy
         trigger('request.initialized', [$this]);
     }
 
-    function run()
+    public function setMatch($match)
     {
-        trigger('request.running', [$this]);
+        $this->match = $match;
 
-        Reflect::create(ProcessRouteMatch::class, ['match' => $this->match])->execute();
+        return $this;
+    }
 
-        trigger('request.ran', [$this]);
+    public function getMatch()
+    {
+        return $this->match;
     }
 
     public function method()
@@ -115,8 +117,8 @@ class Request extends Lazy
     {
         if (is_array($key)) {
             $return = [];
-            foreach ($key as $k) {
-                $return[$k] = $this->post->get($k);
+            foreach ($key as $k => $v) {
+                $return[is_int($k) ? $v : $k] = $this->post->get($v);
             }
 
             return $return;
@@ -146,6 +148,13 @@ class Request extends Lazy
         return is_null($key)
             ? $this->session
             : $this->session->get($key, $default);
+    }
+
+    function request($key = null, $default = [])
+    {
+        return is_null($key)
+            ? $this->request
+            : $this->request->get($key, $default);
     }
 
     function files($key = null)

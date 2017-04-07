@@ -32,7 +32,6 @@ class Website extends Application
             InitSession::class,
             InitResponse::class,
             InitRequest::class,
-            InitAssets::class,
         ];
     }
 

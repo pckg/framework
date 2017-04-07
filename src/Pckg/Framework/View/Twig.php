@@ -5,7 +5,6 @@ namespace Pckg\Framework\View;
 use Carbon\Carbon;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Router;
-use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Manager\Locale;
@@ -149,6 +148,18 @@ class Twig extends AbstractView implements ViewInterface
         /**
          * This should be added to Framework provider.
          */
+        $this->twig->addFunction(new Twig_SimpleFunction('cdn', function($file) {
+            $host = config('storage.cdn.host');
+
+            if (!$host) {
+                return $file;
+            }
+
+            return '//' . $host . $file;
+        }));
+        /**
+         * This should be added to Framework provider.
+         */
         $this->twig->addFunction(
             new Twig_SimpleFunction(
                 'relativePath', function($key) {
@@ -213,7 +224,6 @@ class Twig extends AbstractView implements ViewInterface
                            ),
                            '0'
                        ) . ' €';
-
             }
             )
         );
@@ -256,7 +266,7 @@ class Twig extends AbstractView implements ViewInterface
             /**
              * Trigger rendering event so we can attach some handlers.
              */
-            trigger(RenderingView::class, ['view' => $this->file]);
+            trigger(RenderingView::class, ['view' => $this->file, 'twig' => $this]);
 
             /**
              * Render template.
@@ -273,17 +283,15 @@ class Twig extends AbstractView implements ViewInterface
                     return null;
                 }
 
-                return '<p style="color: black; font-weight: bold; background-color: red;">' . 'Cannot load file ' . $this->file . '</p>';
+                return '<span style="color: black; font-weight: bold; background-color: red;">' . 'Cannot load file ' .
+                       $this->file . '</span>';
             }
 
             return $render;
-
         } catch (Twig_Error_Syntax $e) {
             return "<pre>Twig error:" . exception($e) . "</pre>";
-
         } catch (Throwable $e) {
             return '<pre>' . exception($e) . '</pre>';
-
         }
     }
 

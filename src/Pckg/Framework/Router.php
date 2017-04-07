@@ -30,7 +30,7 @@ class Router
 
     public function getRoute($url)
     {
-        return $this->routes[$url][0];
+        return $this->routes[$url][0] ?? null;
     }
 
     public function init()
@@ -39,10 +39,8 @@ class Router
 
         if (false && !dev() && $cache->isBuilt()) {
             $this->initDev();
-
         } else {
             $this->initProd();
-
         }
 
         return $this;
@@ -154,6 +152,13 @@ class Router
         array_unshift($this->routes[$conf["url"]], $conf);
     }
 
+    public function replace($route, $conf = [])
+    {
+        $this->routes[$route][0] = merge_arrays($this->routes[$route][0], $conf);
+
+        return $this;
+    }
+
     public function getResources()
     {
         return $this->resources;
@@ -241,8 +246,8 @@ class Router
         $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
 
         return ($relative
-            ? ''
-            : $this->config->get("url")) .
+                ? ''
+                : $this->config->get("url")) .
                ((strpos($requestUri, '?') === false
                        ? $requestUri
                        : substr($requestUri, 0, strpos($requestUri, '?'))) ?? '/');

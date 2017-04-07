@@ -20,6 +20,13 @@ class Lazy implements ArrayAccess
             : $arr;
     }
 
+    public function setPointerData(&$data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
     public function __destruct()
     {
         $this->original = $this->data;
@@ -99,10 +106,8 @@ class Lazy implements ArrayAccess
             //return new Lazy();
 
             return null;
-
         } else if (!is_array($this->data[$name])) {
             return $this->data[$name];
-
         }
 
         //$lazy = new Lazy($this->data[$name]);

@@ -5,13 +5,11 @@ namespace Pckg\Framework\Provider\Helper;
 use Composer\Autoload\ClassLoader;
 use Pckg\Concept\Event\Dispatcher;
 use Pckg\Concept\Reflect;
-use Pckg\Framework\Provider;
 use Pckg\Framework\Response;
 use Pckg\Framework\Stack;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Job;
-use Pckg\Queue\Service\Cron;
 use Symfony\Component\Console\Application as SymfonyConsole;
 
 trait Registrator
@@ -182,7 +180,9 @@ trait Registrator
     public function registerViewObjects($objects)
     {
         foreach ($objects as $key => $val) {
-            $val = context()->getOrCreate($val);
+            if ($val && is_string($val)) {
+                $val = context()->getOrCreate($val);
+            }
             Twig::setStaticData($key, $val);
         }
     }

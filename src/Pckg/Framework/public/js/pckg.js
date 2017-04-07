@@ -55,16 +55,7 @@ var Pckg = {
             }
 
             $set(key, val) {
-                console.log('setting in vue');
                 $vue.$set(this, key, val);
-            }
-
-            get(key) {
-                console.log("__get " + key);
-            }
-
-            set(key) {
-                console.log("__set" + key);
             }
 
             getData() {

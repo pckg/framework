@@ -16,7 +16,6 @@ use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
-use Pckg\Htmlbuilder\Element\Form;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Gtm;
 use Pckg\Manager\Locale;
@@ -39,10 +38,8 @@ if (!function_exists('context')) {
 
         if ($val) {
             return $context->bind($key, $val);
-
         } else if ($key) {
             return $context->get($key);
-
         }
 
         return $context;
@@ -113,6 +110,16 @@ if (!function_exists('server')) {
     function server($key = null, $default = [])
     {
         return request()->server($key, $default);
+    }
+}
+
+/**
+ * @return Request
+ */
+if (!function_exists('files')) {
+    function files($key = null, $default = [])
+    {
+        return request()->files($key, $default);
     }
 }
 
@@ -502,7 +509,7 @@ if (!function_exists('view')) {
      *
      * @return Twig
      */
-    function view($view, $data = [], $assets = [])
+    function view($view = null, $data = [], $assets = [])
     {
         $view = new Twig($view, $data);
         if ($parent = realpath(
@@ -522,7 +529,6 @@ if (!function_exists('view')) {
             if (is_dir($calculatedParent)) {
                 $view->addDir($calculatedParent, Twig::PRIORITY_LAST);
             }
-
         }
 
         if ($assets) {
@@ -771,6 +777,46 @@ if (!function_exists('array_merge_array')) {
     {
         foreach ($to as $key => &$val) {
             $val = array_merge($merge, $val);
+        }
+
+        return $to;
+    }
+}
+
+if (!function_exists('merge_arrays')) {
+    function merge_arrays($to, $merge)
+    {
+        foreach ($merge as $key => $val) {
+            /**
+             * Value is set first time.
+             */
+            if (!array_key_exists($key, $to)) {
+                $to[$key] = $val;
+                continue;
+            }
+
+            /**
+             * Value is final.
+             */
+            if (!is_array($val)) {
+                $to[$key] = $val;
+                continue;
+            }
+
+            /**
+             * Value is list of items.
+             */
+            if (isArrayList($val)) {
+                $to[$key] = $val;
+                continue;
+            }
+
+            /**
+             * Value is keyed array.
+             */
+            if (is_array($to[$key])) {
+                $to[$key] = merge_arrays($to[$key], $val);
+            }
         }
 
         return $to;
@@ -1371,5 +1417,28 @@ if (!function_exists('transform')) {
     function transform($collection, $rules)
     {
         return collect($collection)->map($rules)->all();
+    }
+}
+
+if (!function_exists('cache')) {
+    function cache($key, $value, $type = 'request', $time = 0)
+    {
+        $cache = context()->getOrCreate(\Pckg\Manager\Cache::class);
+
+        return $cache->cache($key, $value, $type, $time);
+    }
+}
+
+if (!function_exists('between')) {
+    function between($value, $min, $max)
+    {
+        $value = (int)$value;
+        if ($value < $min) {
+            $value = $min;
+        } else if ($value > $max) {
+            $value = $max;
+        }
+
+        return $value;
     }
 }

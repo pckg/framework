@@ -19,6 +19,8 @@ class Route
 
     protected $data = [];
 
+    protected $methods = [];
+
     public function __construct($url = null, $view = null, $controller = null)
     {
         $this->url($url);
@@ -85,6 +87,13 @@ class Route
     public function data($data = [])
     {
         $this->data = $data;
+
+        return $this;
+    }
+
+    public function methods($methods)
+    {
+        $this->methods = $methods;
 
         return $this;
     }

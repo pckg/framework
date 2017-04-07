@@ -2,14 +2,14 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Collection;
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Request\Command\InitRequest;
+use Pckg\Framework\Request\Command\RunRequest;
 use Pckg\Framework\Request\Data\Flash;
+use Pckg\Framework\Response\Command\RunResponse;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
-use Pckg\Framework\View\AbstractView;
-use Pckg\Framework\View\Twig;
 use Throwable;
 
 class Response
@@ -115,10 +115,6 @@ class Response
         return $this->code;
     }
 
-    public function init()
-    {
-    }
-
     public function setType($type)
     {
         $this->type = $type;
@@ -141,45 +137,6 @@ class Response
     public function getOutput()
     {
         return $this->output;
-    }
-
-    public function run()
-    {
-        if ($this->output instanceof AbstractView || $this->output instanceof Twig) {
-            if (request()->isAjax()) {
-                $this->setOutput(
-                    json_encode(array_merge($this->output->getData(), ['_html' => $this->output->autoparse()]))
-                );
-            } else {
-                $this->setOutput($this->output->autoparse());
-            }
-        } else if (is_array($this->output)) {
-            $this->setOutput(json_encode($this->output));
-        } else if (is_object($this->output) && method_exists($this->output, '__toString')) {
-            $this->setOutput((string)$this->output);
-        } else if (is_string($this->output)) {
-            if (request()->isAjax()/* && strpos($this->output, '[') !== 0 && strpos($this->output, '{') !== 0*/) {
-                //$this->setOutput(json_encode(['_html' => $this->output]));
-                if (get('html')) {
-                    $html = (string)$this->output;
-                    $vue = vueManager()->getViews();
-                    $this->setOutput(
-                        json_encode(
-                            [
-                                'html' => $html,
-                                'vue'  => $vue,
-                            ]
-                        )
-                    );
-                }
-            }
-        }
-
-        if (!$this->output) {
-            $this->none();
-        }
-
-        echo $this->output;
     }
 
     private function getMinusUrl()
@@ -221,17 +178,20 @@ class Response
             /**
              * Find match.
              */
-            request()->init();
+            trigger('request.init');
+            Reflect::create(InitRequest::class)->execute(function() { });
 
             /**
              * Run actions.
              */
-            request()->run();
+            trigger('request.run');
+            Reflect::create(RunRequest::class)->execute(function() { });
 
             /**
              * Output.
              */
-            response()->run();
+            trigger('response.run');
+            Reflect::create(RunResponse::class)->execute(function() { });
 
             exit;
         } catch (Throwable $e) {
@@ -245,7 +205,7 @@ class Response
         return $this;
     }
 
-    public function redirect($url = null, $httpParams = [], $routerParams = [])
+    public function redirect($url = null, $routerParams = [], $httpParams = [])
     {
         $output = null;
         if ($url === -1) {
@@ -441,9 +401,13 @@ class Response
             $string = $this->output;
         }
 
+        trigger(Response::class . '.responding');
+
         $this->code($this->code);
 
         echo $string;
+
+        trigger(Response::class . '.responded');
 
         die();
         throw new TheEnd();

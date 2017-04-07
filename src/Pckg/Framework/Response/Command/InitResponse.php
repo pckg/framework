@@ -23,8 +23,6 @@ class InitResponse extends AbstractChainOfReponsibility
     {
         $this->context->bind(Response::class, $this->response);
 
-        $this->response->init();
-
         return $next();
     }
 
