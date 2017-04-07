@@ -9,17 +9,9 @@ use Pckg\Manager\Asset as AssetManager;
 class InitLastAssets extends AbstractChainOfReponsibility
 {
 
-    protected $application;
-
     protected $assetManager;
 
-    protected $metaManager;
-
-    protected $seoManager;
-
     protected $environment;
-
-    protected $flash;
 
     public function __construct(
         Environment $environment,

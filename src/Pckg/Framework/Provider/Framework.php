@@ -7,6 +7,7 @@ use Pckg\Framework\Locale\Lang;
 use Pckg\Framework\Provider;
 use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Cookie;
+use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Request\Data\Server;
 use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
@@ -46,6 +47,8 @@ class Framework extends Provider
             '_lang'     => Lang::class,
             '_session'  => Session::class,
             '_cookie'   => Cookie::class,
+            '_flash'    => Flash::class,
+            '_debugBar' => debugBar(),
         ];
     }
 

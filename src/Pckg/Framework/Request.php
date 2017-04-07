@@ -3,9 +3,7 @@
 namespace Pckg\Framework;
 
 use Exception;
-use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
-use Pckg\Framework\Response\Command\ProcessRouteMatch;
 use Pckg\Framework\Router\Command\ResolveRoute;
 
 class Request extends Lazy
@@ -98,13 +96,16 @@ class Request extends Lazy
         trigger('request.initialized', [$this]);
     }
 
-    function run()
+    public function setMatch($match)
     {
-        trigger('request.running', [$this]);
+        $this->match = $match;
 
-        Reflect::create(ProcessRouteMatch::class, ['match' => $this->match])->execute();
+        return $this;
+    }
 
-        trigger('request.ran', [$this]);
+    public function getMatch()
+    {
+        return $this->match;
     }
 
     public function method()
