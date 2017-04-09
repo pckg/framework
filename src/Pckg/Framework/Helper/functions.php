@@ -1442,3 +1442,24 @@ if (!function_exists('between')) {
         return $value;
     }
 }
+
+if (!function_exists('route')) {
+    function route($route, $view, $controller = null)
+    {
+        return new Pckg\Framework\Router\Route\Route($route, $view, $controller);
+    }
+}
+
+if (!function_exists('routeGroup')) {
+    function routeGroup($data = [], $routes)
+    {
+        $routeGroup = new Pckg\Framework\Router\Route\Group($data);
+
+        if ($routes) {
+            $routeGroup->routes($routes);
+        }
+
+        return $routes;
+    }
+}
+

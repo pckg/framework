@@ -8,7 +8,6 @@ use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Response;
 use Pckg\Framework\Response\Exception\TheEnd;
-use Pckg\Framework\View;
 use Pckg\Framework\View\ViewInterface;
 use Throwable;
 
@@ -57,19 +56,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              */
             $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
 
-            //try {
-                $output = $this->parseView($response);
-
-            /*} catch (Throwable $e) {
-                // @T00D00 - log!
-                if (dev()) {
-                    $output = exception($e);
-
-                } else {
-                    throw $e;
-
-                }
-            }*/
+            $output = $this->parseView($response);
 
             $this->response->setOutput($output);
 
@@ -88,7 +75,6 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             }
         } catch (TheEnd $e) {
             exit;
-
         } catch (Throwable $e) {
             $this->response->code(500);
             /**
@@ -97,7 +83,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             if (request()->isAjax() && request()->isPost()) {
                 $this->response->respond(
                     [
-                        'exception' => exception($e),
+                        'exception' => implicitDev() ? exception($e) : null,
                         'error'     => true,
                         'success'   => false,
                     ]
@@ -119,17 +105,13 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 return $viewData->toArray();
             } else if (method_exists($viewData, '__toString')) {
                 return (string)$viewData;
-
             }
-
         } else if (is_string($viewData) || is_array($viewData)) {
             // print view as content
             return $viewData;
-
         } else if (is_null($viewData) || is_int($viewData) || is_bool($viewData)) {
             // without view
             return null;
-
         }
 
         throw new Exception("View is unknown type " . (is_object($viewData) ? get_class($viewData) : ''));
