@@ -283,7 +283,7 @@ class Twig extends AbstractView implements ViewInterface
                     return null;
                 }
 
-                return '<span style="color: black; font-weight: bold; background-color: red;">' . 'Cannot load file ' .
+                return '<span style="color: black; font-weight: bold; background-color: red;">Cannot load file ' .
                        $this->file . '</span>';
             }
 
