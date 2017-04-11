@@ -32,8 +32,6 @@ trait Exceptions
 
         }
 
-        //d($up->getTraceAsString());
-
         throw $up;
     }
 

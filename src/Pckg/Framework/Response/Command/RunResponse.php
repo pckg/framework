@@ -50,7 +50,7 @@ class RunResponse extends AbstractChainOfReponsibility
         }
 
         if (!$response->getOutput()) {
-            $response->none();
+            $response->code(204);
         }
 
         echo $response->getOutput();
