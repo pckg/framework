@@ -1462,4 +1462,3 @@ if (!function_exists('routeGroup')) {
         return $routes;
     }
 }
-

@@ -2,11 +2,7 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Concept\Reflect;
-use Pckg\Framework\Request\Command\InitRequest;
-use Pckg\Framework\Request\Command\RunRequest;
 use Pckg\Framework\Request\Data\Flash;
-use Pckg\Framework\Response\Command\RunResponse;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
@@ -146,13 +142,9 @@ class Response
         }
     }
 
-    public function internal($url = null)
+    public function internal($url)
     {
         try {
-            if (!$url) {
-                $url = $_SERVER['REQUEST_URI'];
-            }
-
             /**
              * Set GET method.
              */
@@ -160,38 +152,12 @@ class Response
             $_SERVER['REQUEST_URI'] = $url;
             $_POST = [];
 
-            /**
-             * Replace prefix in url because environment was already set.
-             */
-            $url = env()->replaceUrlPrefix($url);
-
-            /**
-             * Set request url.
-             */
-            request()->setUrl($url);
-
-            /**
-             * Make request internal so we increase counter.
-             */
-            request()->setInternal();
-
-            /**
-             * Find match.
-             */
-            trigger('request.init');
-            Reflect::create(InitRequest::class)->execute(function() { });
-
-            /**
-             * Run actions.
-             */
-            trigger('request.run');
-            Reflect::create(RunRequest::class)->execute(function() { });
-
-            /**
-             * Output.
-             */
-            trigger('response.run');
-            Reflect::create(RunResponse::class)->execute(function() { });
+            $oldContext = context();
+            $context = \Pckg\Framework\Helper\Context::createInstance();
+            $context->createEnvironment(get_class($oldContext->get(Environment::class)));
+            $application = $context->createWebsiteApplication();
+            $application->init();
+            $application->run();
 
             exit;
         } catch (Throwable $e) {

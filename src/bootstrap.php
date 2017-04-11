@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Used in tests.
+ */
 return function($app) {
     /**
      * Define base path if it's not defined yet.
