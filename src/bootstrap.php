@@ -27,24 +27,5 @@ return function($app) {
      * Create development environment.
      * We automatically display errors and load debugbar.
      */
-    $environment = $context->createEnvironment(Pckg\Framework\Environment\Development::class);
-
-    /**
-     * Create application.
-     * It should be passed as parameter.
-     */
-    $application = $context->createConsoleApplication($app);
-
-    /**
-     * Initialize application.
-     * This will parse config, set localization 'things', estamblish connection to database,
-     * set application autoloaders and providers.
-     */
-    $application->init();
-
-    /**
-     * Run applications.
-     * Everything was preset, we need to run command.
-     */
-// $application->run();
+    $context->boot(Pckg\Framework\Environment\Console::class, false, $app);
 };

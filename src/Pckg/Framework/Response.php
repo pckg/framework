@@ -152,12 +152,10 @@ class Response
             $_SERVER['REQUEST_URI'] = $url;
             $_POST = [];
 
+
             $oldContext = context();
             $context = \Pckg\Framework\Helper\Context::createInstance();
-            $context->createEnvironment(get_class($oldContext->get(Environment::class)));
-            $application = $context->createWebsiteApplication();
-            $application->init();
-            $application->run();
+            $context->boot(get_class($oldContext->get(Environment::class)));
 
             exit;
         } catch (Throwable $e) {
