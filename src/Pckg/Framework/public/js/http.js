@@ -258,7 +258,7 @@ var utils = {
 
         return to;
     },
-    first: function (items, callback) {
+    firstOf: function (items, callback) {
         var first = null;
 
         $.each(items, function (i, item) {
@@ -269,6 +269,15 @@ var utils = {
         });
 
         return first;
+    },
+    lastOf: function (items, callback) {
+        return this.firstOf(items.reverse(), callback);
+    },
+    last: function(items){
+        return items[items.length - 1];
+    },
+    sortInt: function(a, b) {
+        return a < b ? -1 : (a > b ? 1 : 0);
     }
 
 };
