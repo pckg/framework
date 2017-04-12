@@ -146,15 +146,29 @@ class Response
     {
         try {
             /**
+             * Circular redirect.
+             */
+            if ($_SERVER['REQUEST_URI'] == $url) {
+                $this->redirect($url);
+            }
+
+            /**
              * Set GET method.
              */
             $_SERVER['REQUEST_METHOD'] = 'GET';
             $_SERVER['REQUEST_URI'] = $url;
             $_POST = [];
 
-
             $oldContext = context();
             $context = \Pckg\Framework\Helper\Context::createInstance();
+
+            /**
+             * Circular redirects.
+             */
+            if (count(\Pckg\Framework\Helper\Context::getInstances()) > 4) {
+                $this->redirect($url);
+            }
+
             $context->boot(get_class($oldContext->get(Environment::class)));
 
             exit;

@@ -159,7 +159,6 @@ if (!function_exists('redirect')) {
 if (!function_exists('internal')) {
     function internal($url = null)
     {
-        return redirect($url);
         return response()->internal($url);
     }
 }
