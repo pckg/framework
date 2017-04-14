@@ -3,6 +3,7 @@
 namespace Pckg\Framework;
 
 use Pckg\Framework\Request\Data\Flash;
+use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
@@ -213,6 +214,9 @@ class Response
         trigger('response.redirect', [$this]);
         if (context()->exists(Flash::class)) {
             context()->get(Flash::class)->__destruct();
+        }
+        if (context()->exists(Session::class)) {
+            context()->get(Session::class)->__destruct();
         }
 
         // try with php

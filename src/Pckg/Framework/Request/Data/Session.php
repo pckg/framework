@@ -7,6 +7,16 @@ use Pckg\Framework\Helper\Lazy;
 class Session extends Lazy
 {
 
+    function __construct()
+    {
+        parent::__construct($_SESSION);
+    }
+
+    function __destruct()
+    {
+        $_SESSION = $this->data;
+    }
+
 }
 
 ?>
