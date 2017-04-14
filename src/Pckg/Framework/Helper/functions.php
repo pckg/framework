@@ -639,7 +639,6 @@ if (!function_exists('dd')) {
         if (context()->exists(Session::class)) {
             context()->get(Session::class)->__destruct();
         }
-        print_r($_SESSION);
         die();
     }
 }
