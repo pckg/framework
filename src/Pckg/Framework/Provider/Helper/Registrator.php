@@ -63,7 +63,6 @@ trait Registrator
                 $autoloader = [$autoloader];
             }
             foreach ($autoloader as $a) {
-                message('Registering autoloader (Registrator) ' . $a);
                 autoloader()->add('', $a, $a == path('app_src'));
                 Twig::addDir($a);
             }

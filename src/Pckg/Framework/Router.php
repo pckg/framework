@@ -73,7 +73,6 @@ class Router
 
         if (isset($this->cachedInit['autoloader'])) {
             foreach ($this->cachedInit['autoloader'] as $dir) {
-                message('Register autoloader (Dev Router) ' . $dir);
                 autoloader()->add('', $dir);
             }
         }
@@ -162,6 +161,19 @@ class Router
     public function getResources()
     {
         return $this->resources;
+    }
+
+    public function getRouteByName($name)
+    {
+        foreach ($this->routes AS $routeArr) {
+            foreach ($routeArr AS $route) {
+                if ($route["name"] == $name) {
+                    return $route;
+                }
+            }
+        }
+
+        return null;
     }
 
     public function make($routeName = null, $arguments = [], $absolute = false, $envPrefix = true)
@@ -301,6 +313,11 @@ class Router
     public function hasResolved($key)
     {
         return array_key_exists($key, $this->resolved);
+    }
+
+    public function hasUrl($name)
+    {
+        return $this->getRouteByName($name) ? true : false;
     }
 
 }

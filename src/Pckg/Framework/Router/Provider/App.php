@@ -58,7 +58,6 @@ class App implements RouteProviderInterface
          * */
         // @T00D00 - this needs to be called on initialization ...
         $path = path('apps') . $this->app . path('ds') . 'src';
-        message('Registering autoloader (App route provider) ' . $path);
         autoloader()->add('', $path);
 
         /*

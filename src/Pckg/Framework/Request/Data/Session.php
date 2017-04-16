@@ -9,7 +9,7 @@ class Session extends Lazy
 
     function __destruct()
     {
-        $_SESSION = $this->data;
+        // $_SESSION = $this->data;
     }
 
 }

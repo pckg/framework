@@ -17,6 +17,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
+use Pckg\Manager\Cache;
 use Pckg\Manager\Gtm;
 use Pckg\Manager\Locale;
 use Pckg\Manager\Meta;
@@ -1426,7 +1427,7 @@ if (!function_exists('transform')) {
 if (!function_exists('cache')) {
     function cache($key, $value, $type = 'request', $time = 0)
     {
-        $cache = context()->getOrCreate(\Pckg\Manager\Cache::class);
+        $cache = context()->getOrCreate(Cache::class);
 
         return $cache->cache($key, $value, $type, $time);
     }
