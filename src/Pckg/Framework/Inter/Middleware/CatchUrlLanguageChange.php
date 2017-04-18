@@ -18,7 +18,7 @@ class CatchUrlLanguageChange
             /**
              * @T00D00 - check lang existance
              */
-            $this->session->pckg_dynamic_lang_id = get('lang');
+            $_SESSION['pckg_dynamic_lang_id'] = get('lang');
             redirect();
         }
 
