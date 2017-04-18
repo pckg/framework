@@ -273,11 +273,14 @@ var utils = {
     lastOf: function (items, callback) {
         return this.firstOf(items.reverse(), callback);
     },
-    last: function(items){
+    last: function (items) {
         return items[items.length - 1];
     },
-    sortInt: function(a, b) {
+    sortInt: function (a, b) {
         return a < b ? -1 : (a > b ? 1 : 0);
+    },
+    splice: function (collection, item) {
+        return collection.splice(collection.indexOf(item), 1);
     }
 
 };

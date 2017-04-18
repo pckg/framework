@@ -266,6 +266,9 @@ var utils = {
     },
     sortInt: function(a, b) {
         return a < b ? -1 : (a > b ? 1 : 0);
+    },
+    splice: function (collection, item) {
+        return collection.splice(collection.indexOf(item), 1);
     }
 
 };
