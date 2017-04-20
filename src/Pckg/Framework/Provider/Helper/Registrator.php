@@ -10,6 +10,7 @@ use Pckg\Framework\Stack;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Job;
+use Pckg\Translator\Service\Translator;
 use Symfony\Component\Console\Application as SymfonyConsole;
 
 trait Registrator
@@ -207,6 +208,16 @@ trait Registrator
         foreach ($jobs as $job) {
             $jobManager->add($job);
         }
+    }
+
+    public function registerTranslations()
+    {
+        if (!$this->translations) {
+            return;
+        }
+
+        $translatorService = context()->getOrCreate(Translator::class);
+        $translatorService->addDir($this->getTranslationPath());
     }
 
 }

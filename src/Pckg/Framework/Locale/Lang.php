@@ -8,6 +8,11 @@ class Lang implements LangAdapter
 
     protected $langId = 'en';
 
+    public function __construct($language)
+    {
+        $this->langId = $language;
+    }
+
     public function setLangId($langId)
     {
         $this->langId = $langId;
