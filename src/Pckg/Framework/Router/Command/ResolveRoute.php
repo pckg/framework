@@ -183,12 +183,12 @@ class ResolveRoute
 
         $match['method'] = $match['method'] ?? 'GET|POST';
 
-        if (!$match["controller"]) {
-            throw new Exception("Controller not set." . print_r($match, true));
+        if (!isset($match["view"])) {
+            throw new Exception("View not set.");
         }
 
-        if (!$match["view"]) {
-            throw new Exception("View not set.");
+        if (!isset($match["controller"]) && !is_callable($match['view'])) {
+            throw new Exception("Controller not set." . print_r($match, true));
         }
 
         $this->router->mergeData(array_merge(isset($match['data']) ? $match['data'] : [], $match));
