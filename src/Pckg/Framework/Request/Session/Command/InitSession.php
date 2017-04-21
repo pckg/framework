@@ -29,7 +29,7 @@ class InitSession extends AbstractChainOfReponsibility
             session_start();
         }
 
-        $this->session->setPointerData($_SESSION);
+        //$this->session->setPointerData($_SESSION);
 
         return $next();
     }
