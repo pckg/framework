@@ -46,7 +46,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 chain($this->match['middlewares'], 'execute');
             }
 
-            if (is_callable($this->match['view'])) {
+            if (!isset($this->match['controller']) && is_callable($this->match['view'])) {
                 /**
                  * Simple action.
                  */
