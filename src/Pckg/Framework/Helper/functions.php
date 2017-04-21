@@ -221,7 +221,7 @@ if (!function_exists('trigger')) {
      *
      * @return mixed|null|object
      */
-    function trigger($event, array $args = [], $method = null)
+    function trigger($event, $args = [], $method = null)
     {
         return dispatcher()->trigger($event, $args, $method);
     }
