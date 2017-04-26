@@ -57,6 +57,7 @@ class ResolveRoute
             $arrUrl = explode("/", substr($url, 1));
             foreach ($routes AS $routeArr) {
                 foreach ($routeArr AS $conf) {
+
                     $arrRoutes = explode("/", substr($conf["url"], 1));
 
                     // check only urls longer than routes
@@ -67,7 +68,7 @@ class ResolveRoute
                     // validate method
                     if (isset($conf['method']) && !empty($conf['method']) && !in_array(
                             strtolower($_SERVER['REQUEST_METHOD']),
-                            explode("|", $conf['method'])
+                            explode("|", strtolower($conf['method']))
                         )
                     ) {
                         continue;

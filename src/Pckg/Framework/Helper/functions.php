@@ -1466,3 +1466,21 @@ if (!function_exists('routeGroup')) {
         return $routes;
     }
 }
+
+if (!function_exists('price')) {
+    function price($price)
+    {
+        if (is_null($price)) {
+            $price = 0.0;
+        }
+
+        $localeManager = resolve(Locale::class);
+
+        return number_format(
+                   $price,
+                   2,
+                   $localeManager->getDecimalPoint(),
+                   $localeManager->getThousandSeparator()
+               ) . ' €';
+    }
+}

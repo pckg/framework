@@ -50,8 +50,7 @@ class Request extends Lazy
         $this->internals[] = $this->url;
 
         if ($this->internal > 2) {
-            dd(array_keys(context()->getData()));
-            dd($this->internal . ' internal redirects', $this->internals);
+            die($this->internal . ' internal redirects');
         }
     }
 
