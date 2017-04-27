@@ -42,7 +42,7 @@ class ResolveRoute
                     }
 
                     // validate secure
-                    if (isset($route['secure']) && is_callable($route['secure']) && !$route['secure']()) {
+                    if (isset($route['secure']) && is_only_callable($route['secure']) && !$route['secure']()) {
                         break;
                     }
 
@@ -75,7 +75,7 @@ class ResolveRoute
                     }
 
                     // validate secure
-                    if (isset($conf['secure']) && is_callable($conf['secure']) && !$conf['secure']()) {
+                    if (isset($conf['secure']) && is_only_callable($conf['secure']) && !$conf['secure']()) {
                         continue;
                     }
 
@@ -98,7 +98,7 @@ class ResolveRoute
 
                             // validate url parts
                             if (isset($conf["validate"][$var])) {
-                                if (is_callable($conf["validate"][$var])) {
+                                if (is_only_callable($conf["validate"][$var])) {
                                     if ($conf["validate"][$var]($arrUrl[$i]) == true) {
                                         $regexData[$var] = $arrUrl[$i];
                                         // ok
@@ -188,7 +188,7 @@ class ResolveRoute
             throw new Exception("View not set.");
         }
 
-        if (!isset($match["controller"]) && !is_callable($match['view'])) {
+        if (!isset($match["controller"]) && !is_only_callable($match['view'])) {
             throw new Exception("Controller not set." . print_r($match, true));
         }
 
