@@ -1496,3 +1496,10 @@ if (!function_exists('is_only_callable')) {
     }
 }
 
+if (!function_exists('is_associative_array')) {
+    function is_associative_array($array)
+    {
+        return is_array($array) && (!$array || range(0, count($array) - 1) == array_keys($array));
+    }
+}
+
