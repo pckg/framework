@@ -227,12 +227,11 @@ class Router
 
                     return (
                            $absolute || isConsole()
-                               ? $this->config->get("protocol") . '://' .
-                                 ($this->config->get("domain") ?? $_SERVER['HTTP_HOST'])
-                               : "") .
+                               ? config('protocol') . '://' . config("domain", $_SERVER['HTTP_HOST'] ?? null)
+                               : '') .
                            ($envPrefix && dev() && !isConsole()
-                               ? "/dev.php"
-                               : ""
+                               ? '/dev.php'
+                               : ''
                            ) . $route["url"];
                 }
             }
