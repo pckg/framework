@@ -22,22 +22,22 @@ class Application
 
     public function init()
     {
-        trigger('application.initializing', [$this]);
+        trigger(Application::class . '.initializing', [$this]);
 
         chain($this->inits(), 'execute', [$this]);
 
-        trigger('application.initialized', [$this]);
+        trigger(Application::class . '.initialized', [$this]);
 
         return $this;
     }
 
     public function run()
     {
-        trigger('application.running', [$this]);
+        trigger(Application::class . '.running', [$this]);
 
         chain($this->runs(), 'execute', [$this]);
 
-        trigger('application.ran', [$this]);
+        trigger(Application::class . '.ran', [$this]);
 
         return $this;
     }

@@ -211,7 +211,7 @@ class Response
         /**
          * @T00D00 - implement event
          */
-        trigger('response.redirect', [$this]);
+        trigger(Response::class . '.redirect', [$this]);
         if (context()->exists(Flash::class)) {
             context()->get(Flash::class)->__destruct();
         }
