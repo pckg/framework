@@ -104,7 +104,11 @@ var http = {
     },
 
     redirect: function (url) {
-        window.location.href = url != null ? url : window.location.href;
+        if (!url || typeof url == 'undefined') {
+            url = window.location.href = window.location.href;
+        }
+
+        window.location.href = url;
     }
 
 };
@@ -204,6 +208,11 @@ var utils = {
 
     closeIfIframe: function () {
         this.sendToParent('popup.close');
+    },
+
+    closeAndRefresh: function(){
+        $.magnificPopup.close();
+        http.redirect();
     },
 
     sendToParent: function (data) {
