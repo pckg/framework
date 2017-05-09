@@ -1,7 +1,11 @@
+'use strict';
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var data = data || {};
 var http = {
 
-    formToData: function (vueElement, keys) {
+    formToData: function formToData(vueElement, keys) {
         var data = {};
 
         if (typeof keys === 'undefined') {
@@ -17,18 +21,18 @@ var http = {
         return data;
     },
 
-    submitForm: function (vueElement, fields) {
+    submitForm: function submitForm(vueElement, fields) {
         return http.post($(vueElement.$el.attr('action')), http.formToData(vueElement, fields));
     },
 
-    get: function (url, whenDone, whenError) {
+    get: function get(url, whenDone, whenError) {
         return $.ajax({
             url: url,
             method: 'get'
         }).done(whenDone).error(whenError);
     },
 
-    getJSON: function (url, whenDone, whenError) {
+    getJSON: function getJSON(url, whenDone, whenError) {
         var request = $.ajax({
             url: url,
             dataType: 'JSON',
@@ -46,7 +50,7 @@ var http = {
         return request;
     },
 
-    deleteJSON: function (url, whenDone, whenError) {
+    deleteJSON: function deleteJSON(url, whenDone, whenError) {
         return $.ajax({
             url: url,
             dataType: 'JSON',
@@ -54,7 +58,7 @@ var http = {
         }).done(whenDone).error(whenError);
     },
 
-    post: function (url, data, whenDone, whenError) {
+    post: function post(url, data, whenDone, whenError) {
         if (typeof data == 'function') {
             data = data();
         }
@@ -73,13 +77,13 @@ var http = {
         }).done(whenDone).error(whenError);
     },
 
-    form: function ($form, successCallback) {
+    form: function form($form, successCallback) {
         return http.post($form.attr('action'), $form.serializeArray(), successCallback);
     },
 
-    fixUndefined: function (data) {
+    fixUndefined: function fixUndefined(data) {
         $.each(data, function (key, val) {
-            if (Array.isArray(val) || typeof val == 'object') {
+            if (Array.isArray(val) || (typeof val === 'undefined' ? 'undefined' : _typeof(val)) == 'object') {
                 data[key] = http.fixUndefined(val);
             } else if (typeof val == 'undefined') {
                 data[key] = '';
@@ -93,7 +97,7 @@ var http = {
         return data;
     },
 
-    postDone: function (json) {
+    postDone: function postDone(json) {
         if (typeof json.redirect !== 'undefined') {
             if (typeof window.parent !== 'undefined' && window.parent.location.href.indexOf(json.redirect)) {
                 parent.postMessage('refresh', window.location.origin);
@@ -103,7 +107,7 @@ var http = {
         }
     },
 
-    redirect: function (url) {
+    redirect: function redirect(url) {
         if (!url || typeof url == 'undefined') {
             url = window.location.href = window.location.href;
         }
@@ -115,16 +119,16 @@ var http = {
 
 var locale = {
 
-    price: function (price, decimals) {
+    price: function price(_price, decimals) {
         if (typeof decimals == 'undefined' || decimals === null) {
             decimals = 2;
         }
 
-        if (typeof price == 'undefined' || price === null) {
-            price = 0.0;
+        if (typeof _price == 'undefined' || _price === null) {
+            _price = 0.0;
         }
 
-        return parseFloat(price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
+        return parseFloat(_price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
             currency: 'eur',
             currencyDisplay: 'symbol',
             maximumFractionDigits: decimals,
@@ -132,7 +136,7 @@ var locale = {
         }) + ' ' + Pckg.config.locale.currencySign;
     },
 
-    roundPrice: function (price, decimals) {
+    roundPrice: function roundPrice(price, decimals) {
         if (typeof decimals == 'undefined' || decimals === null) {
             decimals = 2;
         }
@@ -149,91 +153,91 @@ var locale = {
         }) + ' ' + Pckg.config.locale.currencySign;
     },
 
-    date: function (date) {
-        if (!date) {
+    date: function date(_date) {
+        if (!_date) {
             return null;
         }
 
         moment.locale(props.locale);
 
-        return moment(date).format(Pckg.config.locale.format.dateMoment);
+        return moment(_date).format(Pckg.config.locale.format.dateMoment);
     },
 
-    time: function (time) {
-        if (!time) {
+    time: function time(_time) {
+        if (!_time) {
             return null;
         }
 
         moment.locale(props.locale);
 
-        return moment(time).format(Pckg.config.locale.format.timeMoment);
+        return moment(_time).format(Pckg.config.locale.format.timeMoment);
     },
 
-    datetime: function (datetime) {
-        return this.date(datetime) + ' ' + this.time(datetime);
+    datetime: function datetime(_datetime) {
+        return this.date(_datetime) + ' ' + this.time(_datetime);
     },
 
-    trans: function (trans, params) {
+    trans: function trans(_trans, params) {
         $.each(params, function (key, val) {
-            trans = trans.replace('{{ ' + key + ' }}', val);
+            _trans = _trans.replace('{{ ' + key + ' }}', val);
         });
 
-        return trans;
+        return _trans;
     }
 
 };
 
 var utils = {
 
-    isSameDate: function (first, second) {
+    isSameDate: function isSameDate(first, second) {
         return locale.date(first) == locale.date(second);
     },
 
-    fix: function (value) {
+    fix: function fix(value) {
         return value ? value : null;
     },
 
-    url: function (url, params) {
+    url: function url(_url, params) {
         $.each(params, function (key, val) {
-            url = url.replace('[' + key + ']', val);
+            _url = _url.replace('[' + key + ']', val);
         });
 
-        return url;
+        return _url;
     },
 
-    nl2br: function (str, is_xhtml) {
+    nl2br: function nl2br(str, is_xhtml) {
         var breakTag = is_xhtml || typeof is_xhtml === 'undefined' ? '<br />' : '<br>';
         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
     },
 
-    closeIfIframe: function () {
+    closeIfIframe: function closeIfIframe() {
         this.sendToParent('popup.close');
     },
 
-    closeAndRefresh: function(){
+    closeAndRefresh: function closeAndRefresh() {
         $.magnificPopup.close();
         http.redirect();
     },
 
-    sendToParent: function (data) {
+    sendToParent: function sendToParent(data) {
         parent.postMessage(data, window.location.origin);
     },
 
-    isIframe: function () {
+    isIframe: function isIframe() {
         return parent.window != window;
     },
 
-    collect: function (item) {
+    collect: function collect(item) {
         return Array.isArray(item) ? item : [item];
     },
-    prepend: function (value, array) {
+    prepend: function prepend(value, array) {
         var newArray = array.slice(0);
 
         newArray.unshift(value);
 
         return newArray;
     },
-    sort: function (obj) {
+    sort: function sort(obj) {
         var sorted = {};
         Object.keys(obj).sort().forEach(function (value, key) {
             sorted[key] = value;
@@ -241,21 +245,21 @@ var utils = {
 
         return sorted;
     },
-    mergeObject: function (to, from) {
+    mergeObject: function mergeObject(to, from) {
         $.each(from, function (key, value) {
             to[key] = value;
         });
 
         return to;
     },
-    pushTo: function (to, from) {
+    pushTo: function pushTo(to, from) {
         $.each(from, function (key, value) {
             to.push(value);
         });
 
         return to;
     },
-    firstOf: function (items, callback) {
+    firstOf: function firstOf(items, callback) {
         var first = null;
 
         $.each(items, function (i, item) {
@@ -267,16 +271,16 @@ var utils = {
 
         return first;
     },
-    lastOf: function (items, callback) {
+    lastOf: function lastOf(items, callback) {
         return this.firstOf(items.reverse(), callback);
     },
-    last: function(items){
+    last: function last(items) {
         return items[items.length - 1];
     },
-    sortInt: function(a, b) {
-        return a < b ? -1 : (a > b ? 1 : 0);
+    sortInt: function sortInt(a, b) {
+        return a < b ? -1 : a > b ? 1 : 0;
     },
-    splice: function (collection, item) {
+    splice: function splice(collection, item) {
         return collection.splice(collection.indexOf(item), 1);
     }
 
@@ -286,7 +290,7 @@ var settings = settings || {};
 settings.vue = settings.vue || {};
 settings.vue.gmaps = {
     themes: {
-        getOptions: function (theme) {
+        getOptions: function getOptions(theme) {
             var themes = settings.vue.gmaps.themes;
             var options = themes.base;
 
@@ -297,7 +301,7 @@ settings.vue.gmaps = {
 
             return options;
         },
-        mergeOptions: function (original, overwrite) {
+        mergeOptions: function mergeOptions(original, overwrite) {
             $.each(overwrite, function (i, values) {
                 original[i] = values;
             });
@@ -311,15 +315,6 @@ settings.vue.gmaps = {
     }
 };
 
-var d = function (data) {
+var d = function d(data) {
     console.log(data);
 };
-
-/**
- * jQuery serializeObject
- * @copyright 2014, macek <paulmacek@gmail.com>
- * @link https://github.com/macek/jquery-serialize-object
- * @license BSD
- * @version 2.5.0
- */
-!function(e,i){if("function"==typeof define&&define.amd)define(["exports","jquery"],function(e,r){return i(e,r)});else if("undefined"!=typeof exports){var r=require("jquery");i(exports,r)}else i(e,e.jQuery||e.Zepto||e.ender||e.$)}(this,function(e,i){function r(e,r){function n(e,i,r){return e[i]=r,e}function a(e,i){for(var r,a=e.match(t.key);void 0!==(r=a.pop());)if(t.push.test(r)){var u=s(e.replace(/\[\]$/,""));i=n([],u,i)}else t.fixed.test(r)?i=n([],r,i):t.named.test(r)&&(i=n({},r,i));return i}function s(e){return void 0===h[e]&&(h[e]=0),h[e]++}function u(e){switch(i('[name="'+e.name+'"]',r).attr("type")){case"checkbox":return"on"===e.value?!0:e.value;default:return e.value}}function f(i){if(!t.validate.test(i.name))return this;var r=a(i.name,u(i));return l=e.extend(!0,l,r),this}function d(i){if(!e.isArray(i))throw new Error("formSerializer.addPairs expects an Array");for(var r=0,t=i.length;t>r;r++)this.addPair(i[r]);return this}function o(){return l}function c(){return JSON.stringify(o())}var l={},h={};this.addPair=f,this.addPairs=d,this.serialize=o,this.serializeJSON=c}var t={validate:/^[a-z_][a-z0-9_]*(?:\[(?:\d*|[a-z0-9_]+)\])*$/i,key:/[a-z0-9_]+|(?=\[\])/gi,push:/^$/,fixed:/^\d+$/,named:/^[a-z0-9_]+$/i};return r.patterns=t,r.serializeObject=function(){return new r(i,this).addPairs(this.serializeArray()).serialize()},r.serializeJSON=function(){return new r(i,this).addPairs(this.serializeArray()).serializeJSON()},"undefined"!=typeof i.fn&&(i.fn.serializeObject=r.serializeObject,i.fn.serializeJSON=r.serializeJSON),e.FormSerializer=r,r});
