@@ -63,8 +63,8 @@ class Config
 
         if (!is_array($data)) {
             $data = $val;
-            return $data;
 
+            return $data;
         }
 
         if (!array_key_exists($key, $data)) {
@@ -82,39 +82,90 @@ class Config
             return;
         }
 
-        $cache = new Cache($dir);
-        $settings = [];
-        if (false && $cache->isBuilt()) {
-            $settings = $cache->get();
+        /*$cache = new Cache($dir);*/
 
-        } else {
-            /**
-             * @T00D00
-             * We need to parse config directory recursively.
-             * defaults.php and env.php needs to be taken differently (as root namespace).
-             */
-            $files = [
-                "defaults" => $dir . 'config' . path('ds') . "defaults.php",
-                "database" => $dir . 'config' . path('ds') . "database.php",
-                "router"   => $dir . 'config' . path('ds') . "router.php",
-                "env"      => $dir . 'config' . path('ds') . "env.php",
-            ];
-
-            foreach ($files AS $key => $file) {
-                $content = is_file($file)
-                    ? require $file
-                    : [];
-                if (in_array($key, ['defaults', 'env'])) {
-                    $settings = merge_arrays($settings, $content);
-                } else {
-                    $settings[$key] = $content;
-                }
-            }
-        }
+        $settings = /*false && $cache->isBuilt()
+            ? $cache->get()
+            : */
+            $this->parseFiles($this->getDirFiles($dir . 'config/'));
 
         $this->data = merge_arrays($this->data, $settings);
 
         $this->set('url', config('protocol') . "://" . config('domain'));
+    }
+
+    protected function parseFiles($files)
+    {
+        $settings = [];
+
+        foreach ([
+                     function($file) { return strpos($file, '/defaults.php'); },
+                     function($file) { return !strpos($file, '/defaults.php') && !strpos($file, '/env.php'); },
+                     function($file) { return strpos($file, '/env.php'); },
+                 ] as $callback) {
+            foreach ($files AS $key => $file) {
+                if (!$callback($file)) {
+                    continue;
+                }
+
+                $content = require $file;
+
+                if (in_array($key, ['defaults', 'env'])) {
+                    /**
+                     * @T00D00
+                     * We need to parse config directory recursively.
+                     * defaults.php and env.php needs to be taken differently (as root namespace).
+                     */
+                    $settings = merge_arrays($settings, $content);
+                } else {
+                    if (strpos($key, '.')) {
+                        $keys = explode('.', $key);
+                        $content = $this->setRecursive($keys, $content, [], 0);
+                        if (isset($settings[$keys[0]])) {
+                            $settings[$keys[0]] = merge_arrays($settings[$keys[0]] ?? [], $content[$keys[0]]);
+                        } else {
+                            $settings[$keys[0]] = $content[$keys[0]];
+                        }
+                    } else {
+                        $settings[$key] = $content;
+                    }
+                }
+            }
+        }
+
+        return $settings;
+    }
+
+    protected function getDirFiles($dir, $prefix = '')
+    {
+        if (!is_dir($dir)) {
+            return [];
+        }
+
+        $files = [];
+        $scanned = scandir($dir);
+
+        if ($prefix) {
+            $prefix .= '.';
+        }
+        foreach ($scanned as $item) {
+            if (in_array($item, ['.', '..'])) {
+                continue;
+            } else if (strpos($item, '.sample')) {
+                continue;
+            }
+
+            if (is_dir($dir . $item)) {
+                foreach ($this->getDirFiles($dir . $item . '/', $prefix . $item) as $subkey => $subfile) {
+                    $files[$prefix . $subkey] = $subfile;
+                }
+            } else if (is_file($dir . $item) && strrpos($item, '.php') == strlen($item) - strlen('.php')) {
+                $subkey = substr($item, 0, -strlen('.php'));
+                $files[$prefix . $subkey] = $dir . $item;
+            }
+        }
+
+        return $files;
     }
 
     public function __toArray()
