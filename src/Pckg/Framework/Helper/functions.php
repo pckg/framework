@@ -766,9 +766,9 @@ if (!function_exists('stopMeasure')) {
 }
 
 if (!function_exists('collect')) {
-    function collect($data)
+    function collect($data, $of = Collection::class)
     {
-        return new Collection($data);
+        return $of($data);
     }
 }
 
