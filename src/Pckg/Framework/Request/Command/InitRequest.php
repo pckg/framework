@@ -29,19 +29,19 @@ class InitRequest extends AbstractChainOfReponsibility
     {
         $this->context->bind(Request::class, $this->request);
 
-        trigger('request.initializing', [$this->request]);
+        trigger(Request::class . '.initializing', [$this->request]);
 
         $url = $this->request->getUrl();
 
         $match = (new ResolveRoute($this->router, $url))->execute();
 
         if (!$match) {
-            throw new Exception("Cannot find route's match: " . $url);
+            throw new Exception("Cannot find route's match (1): " . $url);
         }
 
         $this->request->setMatch($match);
 
-        trigger('request.initialized', [$this->request]);
+        trigger(Request::class . '.initialized', [$this->request]);
 
         return $next();
     }

@@ -46,15 +46,22 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 chain($this->match['middlewares'], 'execute');
             }
 
-            /**
-             * Create controller object.
-             */
-            $this->controller = Reflect::create($this->match['controller']);
+            if (!isset($this->match['controller']) && is_only_callable($this->match['view'])) {
+                /**
+                 * Simple action.
+                 */
+                $response = Reflect::call($this->match['view']);
+            } else {
+                /**
+                 * Create controller object.
+                 */
+                $this->controller = Reflect::create($this->match['controller']);
 
-            /**
-             * Get main action response.
-             */
-            $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
+                /**
+                 * Get main action response.
+                 */
+                $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
+            }
 
             $output = $this->parseView($response);
 

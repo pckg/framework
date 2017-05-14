@@ -30,11 +30,11 @@ class Environment implements AssetManager
 
     public function init()
     {
-        trigger('env.initializing', [$this]);
+        trigger(Environment::class . '.initializing', [$this]);
 
         chain($this->initArray());
 
-        trigger('env.initialized', [$this]);
+        trigger(Environment::class . '.initialized', [$this]);
 
         return $this;
     }
@@ -62,12 +62,10 @@ class Environment implements AssetManager
 
     public function isWin()
     {
-
     }
 
     public function isUnix()
     {
-
     }
 
     public function assets()

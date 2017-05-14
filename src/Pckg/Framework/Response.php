@@ -2,11 +2,8 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Concept\Reflect;
-use Pckg\Framework\Request\Command\InitRequest;
-use Pckg\Framework\Request\Command\RunRequest;
 use Pckg\Framework\Request\Data\Flash;
-use Pckg\Framework\Response\Command\RunResponse;
+use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
@@ -146,11 +143,14 @@ class Response
         }
     }
 
-    public function internal($url = null)
+    public function internal($url)
     {
         try {
-            if (!$url) {
-                $url = $_SERVER['REQUEST_URI'];
+            /**
+             * Circular redirect.
+             */
+            if ($_SERVER['REQUEST_URI'] == $url) {
+                $this->redirect($url);
             }
 
             /**
@@ -160,38 +160,17 @@ class Response
             $_SERVER['REQUEST_URI'] = $url;
             $_POST = [];
 
-            /**
-             * Replace prefix in url because environment was already set.
-             */
-            $url = env()->replaceUrlPrefix($url);
+            $oldContext = context();
+            $context = \Pckg\Framework\Helper\Context::createInstance();
 
             /**
-             * Set request url.
+             * Circular redirects.
              */
-            request()->setUrl($url);
+            if (count(\Pckg\Framework\Helper\Context::getInstances()) > 4) {
+                $this->redirect($url);
+            }
 
-            /**
-             * Make request internal so we increase counter.
-             */
-            request()->setInternal();
-
-            /**
-             * Find match.
-             */
-            trigger('request.init');
-            Reflect::create(InitRequest::class)->execute(function() { });
-
-            /**
-             * Run actions.
-             */
-            trigger('request.run');
-            Reflect::create(RunRequest::class)->execute(function() { });
-
-            /**
-             * Output.
-             */
-            trigger('response.run');
-            Reflect::create(RunResponse::class)->execute(function() { });
+            $context->boot(get_class($oldContext->get(Environment::class)));
 
             exit;
         } catch (Throwable $e) {
@@ -232,9 +211,12 @@ class Response
         /**
          * @T00D00 - implement event
          */
-        trigger('response.redirect', [$this]);
+        trigger(Response::class . '.redirect', [$this]);
         if (context()->exists(Flash::class)) {
             context()->get(Flash::class)->__destruct();
+        }
+        if (context()->exists(Session::class)) {
+            context()->get(Session::class)->__destruct();
         }
 
         // try with php

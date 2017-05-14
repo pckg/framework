@@ -14,28 +14,16 @@ class ClearCache extends Command
     {
         $path = path('cache') . 'framework' . path('ds');
 
-        if ($this->option('skip-database')) {
-            $this->output('Skipping database cache');
-        } else {
-            $this->output('Clearing database cache');
+        if (!$this->option('skip-database')) {
             $this->unlink($path, 'database');
-            $this->output('Database cache cleared');
         }
 
-        if ($this->option('skip-defaults')) {
-            $this->output('Skipping defaults cache');
-        } else {
-            $this->output('Clearing defaults cache');
+        if (!$this->option('skip-defaults')) {
             $this->unlink($path, 'defaults');
-            $this->output('Defaults cache cleared');
         }
 
-        if ($this->option('skip-router')) {
-            $this->output('Skipping router cache');
-        } else {
-            $this->output('Clearing router cache');
+        if (!$this->option('skip-router')) {
             $this->unlink($path, 'router');
-            $this->output('Router cache cleared');
         }
     }
 

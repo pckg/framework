@@ -191,18 +191,7 @@ class Twig extends AbstractView implements ViewInterface
         $this->twig->addFilter(
             new Twig_SimpleFilter(
                 'price', function($price) {
-                if (is_null($price)) {
-                    $price = 0.0;
-                }
-
-                $localeManager = resolve(Locale::class);
-
-                return number_format(
-                           $price,
-                           2,
-                           $localeManager->getDecimalPoint(),
-                           $localeManager->getThousandSeparator()
-                       ) . ' €';
+                    return price($price);
             }
             )
         );

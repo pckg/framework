@@ -2,7 +2,6 @@
 
 use Exception;
 use Pckg\Framework\Console\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
@@ -46,7 +45,6 @@ class DeployProject extends Command
             ) {
                 throw new Exception('Cannot estamblish SSH connection to remote with username and password');
             }
-
         } elseif (!ssh2_auth_pubkey_file(
             $sshConnection,
             $remote['username'],
@@ -56,7 +54,6 @@ class DeployProject extends Command
         )
         ) {
             throw new Exception('Cannot estamblish SSH connection to remote with username and key');
-
         }
 
         $paths = $remote['root'];
@@ -65,15 +62,19 @@ class DeployProject extends Command
         }
         foreach ($paths as $key => $path) {
             $commands = [
-                'cd ' . $path                           => 'Changing root directory',
+                'cd ' . $path                                                         => 'Changing root directory',
                 // 'php ' . $path . 'console project:down'     => 'Putting project offline',
-                'php ' . $path . 'console project:pull' => 'Executing project:pull',
+                'php ' . $path . 'console project:pull'                               => 'Executing project:pull',
                 // 'php ' . $path . 'console migrator:install' => 'Installing migrations',
                 // 'php ' . $path . 'console project:up'       => 'Putting project up',
-                'php ' . $path . 'console cache:clear'  => 'Clearing cache',
+                !$this->option('quick') ? 'php ' . $path . 'console cache:clear' : '' => 'Clearing cache',
             ];
             $this->output('Deploying ' . $key);
             foreach ($commands as $command => $notice) {
+                if (!$command) {
+                    continue;
+                }
+
                 $this->output($notice);
 
                 $stream = ssh2_exec($sshConnection, $command);
@@ -105,6 +106,7 @@ class DeployProject extends Command
              ->addOptions(
                  [
                      'no-test' => 'Disable testing',
+                     'quick'   => 'Leave cache',
                  ],
                  InputOption::VALUE_NONE
              );

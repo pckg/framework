@@ -164,7 +164,7 @@ class LockProject extends Command
                     ];
                 }
             } else {
-                dd('not on branch');
+                die('not on branch');
             }
             $this->output();
         }

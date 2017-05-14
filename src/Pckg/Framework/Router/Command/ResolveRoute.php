@@ -42,7 +42,7 @@ class ResolveRoute
                     }
 
                     // validate secure
-                    if (isset($route['secure']) && is_callable($route['secure']) && !$route['secure']()) {
+                    if (isset($route['secure']) && is_only_callable($route['secure']) && !$route['secure']()) {
                         break;
                     }
 
@@ -57,6 +57,7 @@ class ResolveRoute
             $arrUrl = explode("/", substr($url, 1));
             foreach ($routes AS $routeArr) {
                 foreach ($routeArr AS $conf) {
+
                     $arrRoutes = explode("/", substr($conf["url"], 1));
 
                     // check only urls longer than routes
@@ -67,14 +68,14 @@ class ResolveRoute
                     // validate method
                     if (isset($conf['method']) && !empty($conf['method']) && !in_array(
                             strtolower($_SERVER['REQUEST_METHOD']),
-                            explode("|", $conf['method'])
+                            explode("|", strtolower($conf['method']))
                         )
                     ) {
                         continue;
                     }
 
                     // validate secure
-                    if (isset($conf['secure']) && is_callable($conf['secure']) && !$conf['secure']()) {
+                    if (isset($conf['secure']) && is_only_callable($conf['secure']) && !$conf['secure']()) {
                         continue;
                     }
 
@@ -97,7 +98,7 @@ class ResolveRoute
 
                             // validate url parts
                             if (isset($conf["validate"][$var])) {
-                                if (is_callable($conf["validate"][$var])) {
+                                if (is_only_callable($conf["validate"][$var])) {
                                     if ($conf["validate"][$var]($arrUrl[$i]) == true) {
                                         $regexData[$var] = $arrUrl[$i];
                                         // ok
@@ -183,12 +184,12 @@ class ResolveRoute
 
         $match['method'] = $match['method'] ?? 'GET|POST';
 
-        if (!$match["controller"]) {
-            throw new Exception("Controller not set." . print_r($match, true));
+        if (!isset($match["view"])) {
+            throw new Exception("View not set.");
         }
 
-        if (!$match["view"]) {
-            throw new Exception("View not set.");
+        if (!isset($match["controller"]) && !is_only_callable($match['view'])) {
+            throw new Exception("Controller not set." . print_r($match, true));
         }
 
         $this->router->mergeData(array_merge(isset($match['data']) ? $match['data'] : [], $match));

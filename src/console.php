@@ -20,26 +20,6 @@ require_once BASE_PATH . "vendor/autoload.php";
 $context = Pckg\Framework\Helper\Context::createInstance();
 
 /**
- * Create development environment.
- * We automatically display errors and load debugbar.
+ * Create and bind environment, console or website app, init and run it.
  */
-$environment = $context->createEnvironment(Pckg\Framework\Environment\Console::class);
-
-/**
- * Create application.
- * It should be passed as parameter.
- */
-$application = $context->createConsoleApplication();
-
-/**
- * Initialize application.
- * This will parse config, set localization 'things', estamblish connection to database,
- * set application autoloaders and providers.
- */
-$application->init();
-
-/**
- * Run applications.
- * Everything was preset, we need to run command.
- */
-$application->run();
+$context->boot(Pckg\Framework\Environment\Console::class);

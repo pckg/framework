@@ -17,6 +17,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
+use Pckg\Manager\Cache;
 use Pckg\Manager\Gtm;
 use Pckg\Manager\Locale;
 use Pckg\Manager\Meta;
@@ -220,7 +221,7 @@ if (!function_exists('trigger')) {
      *
      * @return mixed|null|object
      */
-    function trigger($event, array $args = [], $method = null)
+    function trigger($event, $args = [], $method = null)
     {
         return dispatcher()->trigger($event, $args, $method);
     }
@@ -635,6 +636,9 @@ if (!function_exists('dd')) {
     {
         foreach ($mixed as $m) {
             d($m);
+        }
+        if (context()->exists(Session::class)) {
+            context()->get(Session::class)->__destruct();
         }
         die();
     }
@@ -1423,7 +1427,7 @@ if (!function_exists('transform')) {
 if (!function_exists('cache')) {
     function cache($key, $value, $type = 'request', $time = 0)
     {
-        $cache = context()->getOrCreate(\Pckg\Manager\Cache::class);
+        $cache = context()->getOrCreate(Cache::class);
 
         return $cache->cache($key, $value, $type, $time);
     }
@@ -1460,6 +1464,42 @@ if (!function_exists('routeGroup')) {
         }
 
         return $routes;
+    }
+}
+
+if (!function_exists('price')) {
+    function price($price)
+    {
+        if (is_null($price)) {
+            $price = 0.0;
+        }
+
+        $localeManager = resolve(Locale::class);
+
+        return number_format(
+                   $price,
+                   2,
+                   $localeManager->getDecimalPoint(),
+                   $localeManager->getThousandSeparator()
+               ) . ' €';
+    }
+}
+
+if (!function_exists('is_only_callable')) {
+    function is_only_callable($input)
+    {
+        if (is_string($input)) {
+            return false;
+        }
+
+        return is_callable($input);
+    }
+}
+
+if (!function_exists('is_associative_array')) {
+    function is_associative_array($array)
+    {
+        return is_array($array) && (!$array || range(0, count($array) - 1) == array_keys($array));
     }
 }
 

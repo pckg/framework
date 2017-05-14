@@ -25,7 +25,6 @@ class Localize extends AbstractChainOfReponsibility
         $locale = config('pckg.locale.default', 'en_GB');
         $timezone = config('pckg.locale.timezone', 'Europe/Ljubljana');
 
-        message('Using locale ' . $locale . ' and timezone ' . $timezone);
         $this->localeManager->setLocale($locale);
         $this->localeManager->setTimezone($timezone);
 

@@ -4,6 +4,7 @@ namespace Pckg\Framework;
 
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider\Helper\Registrator;
+use ReflectionClass;
 
 class Provider
 {
@@ -11,6 +12,8 @@ class Provider
     use Registrator;
 
     protected $registered = false;
+
+    protected $translations = false;
 
     /**
      * Register options
@@ -39,6 +42,7 @@ class Provider
         $this->registerConsoles($this->consoles());
         $this->registerAssets($this->assets());
         $this->registerJobs($this->jobs());
+        $this->registerTranslations();
 
         if (method_exists($this, 'registered')) {
             Reflect::method($this, 'registered');
@@ -69,7 +73,22 @@ class Provider
             substr($file, 0, -strlen($class) - strlen('.php')),
         ];
 
+        foreach ($paths as $i => $path) {
+            if (!$path || !is_dir($path)) {
+                unset($paths[$i]);
+            }
+        }
+
         return $paths;
+    }
+
+    public function getTranslationPath()
+    {
+        $class = static::class;
+        $reflector = new ReflectionClass($class);
+        $file = $reflector->getFileName();
+
+        return realpath(substr($file, 0, strrpos($file, path('ds'))) . path('ds') . '..' . path('ds') . 'lang');
     }
 
     public function apps()

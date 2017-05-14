@@ -87,7 +87,7 @@ class Production extends Environment
                     break;
                 }
             } catch (Throwable $e) {
-                dd(exception($e));
+                die(exception($e));
             }
         }
 

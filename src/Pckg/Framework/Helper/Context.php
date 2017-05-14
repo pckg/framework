@@ -8,7 +8,6 @@ use Pckg\Framework\Application\Console;
 use Pckg\Framework\Application\Website;
 use Pckg\Framework\Console\Provider\Console as ConsoleProvider;
 use Pckg\Framework\Environment;
-use Pckg\Framework\Provider;
 use Pckg\Framework\Provider\Helper\Registrator;
 use Symfony\Component\Console\Application as SymfonyConsole;
 
@@ -16,6 +15,46 @@ class Context extends ConceptContext
 {
 
     use Registrator;
+
+    public function boot($environment, $run = true, $app = null)
+    {
+        /**
+         * Create development environment.
+         * We automatically display errors and load debugbar.
+         */
+        $this->createEnvironment($environment);
+
+        /**
+         * Create application by environment.
+         */
+        if ($environment == Environment\Console::class) {
+            /**
+             * We automatically display errors and load debugbar.
+             */
+            $application = $this->createConsoleApplication($app);
+        } else {
+            /**
+             * Create application.
+             * We will use config/router.php for proper loading.
+             */
+            $application = $this->createWebsiteApplication();
+        }
+
+        /**
+         * Initialize application.
+         * This will parse config, set localization 'things', estamblish connection to database, initialize and register
+         * routes, set application autoloaders and providers, session, response, request and assets.
+         */
+        $application->init();
+
+        /**
+         * Run applications.
+         * Everything was preset, we need to run command or request and return response.
+         */
+        if ($run) {
+            $application->run();
+        }
+    }
 
     public function createEnvironment($environment)
     {
@@ -29,7 +68,7 @@ class Context extends ConceptContext
         if (!($appName = $this->getApplicationNameFromGlobalRouter())) {
             throw new Exception('Cannot fetch app from global router.');
         }
-        
+
         path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
         path('app_public', path('app') . "public" . path('ds'));

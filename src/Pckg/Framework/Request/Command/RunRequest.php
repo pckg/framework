@@ -19,11 +19,11 @@ class RunRequest extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        trigger('request.running', [$this->request]);
+        trigger(Request::class . '.running', [$this->request]);
 
         Reflect::create(ProcessRouteMatch::class, ['match' => $this->request->getMatch()])->execute();
 
-        trigger('request.ran', [$this->request]);
+        trigger(Request::class . '.ran', [$this->request]);
 
         return $next();
     }
