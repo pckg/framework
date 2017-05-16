@@ -30,6 +30,13 @@ class InitProject extends Command
         ];
     }
 
+    public function files()
+    {
+        return [
+            'pckg.json' => '[]',
+        ];
+    }
+
     public function createDirs()
     {
         foreach ($this->dirs() as $dir) {
@@ -50,6 +57,18 @@ class InitProject extends Command
                 symlink($target, $link);
             } else {
                 $this->output('Symlink/directory ' . $link . ' -> ' . $target . ' already exists');
+            }
+        }
+    }
+
+    public function createFiles()
+    {
+        foreach ($this->files() as $file => $content) {
+            if (!is_file($file)) {
+                $this->output('Creating file ' . $file);
+                file_put_contents(path('root') . $file, $content);
+            } else {
+                $this->output('File ' . $file . ' already exists');
             }
         }
     }
@@ -85,6 +104,7 @@ class InitProject extends Command
     {
         $this->createDirs();
         $this->createSymlinks();
+        $this->createFiles();
         $this->copyConfigs();
     }
 
