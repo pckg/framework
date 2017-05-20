@@ -31,6 +31,11 @@ class Twig extends AbstractView implements ViewInterface
         return $this;
     }
 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
     function initTwig($file = null)
     {
         $dirs = $this->getDirs();
@@ -191,7 +196,7 @@ class Twig extends AbstractView implements ViewInterface
         $this->twig->addFilter(
             new Twig_SimpleFilter(
                 'price', function($price) {
-                    return price($price);
+                return price($price);
             }
             )
         );
