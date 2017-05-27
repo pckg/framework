@@ -12,6 +12,7 @@ class PullProject extends Command
                 'git pull --ff',
                 'composer install --no-dev --prefer-dist',
                 'bower install',
+                'npm install',
             ],
             true,
             path('root')
