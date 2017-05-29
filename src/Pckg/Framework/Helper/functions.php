@@ -60,7 +60,7 @@ if (!function_exists('env')) {
 if (!function_exists('object_implements')) {
     function object_implements($object, $interface)
     {
-        return in_array($interface, class_implements($object));
+        return is_object($object) && in_array($interface, class_implements($object));
     }
 }
 
