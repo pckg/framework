@@ -1503,3 +1503,12 @@ if (!function_exists('is_associative_array')) {
     }
 }
 
+if (!function_exists('strbetween')) {
+    function strbetween($text, $from, $to)
+    {
+        $start = strpos($text, $from) + strlen($from);
+        $end = strpos($text, $to, $start);
+
+        return substr($text, $start, $end - $start);
+    }
+}
