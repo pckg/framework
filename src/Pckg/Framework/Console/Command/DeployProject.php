@@ -60,14 +60,18 @@ class DeployProject extends Command
         if (!is_array($paths)) {
             $paths = ['default' => $paths];
         }
+        $maintenance = $this->option('maintenance');
+        $migrations = $this->option('migrations');
+        $quick = $this->option('quick');
+        $noDep = '--no-composer --no-bower --no-npm';
         foreach ($paths as $key => $path) {
             $commands = [
-                'cd ' . $path                                                         => 'Changing root directory',
-                // 'php ' . $path . 'console project:down'     => 'Putting project offline',
-                'php ' . $path . 'console project:pull'                               => 'Executing project:pull',
-                // 'php ' . $path . 'console migrator:install' => 'Installing migrations',
-                // 'php ' . $path . 'console project:up'       => 'Putting project up',
-                !$this->option('quick') ? 'php ' . $path . 'console cache:clear' : '' => 'Clearing cache',
+                'cd ' . $path                                                          => 'Changing root directory',
+                $maintenance ? 'php ' . $path . 'console project:down' : ''            => 'Putting project offline',
+                'php ' . $path . 'console project:pull' . ($quick ? ' ' . $noDep : '') => 'Pulling changes',
+                $migrations ? 'php ' . $path . 'console migrator:install' : ''         => 'Installing migrations',
+                $maintenance ? 'php ' . $path . 'console project:up' : ''              => 'Putting project up',
+                !$this->option('quick') ? 'php ' . $path . 'console cache:clear' : ''  => 'Clearing cache',
             ];
             $this->output('Deploying ' . $key);
             foreach ($commands as $command => $notice) {
@@ -105,8 +109,10 @@ class DeployProject extends Command
              )
              ->addOptions(
                  [
-                     'no-test' => 'Disable testing',
-                     'quick'   => 'Leave cache',
+                     'no-test'     => 'Disable testing',
+                     'quick'       => 'Leave cache',
+                     'maintenance' => 'Put project under maintenance during deploy',
+                     'migrations'  => 'Automatically run full migrations',
                  ],
                  InputOption::VALUE_NONE
              );
