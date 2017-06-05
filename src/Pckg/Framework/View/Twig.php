@@ -20,6 +20,9 @@ use Twig_SimpleFunction;
 class Twig extends AbstractView implements ViewInterface
 {
 
+    /**
+     * @var TwigEnv
+     */
     protected $twig;
 
     protected $template = null;
