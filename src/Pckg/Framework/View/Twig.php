@@ -157,13 +157,7 @@ class Twig extends AbstractView implements ViewInterface
          * This should be added to Framework provider.
          */
         $this->twig->addFunction(new Twig_SimpleFunction('cdn', function($file) {
-            $host = config('storage.cdn.host');
-
-            if (!$host) {
-                return $file;
-            }
-
-            return '//' . $host . $file;
+            return cdn($file);
         }));
         /**
          * This should be added to Framework provider.

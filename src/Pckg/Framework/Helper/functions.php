@@ -1512,3 +1512,16 @@ if (!function_exists('strbetween')) {
         return substr($text, $start, $end - $start);
     }
 }
+
+if (!function_exists('cdn')) {
+    function cdn($file)
+    {
+        $host = config('storage.cdn.host');
+
+        if (!$host) {
+            return $file;
+        }
+
+        return '//' . $host . $file;
+    }
+}
