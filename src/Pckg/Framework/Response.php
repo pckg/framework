@@ -399,9 +399,8 @@ class Response
 
     public function download($file, $filename)
     {
+        $this->sendFileContentTypeHeaders();
         header("Content-Disposition: attachment; filename=" . $filename);
-        header("Content-Type: application/octet-stream");
-        header("Content-Type: application/download");
         header("Content-Description: File Transfer");
         header("Content-Length: " . filesize($file));
 
@@ -412,6 +411,16 @@ class Response
         }
 
         exit;
+    }
+
+    public function sendFileContentTypeHeaders($filename = null)
+    {
+        if (strpos($filename, '.pdf')) {
+            header("Content-Type: application/pdf");
+        } else {
+            header("Content-Type: application/octet-stream");
+            header("Content-Type: application/download");
+        }
     }
 
 }
