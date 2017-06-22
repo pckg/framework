@@ -15,6 +15,8 @@ class Provider
 
     protected $translations = false;
 
+    protected $routePrefix = null;
+
     /**
      * Register options
      */
@@ -57,6 +59,13 @@ class Provider
             $stack = context()->get(Stack::class);
             $stack->execute();
         }
+
+        return $this;
+    }
+
+    public function setRoutePrefix($prefix)
+    {
+        $this->routePrefix = $prefix;
 
         return $this;
     }

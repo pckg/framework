@@ -45,7 +45,7 @@ trait Registrator
                 Reflect::create(
                     'Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType),
                     [
-                        $providerType => $provider,
+                        $providerType => is_string($provider) ? $this->routePrefix . $provider : $provider,
                         'config'      => $providerConfig,
                     ]
                 )->init();
@@ -96,7 +96,11 @@ trait Registrator
                 $provider = $config;
             }
 
-            Reflect::create($provider)->register();
+            if (is_string($provider)) {
+                $provider = Reflect::create($provider);
+            }
+
+            $provider->register();
         }
     }
 
