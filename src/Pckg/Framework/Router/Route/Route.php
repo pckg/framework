@@ -58,14 +58,36 @@ class Route
     {
         $mains = ['url', 'controller', 'view', 'name', 'resolvers', 'afterwares'];
         $data = $this->data;
+        /**
+         * First get defaults.
+         */
         foreach ($mains as $main) {
             if (!isset($this->{$main})) {
                 continue;
             }
 
-            $data[$main] = $this->{$main};
+            if ($value = $this->{$main}) {
+                $data[$main] = $value;
+            }
         }
+
+        /**
+         * Then merge them with parent data.
+         */
         $mergedData = $this->mergeData($parentData, $data);
+
+        /**
+         * And apply missing defaults.
+         */
+        foreach ($mains as $main) {
+            if (!isset($this->{$main})) {
+                continue;
+            }
+
+            if (!isset($mergedData[$main])) {
+                $data[$main] = $this->{$main};
+            }
+        }
 
         router()->add($mergedData['url'] ?? '@', $mergedData, $mergedData['name'] ?? '@');
     }

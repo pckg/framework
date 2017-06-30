@@ -43,6 +43,15 @@ trait Merger
             }
         }
 
+        /**
+         * Set empty prefixed values.
+         */
+        foreach ($data as $key => $val) {
+            if (strpos($key, 'Prefix') && !array_key_exists(substr($key, 0, -6), $data)) {
+                $data[substr($key, 0, -6)] = $val;
+            }
+        }
+
         return $data;
     }
 
