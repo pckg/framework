@@ -1525,3 +1525,16 @@ if (!function_exists('cdn')) {
         return '//' . $host . $file;
     }
 }
+
+if (!function_exists('only')) {
+    function only($array, $keys)
+    {
+        $final = [];
+
+        foreach ($keys as $key) {
+            $final[$key] = $array[$key] ?? nul;
+        }
+
+        return $final;
+    }
+}

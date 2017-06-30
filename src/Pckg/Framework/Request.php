@@ -34,12 +34,14 @@ class Request extends Lazy
         $this->router = $router;
         $this->response = $response;
 
-        $this->post = new Lazy($_POST);
+        parse_str(file_get_contents('php://input'), $input);
+
+        $this->post = new Lazy($input);
         $this->get = new Lazy($_GET);
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
         $this->cookie = new Lazy($_COOKIE);
-        $this->request = new Lazy($_COOKIE);
+        $this->request = new Lazy($_REQUEST);
 
         $this->fetchUrl();
     }
