@@ -25,8 +25,16 @@ class InitSession extends AbstractChainOfReponsibility
 
         $SID = session_id();
         if (empty($SID)) {
-            session_set_cookie_params(7 * 24 * 60 * 60, '/');
-            session_start();
+            /**
+             * Keep session data in server in client for 1h by default.
+             */
+            $time = 7 * 24 * 60 * 60;
+            ini_set('session.gc_maxlifetime', $time);
+            session_set_cookie_params($time);
+
+            session_start(/*[
+                              'cookie_lifetime' => $time,
+                          ]*/);
         }
 
         //$this->session->setPointerData($_SESSION);
