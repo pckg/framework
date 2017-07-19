@@ -27,6 +27,15 @@ class Twig extends AbstractView implements ViewInterface
 
     protected $template = null;
 
+    protected $debug = false;
+
+    public function debug($debug = true)
+    {
+        $this->debug = $debug;
+
+        return $this;
+    }
+
     public function setTemplate($template)
     {
         $this->template = $template;
@@ -59,6 +68,10 @@ class Twig extends AbstractView implements ViewInterface
                 }
             }
             $dirs = array_unique($tempDirs);
+        }
+
+        if ($this->debug) {
+            d($this->file, $dirs);
         }
 
         $this->twig = new TwigEnv(
