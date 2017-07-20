@@ -176,10 +176,11 @@ class ResolveRoute
                     break;
                 }
             }
+        }
 
-            if (!$found) {
-                return false;
-            }
+        if (!$found) {
+            trigger(ResolveRoute::class . '.notFound');
+            return false;
         }
 
         $match['method'] = $match['method'] ?? 'GET|POST';
