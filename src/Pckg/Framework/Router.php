@@ -271,7 +271,7 @@ class Router
 
     public function getName()
     {
-        return $this->data['name'] ?: null;
+        return $this->data['name'] ?? null;
     }
 
     public function getCssName()
