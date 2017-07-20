@@ -60,7 +60,7 @@ if (!function_exists('env')) {
 if (!function_exists('object_implements')) {
     function object_implements($object, $interface)
     {
-        return in_array($interface, class_implements($object));
+        return (is_object($object) || is_string($object)) && in_array($interface, class_implements($object));
     }
 }
 
@@ -1503,3 +1503,38 @@ if (!function_exists('is_associative_array')) {
     }
 }
 
+if (!function_exists('strbetween')) {
+    function strbetween($text, $from, $to)
+    {
+        $start = strpos($text, $from) + strlen($from);
+        $end = strpos($text, $to, $start);
+
+        return substr($text, $start, $end - $start);
+    }
+}
+
+if (!function_exists('cdn')) {
+    function cdn($file)
+    {
+        $host = config('storage.cdn.host');
+
+        if (!$host) {
+            return $file;
+        }
+
+        return '//' . $host . $file;
+    }
+}
+
+if (!function_exists('only')) {
+    function only($array, $keys)
+    {
+        $final = [];
+
+        foreach ($keys as $key) {
+            $final[$key] = $array[$key] ?? nul;
+        }
+
+        return $final;
+    }
+}

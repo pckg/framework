@@ -157,7 +157,7 @@ class Config
 
             if (is_dir($dir . $item)) {
                 foreach ($this->getDirFiles($dir . $item . '/', $prefix . $item) as $subkey => $subfile) {
-                    $files[$prefix . $subkey] = $subfile;
+                    $files[$subkey] = $subfile;
                 }
             } else if (is_file($dir . $item) && strrpos($item, '.php') == strlen($item) - strlen('.php')) {
                 $subkey = substr($item, 0, -strlen('.php'));

@@ -74,7 +74,7 @@ class Production extends Environment
         foreach ($codes as $file) {
             try {
                 $response = view(
-                    'Pckg\Framework:error/' . $file,
+                    'Pckg/Framework:error/' . $file,
                     [
                         'message'   => $message,
                         'code'      => $code,

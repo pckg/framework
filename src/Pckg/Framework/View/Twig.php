@@ -20,15 +20,32 @@ use Twig_SimpleFunction;
 class Twig extends AbstractView implements ViewInterface
 {
 
+    /**
+     * @var TwigEnv
+     */
     protected $twig;
 
     protected $template = null;
+
+    protected $debug = false;
+
+    public function debug($debug = true)
+    {
+        $this->debug = $debug;
+
+        return $this;
+    }
 
     public function setTemplate($template)
     {
         $this->template = $template;
 
         return $this;
+    }
+
+    public function getFile()
+    {
+        return $this->file;
     }
 
     function initTwig($file = null)
@@ -51,6 +68,10 @@ class Twig extends AbstractView implements ViewInterface
                 }
             }
             $dirs = array_unique($tempDirs);
+        }
+
+        if ($this->debug) {
+            d($this->file, $dirs);
         }
 
         $this->twig = new TwigEnv(
@@ -149,13 +170,7 @@ class Twig extends AbstractView implements ViewInterface
          * This should be added to Framework provider.
          */
         $this->twig->addFunction(new Twig_SimpleFunction('cdn', function($file) {
-            $host = config('storage.cdn.host');
-
-            if (!$host) {
-                return $file;
-            }
-
-            return '//' . $host . $file;
+            return cdn($file);
         }));
         /**
          * This should be added to Framework provider.
@@ -191,7 +206,7 @@ class Twig extends AbstractView implements ViewInterface
         $this->twig->addFilter(
             new Twig_SimpleFilter(
                 'price', function($price) {
-                    return price($price);
+                return price($price);
             }
             )
         );

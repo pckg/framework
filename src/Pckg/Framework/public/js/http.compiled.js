@@ -75,6 +75,25 @@ var http = {
         }).done(whenDone).error(whenError);
     },
 
+    patch: function post(url, data, whenDone, whenError) {
+        if (typeof data == 'function') {
+            data = data();
+        }
+
+        if (typeof whenDone == 'undefined') {
+            whenDone = http.postDone;
+        }
+
+        data = http.fixUndefined(data);
+
+        return $.ajax({
+            url: url,
+            dataType: 'JSON',
+            method: 'patch',
+            data: data
+        }).done(whenDone).error(whenError);
+    },
+
     form: function form($form, successCallback) {
         return http.post($form.attr('action'), $form.serializeArray(), successCallback);
     },

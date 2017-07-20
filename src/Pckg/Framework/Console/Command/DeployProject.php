@@ -60,33 +60,44 @@ class DeployProject extends Command
         if (!is_array($paths)) {
             $paths = ['default' => $paths];
         }
-        foreach ($paths as $key => $path) {
-            $commands = [
-                'cd ' . $path                                                         => 'Changing root directory',
-                // 'php ' . $path . 'console project:down'     => 'Putting project offline',
-                'php ' . $path . 'console project:pull'                               => 'Executing project:pull',
-                // 'php ' . $path . 'console migrator:install' => 'Installing migrations',
-                // 'php ' . $path . 'console project:up'       => 'Putting project up',
-                !$this->option('quick') ? 'php ' . $path . 'console cache:clear' : '' => 'Clearing cache',
-            ];
-            $this->output('Deploying ' . $key);
-            foreach ($commands as $command => $notice) {
-                if (!$command) {
-                    continue;
+        $maintenance = $this->option('maintenance');
+        $migrations = $this->option('migrations');
+        $quick = $this->option('quick');
+        $noDep = '--no-composer --no-bower --no-npm';
+        foreach ($paths as $app => $paths) {
+            if (!is_array($paths)) {
+                $paths = [$paths];
+            }
+
+            foreach ($paths as $path) {
+                $commands = [
+                    'cd ' . $path                                                          => 'Changing root directory',
+                    $maintenance ? 'php ' . $path . 'console project:down' : ''            => 'Putting project offline',
+                    'php ' . $path . 'console project:pull' . ($quick ? ' ' . $noDep : '') => 'Pulling changes',
+                    'php ' . $path . 'console ' . $app . ' translator:import'              => 'Importing translations',
+                    $migrations ? 'php ' . $path . 'console migrator:install' : ''         => 'Installing migrations',
+                    $maintenance ? 'php ' . $path . 'console project:up' : ''              => 'Putting project up',
+                    !$this->option('quick') ? 'php ' . $path . 'console cache:clear' : ''  => 'Clearing cache',
+                ];
+                $this->output('Deploying ' . $app . ':' . $path);
+                foreach ($commands as $command => $notice) {
+                    if (!$command) {
+                        continue;
+                    }
+
+                    $this->output($notice);
+
+                    $stream = ssh2_exec($sshConnection, $command);
+
+                    $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+
+                    stream_set_blocking($errorStream, true);
+                    stream_set_blocking($stream, true);
+
+                    $errorStreamContent = stream_get_contents($errorStream);
+                    $streamContent = stream_get_contents($stream);
+                    $this->output($errorStreamContent . "\n" . $streamContent);
                 }
-
-                $this->output($notice);
-
-                $stream = ssh2_exec($sshConnection, $command);
-
-                $errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
-
-                stream_set_blocking($errorStream, true);
-                stream_set_blocking($stream, true);
-
-                $errorStreamContent = stream_get_contents($errorStream);
-                $streamContent = stream_get_contents($stream);
-                $this->output($errorStreamContent . "\n" . $streamContent);
             }
         }
 
@@ -105,8 +116,10 @@ class DeployProject extends Command
              )
              ->addOptions(
                  [
-                     'no-test' => 'Disable testing',
-                     'quick'   => 'Leave cache',
+                     'no-test'     => 'Disable testing',
+                     'quick'       => 'Leave cache',
+                     'maintenance' => 'Put project under maintenance during deploy',
+                     'migrations'  => 'Automatically run full migrations',
                  ],
                  InputOption::VALUE_NONE
              );

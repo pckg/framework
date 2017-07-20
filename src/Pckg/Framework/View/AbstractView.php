@@ -25,7 +25,7 @@ abstract class AbstractView implements ViewInterface
 
     public function __construct($file = null, $data = [])
     {
-        $file = str_replace(':', '\View\\', $file);
+        $file = str_replace(':', '/View/', $file);
 
         $this->file = $file;
         $this->data = $data;
