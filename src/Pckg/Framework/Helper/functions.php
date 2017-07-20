@@ -312,6 +312,10 @@ if (!function_exists('url')) {
 if (!function_exists('email')) {
     function email($template, $receiver, $data = [])
     {
+        if (!$template) {
+            throw new Exception("Mail template is missing!");
+        }
+        
         return
             queue()->create(
                 'mail:send',
