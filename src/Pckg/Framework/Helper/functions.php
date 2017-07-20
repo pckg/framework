@@ -1467,7 +1467,7 @@ if (!function_exists('routeGroup')) {
             $routeGroup->routes($routes);
         }
 
-        return $routes;
+        return $routeGroup;
     }
 }
 
