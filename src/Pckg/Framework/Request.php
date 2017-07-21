@@ -85,19 +85,6 @@ class Request extends Lazy
         $this->url = $url;
     }
 
-    public function init()
-    {
-        trigger(Request::class . '.initializing', [$this]);
-
-        $this->match = (new ResolveRoute($this->router, $this->url))->execute();
-
-        if (!$this->match) {
-            throw new Exception("Cannot find route's match (2): " . $this->url);
-        }
-
-        trigger(Request::class . '.initialized', [$this]);
-    }
-
     public function setMatch($match)
     {
         $this->match = $match;

@@ -179,8 +179,7 @@ class ResolveRoute
         }
 
         if (!$found) {
-            trigger(ResolveRoute::class . '.notFound');
-            return false;
+            return null;
         }
 
         $match['method'] = $match['method'] ?? 'GET|POST';

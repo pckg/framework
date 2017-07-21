@@ -36,6 +36,7 @@ class InitRequest extends AbstractChainOfReponsibility
         $match = (new ResolveRoute($this->router, $url))->execute();
 
         if (!$match) {
+            trigger(ResolveRoute::class . '.notFound');
             throw new Exception("Cannot find route's match (1): " . $url);
         }
 
