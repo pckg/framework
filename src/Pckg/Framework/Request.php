@@ -35,6 +35,12 @@ class Request extends Lazy
         $this->response = $response;
 
         parse_str(file_get_contents('php://input'), $input);
+        if (!$input && $_POST) {
+            /**
+             * Why is php input sometimes empty.
+             */
+            $input = $_POST;
+        }
 
         $this->post = new Lazy($input);
         $this->get = new Lazy($_GET);
