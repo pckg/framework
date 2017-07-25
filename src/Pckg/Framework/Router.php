@@ -182,6 +182,14 @@ class Router
             $routeName = $this->data["name"];
         }
 
+        $routePrefix = ($absolute || isConsole()
+                ? config('protocol') . '://' . config("domain", $_SERVER['HTTP_HOST'] ?? null)
+                : '')
+                       . ($envPrefix && dev() && !isConsole()
+                ? '/dev.php'
+                : ''
+                       );
+
         foreach ($this->routes AS $routeArr) {
             foreach ($routeArr AS $route) {
                 if ($route["name"] == $routeName) {
@@ -203,7 +211,7 @@ class Router
                         }
                     }
 
-                    if ($args/* && isset($route['resolvers'])*/) {
+                    if ($args) {
                         /**
                          * Replace parameters in url.
                          */
@@ -225,17 +233,12 @@ class Router
                         $route['url'] = str_replace(array_keys($filteredArgs), $filteredArgs, $route['url']);
                     }
 
-                    return (
-                           $absolute || isConsole()
-                               ? config('protocol') . '://' . config("domain", $_SERVER['HTTP_HOST'] ?? null)
-                               : '') .
-                           ($envPrefix && dev() && !isConsole()
-                               ? '/dev.php'
-                               : ''
-                           ) . $route["url"];
+                    return $routePrefix . $route["url"];
                 }
             }
         }
+
+        return $routePrefix;
     }
 
     public function get($param = null, $default = [])
