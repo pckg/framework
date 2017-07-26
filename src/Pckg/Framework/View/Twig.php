@@ -227,7 +227,7 @@ class Twig extends AbstractView implements ViewInterface
                                $localeManager->getThousandSeparator()
                            ),
                            '0'
-                       ) . ' €';
+                       ) . ' ' . config('pckg.payment.currencySign');
             }
             )
         );
