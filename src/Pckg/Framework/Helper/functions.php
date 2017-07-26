@@ -1485,7 +1485,7 @@ if (!function_exists('price')) {
                    2,
                    $localeManager->getDecimalPoint(),
                    $localeManager->getThousandSeparator()
-               ) . ' €';
+               ) . ' ' . config('pckg.payment.currencySign');
     }
 }
 
