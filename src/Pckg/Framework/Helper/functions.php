@@ -87,6 +87,19 @@ if (!function_exists('getDotted')) {
     }
 }
 
+if (!function_exists('hasDotted')) {
+    function hasDotted($data, $keys, $i = 0)
+    {
+        if (!isset($keys[$i])) {
+            return true;
+        } else if (isset($data[$keys[$i]])) {
+            return hasDotted($data[$keys[$i]], $keys, $i + 1);
+        }
+
+        return false;
+    }
+}
+
 if (!function_exists('request')) {
     /**
      * @return Request

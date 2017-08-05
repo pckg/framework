@@ -97,21 +97,24 @@ class Lazy implements ArrayAccess
 
     public function __isset($name)
     {
-        return isset($this->data[$name]);
+        if (isset($this->data[$name])) {
+            return true;
+        }
+        if (strpos($name, '.')) {
+            return hasDotted($this->data, explode('.', $name));
+        }
+
+        return false;
     }
 
     public function __get($name)
     {
         if (!$this->__isset($name)) {
-            //return new Lazy();
-
             return null;
         }
 
         if (strpos($name, '.')) {
-            $keys = explode('.', $name);
-
-            return getDotted($this->data, $keys);
+            return getDotted($this->data, explode('.', $name));
         }
 
         return $this->data[$name];

@@ -2,9 +2,7 @@
 
 namespace Pckg\Framework;
 
-use Exception;
 use Pckg\Framework\Helper\Lazy;
-use Pckg\Framework\Router\Command\ResolveRoute;
 
 class Request extends Lazy
 {
@@ -34,7 +32,13 @@ class Request extends Lazy
         $this->router = $router;
         $this->response = $response;
 
-        parse_str(file_get_contents('php://input'), $input);
+        $input = file_get_contents('php://input');
+        if ($this->isJson()) {
+            $input = json_decode($input, true);
+        } else {
+            parse_str($input, $input);
+        }
+
         if (!$input && $_POST) {
             /**
              * Why is php input sometimes empty.
@@ -172,6 +176,13 @@ class Request extends Lazy
     public function getMethod()
     {
         return $this->method();
+    }
+
+    public function isJson()
+    {
+        $headers = getallheaders();
+
+        return ($headers['content-type'] ?? null) == 'application/json';
     }
 
     function isAjax()
