@@ -180,7 +180,7 @@ class Request extends Lazy
 
     public function isJson()
     {
-        $headers = getallheaders();
+        $headers = function_exists('getallheaders') ? getallheaders() : [];
 
         return ($headers['content-type'] ?? null) == 'application/json';
     }
