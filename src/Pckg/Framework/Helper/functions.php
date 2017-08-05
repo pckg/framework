@@ -74,6 +74,19 @@ if (!function_exists('app')) {
     }
 }
 
+if (!function_exists('getDotted')) {
+    function getDotted($data, $keys, $i = 0)
+    {
+        if (!isset($keys[$i])) {
+            return $data;
+        } else if (isset($data[$keys[$i]])) {
+            return getDotted($data[$keys[$i]], $keys, $i + 1);
+        }
+
+        return null;
+    }
+}
+
 if (!function_exists('request')) {
     /**
      * @return Request
@@ -315,7 +328,7 @@ if (!function_exists('email')) {
         if (!$template) {
             throw new Exception("Mail template is missing!");
         }
-        
+
         return
             queue()->create(
                 'mail:send',

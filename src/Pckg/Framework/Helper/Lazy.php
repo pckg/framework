@@ -106,16 +106,15 @@ class Lazy implements ArrayAccess
             //return new Lazy();
 
             return null;
-        } else if (!is_array($this->data[$name])) {
-            return $this->data[$name];
         }
 
-        //$lazy = new Lazy($this->data[$name]);
-        //$lazy->setParent($this, $name);
+        if (strpos($name, '.')) {
+            $keys = explode('.', $name);
+
+            return getDotted($this->data, $keys);
+        }
 
         return $this->data[$name];
-
-        return $lazy;
     }
 
     public function __set($name, $val)

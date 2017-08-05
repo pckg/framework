@@ -20,21 +20,10 @@ class Config
         if (strpos($key, '.')) {
             $keys = explode('.', $key);
 
-            return $this->recursive($keys, 0, $this->data);
+            return getDotted($this->data, $keys);
         }
 
         return $default;
-    }
-
-    protected function recursive($keys, $i, $data)
-    {
-        if (!isset($keys[$i])) {
-            return $data;
-        } else if (isset($data[$keys[$i]])) {
-            return $this->recursive($keys, $i + 1, $data[$keys[$i]]);
-        }
-
-        return null;
     }
 
     public function set($key, $val)
