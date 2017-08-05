@@ -100,6 +100,7 @@ class Lazy implements ArrayAccess
         if (isset($this->data[$name])) {
             return true;
         }
+
         if (strpos($name, '.')) {
             return hasDotted($this->data, explode('.', $name));
         }
