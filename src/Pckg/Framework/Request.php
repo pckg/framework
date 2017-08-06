@@ -33,7 +33,7 @@ class Request extends Lazy
         $this->response = $response;
 
         $input = file_get_contents('php://input');
-        if ($this->isJson()) {
+        if ($this->isJson() || (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
             $input = json_decode($input, true);
         } else {
             parse_str($input, $input);
