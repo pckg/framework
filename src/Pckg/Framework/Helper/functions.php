@@ -131,7 +131,7 @@ if (!function_exists('get')) {
 }
 
 /**
- * @return Request
+ * @return Request|mixed
  */
 if (!function_exists('server')) {
     function server($key = null, $default = [])
