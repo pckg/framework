@@ -109,7 +109,7 @@ class Request extends Lazy
 
     public function method()
     {
-        return $_SERVER['REQUEST_METHOD'] ?? 'GET';
+        return server('REQUEST_METHOD', 'GET');
     }
 
     function post($key = null, $default = [])

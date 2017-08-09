@@ -17,6 +17,8 @@ class Route
 
     protected $afterwares = [];
 
+    protected $middlewares = [];
+
     protected $data = [];
 
     protected $methods = [];
@@ -56,7 +58,7 @@ class Route
 
     public function register($parentData)
     {
-        $mains = ['url', 'controller', 'view', 'name', 'resolvers', 'afterwares'];
+        $mains = ['url', 'controller', 'view', 'name', 'resolvers', 'afterwares', 'middlewares'];
         $data = $this->data;
         /**
          * First get defaults.
@@ -102,6 +104,13 @@ class Route
     public function afterwares($afterwares = [])
     {
         $this->afterwares = $afterwares;
+
+        return $this;
+    }
+
+    public function middlewares($middlewares = [])
+    {
+        $this->middlewares = $middlewares;
 
         return $this;
     }
