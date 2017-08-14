@@ -36,9 +36,24 @@ class ResolveDependencies
 
         $data = $this->router->get('data');
         foreach ($this->resolvers as $urlKey => $resolver) {
-            $realResolver = is_object($resolver)
-                ? $resolver
-                : resolve($resolver);
+            if (is_object($resolver)) {
+                /**
+                 * Resolver was passed.
+                 */
+                $realResolver = $resolver;
+            } else if (is_array($resolver)) {
+                /**
+                 * Array was passed with resolver value.
+                 */
+                $realResolver = resolve(array_keys($resolver)[0]);
+                $router[$urlKey] = end($resolver);
+            } else {
+                /**
+                 * Create resolver.
+                 */
+                $realResolver = resolve($resolver);
+            }
+
             $resolved = $realResolver->resolve($router[$urlKey] ?? $this->router->getCleanUri());
 
             if (is_string($urlKey)) {
