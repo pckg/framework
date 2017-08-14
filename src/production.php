@@ -12,6 +12,7 @@ if (!defined('BASE_PATH')) {
  * Require autoloader which will take care of loading classes.
  */
 require_once BASE_PATH . "vendor/autoload.php";
+dd(\Defuse\Crypto\Key::createNewRandomKey()->saveToAsciiSafeString());
 
 /**
  * Create context instance.
