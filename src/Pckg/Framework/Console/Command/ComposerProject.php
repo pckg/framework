@@ -8,22 +8,23 @@ class ComposerProject extends Command
     public function handle()
     {
         $packets = [
-            'auth',
-            'collection',
-            'concept',
-            'database',
-            'framework',
-            'generic',
-            'htmlbuilder',
-            'import',
-            'mail',
-            'manager',
-            'migrator',
-            'payment',
-            'queue',
-            'tempus',
-            'translator',
-            'charts',
+            'pckg/auth',
+            'pckg/collection',
+            'pckg/concept',
+            'pckg/database',
+            'pckg/framework',
+            'pckg/generic',
+            'pckg/htmlbuilder',
+            'pckg/import',
+            'pckg/mail',
+            'pckg/manager',
+            'pckg/migrator',
+            'pckg/payment',
+            'pckg/queue',
+            'pckg/tempus',
+            'pckg/translator',
+            'pckg/charts',
+            'pckg-app/impero',
         ];
 
         $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];
@@ -32,7 +33,7 @@ class ComposerProject extends Command
         $outdated = false;
 
         foreach ($packets as $packet) {
-            $path = path('root') . 'vendor' . path('ds') . 'pckg' . path('ds') . $packet;
+            $path = path('root') . 'vendor' . path('ds') . $packet;
             if (!is_dir($path)) {
                 continue;
             }
@@ -83,7 +84,7 @@ class ComposerProject extends Command
                     }
                 }
                 foreach ($composer['packages'] as $composerPacket) {
-                    if ($composerPacket['name'] == 'pckg/' . $packet) {
+                    if ($composerPacket['name'] == $packet) {
                         $installed = $composerPacket['source']['reference'];
                         $logOutput = $this->exec($logCommand, false);
                         $git = str_replace('commit ', '', $logOutput[0][0]);
