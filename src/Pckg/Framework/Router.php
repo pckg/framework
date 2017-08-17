@@ -176,6 +176,23 @@ class Router
         return null;
     }
 
+    public function removeRouteByName($routeName)
+    {
+
+        foreach ($this->routes AS $i => $routeArr) {
+            foreach ($routeArr AS $j => $route) {
+                if ($route["name"] == $routeName) {
+                    unset($this->routes[$i][$j]);
+                }
+            }
+            if (!$this->routes[$i]) {
+                unset($this->routes[$i]);
+            }
+        }
+
+        return $this;
+    }
+
     public function make($routeName = null, $arguments = [], $absolute = false, $envPrefix = true)
     {
         if (!$routeName) {
