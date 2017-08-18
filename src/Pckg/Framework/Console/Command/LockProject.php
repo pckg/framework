@@ -18,6 +18,11 @@ class LockProject extends Command
 
     public function checkout()
     {
+        if (!is_file(path('root') . 'pckg.json')) {
+            file_put_contents(path('root') . 'pckg.json', '[]');
+
+            return;
+        }
         $pckgLock = json_decode(file_get_contents(path('root') . 'pckg.json'), true);
         $composerJson = json_decode(file_get_contents(path('root') . 'composer.json'), true);
 
