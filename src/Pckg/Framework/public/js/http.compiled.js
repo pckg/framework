@@ -34,7 +34,8 @@ var http = {
         var request = $.ajax({
             url: url,
             dataType: 'JSON',
-            method: 'get'
+            method: 'get',
+            type: 'get'
         });
 
         if (whenDone) {
@@ -52,7 +53,8 @@ var http = {
         return $.ajax({
             url: url,
             dataType: 'JSON',
-            method: 'delete'
+            method: 'delete',
+            type: 'delete'
         }).done(whenDone).error(whenError);
     },
 
@@ -71,6 +73,7 @@ var http = {
             url: url,
             dataType: 'JSON',
             method: 'post',
+            type: 'post',
             data: data
         }).done(whenDone).error(whenError);
     },
@@ -90,6 +93,7 @@ var http = {
             url: url,
             dataType: 'JSON',
             method: 'patch',
+            type: 'patch',
             data: data
         }).done(whenDone).error(whenError);
     },

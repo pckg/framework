@@ -802,7 +802,7 @@ if (!function_exists('stopMeasure')) {
 if (!function_exists('collect')) {
     function collect($data, $of = Collection::class)
     {
-        return $of($data);
+        return new $of($data);
     }
 }
 

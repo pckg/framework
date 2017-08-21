@@ -3,6 +3,7 @@
 namespace Pckg\Framework\Helper;
 
 use ArrayAccess;
+use Pckg\Collection;
 
 class Lazy implements ArrayAccess
 {
@@ -140,6 +141,14 @@ class Lazy implements ArrayAccess
     public function all()
     {
         return $this->data;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function collection()
+    {
+        return collect($this->data);
     }
 
     public function __toInt()
