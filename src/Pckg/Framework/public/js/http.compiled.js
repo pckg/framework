@@ -149,7 +149,7 @@ var locale = {
             _price = 0.0;
         }
 
-        return parseFloat(_price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
+        return parseFloat(_price).toLocaleString(Pckg.config.locale.current.replace('_', '-').toLowerCase(), {
             currency: 'eur',
             currencyDisplay: 'symbol',
             maximumFractionDigits: decimals,
@@ -166,7 +166,7 @@ var locale = {
             price = 0.0;
         }
 
-        return parseFloat(price).toLocaleString(props.locale.replace('_', '-').toLowerCase(), {
+        return parseFloat(price).toLocaleString(Pckg.config.locale.current.replace('_', '-').toLowerCase(), {
             currency: 'eur',
             currencyDisplay: 'symbol',
             maximumFractionDigits: decimals,
@@ -179,7 +179,7 @@ var locale = {
             return null;
         }
 
-        moment.locale(props.locale);
+        moment.locale(Pckg.config.locale.current);
 
         return moment(_date).format(Pckg.config.locale.format.dateMoment);
     },
@@ -189,7 +189,7 @@ var locale = {
             return null;
         }
 
-        moment.locale(props.locale);
+        moment.locale(Pckg.config.locale.current);
 
         return moment(_time).format(Pckg.config.locale.format.timeMoment);
     },
