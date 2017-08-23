@@ -58,11 +58,7 @@ abstract class AbstractView implements ViewInterface
             return $this;
         }
 
-        if (!isset($this->data[$key])) {
-            $this->data[$key] = $val;
-        } else {
-            $this->data[$key] .= $val;
-        }
+        $this->data[$key] = $val;
 
         return $this;
     }
