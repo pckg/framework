@@ -74,7 +74,7 @@ class ComposerProject extends Command
                         $this->output('Committing changes.');
                         $this->exec($commitCommand . ' ' . $message);
                         $this->output('Changes commited.');
-                        if ($this->askConfirmation('Push changes?')) {
+                        if ($this->askConfirmation('Push commited changes?')) {
                             $this->exec($pushCommand);
                         }
                         $this->exec($pullCommand);
