@@ -23,6 +23,11 @@ abstract class AbstractView implements ViewInterface
 
     protected $data = [];
 
+    public function hasData($key)
+    {
+        return array_key_exists($key, $this->data);
+    }
+
     public function __construct($file = null, $data = [])
     {
         $file = str_replace(':', '/View/', $file);
