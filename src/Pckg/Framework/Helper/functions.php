@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use DebugBar\DebugBar;
 use Pckg\Auth\Service\Auth;
 use Pckg\Collection;
@@ -1566,5 +1567,35 @@ if (!function_exists('only')) {
         }
 
         return $final;
+    }
+}
+
+if (!function_exists('datetime')) {
+    function datetime($date, $format = null) {
+        if (!$format) {
+            $format = resolve(Locale::class)->getDatetimeFormat();
+        }
+
+        return (new Carbon($date))->format($format);
+    }
+}
+
+if (!function_exists('datef')) {
+    function datef($date, $format = null) {
+        if (!$format) {
+            $format = resolve(Locale::class)->getDateFormat();
+        }
+
+        return (new Carbon($date))->format($format);
+    }
+}
+
+if (!function_exists('timef')) {
+    function timef($date, $format = null) {
+        if (!$format) {
+            $format = resolve(Locale::class)->getTimeFormat();
+        }
+
+        return (new Carbon($date))->format($format);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework\View;
 
-use Carbon\Carbon;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Event\RenderingView;
@@ -231,20 +230,15 @@ class Twig extends AbstractView implements ViewInterface
             }
             )
         );
-        $this->twig->addFilter(
-            new Twig_SimpleFilter(
-                'datetime', function($date) {
-                return (new Carbon($date))->format(resolve(Locale::class)->getDatetimeFormat());
-            }
-            )
-        );
-        $this->twig->addFilter(
-            new Twig_SimpleFilter(
-                'date', function($date) {
-                return (new Carbon($date))->format(resolve(Locale::class)->getDateFormat());
-            }
-            )
-        );
+        $this->twig->addFilter(new Twig_SimpleFilter('datetime', function($date, $format = null) {
+            return datetime($date, $format);
+        }));
+        $this->twig->addFilter(new Twig_SimpleFilter('date', function($date, $format = null) {
+            return datef($date, $format);
+        }));
+        $this->twig->addFilter(new Twig_SimpleFilter('time', function($date, $format = null) {
+            return timef($date, $format);
+        }));
 
         $this->twig->getExtension('core')->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
     }
