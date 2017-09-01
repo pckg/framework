@@ -26,10 +26,10 @@ class Website extends Application
             Localize::class,
             InitDatabase::class,
             InitRouter::class,
+            InitSession::class,
 
             RegisterApplication::class,
 
-            InitSession::class,
             InitResponse::class,
             InitRequest::class,
         ];

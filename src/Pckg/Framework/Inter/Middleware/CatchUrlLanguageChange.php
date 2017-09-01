@@ -1,16 +1,7 @@
 <?php namespace Pckg\Framework\Inter\Middleware;
 
-use Pckg\Framework\Request\Data\Session;
-
 class CatchUrlLanguageChange
 {
-
-    protected $session;
-
-    public function __construct(Session $session)
-    {
-        $this->session = $session;
-    }
 
     public function execute(callable $next)
     {

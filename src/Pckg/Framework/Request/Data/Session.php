@@ -9,6 +9,9 @@ class Session extends Lazy
 
     function __destruct()
     {
+        /**
+         * Fix issue first!
+         */
         // $_SESSION = $this->data;
     }
 

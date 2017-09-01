@@ -4,25 +4,21 @@ namespace Pckg\Framework\Request\Session\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Context;
+use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Request\Data\Session;
 
 class InitSession extends AbstractChainOfReponsibility
 {
 
-    protected $session;
-
     protected $context;
 
-    public function __construct(Session $session, Context $context)
+    public function __construct(Context $context)
     {
-        $this->session = $session;
         $this->context = $context;
     }
 
     public function execute(callable $next)
     {
-        $this->context->bind(Session::class, $this->session);
-
         $SID = session_id();
         if (empty($SID)) {
             /**
@@ -37,7 +33,8 @@ class InitSession extends AbstractChainOfReponsibility
                           ]*/);
         }
 
-        //$this->session->setPointerData($_SESSION);
+        $this->context->getOrCreate(Session::class);
+        $this->context->getOrCreate(Flash::class);
 
         return $next();
     }
