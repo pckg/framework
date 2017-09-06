@@ -226,6 +226,13 @@ var utils = {
         return _url;
     },
 
+    sluggify: function(str){
+        return str.replace(/[^a-zA-Z0-9 -]/g, '')
+            .replace(/[ -]+/g, '-')
+            .replace(/^-|-$/g, '')
+            .toLowerCase();
+    },
+
     nl2br: function nl2br(str, is_xhtml) {
         var breakTag = is_xhtml || typeof is_xhtml === 'undefined' ? '<br />' : '<br>';
         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
