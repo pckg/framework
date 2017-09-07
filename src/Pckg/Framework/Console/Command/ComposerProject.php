@@ -25,6 +25,7 @@ class ComposerProject extends Command
             'pckg/translator',
             'pckg/charts',
             'pckg-app/impero',
+            'pckg-app/impero-api',
         ];
 
         $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];
