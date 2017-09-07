@@ -70,6 +70,9 @@ class DeployProject extends Command
             }
 
             foreach ($paths as $path) {
+                /**
+                 * @T00D00 - read this from ./.pckg/pckg.yaml
+                 */
                 $commands = [
                     'cd ' . $path                                                          => 'Changing root directory',
                     $maintenance ? 'php ' . $path . 'console project:down' : ''            => 'Putting project offline',
