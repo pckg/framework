@@ -21,6 +21,13 @@ class Lazy implements ArrayAccess
             : $arr;
     }
 
+    public function setData($data)
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
     public function setPointerData(&$data)
     {
         $this->data = $data;
@@ -111,7 +118,7 @@ class Lazy implements ArrayAccess
 
     public function __get($name)
     {
-        if ($this->__isset($name)) {
+        if ($this->__isset($name) && array_key_exists($name, $this->data)) {
             return $this->data[$name];
         }
 
