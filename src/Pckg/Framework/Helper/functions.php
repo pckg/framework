@@ -935,7 +935,7 @@ if (!function_exists('isArrayList')) {
 }
 
 if (!function_exists('sluggify')) {
-    function sluggify($str)
+    function sluggify($str, $separator = '-')
     {
         # special accents
         $a = [
@@ -1366,7 +1366,7 @@ if (!function_exists('sluggify')) {
         ];
 
         return strtolower(
-            preg_replace(['/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'], ['', '-', ''], str_replace($a, $b, $str))
+            preg_replace(['/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'], ['', $separator, ''], str_replace($a, $b, $str))
         );
     }
 }
