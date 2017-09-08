@@ -1563,7 +1563,7 @@ if (!function_exists('only')) {
         $final = [];
 
         foreach ($keys as $key) {
-            $final[$key] = $array[$key] ?? nul;
+            $final[$key] = $array[$key] ?? null;
         }
 
         return $final;
