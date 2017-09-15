@@ -17,12 +17,17 @@ class Provider
 
     protected $routePrefix = null;
 
+    public function shouldRegister()
+    {
+        return !$this->registered;
+    }
+
     /**
      * Register options
      */
     public function register()
     {
-        if ($this->registered) {
+        if (!$this->shouldRegister()) {
             return $this;
         }
 
