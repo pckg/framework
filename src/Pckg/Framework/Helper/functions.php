@@ -93,7 +93,7 @@ if (!function_exists('hasDotted')) {
     {
         if (!isset($keys[$i])) {
             return true;
-        } else if (isset($data[$keys[$i]])) {
+        } else if (array_key_exists($keys[$i], $data)) {
             return hasDotted($data[$keys[$i]], $keys, $i + 1);
         }
 

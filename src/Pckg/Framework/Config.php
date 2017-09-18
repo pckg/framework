@@ -157,6 +157,11 @@ class Config
         return $files;
     }
 
+    public function hasKey($key)
+    {
+        return hasDotted($this->data, explode('.', $key));
+    }
+
     public function __toArray()
     {
         return $this->data;
