@@ -8,6 +8,7 @@ use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Context;
 use Pckg\Concept\Event\AbstractEvent;
 use Pckg\Concept\Event\Dispatcher;
+use Pckg\Concept\Reflect;
 use Pckg\Framework\Application;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
@@ -17,6 +18,7 @@ use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
+use Pckg\Mail\Service\Mail\Handler\Queue as QueueMailHandler;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Cache;
 use Pckg\Manager\Gtm;
@@ -339,19 +341,9 @@ if (!function_exists('url')) {
 if (!function_exists('email')) {
     function email($template, $receiver, $data = [])
     {
-        if (!$template) {
-            throw new Exception("Mail template is missing!");
-        }
+        $handler = config('pckg.mail.handler', QueueMailHandler::class);
 
-        return
-            queue()->create(
-                'mail:send',
-                [
-                    'user'     => $receiver,
-                    'template' => $template,
-                    'data'     => $data,
-                ]
-            );
+        return Reflect::create($handler)->send($template, $receiver, $data);
     }
 }
 
@@ -1571,7 +1563,8 @@ if (!function_exists('only')) {
 }
 
 if (!function_exists('datetime')) {
-    function datetime($date, $format = null) {
+    function datetime($date, $format = null)
+    {
         if (!$format) {
             $format = resolve(Locale::class)->getDatetimeFormat();
         }
@@ -1581,7 +1574,8 @@ if (!function_exists('datetime')) {
 }
 
 if (!function_exists('datef')) {
-    function datef($date, $format = null) {
+    function datef($date, $format = null)
+    {
         if (!$format) {
             $format = resolve(Locale::class)->getDateFormat();
         }
@@ -1591,11 +1585,50 @@ if (!function_exists('datef')) {
 }
 
 if (!function_exists('timef')) {
-    function timef($date, $format = null) {
+    function timef($date, $format = null)
+    {
         if (!$format) {
             $format = resolve(Locale::class)->getTimeFormat();
         }
 
         return (new Carbon($date))->format($format);
+    }
+}
+
+if (!function_exists('escapeshellargs')) {
+    function escapeshellargs($data)
+    {
+        $parameters = [];
+        foreach ($data as $key => $val) {
+            if (is_int($key)) {
+                /**
+                 * We're passing attribute, option without value or already encoded part of command.
+                 */
+                $parameters[] = $val;
+            } elseif (is_array($val)) {
+                /**
+                 * Array of values should be handled differently.
+                 */
+                if (isArrayList($val)) {
+                    foreach ($val as $subval) {
+                        $parameters[] = '--' . $key . '=' . escapeshellarg($subval);
+                    }
+                } else {
+                    $parameters[] = '--' . $key . '=' . escapeshellarg(json_encode($val));
+                }
+            } elseif (is_object($val)) {
+                /**
+                 * Serialize object.
+                 */
+                $parameters[] = '--' . $key . '=' . escapeshellarg(base64_encode(serialize($val)));
+            } else {
+                /**
+                 * We simply escape all other values.
+                 */
+                $parameters[] = '--' . $key . '=' . escapeshellarg($val);
+            }
+        }
+
+        return $parameters;
     }
 }

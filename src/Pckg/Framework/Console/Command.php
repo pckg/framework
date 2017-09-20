@@ -1,8 +1,11 @@
 <?php namespace Pckg\Framework\Console;
 
 use Pckg\Concept\Reflect;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyConsoleCommand;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
@@ -25,6 +28,31 @@ class Command extends SymfonyConsoleCommand
     {
         $this->input = $input;
         $this->output = $output;
+    }
+
+    public function executeManually($data)
+    {
+        /**
+         * Create symfony application.
+         */
+        $application = new Application();
+
+        /**
+         * Add current command.
+         */
+        $application->add($this);
+        $application->setAutoExit(false);
+
+        /**
+         * Prepare args.
+         */
+        $args = escapeshellargs($data);
+        array_unshift($args, $this->getName());
+
+        /**
+         * Run command.
+         */
+        $application->run(new StringInput(implode(' ', $args)), new NullOutput());
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
@@ -99,7 +127,8 @@ class Command extends SymfonyConsoleCommand
 
     public function askConfirmation($question, $default = true, $trueAnswerRegex = '/^y/i')
     {
-        return $this->ask(new ConfirmationQuestion('<question>' . $question . '</question>', $default, $trueAnswerRegex));
+        return $this->ask(new ConfirmationQuestion('<question>' . $question . '</question>', $default,
+                                                   $trueAnswerRegex));
     }
 
     public function askChoice($question, array $choices, $default = null)
