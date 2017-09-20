@@ -399,9 +399,8 @@ class Response
 
     public function download($file, $filename)
     {
-        $this->sendFileContentTypeHeaders();
-        header("Content-Disposition: attachment; filename=" . $filename);
-        header("Content-Description: File Transfer");
+        $this->sendFileContentTypeHeaders($filename);
+        $this->sendFileDispositionHeader($filename);
         header("Content-Length: " . filesize($file));
 
         $fp = fopen($file, "r");
@@ -413,6 +412,15 @@ class Response
         exit;
     }
 
+    public function downloadString($string, $filename)
+    {
+        $this->sendFileContentTypeHeaders($filename);
+        $this->sendFileDispositionHeader($filename);
+        header("Content-Length: " . mb_strlen($string));
+        echo $string;
+        exit;
+    }
+
     public function sendFileContentTypeHeaders($filename = null)
     {
         if (strpos($filename, '.pdf')) {
@@ -421,6 +429,12 @@ class Response
             header("Content-Type: application/octet-stream");
             header("Content-Type: application/download");
         }
+    }
+
+    public function sendFileDispositionHeader($filename)
+    {
+        header("Content-Disposition: attachment; filename=" . $filename);
+        header("Content-Description: File Transfer");
     }
 
 }
