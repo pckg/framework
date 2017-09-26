@@ -30,6 +30,11 @@ class Command extends SymfonyConsoleCommand
         $this->output = $output;
     }
 
+    /**
+     * @param $data
+     *
+     * @return $this
+     */
     public function executeManually($data)
     {
         /**
@@ -53,6 +58,8 @@ class Command extends SymfonyConsoleCommand
          * Run command.
          */
         $application->run(new StringInput(implode(' ', $args)), new NullOutput());
+
+        return $this;
     }
 
     public function execute(InputInterface $input, OutputInterface $output)
