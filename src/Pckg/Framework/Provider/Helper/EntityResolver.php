@@ -12,14 +12,14 @@ trait EntityResolver
 
     public function parametrize($record)
     {
-        return $record->{$this->by};
+        return $record->{$this->by ?? 'id'};
     }
 
     public function resolve($value)
     {
         $entity = $this->entity;
 
-        return (new $entity)->where($this->by, $value)->oneOrFail();
+        return (new $entity)->where($this->by ?? 'id', $value)->oneOrFail();
     }
 
 }
