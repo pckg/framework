@@ -376,6 +376,7 @@ class Response
     public function respond($string = null)
     {
         if (is_array($string)) {
+            $this->sendJsonHeader();
             $string = json_encode($string);
         }
 
@@ -429,6 +430,11 @@ class Response
             header("Content-Type: application/octet-stream");
             header("Content-Type: application/download");
         }
+    }
+
+    public function sendJsonHeader()
+    {
+        header("Content-Type: application/json");
     }
 
     public function sendFileDispositionHeader($filename)
