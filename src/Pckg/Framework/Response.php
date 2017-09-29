@@ -373,6 +373,24 @@ class Response
         );
     }
 
+    public function respondAndContinue($string = null)
+    {
+        if (is_array($string)) {
+            $this->sendJsonHeader();
+            $string = json_encode($string);
+        }
+
+        ob_start();
+        echo $string;
+        $size = ob_get_length();
+        header("Content-Encoding: none");
+        header("Content-Length: " . $size);
+        header("Connection: close");
+        ob_end_flush();
+        ob_flush();
+        flush();
+    }
+
     public function respond($string = null)
     {
         if (is_array($string)) {
