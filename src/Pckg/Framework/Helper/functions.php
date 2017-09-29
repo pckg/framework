@@ -793,6 +793,12 @@ if (!function_exists('stopMeasure')) {
 }
 
 if (!function_exists('collect')) {
+    /**
+     * @param $data
+     * @param $of
+     *
+     * @return Collection
+     */
     function collect($data, $of = Collection::class)
     {
         return new $of($data);

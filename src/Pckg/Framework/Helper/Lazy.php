@@ -152,8 +152,17 @@ class Lazy implements ArrayAccess
 
     /**
      * @return Collection
+     * @deprecated
      */
     public function collection()
+    {
+        return $this->collect();
+    }
+
+    /**
+     * @return Collection
+     */
+    public function collect()
     {
         return collect($this->data);
     }
