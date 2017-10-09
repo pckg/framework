@@ -173,4 +173,16 @@ class Command extends SymfonyConsoleCommand
         return context()->getOrDefault('appName');
     }
 
+    public function deserializeOption($name)
+    {
+        $option = $this->option($name);
+
+        return $user = unserialize(base64_decode($option));
+    }
+
+    public function serializeOption($data)
+    {
+        return base64_encode(serialize($data));
+    }
+
 }
