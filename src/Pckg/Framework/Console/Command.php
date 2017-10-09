@@ -3,8 +3,10 @@
 use Pckg\Concept\Reflect;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as SymfonyConsoleCommand;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\StringInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -47,6 +49,11 @@ class Command extends SymfonyConsoleCommand
          */
         $application->add($this);
         $application->setAutoExit(false);
+
+        array_unshift($data, $this->getName());
+        $application->run(new ArrayInput($data), new ConsoleOutput());
+
+        return $this;
 
         /**
          * Prepare args.
