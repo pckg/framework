@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework;
 
+use Pckg\Cache\Cache;
 use Pckg\Collection;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\View\Twig;

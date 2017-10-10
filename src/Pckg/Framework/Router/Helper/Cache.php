@@ -1,10 +1,8 @@
-<?php
+<?php namespace Pckg\Framework\Router\Helper;
 
-namespace Pckg\Framework\Router\Helper;
+use Pckg\Cache\Cache as PckgCache;
 
-use Pckg\Framework\Cache as FrameworkCache;
-
-class Cache extends FrameworkCache
+class Cache extends PckgCache
 {
 
     protected function getCachePath()
