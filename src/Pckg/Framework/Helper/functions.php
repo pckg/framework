@@ -1,11 +1,9 @@
 <?php
 
 use Carbon\Carbon;
-use DebugBar\DebugBar;
 use Pckg\Auth\Service\Auth;
 use Pckg\Collection;
 use Pckg\Concept\ChainOfResponsibility;
-use Pckg\Concept\Context;
 use Pckg\Concept\Event\AbstractEvent;
 use Pckg\Concept\Event\Dispatcher;
 use Pckg\Concept\Reflect;
@@ -28,27 +26,6 @@ use Pckg\Manager\Seo;
 use Pckg\Manager\Vue;
 use Pckg\Queue\Service\Queue;
 use Pckg\Translator\Service\Translator;
-
-/* context */
-
-/**
- * @return Context
- * @throws Exception
- */
-if (!function_exists('context')) {
-    function context($key = null, $val = null)
-    {
-        $context = Context::getInstance();
-
-        if ($val) {
-            return $context->bind($key, $val);
-        } else if ($key) {
-            return $context->get($key);
-        }
-
-        return $context;
-    }
-}
 
 /**
  * @return Environment
@@ -730,18 +707,6 @@ if (!function_exists('unix')) {
     }
 }
 
-if (!function_exists('debugBar')) {
-    /**
-     * @return DebugBar
-     */
-    function debugBar()
-    {
-        return context()->exists(DebugBar::class)
-            ? context()->get(DebugBar::class)
-            : null;
-    }
-}
-
 if (!function_exists('message')) {
     function message($message, $collector = 'messages')
     {
@@ -751,43 +716,6 @@ if (!function_exists('message')) {
             }
 
             $debugBar->getCollector($collector)->addMessage($message);
-        }
-    }
-}
-
-if (!function_exists('measure')) {
-    function measure($message, callable $callback)
-    {
-        startMeasure($message);
-        $result = $callback();
-        stopMeasure($message);
-
-        return $result;
-    }
-}
-
-if (!function_exists('startMeasure')) {
-    function startMeasure($name)
-    {
-        if ($debugBar = debugBar()) {
-            try {
-                $debugBar['time']->startMeasure($name);
-            } catch (Throwable $e) {
-                // fail silently
-            }
-        }
-    }
-}
-
-if (!function_exists('stopMeasure')) {
-    function stopMeasure($name)
-    {
-        if ($debugBar = debugBar()) {
-            try {
-                $debugBar['time']->stopMeasure($name);
-            } catch (Throwable $e) {
-                // fail silently
-            }
         }
     }
 }
