@@ -13,7 +13,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\Router\Console\ListRoutes;
 use Pckg\Htmlbuilder\Provider\Htmlbuilder;
-use Pckg\Locale\Lang;
+use Pckg\Locale\LangInterface;
 use Pckg\Migration\Provider\Migration as MigrationProvider;
 
 class Framework extends Provider
@@ -44,7 +44,7 @@ class Framework extends Provider
             '_server'   => Server::class,
             '_router'   => Router::class,
             '_env'      => Environment::class,
-            '_lang'     => Lang::class,
+            '_lang'     => LangInterface::class,
             '_session'  => Session::class,
             '_cookie'   => Cookie::class,
             '_flash'    => Flash::class,
