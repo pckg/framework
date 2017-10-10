@@ -32,7 +32,6 @@ class Request extends Lazy
     {
         Reflect::method($this, 'initDependencies');
 
-        $input = $input ?? file_get_contents('php://input');
         if (!$input) {
             $input = file_get_contents('php://input');
             if ($this->isJson() || (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
