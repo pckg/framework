@@ -57,6 +57,7 @@ class Development extends Environment
 
     public function assets()
     {
+        return [];
         return [
             function() {
                 $renderer = $this->debugBar->getJavascriptRenderer();
