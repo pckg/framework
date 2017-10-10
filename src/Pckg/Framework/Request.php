@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework;
 
+use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 
 class Request extends Lazy
@@ -27,21 +28,23 @@ class Request extends Lazy
 
     protected $internals = [];
 
-    function __construct(Router $router, Response $response)
+    function __construct($input = null)
     {
-        $this->router = $router;
-        $this->response = $response;
+        Reflect::method($this, 'initDependencies');
 
-        $input = file_get_contents('php://input');
-        if ($this->isJson() || (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
-            $input = json_decode($input, true);
-        } else {
-            parse_str($input, $input);
+        $input = $input ?? file_get_contents('php://input');
+        if (!$input) {
+            $input = file_get_contents('php://input');
+            if ($this->isJson() || (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
+                $input = json_decode($input, true);
+            } else {
+                parse_str($input, $input);
+            }
         }
 
         if (!$input && $_POST) {
             /**
-             * Why is php input sometimes empty.
+             * Why is php input sometimes empty?
              */
             $input = $_POST;
         }
@@ -54,6 +57,12 @@ class Request extends Lazy
         $this->request = new Lazy($_REQUEST);
 
         $this->fetchUrl();
+    }
+
+    public function initDependencies(Router $router, Response $response)
+    {
+        $this->router = $router;
+        $this->response = $response;
     }
 
     public function setInternal()
