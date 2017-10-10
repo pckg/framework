@@ -53,21 +53,7 @@ class FrameworkResolver implements Resolver
 
     public function canResolve($class)
     {
-        if (isset(static::$bind[$class]) || in_array($class, static::$singletones)) {
-            return true;
-        }
-
-        foreach (context()->getData() as $object) {
-            if (is_object($object)) {
-                if (get_class($object) === $class || is_subclass_of($object, $class)) {
-                    return true;
-                } else if (in_array($class, class_implements($object))) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return isset(static::$bind[$class]) || in_array($class, static::$singletones);
     }
 
     public function resolve($class)
@@ -83,16 +69,6 @@ class FrameworkResolver implements Resolver
                 context()->bind($class, $newInstance);
 
                 return $newInstance;
-            }
-        }
-
-        foreach (context()->getData() as $object) {
-            if (is_object($object)) {
-                if (get_class($object) === $class || is_subclass_of($object, $class)) {
-                    return $object;
-                } else if (in_array($class, class_implements($object))) {
-                    return $object;
-                }
             }
         }
     }
