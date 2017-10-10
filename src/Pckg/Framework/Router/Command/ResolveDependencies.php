@@ -6,11 +6,6 @@ class ResolveDependencies
 {
 
     /**
-     * @var Router
-     */
-    protected $router;
-
-    /**
      * @var array
      */
     protected $resolvers = [];
@@ -21,9 +16,8 @@ class ResolveDependencies
      * @param Router $router
      * @param        $resolvers
      */
-    public function __construct(Router $router, array $resolvers = null)
+    public function __construct(array $resolvers = null)
     {
-        $this->router = $router;
         $this->resolvers = $resolvers;
     }
 
@@ -32,9 +26,9 @@ class ResolveDependencies
      */
     public function execute()
     {
-        $router = $this->router->get();
+        $router = router()->get();
 
-        $data = $this->router->get('data');
+        $data = router()->get('data');
         foreach ($this->resolvers as $urlKey => $resolver) {
             if (is_object($resolver)) {
                 /**
@@ -54,7 +48,7 @@ class ResolveDependencies
                 $realResolver = resolve($resolver);
             }
 
-            $resolved = $realResolver->resolve($router[$urlKey] ?? $this->router->getCleanUri());
+            $resolved = $realResolver->resolve($router[$urlKey] ?? router()->getCleanUri());
 
             if (is_string($urlKey)) {
                 $data[$urlKey] = $resolved;
@@ -62,7 +56,7 @@ class ResolveDependencies
 
             $data[] = $resolved;
             if (!is_int($urlKey)) {
-                $this->router->resolve($urlKey, $resolved);
+                router()->resolve($urlKey, $resolved);
                 /**
                  * Remove resolved key.
                  * Why? Can we delete it?

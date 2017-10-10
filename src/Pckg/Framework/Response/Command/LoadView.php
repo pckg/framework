@@ -39,7 +39,7 @@ class LoadView extends AbstractChainOfReponsibility
         $viewHttp = strtolower($this->request->method()) . ucfirst($this->view);
 
         $result = null;
-        $data = (new Router\Command\ResolveDependencies($this->router, $this->router->get('resolvers')))->execute();
+        $data = (new Router\Command\ResolveDependencies($this->router->get('resolvers')))->execute();
 
         if (!method_exists($this->controller, $viewHttp . "Action")) {
             throw new Exception('Method ' . $viewHttp . 'Action() does not exist in ' . get_class($this->controller));
