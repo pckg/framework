@@ -1,5 +1,6 @@
 <?php namespace Pckg\Framework\Reflect;
 
+use Pckg\Auth\Entity\Adapter\Auth;
 use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Concept\Reflect\Resolver;
@@ -29,6 +30,7 @@ class FrameworkResolver implements Resolver
         Response::class,
         Request::class,
         Lang::class,
+        Auth::class,
         Locale::class,
         Generic::class,
     ];
@@ -44,6 +46,7 @@ class FrameworkResolver implements Resolver
         Response::class     => 'Response',
         Request::class      => 'Request',
         Lang::class         => 'Lang',
+        Auth::class         => 'Auth',
         Locale::class       => 'Locale',
         Generic::class      => 'Generic',
     ];
