@@ -24,6 +24,8 @@ class ComposerProject extends Command
             'pckg/tempus',
             'pckg/translator',
             'pckg/charts',
+            'pckg/locale',
+            'pckg/cache',
             'pckg-app/impero',
             'pckg-app/impero-api',
         ];
