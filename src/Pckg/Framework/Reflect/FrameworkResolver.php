@@ -1,6 +1,5 @@
 <?php namespace Pckg\Framework\Reflect;
 
-use Pckg\Auth\Entity\Adapter\AuthInterface;
 use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Concept\Reflect\Resolver;
@@ -10,7 +9,7 @@ use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Generic\Service\Generic;
-use Pckg\Locale\LangInterface;
+use Pckg\Locale\Lang;
 use Pckg\Manager\Asset as AssetManager;
 use Pckg\Manager\Locale;
 use Pckg\Manager\Meta as MetaManager;
@@ -29,26 +28,24 @@ class FrameworkResolver implements Resolver
         Flash::class,
         Response::class,
         Request::class,
-        LangInterface::class,
+        Lang::class,
         Locale::class,
-        AuthInterface::class,
         Generic::class,
     ];
 
     protected static $bind = [
-        Router::class        => 'Router',
-        Context::class       => 'Context',
-        Config::class        => 'Config',
-        AssetManager::class  => 'AssetManager',
-        MetaManager::class   => 'MetaManager',
-        SeoManager::class    => 'SeoManager',
-        Flash::class         => 'Flash',
-        Response::class      => 'Response',
-        Request::class       => 'Request',
-        LangInterface::class => 'Lang',
-        Locale::class        => 'Locale',
-        AuthInterface::class => 'Auth',
-        Generic::class       => 'Generic',
+        Router::class       => 'Router',
+        Context::class      => 'Context',
+        Config::class       => 'Config',
+        AssetManager::class => 'AssetManager',
+        MetaManager::class  => 'MetaManager',
+        SeoManager::class   => 'SeoManager',
+        Flash::class        => 'Flash',
+        Response::class     => 'Response',
+        Request::class      => 'Request',
+        Lang::class         => 'Lang',
+        Locale::class       => 'Locale',
+        Generic::class      => 'Generic',
     ];
 
     public function canResolve($class)
@@ -69,6 +66,17 @@ class FrameworkResolver implements Resolver
                 context()->bind($class, $newInstance);
 
                 return $newInstance;
+            }
+        }
+
+        if (interface_exists($class)) {
+            foreach (static::$singletones as $s) {
+                if (object_implements($s, $class)) {
+                    $newInstance = Reflect::create($s);
+                    context()->bind($class, $newInstance);
+
+                    return $newInstance;
+                }
             }
         }
     }
