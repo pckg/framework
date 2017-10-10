@@ -48,6 +48,25 @@ class FrameworkResolver implements Resolver
         Generic::class      => 'Generic',
     ];
 
+    public function canResolve($class)
+    {
+        if (isset(static::$bind[$class]) || in_array($class, static::$singletones)) {
+            return true;
+        }
+
+        foreach (context()->getData() as $object) {
+            if (is_object($object)) {
+                if (get_class($object) === $class || is_subclass_of($object, $class)) {
+                    return true;
+                } else if (in_array($class, class_implements($object))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public function resolve($class)
     {
         if (isset(static::$bind[$class]) && context()->exists($class)) {
