@@ -3,7 +3,6 @@
 use Pckg\Framework\Console\Command\ClearCache;
 use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Environment;
-use Pckg\Framework\Locale\Lang;
 use Pckg\Framework\Provider;
 use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Cookie;
@@ -14,6 +13,7 @@ use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\Router\Console\ListRoutes;
 use Pckg\Htmlbuilder\Provider\Htmlbuilder;
+use Pckg\Locale\Lang;
 use Pckg\Migration\Provider\Migration as MigrationProvider;
 
 class Framework extends Provider

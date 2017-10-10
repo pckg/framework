@@ -1,8 +1,8 @@
 <?php namespace Pckg\Framework\Application\Command;
 
 use Pckg\Framework\Application;
-use Pckg\Framework\Locale\Command\Localize;
 use Pckg\Framework\Provider\Helper\Registrator;
+use Pckg\Locale\Command\Localize;
 
 class RegisterApplication
 {

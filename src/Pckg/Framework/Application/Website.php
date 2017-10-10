@@ -8,13 +8,13 @@ use Pckg\Framework\Application\Command\RegisterApplication;
 use Pckg\Framework\Application\Website\Command\InitAssets;
 use Pckg\Framework\Application\Website\Command\InitLastAssets;
 use Pckg\Framework\Config\Command\InitConfig;
-use Pckg\Framework\Locale\Command\Localize;
 use Pckg\Framework\Request\Command\InitRequest;
 use Pckg\Framework\Request\Command\RunRequest;
 use Pckg\Framework\Request\Session\Command\InitSession;
 use Pckg\Framework\Response\Command\InitResponse;
 use Pckg\Framework\Response\Command\RunResponse;
 use Pckg\Framework\Router\Command\InitRouter;
+use Pckg\Locale\Command\Localize;
 
 class Website extends Application
 {
