@@ -2,10 +2,9 @@
 
 namespace Pckg\Framework\Application;
 
-use Pckg\Database\Command\InitDatabase;
 use Pckg\Framework\Application;
+use Pckg\Framework\Application\Command\InitDatabase;
 use Pckg\Framework\Application\Command\RegisterApplication;
-use Pckg\Framework\Application\Website\Command\InitAssets;
 use Pckg\Framework\Application\Website\Command\InitLastAssets;
 use Pckg\Framework\Config\Command\InitConfig;
 use Pckg\Framework\Request\Command\InitRequest;

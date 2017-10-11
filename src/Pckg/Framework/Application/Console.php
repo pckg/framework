@@ -1,7 +1,7 @@
 <?php namespace Pckg\Framework\Application;
 
-use Pckg\Database\Command\InitDatabase;
 use Pckg\Framework\Application;
+use Pckg\Framework\Application\Command\InitDatabase;
 use Pckg\Framework\Application\Command\RegisterApplication;
 use Pckg\Framework\Application\Console\Command\RunCommand;
 use Pckg\Framework\Config\Command\InitConfig;
