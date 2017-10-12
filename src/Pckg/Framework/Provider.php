@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Concept\Reflect;
 use Pckg\Framework\Provider\Helper\Registrator;
 use ReflectionClass;
 
@@ -51,12 +50,6 @@ class Provider
         $this->registerJobs($this->jobs());
         $this->registerTranslations();
 
-        if (method_exists($this, 'registered')) {
-            Reflect::method($this, 'registered');
-        }
-
-        $this->registered = true;
-
         /**
          * Some actions needs to be executed in reverse direction, for example config initialization.
          */
@@ -65,6 +58,15 @@ class Provider
             $stack->execute();
         }
 
+        $this->registered();
+
+        $this->registered = true;
+
+        return $this;
+    }
+
+    public function registered()
+    {
         return $this;
     }
 
