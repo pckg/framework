@@ -21,7 +21,7 @@ class PullProject extends Command
         }
 
         if (!$this->option('no-npm')) {
-            $execs[] = 'npm install';
+            $execs[] = 'npm install --no-shrinkwrap';
         }
 
         $this->exec($execs, true, path('root'));
