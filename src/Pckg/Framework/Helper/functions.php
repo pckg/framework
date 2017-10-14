@@ -2,7 +2,6 @@
 
 use Carbon\Carbon;
 use Pckg\Auth\Service\Auth;
-use Pckg\Collection;
 use Pckg\Concept\ChainOfResponsibility;
 use Pckg\Concept\Event\AbstractEvent;
 use Pckg\Concept\Reflect;
@@ -646,19 +645,6 @@ if (!function_exists('message')) {
 
             $debugBar->getCollector($collector)->addMessage($message);
         }
-    }
-}
-
-if (!function_exists('collect')) {
-    /**
-     * @param $data
-     * @param $of
-     *
-     * @return Collection
-     */
-    function collect($data, $of = Collection::class)
-    {
-        return new $of($data);
     }
 }
 
