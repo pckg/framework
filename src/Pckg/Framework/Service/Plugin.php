@@ -6,7 +6,7 @@ use Throwable;
 class Plugin
 {
 
-    public function make($controller, $method, $params = [], $byRequest = true, $toString = true)
+    public function make($controller, $method, $params = [], $byRequest = true, $toString = true, $headToGet = true)
     {
         /**
          * Create controller.
@@ -21,7 +21,11 @@ class Plugin
              * Prepend request method.
              */
             if ($byRequest === true) {
-                $method = (strtolower(request()->method()) . ucfirst($method));
+                $httpMethod = strtolower(request()->method());
+                if ($headToGet && $httpMethod == 'head') {
+                    $httpMethod = 'get';
+                }
+                $method = $httpMethod . ucfirst($method);
             }
 
             /**
