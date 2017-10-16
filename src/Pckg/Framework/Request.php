@@ -229,6 +229,35 @@ class Request extends Lazy
     {
         return $this->url;
     }
+
+    /**
+     * @return bool
+     *
+     * Check if request was made by bot.
+     */
+    public function isBot()
+    {
+        /**
+         * Return false immediately for non-http requests.
+         */
+        if (!isHttp()) {
+            return false;
+        }
+
+        /**
+         * Return true for bots madched by user agent.
+         */
+        if (preg_match('/apple|baidu|bingbot|facebookexternalhit|googlebot|-google|ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo|teoma|contaxe|yandex|libwww-perl|facebookexternalhit/i',
+                       $_SERVER['HTTP_USER_AGENT'])) {
+            return true;
+        }
+
+        /**
+         * Return false by default.
+         */
+        return false;
+    }
+
 }
 
 ?>
