@@ -58,9 +58,9 @@ class Provider
             $stack->execute();
         }
 
-        $this->registered();
-
         $this->registered = true;
+
+        $this->registered();
 
         return $this;
     }

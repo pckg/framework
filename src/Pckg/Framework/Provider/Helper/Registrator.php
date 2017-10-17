@@ -97,7 +97,7 @@ trait Registrator
             }
 
             if (is_string($provider)) {
-                $provider = Reflect::create($provider);
+                $provider = context()->getOrCreate($provider);
             }
 
             $provider->register();
