@@ -1,10 +1,12 @@
 <?php namespace Pckg\Framework\Reflect;
 
+use Derive\Layout\Provider\FrontendAssets;
 use Pckg\Auth\Entity\Adapter\Auth;
 use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Concept\Reflect\Resolver;
 use Pckg\Framework\Config;
+use Pckg\Framework\Provider;
 use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Response;
@@ -35,6 +37,10 @@ class FrameworkResolver implements Resolver
         Generic::class,
     ];
 
+    protected static $parents = [
+        Provider::class,
+    ];
+
     protected static $bind = [
         Router::class       => 'Router',
         Context::class      => 'Context',
@@ -58,17 +64,38 @@ class FrameworkResolver implements Resolver
 
     public function resolve($class)
     {
-        if (isset(static::$bind[$class]) && context()->exists($class)) {
-            return context()->get($class);
+        if (isset(static::$bind[$class])) {
+            if (context()->exists($class)) {
+                return context()->get($class);
+            }
+        } else {
+            foreach (static::$parents as $parent) {
+                if (in_array($parent, class_parents($class))) {
+                    if (context()->exists($class)) {
+                        return context()->get($class);
+                    }
+                }
+            }
         }
 
-        if (class_exists($class) && in_array($class, static::$singletones)) {
-            $newInstance = Reflect::create($class);
+        if (class_exists($class)) {
+            if (in_array($class, static::$singletones)) {
+                $newInstance = Reflect::create($class);
 
-            if (isset(static::$bind[$class])) {
-                context()->bind($class, $newInstance);
+                if (isset(static::$bind[$class])) {
+                    context()->bind($class, $newInstance);
 
-                return $newInstance;
+                    return $newInstance;
+                }
+            }
+
+            foreach (static::$parents as $parent) {
+                if (in_array($parent, class_parents($class))) {
+                    $newInstance = Reflect::create($class);
+                    context()->bind($class, $newInstance);
+
+                    return $newInstance;
+                }
             }
         }
 

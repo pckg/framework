@@ -352,11 +352,17 @@ if (!function_exists('path')) {
      */
     function path($key = null, $val = null)
     {
-        if ($val) {
+        if ($val && $val !== true) {
             context()->getOrCreate(Config::class)->set('path.' . $key, $val);
         }
 
-        return $val = config('path.' . $key);
+        $path = config('path.' . $key);
+
+        if ($val === true) {
+            $path = str_replace(path('root'), path('ds'), $path);
+        }
+
+        return $path;
     }
 }
 
