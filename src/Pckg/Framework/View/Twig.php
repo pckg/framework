@@ -4,6 +4,7 @@ namespace Pckg\Framework\View;
 
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Router;
+use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Manager\Locale;
@@ -253,6 +254,11 @@ class Twig extends AbstractView implements ViewInterface
         self::addDir(path('root'), Twig::PRIORITY_LAST);
 
         $this->initTwig($this->file);
+
+        /**
+         * Trigger loading event.
+         */
+        trigger(View::class . '.loading', ['view' => $this->file, 'twig' => $this]);
 
         if ($this->file) {
             $this->twig = $this->twig->loadTemplate($this->file . ".twig");
