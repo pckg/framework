@@ -142,7 +142,7 @@ var locale = {
 
     price: function price(_price, decimals) {
         if (typeof decimals == 'undefined' || decimals === null) {
-            decimals = 2;
+            decimals = Pckg.config.locale.decimals;
         }
 
         if (typeof _price == 'undefined' || _price === null) {
@@ -159,7 +159,7 @@ var locale = {
 
     roundPrice: function roundPrice(price, decimals) {
         if (typeof decimals == 'undefined' || decimals === null) {
-            decimals = 2;
+            decimals = Pckg.config.locale.decimals;
         }
 
         if (typeof price == 'undefined' || price === null) {

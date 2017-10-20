@@ -343,6 +343,19 @@ if (!function_exists('first')) {
     }
 }
 
+if (!function_exists('firstWithZero')) {
+    function firstWithZero(...$args)
+    {
+        foreach ($args as $arg) {
+            if ($arg || $arg == 0) {
+                return $arg;
+            }
+        }
+
+        return null;
+    }
+}
+
 if (!function_exists('path')) {
     /**
      * @param      $key
@@ -1356,7 +1369,7 @@ if (!function_exists('price')) {
 
         return number_format(
                    $price,
-                   2,
+                   firstWithZero(config('pckg.locale.decimals'), 2),
                    $localeManager->getDecimalPoint(),
                    $localeManager->getThousandSeparator()
                ) . ' ' . config('pckg.payment.currencySign');
