@@ -1,6 +1,5 @@
 <?php namespace Pckg\Framework\Reflect;
 
-use Derive\Layout\Provider\FrontendAssets;
 use Pckg\Auth\Entity\Adapter\Auth;
 use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
@@ -71,6 +70,13 @@ class FrameworkResolver implements Resolver
         } else {
             foreach (static::$parents as $parent) {
                 if (in_array($parent, class_parents($class))) {
+                    if (context()->exists($class)) {
+                        return context()->get($class);
+                    }
+                }
+            }
+            foreach (static::$singletones as $singleton) {
+                if (object_implements($singleton, $class)) {
                     if (context()->exists($class)) {
                         return context()->get($class);
                     }
