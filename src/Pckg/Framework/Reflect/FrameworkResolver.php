@@ -58,7 +58,17 @@ class FrameworkResolver implements Resolver
 
     public function canResolve($class)
     {
-        return isset(static::$bind[$class]) || in_array($class, static::$singletones);
+        if (isset(static::$bind[$class]) || in_array($class, static::$singletones)) {
+            return true;
+        }
+
+        foreach (static::$singletones as $singleton) {
+            if (object_implements($singleton, $class)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function resolve($class)
