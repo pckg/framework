@@ -255,7 +255,7 @@ if (!function_exists('email')) {
 if (!function_exists('resolve')) {
     function resolve($class)
     {
-        return context()->getOrCreate($class);
+        return Reflect::resolve($class);
     }
 }
 

@@ -196,8 +196,8 @@ class Context extends ConceptContext
         /**
          * @T00D00 - Simplify this.
          */
-        Reflect::prependResolver(new FormResolver());
         Reflect::prependResolver(new FrameworkResolver());
+        Reflect::prependResolver(new FormResolver());
 
         $instance = parent::createInstance();
 
