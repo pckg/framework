@@ -347,7 +347,7 @@ if (!function_exists('firstWithZero')) {
     function firstWithZero(...$args)
     {
         foreach ($args as $arg) {
-            if ($arg || $arg == 0) {
+            if ($arg || $arg === 0) {
                 return $arg;
             }
         }
