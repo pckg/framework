@@ -610,12 +610,19 @@ if (!function_exists('d')) {
 }
 
 if (!function_exists('db')) {
-    function db($depth = 3, $start = 0)
+    function db($depth = 3, $start = 0, $debug = true)
     {
         $db = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+        $d = [];
         for ($i = $start; $i <= $depth + $start && isset($db[$i]); $i++) {
-            d($db[$i]);
+            if ($debug) {
+                d($db[$i]);
+            } else {
+                $d[] = $db[$i];
+            }
         }
+
+        return $d;
     }
 }
 
