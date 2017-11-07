@@ -61,7 +61,9 @@ if (!function_exists('getDotted')) {
 if (!function_exists('hasDotted')) {
     function hasDotted($data, $keys, $i = 0)
     {
-        if (!isset($keys[$i])) {
+        if (!$data) {
+            return false;
+        } else if (!isset($keys[$i])) {
             return true;
         } else if (isset($data[$keys[$i]]) || array_key_exists($keys[$i], $data)) {
             return hasDotted($data[$keys[$i]], $keys, $i + 1);
