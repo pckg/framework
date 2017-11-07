@@ -204,8 +204,12 @@ class Response
         }
 
         if (!$output) {
-            $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url .
-                      '" /></head><body></body></html>';
+            if (request()->isJson() || request()->isAjax()) {
+                $output = json_encode(['redirect' => $url]);
+            } else {
+                $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url .
+                          '" /></head><body></body></html>';
+            }
         }
 
         /**
