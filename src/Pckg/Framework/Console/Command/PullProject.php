@@ -16,12 +16,16 @@ class PullProject extends Command
             $execs[] = 'composer install --no-dev --prefer-dist';
         }
 
+        if (!$this->option('no-yarn')) {
+            $execs[] = 'yarn install';
+        }
+
         if (!$this->option('no-bower')) {
-            $execs[] = 'bower install';
+            // $execs[] = 'bower install';
         }
 
         if (!$this->option('no-npm')) {
-            $execs[] = 'npm set progress=false && npm install --no-shrinkwrap';
+            // $execs[] = 'npm set progress=false && npm install --no-shrinkwrap';
         }
 
         $this->exec($execs, true, path('root'));
@@ -36,6 +40,7 @@ class PullProject extends Command
                      'no-composer' => 'No composer installs',
                      'no-bower'    => 'No bower installs',
                      'no-npm'      => 'No npm installs',
+                     'no-yarn'     => 'No yarn installs',
                  ],
                  InputOption::VALUE_NONE
              );
