@@ -26,6 +26,8 @@ class ComposerProject extends Command
             'pckg/charts',
             'pckg/locale',
             'pckg/cache',
+            'pckg/helpers-js',
+            'pckg/helpers-less',
             'pckg-app/impero',
             'pckg-app/impero-api',
         ];
