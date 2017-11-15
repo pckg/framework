@@ -232,7 +232,7 @@ var utils = {
         return url;
     },
 
-    sluggify: function(str){
+    sluggify: function (str) {
         return str.replace(/[^a-zA-Z0-9 -]/g, '')
             .replace(/[ -]+/g, '-')
             .replace(/^-|-$/g, '')
@@ -248,7 +248,7 @@ var utils = {
         this.sendToParent('popup.close');
     },
 
-    closeAndRefresh: function(){
+    closeAndRefresh: function () {
         $.magnificPopup.close();
         http.redirect();
     },
@@ -318,6 +318,14 @@ var utils = {
     },
     splice: function (collection, item) {
         return collection.splice(collection.indexOf(item), 1);
+    },
+    groupBy: function (collection, groupBy) {
+        grouped = {};
+        $.each(collection, function (key, val) {
+            grouped[groupBy(val)] ? grouped[groupBy(val)].push(val) : (grouped[groupBy(val)] = [val]);
+        });
+
+        return grouped;
     }
 
 };

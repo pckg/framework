@@ -310,6 +310,14 @@ var utils = {
     },
     splice: function splice(collection, item) {
         return collection.splice(collection.indexOf(item), 1);
+    },
+    groupBy: function (collection, groupBy) {
+        grouped = {};
+        $.each(collection, function (key, val) {
+            grouped[groupBy(val)] ? grouped[groupBy(val)].push(val) : (grouped[groupBy(val)] = [val]);
+        });
+
+        return grouped;
     }
 
 };
