@@ -377,11 +377,22 @@ class Response
         );
     }
 
+    /**
+     * @param $array array
+     *
+     * @return string
+     */
+    public function arrayToString(array $array)
+    {
+        $this->sendJsonHeader();
+
+        return json_encode($array, JSON_PARTIAL_OUTPUT_ON_ERROR);
+    }
+
     public function respondAndContinue($string = null)
     {
         if (is_array($string)) {
-            $this->sendJsonHeader();
-            $string = json_encode($string);
+            $string = $this->arrayToString($string);
         }
 
         ob_start();
@@ -398,8 +409,7 @@ class Response
     public function respond($string = null)
     {
         if (is_array($string)) {
-            $this->sendJsonHeader();
-            $string = json_encode($string);
+            $string = $this->arrayToString($string);
         }
 
         if (!$string && func_get_args()) {

@@ -33,20 +33,15 @@ class RunResponse extends AbstractChainOfReponsibility
                                      ? json_encode(array_merge($output->getData(), ['_html' => $parsed]))
                                      : $parsed);
         } else if (is_array($output)) {
-            $response->setOutput(json_encode($output));
+            $response->setOutput($response->arrayToString($output));
         } else if (is_object($output) && method_exists($output, '__toString')) {
             $response->setOutput((string)$output);
         } else if (is_string($output) && $isAjax && get('html')) {
-            $html = (string)$output;
             $vue = vueManager()->getViews();
-            $response->setOutput(
-                json_encode(
-                    [
-                        'html' => $html,
-                        'vue'  => $vue,
-                    ]
-                )
-            );
+            $response->setOutput($response->arrayToString([
+                                                              'html' => $output,
+                                                              'vue'  => $vue,
+                                                          ]));
         }
 
         if (!$response->getOutput()) {
