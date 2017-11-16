@@ -65,6 +65,8 @@ if (!function_exists('hasDotted')) {
             return true;
         } else if (!$data) {
             return false;
+        } else if (is_scalar($data) && $data != $keys[$i]) {
+            return false;
         } else if (isset($data[$keys[$i]]) || array_key_exists($keys[$i], $data)) {
             return hasDotted($data[$keys[$i]], $keys, $i + 1);
         }

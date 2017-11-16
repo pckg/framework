@@ -102,7 +102,7 @@ class Response
     public function code($code)
     {
         $this->code = $code;
-        header($this->http[$code]);
+        @header($this->http[$code]);
 
         return $this;
     }
