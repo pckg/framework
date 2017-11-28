@@ -166,7 +166,7 @@ trait Traits
     public function cookie($key = null, $default = null)
     {
         if (!$this->cookie) {
-            $this->cookie = resolve(Cookie::class);
+            $this->cookie = cookie();
         }
 
         if ($key) {

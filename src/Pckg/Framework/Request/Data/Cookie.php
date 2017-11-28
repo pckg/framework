@@ -7,21 +7,11 @@ class Cookie extends Lazy
 
     const EXPIRATION = 2592000; // 30 days
 
-    function __construct()
-    {
-        parent::__construct($_COOKIE);
-    }
-
-    public function __destruct()
-    {
-        $_COOKIE = $this->data;
-    }
-
     public function set(
         $name,
         $value = '',
         $expiration = self::EXPIRATION,
-        $path = null,
+        $path = '/',
         $domain = null,
         $secure = false,
         $httponly = false

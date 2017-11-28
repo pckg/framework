@@ -4,6 +4,7 @@ namespace Pckg\Framework;
 
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
+use Pckg\Framework\Request\Data\Cookie;
 
 class Request extends Lazy
 {
@@ -52,7 +53,8 @@ class Request extends Lazy
         $this->get = new Lazy($_GET);
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
-        $this->cookie = new Lazy($_COOKIE);
+        //setcookie('ref', 'test123', mktime() + 999999, '/');
+        $this->cookie = new Cookie($_COOKIE);
         $this->request = new Lazy($_REQUEST);
 
         $this->fetchUrl();
@@ -148,6 +150,13 @@ class Request extends Lazy
         return is_null($key)
             ? $this->server
             : $this->server->get($key, $default);
+    }
+
+    function cookie($key = null, $default = [])
+    {
+        return is_null($key)
+            ? $this->cookie
+            : $this->cookie->get($key, $default);
     }
 
     function session($key = null, $default = [])

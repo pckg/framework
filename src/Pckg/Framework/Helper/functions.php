@@ -116,6 +116,16 @@ if (!function_exists('server')) {
 }
 
 /**
+ * @return Request|mixed
+ */
+if (!function_exists('cookie')) {
+    function cookie($key = null, $default = [])
+    {
+        return request()->cookie($key, $default);
+    }
+}
+
+/**
  * @return Request
  */
 if (!function_exists('files')) {
