@@ -8,7 +8,7 @@ var http = {
 
         if (typeof keys === 'undefined') {
             $.each(vueElement.form, function (key, val) {
-                data[key] = vueElement.form[key];
+                data[key] = val;
             });
         } else {
             $.each(keys, function (i, key) {

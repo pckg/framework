@@ -240,8 +240,8 @@ class Response
     public function respondWithSuccess($data = [])
     {
         $this->code = 200;
-
-        return request()->isAjax()
+        
+        return request()->isJson()
             ? $this->respondWithAjaxSuccess($data)
             : $this->redirect();
     }
@@ -254,7 +254,7 @@ class Response
 
         $this->code = 200;
 
-        return request()->isAjax()
+        return request()->isJson()
             ? $this->respondWithAjaxSuccessAndRedirect($url)
             : $this->redirect($url);
     }
@@ -313,7 +313,7 @@ class Response
     {
         $this->code = 200;
 
-        return request()->isAjax()
+        return request()->isJson()
             ? $this->respondWithAjaxSuccessAndRedirect($url)
             : $this->redirect($url);
     }
@@ -327,7 +327,7 @@ class Response
 
     public function respondWithError($data = [])
     {
-        return request()->isAjax()
+        return request()->isJson()
             ? $this->respondWithAjaxError($data)
             : $this->notFound();
     }

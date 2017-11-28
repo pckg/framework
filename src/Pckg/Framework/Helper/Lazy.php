@@ -18,7 +18,7 @@ class Lazy implements ArrayAccess
     {
         $this->data = $arr instanceof \stdClass
             ? (array)$arr
-            : $arr;
+            : ($arr ? $arr : []);
     }
 
     public function setData($data)

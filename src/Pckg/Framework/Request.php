@@ -190,7 +190,8 @@ class Request extends Lazy
     {
         $headers = function_exists('getallheaders') ? getallheaders() : [];
 
-        return ($headers['content-type'] ?? null) == 'application/json';
+        return ($headers['content-type'] ?? null) == 'application/json'
+               || strpos(($headers['Accept']) ?? null, 'application/json') !== false;
     }
 
     function isAjax()
