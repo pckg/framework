@@ -28,6 +28,10 @@ class PullProject extends Command
             // $execs[] = 'npm set progress=false && npm install --no-shrinkwrap';
         }
 
+        if ($this->option('webpack')) {
+            $execs[] = 'webpack';
+        }
+
         $this->exec($execs, true, path('root'));
     }
 
@@ -41,6 +45,7 @@ class PullProject extends Command
                      'no-bower'    => 'No bower installs',
                      'no-npm'      => 'No npm installs',
                      'no-yarn'     => 'No yarn installs',
+                     'webpack'     => 'Webpack installs',
                  ],
                  InputOption::VALUE_NONE
              );
