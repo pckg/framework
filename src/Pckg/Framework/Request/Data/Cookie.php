@@ -7,6 +7,11 @@ class Cookie extends Lazy
 
     const EXPIRATION = 2592000; // 30 days
 
+    public function __construct(array $arr = [])
+    {
+        parent::__construct($_COOKIE);
+    }
+
     public function set(
         $name,
         $value = '',
