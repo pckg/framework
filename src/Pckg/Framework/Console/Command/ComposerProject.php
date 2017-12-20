@@ -29,7 +29,9 @@ class ComposerProject extends Command
             'pckg/helpers-js',
             'pckg/helpers-less',
             'pckg-app/impero',
+            'pckg-app/pendo-api',
             'pckg-app/impero-api',
+            'pckg-app/api',
         ];
 
         $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];
