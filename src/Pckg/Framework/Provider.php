@@ -39,6 +39,7 @@ class Provider
         $this->registerClassMaps($this->classMaps());
         $this->registerApps($this->apps());
         $this->registerProviders($this->providers());
+        $this->registerServices($this->services());
         $this->registerRoutes($this->routes());
         $this->registerListeners($this->listeners());
         $this->registerMiddlewares($this->middlewares());
@@ -168,6 +169,11 @@ class Provider
     }
 
     public function jobs()
+    {
+        return [];
+    }
+
+    public function services()
     {
         return [];
     }

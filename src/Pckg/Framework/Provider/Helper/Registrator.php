@@ -224,4 +224,11 @@ trait Registrator
         $translatorService->addDir($this->getTranslationPath());
     }
 
+    public function registerServices($services)
+    {
+        foreach ($services as $service => $initiator) {
+            context()->whenRequested($service, $initiator);
+        }
+    }
+
 }
