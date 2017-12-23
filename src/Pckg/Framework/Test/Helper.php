@@ -18,7 +18,11 @@ class Helper extends Module
     {
         $this->autoloadPath($dir);
         $this->loadPckg();
-        $connection = $this->connectDatabase($this->getCodeceptConfig()['pckg']['database']['default']);
+        $config = $this->getCodeceptConfig()['pckg']['database']['default'] ?? null;
+        if (!$config) {
+            return;
+        }
+        $connection = $this->connectDatabase($config);
         $this->registerDatabase($connection, 'default');
     }
 
