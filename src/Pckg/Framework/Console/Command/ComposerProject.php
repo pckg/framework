@@ -31,6 +31,7 @@ class ComposerProject extends Command
             'pckg-app/impero',
             'pckg-app/pendo-api',
             'pckg-app/impero-api',
+            'pckg-app/mailo-api',
             'pckg-app/api',
         ];
 
