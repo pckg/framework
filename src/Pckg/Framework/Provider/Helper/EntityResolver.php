@@ -1,7 +1,14 @@
 <?php namespace Pckg\Framework\Provider\Helper;
 
+use Pckg\Database\Entity;
+
 trait EntityResolver
 {
+
+    /**
+     * @var Entity
+     */
+    protected $e;
 
     public function by($field)
     {
@@ -19,7 +26,13 @@ trait EntityResolver
     {
         $entity = $this->entity;
 
-        return (new $entity)->where($this->by ?? 'id', $value)->oneOrFail();
+        $this->e = (new $entity)->where($this->by ?? 'id', $value);
+
+        if (method_exists($this, 'also')) {
+            $this->also();
+        }
+
+        return $this->e->oneOrFail();
     }
 
 }
