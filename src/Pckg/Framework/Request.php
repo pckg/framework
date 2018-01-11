@@ -278,6 +278,14 @@ class Request extends Lazy
         return false;
     }
 
-}
+    public function isSecure()
+    {
+        return server('HTTPS') ? true : false;
+    }
 
-?>
+    public function getDomain()
+    {
+        return server('SERVER_NAME', null);
+    }
+
+}
