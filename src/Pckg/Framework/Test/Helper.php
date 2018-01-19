@@ -14,16 +14,25 @@ class Helper extends Module
 
     public $queryPreparedListener;
 
+    public function initConfigDatabases()
+    {
+        foreach ($this->getCodeceptConfig()['pckg']['database'] ?? [] as $name => $config) {
+            Repository\RepositoryFactory::createRepositoryConnection($config, $name);
+        }
+    }
+
     public function initPckg($dir)
     {
         $this->autoloadPath($dir);
         $this->loadPckg();
-        $config = $this->getCodeceptConfig()['pckg']['database']['default'] ?? null;
-        if (!$config) {
-            return;
-        }
-        $connection = $this->connectDatabase($config);
-        $this->registerDatabase($connection, 'default');
+        $this->initConfigDatabases();
+    }
+
+    public function initPartialPckg($dir)
+    {
+        $this->autoloadPath($dir);
+        $this->loadApp();
+        $this->initConfigDatabases();
     }
 
     public function getCodeceptConfig()
@@ -36,7 +45,7 @@ class Helper extends Module
         $this->loadApp($this->getCodeceptConfig()['pckg']['application']);
     }
 
-    public function loadApp($app)
+    public function loadApp($app = null)
     {
         $pckg = include realpath(__DIR__ . '/../../../../../../../vendor/pckg/framework/src/bootstrap.php');
         $pckg($app);
@@ -73,7 +82,6 @@ class Helper extends Module
 
     public function emptyDatabase($connection)
     {
-
     }
 
     public function importDatabase($filename)
@@ -106,40 +114,46 @@ class Helper extends Module
         }
     }
 
-    public function listenToQueries()
+    public function listenToQueries($type = null, $sort = true)
     {
         $this->sqls = [];
 
-        $this->ignoreQueryListening();
+        $this->ignoreQueryListening($type);
 
         $CI = $this;
         $this->queryPreparedListener = dispatcher()->listen(
-            Query::class . '.prepared',
-            function($sql, $binds) use ($CI) {
-                sort($binds);
-                $CI->sqls[] = [
+            Query::class . '.prepared' . $type,
+            function($sql, $binds, $repo = null) use ($CI, $sort) {
+                if ($sort) {
+                    sort($binds);
+                }
+                $data = [
                     'sql'   => $sql,
                     'binds' => $binds,
                 ];
+                if ($repo) {
+                    $data['repo'] = $repo;
+                }
+                $CI->sqls[] = $data;
             }
         );
     }
 
-    public function getListenedQueries()
+    public function getListenedQueries($type = null)
     {
         $sqls = $this->sqls;
 
         $this->sqls = [];
 
-        $this->ignoreQueryListening();
+        $this->ignoreQueryListening($type);
 
         return $sqls;
     }
 
-    public function ignoreQueryListening()
+    public function ignoreQueryListening($type = null)
     {
         if ($this->queryPreparedListener) {
-            dispatcher()->ignore(Query::class . '.prepared', $this->queryPreparedListener);
+            dispatcher()->ignore(Query::class . '.prepared' . $type, $this->queryPreparedListener);
         }
     }
 
