@@ -48,13 +48,15 @@ class ResolveDependencies
                 $realResolver = resolve($resolver);
             }
 
-            $resolved = $realResolver->resolve($router[$urlKey] ?? router()->getCleanUri());
+            $k = $router[$urlKey] ?? router()->getCleanUri();
+            $resolved = $realResolver->resolve($k);
 
             if (is_string($urlKey)) {
                 $data[$urlKey] = $resolved;
+            } else {
+                $data[] = $resolved;
             }
 
-            $data[] = $resolved;
             if (!is_int($urlKey)) {
                 router()->resolve($urlKey, $resolved);
                 /**

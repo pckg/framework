@@ -330,6 +330,11 @@ class Router
             : $this->resolved;
     }
 
+    public function getResolves()
+    {
+        return $this->resolved;
+    }
+
     public function hasResolved($key)
     {
         return array_key_exists($key, $this->resolved);
