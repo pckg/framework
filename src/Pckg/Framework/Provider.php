@@ -178,4 +178,9 @@ class Provider
         return [];
     }
 
+    public function migrations()
+    {
+        return [];
+    }
+
 }
