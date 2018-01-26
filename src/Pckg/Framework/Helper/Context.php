@@ -27,6 +27,7 @@ class Context extends ConceptContext
         $this->createEnvironment($environment);
 
         /**
+         * ./config/ folder is now parsed, we can continue with execution.
          * Create application by environment.
          */
         if ($environment == Environment\Console::class) {

@@ -5,7 +5,7 @@
  * We need to know this because it's used in a lot of things.
  */
 if (!defined('BASE_PATH')) {
-    define('BASE_PATH', realpath(__DIR__ . '/../../../..') . '/');
+    define('BASE_PATH', defined('__ROOT__') ? __ROOT__ : realpath(__DIR__ . '/../../../..') . '/');
 }
 
 /**
