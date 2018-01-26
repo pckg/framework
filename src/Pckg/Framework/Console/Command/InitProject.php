@@ -8,6 +8,9 @@ class InitProject extends Command
 
     public function symlinks()
     {
+        /**
+         * @T00D00 - read this from ./.pckg/pckg.yaml->service.storage
+         */
         return [
             path('www') . 'cache' => path('cache') . 'www',
         ];
@@ -15,8 +18,10 @@ class InitProject extends Command
 
     public function dirs()
     {
+        /**
+         * @T00D00 - read this from ./.pckg/pckg.yaml->service.storage
+         */
         return [
-            path('storage'),
             path('storage') . 'cache',
             path('storage') . 'env',
             path('storage') . 'tmp',
