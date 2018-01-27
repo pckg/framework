@@ -1440,6 +1440,15 @@ if (!function_exists('only')) {
     }
 }
 
+if (!function_exists('throwLogOrContinue')) {
+    function throwLogOrContinue(Throwable $e)
+    {
+        if (dev() || isConsole()) {
+            throw $e;
+        }
+    }
+}
+
 if (!function_exists('datetime')) {
     function datetime($date, $format = null)
     {
