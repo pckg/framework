@@ -169,7 +169,7 @@ class Twig extends AbstractView implements ViewInterface
         /**
          * This should be added to Framework provider.
          */
-        $this->twig->addFunction(new Twig_SimpleFunction('cdn', function($file) {
+        $this->twig->addFunction(new Twig_SimpleFunction('cdn', function($file = null) {
             return cdn($file);
         }));
         /**
