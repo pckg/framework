@@ -464,6 +464,26 @@ if (!function_exists('toCamel')) {
     }
 }
 
+if (!function_exists('kaorealpath')) {
+    /**
+     * 
+     */
+    function kaorealpath($path) {
+       $explode = explode('/', $path);
+       $new = [];
+       foreach ($explode as $part) {
+           if ($part !== '..') {
+               $new[] = $part;
+               continue;
+           }
+           
+           $new = array_slice($new, 0, count($new) - 1);
+       }
+       
+       return implode('/', $new);
+    }
+}
+
 if (!function_exists('view')) {
     /**
      * @param       $view
