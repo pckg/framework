@@ -7,10 +7,8 @@ class DefinePaths extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        $root = isset($_SERVER['DOCUMENT_ROOT']) && $_SERVER['DOCUMENT_ROOT'] ? $_SERVER['DOCUMENT_ROOT'] : BASE_PATH;
-
         path('ds', substr(BASE_PATH, 0, 1) == '/' ? '/' : '\\');
-        path('root', realpath($root) . path('ds'));
+        path('root', defined('__ROOT__') ? __ROOT__ : BASE_PATH);
 
         path("apps", path('root') . "app" . path('ds'));
         path("src", path('root') . "src" . path('ds'));
