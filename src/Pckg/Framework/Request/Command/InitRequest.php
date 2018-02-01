@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework\Request\Command;
 
-use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Context;
 use Pckg\Framework\Request;
@@ -36,8 +35,24 @@ class InitRequest extends AbstractChainOfReponsibility
         $match = (new ResolveRoute($this->router, $url))->execute();
 
         if (!$match) {
+            response()->code(404);
             trigger(ResolveRoute::class . '.notFound');
-            throw new Exception("Cannot find route's match (1): " . $url);
+
+            $match = [
+                'view'      => function() {
+                    if ($output = response()->getOutput()) {
+                        return $output;
+                    }
+
+                    return 'No page found';
+                },
+                'tags'      => ['layout:frontend'],
+                'name'      => null,
+                'url'       => null,
+                'method'    => 'GET',
+                'resolvers' => [],
+            ];
+            $this->router->mergeData($match);
         }
 
         $this->request->setMatch($match);
