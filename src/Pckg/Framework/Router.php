@@ -194,14 +194,15 @@ class Router
         return $this;
     }
 
-    public function make($routeName = null, $arguments = [], $absolute = false, $envPrefix = true)
+    public function make($routeName = null, $arguments = [], $absolute = false, $envPrefix = true, $currentHttp = false)
     {
         if (!$routeName) {
             $routeName = $this->data["name"];
         }
 
         $routePrefix = ($absolute || isConsole()
-                ? config('protocol') . '://' . config("domain", $_SERVER['HTTP_HOST'] ?? null)
+                ? config('protocol') . '://' .
+                  first($currentHttp ? null : config('domain'), server('HTTP_HOST'), config('domain'))
                 : '')
                        . ($envPrefix && dev() && !isConsole()
                 ? '/dev.php'

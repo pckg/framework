@@ -21,7 +21,7 @@ trait Exceptions
         }
         
         if ($code) {
-            $this->code = $code;
+            $this->code($code);
         }
 
         if (is_string($class)) {

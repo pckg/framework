@@ -240,7 +240,7 @@ class Response
     public function respondWithSuccess($data = [])
     {
         $this->code = 200;
-        
+
         return request()->isJson() || request()->isAjax()
             ? $this->respondWithAjaxSuccess($data)
             : $this->redirect();

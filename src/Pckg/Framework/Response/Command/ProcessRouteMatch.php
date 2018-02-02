@@ -83,7 +83,10 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
         } catch (TheEnd $e) {
             exit;
         } catch (Throwable $e) {
-            $this->response->code(500);
+            $code = $this->response->getCode();
+            if (!$code || in_array(substr($code, 0, 1), [2, 3])) {
+                $this->response->code(500);
+            }
             /**
              * @T00D00 - this should be somewhere else
              */

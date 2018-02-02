@@ -241,10 +241,10 @@ if (!function_exists('url')) {
      *
      * @return string
      */
-    function url($url, $params = [], $absolute = false, $envPrefix = true)
+    function url($url, $params = [], $absolute = false, $envPrefix = true, $currentHttp = false)
     {
         try {
-            $url = router()->make($url, $params, $absolute, $envPrefix);
+            $url = router()->make($url, $params, $absolute, $envPrefix, $currentHttp);
 
             return $url;
         } catch (Throwable $e) {
