@@ -32,7 +32,19 @@ trait EntityResolver
             $this->also();
         }
 
+        if (isset($this->compareTo)) {
+            $compared = router()->resolved($this->compareTo);
+            $this->e->where('id', $compared->id);
+        }
+
         return $this->e->oneOrFail();
+    }
+
+    public function compareTo($compareTo)
+    {
+        $this->compareTo = $compareTo;
+
+        return $this;
     }
 
 }
