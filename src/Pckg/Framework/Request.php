@@ -112,9 +112,11 @@ class Request extends Lazy
         return $this;
     }
 
-    public function getMatch()
+    public function getMatch($key = null)
     {
-        return $this->match;
+        return $key
+            ? ($this->match[$key] ?? null)
+            : $this->match;
     }
 
     public function method()
