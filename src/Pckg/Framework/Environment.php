@@ -56,6 +56,11 @@ class Environment implements AssetManager
         return static::class == Production::class;
     }
 
+    function isLocal()
+    {
+        return config('local', false) === true;
+    }
+
     public function registerExceptionHandler()
     {
     }
