@@ -32,7 +32,14 @@ class InitRequest extends AbstractChainOfReponsibility
 
         $url = $this->request->getUrl();
 
-        $match = (new ResolveRoute($this->router, $url))->execute();
+        $match = (new ResolveRoute($this->router, $url, first(server('HTTP_HOST'), config('domain'))))->execute();
+
+        if (!$match) {
+            /**
+             * Resolve without domain.
+             */
+            $match = (new ResolveRoute($this->router, $url))->execute();
+        }
 
         if (!$match) {
             response()->code(404);
@@ -52,9 +59,14 @@ class InitRequest extends AbstractChainOfReponsibility
                 'method'    => 'GET',
                 'resolvers' => [],
             ];
-            $this->router->mergeData($match);
         }
 
+        $match = array_merge($match['data'] ?? [], $match);
+
+        /**
+         * Do we need to set it in request and router?
+         */
+        $this->router->setData($match);
         $this->request->setMatch($match);
 
         trigger(Request::class . '.initialized', [$this->request]);

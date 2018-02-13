@@ -140,10 +140,13 @@ class Router
         return $this->routes;
     }
 
-    public function add($route, $conf = [], $name = null)
+    public function add($route, $conf = [], $name = null, $domain = null)
     {
-        $conf["name"] = $name;
-        $conf["url"] = $route;
+        $conf = array_merge($conf, [
+            'name'   => $name,
+            'url'    => $route,
+            'domain' => $domain,
+        ]);
 
         if (!isset($this->routes[$conf["url"]])) {
             $this->routes[$conf["url"]] = [];
@@ -174,7 +177,30 @@ class Router
             }
         }
 
+        foreach ($this->routes AS $routeArr) {
+            foreach ($routeArr AS $route) {
+                if (strpos($route["name"], $name . ':') === 0) {
+                    return $route;
+                }
+            }
+        }
+
         return null;
+    }
+
+    public function getRoutesByName($name)
+    {
+        $routes = [];
+        foreach ($this->routes AS $routeArr) {
+            foreach ($routeArr AS $route) {
+                if ($route["name"] == $name || strpos($route['name'], $name . ':') === 0) {
+                    $routes[] = $route;
+                    break;
+                }
+            }
+        }
+
+        return $routes;
     }
 
     public function removeRouteByName($routeName)
@@ -182,10 +208,22 @@ class Router
 
         foreach ($this->routes AS $i => $routeArr) {
             foreach ($routeArr AS $j => $route) {
+                /**
+                 * Remove non-translated route.
+                 */
                 if ($route["name"] == $routeName) {
                     unset($this->routes[$i][$j]);
                 }
+                /**
+                 * Remove translated route.
+                 */
+                if (strpos($route['name'], $routeName . ':') === 0) {
+                    unset($this->routes[$i][$j]);
+                }
             }
+            /**
+             * Remove empty routes.
+             */
             if (!$this->routes[$i]) {
                 unset($this->routes[$i]);
             }
@@ -194,70 +232,79 @@ class Router
         return $this;
     }
 
-    public function make($routeName = null, $arguments = [], $absolute = false, $envPrefix = true, $currentHttp = false)
+    private function getRoutePrefix($absolute = false, $domain = null, $envPrefix = true)
+    {
+        $host = $absolute || isConsole()
+            ? config('protocol') . '://' . first($domain, server('HTTP_HOST'), config('domain'))
+            : '';
+
+        $env = $envPrefix && dev() && !isConsole()
+            ? '/dev.php'
+            : '';
+
+        return $host . $env;
+    }
+
+    public function make($routeName = null, $arguments = [], $absolute = false, $envPrefix = true)
     {
         if (!$routeName) {
             $routeName = $this->data["name"];
         }
 
-        $routePrefix = ($absolute || isConsole()
-                ? config('protocol') . '://' .
-                  first($currentHttp ? null : config('domain'), server('HTTP_HOST'), config('domain'))
-                : '')
-                       . ($envPrefix && dev() && !isConsole()
-                ? '/dev.php'
-                : ''
-                       );
-
         foreach ($this->routes AS $routeArr) {
             foreach ($routeArr AS $route) {
-                if ($route["name"] == $routeName) {
-                    $args = [];
-                    foreach ($arguments AS $key => $val) {
-                        $args["[" . $key . "]"] = $val;
-                    }
+                if ($route['name'] != $routeName &&
+                    $route['name'] != $routeName . ':' . config('pckg.locale.language')
+                ) {
+                    continue;
+                }
 
-                    foreach ($route['resolvers'] ?? [] as $key => $resolver) {
-                        /**
-                         * If index is not set, argument should be resolved by post/get data or similar.
-                         * T00D00 - this needs to be resolved without proper index (find by class)
-                         */
-                        if (isset($args['[' . $key . ']']) && is_object($args['[' . $key . ']'])) {
-                            $realResolver = is_object($resolver)
-                                ? $resolver
-                                : resolve($resolver);
-                            $args['[' . $key . ']'] = $realResolver->parametrize($args['[' . $key . ']']);
-                        }
-                    }
+                $args = [];
+                foreach ($arguments AS $key => $val) {
+                    $args["[" . $key . "]"] = $val;
+                }
 
-                    if ($args) {
-                        /**
-                         * Replace parameters in url.
-                         */
-                        foreach ($args as $key => &$arg) {
-                            if (is_string($arg)) {
-                                if (strpos(strtolower($key), 'url') !== false) {
-                                    $arg = sluggify($arg);
-                                } else {
-                                    $arg = urlencode($arg);
-                                }
+                foreach ($route['resolvers'] ?? [] as $key => $resolver) {
+                    /**
+                     * If index is not set, argument should be resolved by post/get data or similar.
+                     * T00D00 - this needs to be resolved without proper index (find by class)
+                     */
+                    if (isset($args['[' . $key . ']']) && is_object($args['[' . $key . ']'])) {
+                        $realResolver = is_object($resolver)
+                            ? $resolver
+                            : resolve($resolver);
+                        $args['[' . $key . ']'] = $realResolver->parametrize($args['[' . $key . ']']);
+                    }
+                }
+
+                if ($args) {
+                    /**
+                     * Replace parameters in url.
+                     */
+                    foreach ($args as $key => &$arg) {
+                        if (is_string($arg)) {
+                            if (strpos(strtolower($key), 'url') !== false) {
+                                $arg = sluggify($arg);
+                            } else {
+                                $arg = urlencode($arg);
                             }
                         }
-                        $filteredArgs = (new Collection($args))->reduce(
-                            function($item) {
-                                return !is_object($item);
-                            },
-                            true
-                        )->all();
-                        $route['url'] = str_replace(array_keys($filteredArgs), $filteredArgs, $route['url']);
                     }
-
-                    return $routePrefix . $route["url"];
+                    $filteredArgs = (new Collection($args))->reduce(
+                        function($item) {
+                            return !is_object($item);
+                        },
+                        true
+                    )->all();
+                    $route['url'] = str_replace(array_keys($filteredArgs), $filteredArgs, $route['url']);
                 }
+
+                return $this->getRoutePrefix($absolute, $route['domain'] ?? null, $envPrefix) .
+                       $route["url"];
             }
         }
 
-        return $routePrefix;
+        return $this->getRoutePrefix($absolute, null, $envPrefix);
     }
 
     public function get($param = null, $default = [])

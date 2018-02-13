@@ -10,10 +10,13 @@ class ResolveRoute
 
     protected $url;
 
-    public function __construct(Router $router, $url)
+    protected $domain;
+
+    public function __construct(Router $router, $url, $domain = null)
     {
         $this->router = $router;
         $this->url = $url;
+        $this->domain = $domain;
     }
 
     public function execute()
@@ -43,6 +46,10 @@ class ResolveRoute
 
                     // validate secure
                     if (isset($route['secure']) && is_only_callable($route['secure']) && !$route['secure']()) {
+                        break;
+                    }
+
+                    if ($this->domain && isset($route['language']) && $route['domain'] && $route['domain'] != $this->domain) {
                         break;
                     }
 
@@ -165,6 +172,9 @@ class ResolveRoute
                     }
 
                     if ($error == false) {
+                        if ($this->domain && isset($conf['language']) && $conf['domain'] && $conf['domain'] != $this->domain) {
+                            continue;
+                        }
                         $match = $conf;
                         $match["data"] = $regexData;
                         $found = true;
@@ -191,8 +201,6 @@ class ResolveRoute
         if (!isset($match["controller"]) && !is_only_callable($match['view'])) {
             throw new Exception("Controller not set." . print_r($match, true));
         }
-
-        $this->router->mergeData(array_merge(isset($match['data']) ? $match['data'] : [], $match));
 
         return $match;
     }

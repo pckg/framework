@@ -2,6 +2,7 @@
 
 use Pckg\Framework\Application;
 use Pckg\Framework\Provider\Helper\Registrator;
+use Pckg\Locale\Command\HandleTranslatedRoutes;
 use Pckg\Locale\Command\Localize;
 
 class RegisterApplication

@@ -15,7 +15,7 @@ trait Merger
          * Get selected / merged values.
          */
         foreach ($keys as $key) {
-            $data[$key] = $from[$key] ?? $to[$key];
+            $data[$key] = $from[$key] ?? ($to[$key] ?? null);
         }
 
         /**

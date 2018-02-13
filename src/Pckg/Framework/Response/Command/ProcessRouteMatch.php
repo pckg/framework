@@ -6,6 +6,7 @@ use Exception;
 use Pckg\Collection;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Exception\NotFound;
 use Pckg\Framework\Response;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\View\ViewInterface;
@@ -31,6 +32,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
     public function execute()
     {
+        $e = null;
         try {
             /**
              * Apply global middlewares.
@@ -81,12 +83,31 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 chain($this->match['afterwares'], 'execute', [$this->response]);
             }
         } catch (TheEnd $e) {
+            /**
+             * Catch end of execution.
+             */
             exit;
+        } catch (NotFound $e) {
+            /**
+             * Set response code to 404.
+             */
+            $this->response->code(404);
         } catch (Throwable $e) {
+            /**
+             * Set response code to 500.
+             */
             $code = $this->response->getCode();
-            if (!$code || in_array(substr($code, 0, 1), [2, 3])) {
+            if (!$code || in_array(substr($code, 0, 1), [2, 3, 4])) {
                 $this->response->code(500);
             }
+        } finally {
+            /**
+             * Yeeey, no exception, return with execution
+             */
+            if (!$e) {
+                return;
+            }
+
             /**
              * @T00D00 - this should be somewhere else
              */
@@ -98,9 +119,14 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                         'success'   => false,
                     ]
                 );
-            } else {
-                throw $e;
+
+                return;
             }
+
+            /**
+             * Finally, throw exception.
+             */
+            throw $e;
         }
     }
 

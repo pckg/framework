@@ -241,10 +241,10 @@ if (!function_exists('url')) {
      *
      * @return string
      */
-    function url($url, $params = [], $absolute = false, $envPrefix = true, $currentHttp = false)
+    function url($url, $params = [], $absolute = false, $envPrefix = true)
     {
         try {
-            $url = router()->make($url, $params, $absolute, $envPrefix, $currentHttp);
+            $url = router()->make($url, $params, $absolute, $envPrefix);
 
             return $url;
         } catch (Throwable $e) {
@@ -466,21 +466,22 @@ if (!function_exists('toCamel')) {
 
 if (!function_exists('kaorealpath')) {
     /**
-     * 
+     *
      */
-    function kaorealpath($path) {
-       $explode = explode('/', $path);
-       $new = [];
-       foreach ($explode as $part) {
-           if ($part !== '..') {
-               $new[] = $part;
-               continue;
-           }
-           
-           $new = array_slice($new, 0, count($new) - 1);
-       }
-       
-       return implode('/', $new);
+    function kaorealpath($path)
+    {
+        $explode = explode('/', $path);
+        $new = [];
+        foreach ($explode as $part) {
+            if ($part !== '..') {
+                $new[] = $part;
+                continue;
+            }
+
+            $new = array_slice($new, 0, count($new) - 1);
+        }
+
+        return implode('/', $new);
     }
 }
 
