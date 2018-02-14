@@ -36,7 +36,9 @@ class Plugin
             /**
              * Get action response.
              */
-            $view = Reflect::method($controller, $method, $params);
+            $view = measure(get_class($controller) . '@' . $method, function() use ($controller, $method, $params) {
+                return Reflect::method($controller, $method, $params);
+            });
 
             /**
              * Convert to string if required.
