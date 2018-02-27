@@ -4,7 +4,6 @@ namespace Pckg\Framework;
 
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Request\Data\Session;
-use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
 use Throwable;
@@ -406,6 +405,13 @@ class Response
         flush();
     }
 
+    public function stop()
+    {
+        trigger(Response::class . '.responded');
+
+        exit;
+    }
+
     public function respond($string = null)
     {
         if (is_array($string)) {
@@ -422,12 +428,7 @@ class Response
 
         echo $string;
 
-        trigger(Response::class . '.responded');
-
-        die();
-        throw new TheEnd();
-
-        return $this;
+        $this->stop();
     }
 
     public function download($file, $filename)
