@@ -405,11 +405,11 @@ class Response
         flush();
     }
 
-    public function stop()
+    public function stop($code = 0)
     {
         trigger(Response::class . '.responded');
 
-        exit;
+        exit($code);
     }
 
     public function respond($string = null)
