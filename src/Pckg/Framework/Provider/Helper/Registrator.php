@@ -155,8 +155,8 @@ trait Registrator
         }
 
         $assetManager = context()->getOrCreate(Asset::class);
-        foreach ($assets as $key => $assets) {
-            $assetManager->addProviderAssets($assets, is_array($assets) ? $key : 'main', $this);
+        foreach ($assets as $key => $a) {
+            $assetManager->addProviderAssets($a, is_string($key) ? $key : 'main', $this);
         }
     }
 
