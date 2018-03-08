@@ -20,6 +20,10 @@ class RegisterApplication
     {
         $this->application->getProvider()->register();
         config()->parseDir(path('app'));
+
+        /**
+         * Localize any config changes.
+         */
         chain([Localize::class]);
 
         return $next();

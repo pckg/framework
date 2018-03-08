@@ -43,6 +43,10 @@ class Config
     private function setRecursive($keys, $val, $data, $i)
     {
         if ($i >= count($keys)) {
+            /**
+             * Key doesn't exist in config yet.
+             * We can fully overwrite it.
+             */
             $data = $val;
 
             return $data;
@@ -51,12 +55,20 @@ class Config
         $key = $keys[$i];
 
         if (!is_array($data)) {
+            /**
+             * Data is string, integer, float, callable, null.
+             * We can fully overwrite it.
+             */
             $data = $val;
 
             return $data;
         }
 
         if (!array_key_exists($key, $data)) {
+            /**
+             * Key doesn't exist in config yet.
+             * We can fully overwrite it.
+             */
             $data[$key] = [];
         }
 

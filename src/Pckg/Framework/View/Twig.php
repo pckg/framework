@@ -270,6 +270,7 @@ class Twig extends AbstractView implements ViewInterface
             /**
              * Render template.
              */
+            message('Rendering ' . $this->file);
             $render = measure(
                 'Rendering ' . $this->file,
                 function() {

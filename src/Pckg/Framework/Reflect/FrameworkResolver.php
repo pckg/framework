@@ -40,25 +40,9 @@ class FrameworkResolver implements Resolver
         Provider::class,
     ];
 
-    protected static $bind = [
-        Router::class       => 'Router',
-        Context::class      => 'Context',
-        Config::class       => 'Config',
-        AssetManager::class => 'AssetManager',
-        MetaManager::class  => 'MetaManager',
-        SeoManager::class   => 'SeoManager',
-        Flash::class        => 'Flash',
-        Response::class     => 'Response',
-        Request::class      => 'Request',
-        Lang::class         => 'Lang',
-        Auth::class         => 'Auth',
-        Locale::class       => 'Locale',
-        Generic::class      => 'Generic',
-    ];
-
     public function canResolve($class)
     {
-        if (isset(static::$bind[$class]) || in_array($class, static::$singletones)) {
+        if (in_array($class, static::$singletones)) {
             return true;
         }
 
@@ -73,7 +57,7 @@ class FrameworkResolver implements Resolver
 
     public function resolve($class)
     {
-        if (isset(static::$bind[$class])) {
+        if (in_array($class, static::$singletones)) {
             if (context()->exists($class)) {
                 return context()->get($class);
             }
@@ -98,11 +82,9 @@ class FrameworkResolver implements Resolver
             if (in_array($class, static::$singletones)) {
                 $newInstance = Reflect::create($class);
 
-                if (isset(static::$bind[$class])) {
-                    context()->bind($class, $newInstance);
+                context()->bind($class, $newInstance);
 
-                    return $newInstance;
-                }
+                return $newInstance;
             }
 
             foreach (static::$parents as $parent) {

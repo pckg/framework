@@ -721,7 +721,7 @@ if (!function_exists('array_merge_array')) {
 }
 
 if (!function_exists('merge_arrays')) {
-    function merge_arrays($to, $merge)
+    function merge_arrays($to, $merge, $k = null)
     {
         foreach ($merge as $key => $val) {
             /**
@@ -817,13 +817,12 @@ if (!function_exists('runInLocale')) {
     function runInLocale($call, $locale)
     {
         $prevLocale = localeManager()->getCurrent();
-        if ($locale != $prevLocale) {
-            localeManager()->setCurrent($locale);
-            $response = $call();
-            localeManager()->setCurrent($prevLocale);
-        } else {
-            $response = $call();
-        }
+
+        message('Running in locale ' . $prevLocale . '->' . $locale);
+        localeManager()->setCurrent($locale);
+        $response = $call();
+        message('Changing back ' . $locale . '->' . $prevLocale);
+        localeManager()->setCurrent($prevLocale);
 
         return $response;
     }
