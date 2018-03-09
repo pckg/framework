@@ -723,7 +723,7 @@ if (!function_exists('array_merge_array')) {
 if (!function_exists('merge_arrays')) {
     function merge_arrays($to, $merge, $k = null)
     {
-        $replace = config('pckg.config.parse.replace');
+        $replace = config('pckg.config.parse.replace', []);
 
         foreach ($merge as $key => $val) {
             /**
