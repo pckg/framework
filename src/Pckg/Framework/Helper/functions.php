@@ -723,6 +723,8 @@ if (!function_exists('array_merge_array')) {
 if (!function_exists('merge_arrays')) {
     function merge_arrays($to, $merge, $k = null)
     {
+        $replace = config('pckg.config.parse.replace');
+
         foreach ($merge as $key => $val) {
             /**
              * Value is set first time.
@@ -752,11 +754,29 @@ if (!function_exists('merge_arrays')) {
              * Value is keyed array.
              */
             if (is_array($to[$key])) {
-                $to[$key] = merge_arrays($to[$key], $val);
+                if (array_preg_match($replace, $k . '.' . $key)) {
+                    $to[$key] = $val;
+                    continue;
+                }
+
+                $to[$key] = merge_arrays($to[$key], $val, ($k ? $k . '.' . $key : $key));
             }
         }
 
         return $to;
+    }
+}
+
+if (!function_exists('array_preg_match')) {
+    function array_preg_match($patterns, $subject)
+    {
+        foreach ($patterns as $pattern) {
+            if (preg_match('/' . $pattern . '/', $subject)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

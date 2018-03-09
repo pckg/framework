@@ -85,6 +85,9 @@ class Config
 
         /*$cache = new Cache($dir);*/
 
+        /**
+         * @T00D00 - we can cache settings by hash of all dir files.
+         */
         $settings = /*false && $cache->isBuilt()
             ? $cache->get()
             : */
@@ -101,7 +104,10 @@ class Config
 
         foreach ([
                      function($file) { return strpos($file, '/defaults.php'); },
-                     function($file) { return !strpos($file, '/defaults.php') && !strpos($file, '/env.php'); },
+                     function($file) {
+                         return !strpos($file, '/defaults.php') && !strpos($file, '/env.php') &&
+                                !strpos($file, '/migrations.php');
+                     },
                      function($file) { return strpos($file, '/env.php'); },
                  ] as $callback) {
             foreach ($files AS $key => $file) {
@@ -119,17 +125,17 @@ class Config
                      */
                     $settings = merge_arrays($settings, $content);
                 } else {
-                    if (strpos($key, '.')) {
-                        $keys = explode('.', $key);
-                        $content = $this->setRecursive($keys, $content, [], 0);
-                        if (isset($settings[$keys[0]])) {
-                            $settings[$keys[0]] = merge_arrays($settings[$keys[0]] ?? [], $content[$keys[0]]);
-                        } else {
-                            $settings[$keys[0]] = $content[$keys[0]];
-                        }
-                    } else {
-                        $settings[$key] = $content;
-                    }
+                    $keys = explode('.', $key);
+                    /**
+                     * Key is for example pckg.generic.templates.
+                     * [pckg, generic, templates]
+                     * We will create $content = pckg => [generic => [templates => $content]]
+                     */
+                    $content = $this->setRecursive($keys, $content, [], 0);
+                    /**
+                     * Then we merge it with existent settings.
+                     */
+                    $settings[$keys[0]] = merge_arrays($settings[$keys[0]] ?? [], $content[$keys[0]], $keys[0]);
                 }
             }
         }
