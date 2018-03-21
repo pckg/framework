@@ -4,7 +4,7 @@ namespace Pckg\Framework\Request\Data;
 
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\SessionDriver\Db;
-use SessionHandler;
+use Pckg\Framework\Request\Data\SessionDriver\FileDriver;
 
 class Session extends Lazy
 {
@@ -16,7 +16,7 @@ class Session extends Lazy
 
     public function __construct(array $arr = [])
     {
-        $driver = config('pckg.session.driver', SessionHandler::class);
+        $driver = config('pckg.session.driver', FileDriver::class);
 
         $this->driver = new $driver;
     }
