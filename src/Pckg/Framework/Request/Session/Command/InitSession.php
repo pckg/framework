@@ -11,7 +11,6 @@ class InitSession extends AbstractChainOfReponsibility
     {
         context()->getOrCreate(Session::class);
         context()->getOrCreate(Flash::class);
-        $_SESSION['test'] = rand() * rand();
 
         return $next();
     }
