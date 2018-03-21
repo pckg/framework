@@ -48,11 +48,6 @@ trait Traits
     private $cookie;
 
     /**
-     * @var Session
-     */
-    private $session;
-
-    /**
      * @var Server
      */
     private $server;
@@ -136,18 +131,6 @@ trait Traits
         }
 
         return $this->get;
-    }
-
-    /**
-     * @return Post
-     */
-    public function session()
-    {
-        if (!$this->session) {
-            $this->session = resolve(Session::class);
-        }
-
-        return $this->session;
     }
 
     public function server($key = null, $default = null)

@@ -215,11 +215,11 @@ class Response
          * @T00D00 - implement event
          */
         trigger(Response::class . '.redirect', [$this]);
-        if (context()->exists(Flash::class)) {
-            context()->get(Flash::class)->__destruct();
+        if ($flash = context()->getIfExists(Flash::class)) {
+            $flash->__destruct();
         }
-        if (context()->exists(Session::class)) {
-            context()->get(Session::class)->__destruct();
+        if ($session = context()->getIfExists(Session::class)) {
+            $session->__destruct();
         }
 
         // try with php

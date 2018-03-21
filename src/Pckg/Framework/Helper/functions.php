@@ -619,9 +619,6 @@ if (!function_exists('dd')) {
         foreach ($mixed as $m) {
             d($m);
         }
-        if (context() && context()->exists(Session::class)) {
-            context()->get(Session::class)->__destruct();
-        }
         die();
     }
 }
