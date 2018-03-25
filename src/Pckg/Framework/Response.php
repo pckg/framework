@@ -429,6 +429,8 @@ class Response
         echo $string;
 
         $this->stop();
+
+        return $this;
     }
 
     public function download($file, $filename)
