@@ -37,7 +37,7 @@ class Command extends SymfonyConsoleCommand
      *
      * @return $this
      */
-    public function executeManually($data)
+    public function executeManually($data = [])
     {
         /**
          * Create symfony application.

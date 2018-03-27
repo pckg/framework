@@ -14,6 +14,7 @@ use Pckg\Framework\Router;
 use Pckg\Framework\Router\Console\ListRoutes;
 use Pckg\Htmlbuilder\Provider\Htmlbuilder;
 use Pckg\Locale\LangInterface;
+use Pckg\Locale\Provider\Localizer;
 use Pckg\Migration\Provider\Migration as MigrationProvider;
 
 class Framework extends Provider
@@ -33,6 +34,7 @@ class Framework extends Provider
         return [
             MigrationProvider::class,
             Htmlbuilder::class,
+            Localizer::class,
         ];
     }
 
