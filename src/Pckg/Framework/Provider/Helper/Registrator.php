@@ -129,6 +129,10 @@ trait Registrator
                 }
             );
         }
+
+        if ($stack->getStacks() && !config('app_parent')) {
+            config()->set('app_parent', $stack->getStacks() ? $apps[0] : config('app', null));
+        }
     }
 
     /**

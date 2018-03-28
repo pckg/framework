@@ -22,4 +22,9 @@ class Stack
         return $this;
     }
 
+    public function getStacks()
+    {
+        return $this->stacks;
+    }
+
 }

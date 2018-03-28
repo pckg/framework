@@ -89,7 +89,7 @@ abstract class AbstractView implements ViewInterface
             static::$dirs[$priority] = [];
         }
 
-        if (!in_array($path, static::$dirs)) {
+        if (!in_array($path, static::$dirs[$priority] ?? [])) {
             array_push(static::$dirs[$priority], $path);
         }
     }
