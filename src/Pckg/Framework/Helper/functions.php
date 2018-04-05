@@ -626,15 +626,18 @@ if (!function_exists('dd')) {
 if (!function_exists('d')) {
     function d(...$mixed)
     {
-        foreach ($mixed as $m) {
-            echo '<pre>';
-            if (is_string($m)) {
-                echo $m;
-            } else {
-                var_dump($m);
+        try {
+            foreach ($mixed as $m) {
+                echo '<pre>';
+                if (is_string($m)) {
+                    echo $m;
+                } else {
+                    var_dump($m);
+                }
+                echo '</pre>';
+                echo "<br />\n";
             }
-            echo '</pre>';
-            echo "<br />\n";
+        } catch (Throwable $e) {
         }
 
         return true;
