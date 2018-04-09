@@ -1,5 +1,6 @@
 <?php namespace Pckg\Framework\Provider;
 
+use Pckg\Framework\Command\Forked;
 use Pckg\Framework\Console\Command\ClearCache;
 use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Environment;
@@ -51,6 +52,15 @@ class Framework extends Provider
             '_cookie'   => Cookie::class,
             '_flash'    => Flash::class,
             '_debugBar' => debugBar(),
+        ];
+    }
+
+    public function listeners()
+    {
+        return [
+            'forked' => [
+                Forked::class,
+            ],
         ];
     }
 

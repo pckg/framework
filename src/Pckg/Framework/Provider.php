@@ -35,21 +35,23 @@ class Provider
             context()->bind(Stack::class, new Stack());
         }
 
-        $this->registerAutoloaders($this->autoload());
-        $this->registerClassMaps($this->classMaps());
-        $this->registerApps($this->apps());
-        $this->registerProviders($this->providers());
-        $this->registerServices($this->services());
-        $this->registerRoutes($this->routes());
-        $this->registerListeners($this->listeners());
-        $this->registerMiddlewares($this->middlewares());
-        $this->registerAfterwares($this->afterwares());
-        $this->registerPaths($this->paths());
-        $this->registerViewObjects($this->viewObjects());
-        $this->registerConsoles($this->consoles());
-        $this->registerAssets($this->assets());
-        $this->registerJobs($this->jobs());
-        $this->registerTranslations();
+        measure('Registering provider ' . static::class, function() use (&$start) {
+            $this->registerAutoloaders($this->autoload());
+            $this->registerClassMaps($this->classMaps());
+            $this->registerApps($this->apps());
+            $this->registerProviders($this->providers());
+            $this->registerServices($this->services());
+            $this->registerRoutes($this->routes());
+            $this->registerListeners($this->listeners());
+            $this->registerMiddlewares($this->middlewares());
+            $this->registerAfterwares($this->afterwares());
+            $this->registerPaths($this->paths());
+            $this->registerViewObjects($this->viewObjects());
+            $this->registerConsoles($this->consoles());
+            $this->registerAssets($this->assets());
+            $this->registerJobs($this->jobs());
+            $this->registerTranslations();
+        });
 
         /**
          * Some actions needs to be executed in reverse direction, for example config initialization.

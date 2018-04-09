@@ -48,14 +48,18 @@ class Context extends ConceptContext
          * This will parse config, set localization 'things', estamblish connection to database, initialize and register
          * routes, set application autoloaders and providers, session, response, request and assets.
          */
-        $application->init();
+        measure('Initializing ' . get_class($application), function() use ($application) {
+            $application->init(); // 0.37s -> 0.94s / 1.03s = 57%
+        });
 
         /**
          * Run applications.
          * Everything was preset, we need to run command or request and return response.
          */
         if ($run) {
-            $application->run();
+            measure('Running ' . get_class($application), function() use ($application) {
+                $application->run();
+            });
         }
     }
 

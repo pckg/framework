@@ -18,7 +18,7 @@ class RegisterApplication
 
     public function execute(callable $next)
     {
-        $this->application->getProvider()->register();
+        $this->application->getProvider()->register(); // 0.44 -> 0.97 / 1.03 = 0.53s = 50%
         config()->parseDir(path('app'));
 
         /**

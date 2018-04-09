@@ -119,6 +119,11 @@ class Command extends SymfonyConsoleCommand
         return $this;
     }
 
+    public function outputDated($msg = '', $type = null)
+    {
+        return $this->output(date('YmdHis') . ' - ' . $msg, $type);
+    }
+
     public function ask($question)
     {
         return $this->getQuestionHelper()->ask($this->input, $this->output, $question);
