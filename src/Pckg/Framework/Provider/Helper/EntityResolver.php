@@ -10,6 +10,8 @@ trait EntityResolver
      */
     protected $e;
 
+    protected $postField = null;
+
     public function by($field)
     {
         $this->by = $field;
@@ -26,7 +28,11 @@ trait EntityResolver
     {
         $entity = $this->entity;
 
-        $this->e = (new $entity)->where($this->by ?? 'id', $value);
+        if ($this->postField && !post($this->postField, null)) {
+            return null;
+        }
+
+        $this->e = (new $entity)->where($this->by ?? 'id', ($this->postField ? post($this->postField, null) : $value));
 
         if (method_exists($this, 'also')) {
             $this->also();
@@ -43,6 +49,13 @@ trait EntityResolver
     public function compareTo($compareTo)
     {
         $this->compareTo = $compareTo;
+
+        return $this;
+    }
+
+    public function fromPost($postField)
+    {
+        $this->postField = $postField;
 
         return $this;
     }
