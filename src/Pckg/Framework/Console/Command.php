@@ -6,7 +6,7 @@ use Symfony\Component\Console\Command\Command as SymfonyConsoleCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\StringInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -51,9 +51,15 @@ class Command extends SymfonyConsoleCommand
         $application->setAutoExit(false);
 
         array_unshift($data, $this->getName());
-        $application->run(new ArrayInput($data), new ConsoleOutput());
+        $ok = $application->run(
+            new ArrayInput($data), $output = new BufferedOutput()
+        );
 
-        return $this;
+        if ($ok !== 0) {
+            throw new \Exception('Cannot execute command ' . get_class($this) . ':' . $output->fetch());
+        }
+
+        return $ok == 0;
 
         /**
          * Prepare args.
@@ -146,8 +152,12 @@ class Command extends SymfonyConsoleCommand
 
     public function askConfirmation($question, $default = true, $trueAnswerRegex = '/^y/i')
     {
-        return $this->ask(new ConfirmationQuestion('<question>' . $question . '</question>', $default,
-                                                   $trueAnswerRegex));
+        return $this->ask(
+            new ConfirmationQuestion(
+                '<question>' . $question . '</question>', $default,
+                $trueAnswerRegex
+            )
+        );
     }
 
     public function askChoice($question, array $choices, $default = null)

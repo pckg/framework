@@ -28,9 +28,11 @@ trait Registrator
                 /**
                  * $arrProviders is instance of Group or Route.
                  */
-                $arrProviders->register([
-                                            'provider' => get_class($this),
-                                        ]);
+                $arrProviders->register(
+                    [
+                        'provider' => get_class($this),
+                    ]
+                );
                 continue;
             }
 
@@ -100,7 +102,11 @@ trait Registrator
                 $provider = context()->getOrCreate($provider);
             }
 
-            $provider->register();
+            try {
+                $provider->register();
+            } catch (\Throwable $e) {
+                throw new \Exception('Error registering provider ' . get_class($provider) . ':' . exception($e), null);
+            }
         }
     }
 
@@ -109,7 +115,6 @@ trait Registrator
         /**
          * Apps need to be initialized in reverse direction.
          * Now, how will we manage to do this?
-         *
          */
         if (!is_array($apps)) {
             $apps = [$apps];
