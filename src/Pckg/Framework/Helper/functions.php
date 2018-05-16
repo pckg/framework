@@ -50,7 +50,7 @@ if (!function_exists('getDotted')) {
     {
         if (!isset($keys[$i])) {
             return $data;
-        } else if (isset($data[$keys[$i]])) {
+        } elseif (isset($data[$keys[$i]])) {
             return getDotted($data[$keys[$i]], $keys, $i + 1);
         }
 
@@ -63,11 +63,11 @@ if (!function_exists('hasDotted')) {
     {
         if (!isset($keys[$i])) {
             return true;
-        } else if (!$data) {
+        } elseif (!$data) {
             return false;
-        } else if (is_scalar($data) && $data != $keys[$i]) {
+        } elseif (is_scalar($data) && $data != $keys[$i]) {
             return false;
-        } else if (isset($data[$keys[$i]]) || array_key_exists($keys[$i], $data)) {
+        } elseif (isset($data[$keys[$i]]) || array_key_exists($keys[$i], $data)) {
             return hasDotted($data[$keys[$i]], $keys, $i + 1);
         }
 
@@ -1391,7 +1391,7 @@ if (!function_exists('between')) {
         $value = (int)$value;
         if ($value < $min) {
             $value = $min;
-        } else if ($value > $max) {
+        } elseif ($value > $max) {
             $value = $max;
         }
 
@@ -1429,11 +1429,11 @@ if (!function_exists('price')) {
         $localeManager = resolve(Locale::class);
 
         return number_format(
-                   $price,
-                   firstWithZero(config('pckg.locale.decimals'), 2),
-                   $localeManager->getDecimalPoint(),
-                   $localeManager->getThousandSeparator()
-               ) . ' ' . config('pckg.payment.currencySign');
+                $price,
+                firstWithZero(config('pckg.locale.decimals'), 2),
+                $localeManager->getDecimalPoint(),
+                $localeManager->getThousandSeparator()
+            ) . ' ' . config('pckg.payment.currencySign');
     }
 }
 
@@ -1519,6 +1519,21 @@ if (!function_exists('timef')) {
         }
 
         return (new Carbon($date))->format($format);
+    }
+}
+
+if (!function_exists('sha1random')) {
+    function sha1random()
+    {
+        return sha1(\Defuse\Crypto\Key::createNewRandomKey()->saveToAsciiSafeString());
+    }
+}
+
+if (!function_exists('filename')) {
+    function filename($file)
+    {
+        $exploded = explode('/', $file);
+        return end($exploded);
     }
 }
 
