@@ -222,6 +222,31 @@ if (!function_exists('schedule')) {
     }
 }
 
+if (!function_exists('isValidEmail')) {
+    function isValidEmail($email, $dns = false)
+    {
+        if (!$email) {
+            return false;
+        }
+
+        if (!strpos($email, '@')) {
+            return false;
+        }
+
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        if ($dns) {
+            list($address, $host) = explode('@', $email);
+            $dnsr = checkdnsrr(idn_to_ascii($host, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46) . '.', 'MX');
+            return !!$dnsr;
+        }
+
+        return true;
+    }
+}
+
 /* router */
 
 if (!function_exists('router')) {
