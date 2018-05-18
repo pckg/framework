@@ -47,6 +47,13 @@ var Pckg = {
                 });
 
                 /**
+                 * Set default fields.
+                 */
+                $.each(this.getEntity().getCollections(), function (key, value) {
+                    data[key] = value;
+                });
+
+                /**
                  * Bind data to object, set getters and setters for vue.
                  */
                 $.each(data, function (key, val) {
@@ -102,6 +109,10 @@ var Pckg = {
                 }
 
                 console.log('unknown url');
+            }
+
+            getCollections() {
+                return {};
             }
 
         }

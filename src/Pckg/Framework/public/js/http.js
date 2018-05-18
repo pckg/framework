@@ -225,6 +225,15 @@ var utils = {
     },
 
     url: function (url, params) {
+        if (!url) {
+            return;
+        }
+        if (url.indexOf('@') === 0) {
+            url = Pckg.router.urls[url.substring(1)] || null;
+        }
+        if (!url) {
+            return;
+        }
         $.each(params, function (key, val) {
             url = url.replace('[' + key + ']', val);
         });

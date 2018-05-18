@@ -142,11 +142,13 @@ class Router
 
     public function add($route, $conf = [], $name = null, $domain = null)
     {
-        $conf = array_merge($conf, [
+        $conf = array_merge(
+            $conf, [
             'name'   => $name,
             'url'    => $route,
             'domain' => $domain,
-        ]);
+        ]
+        );
 
         if (!isset($this->routes[$conf["url"]])) {
             $this->routes[$conf["url"]] = [];
@@ -300,7 +302,7 @@ class Router
                 }
 
                 return $this->getRoutePrefix($absolute, $route['domain'] ?? null, $envPrefix) .
-                       $route["url"];
+                    $route["url"];
             }
         }
 
@@ -328,9 +330,9 @@ class Router
         return ($relative
                 ? ''
                 : $this->config->get("url")) .
-               ((strpos($requestUri, '?') === false
-                       ? $requestUri
-                       : substr($requestUri, 0, strpos($requestUri, '?'))) ?? '/');
+            ((strpos($requestUri, '?') === false
+                    ? $requestUri
+                    : substr($requestUri, 0, strpos($requestUri, '?'))) ?? '/');
     }
 
     public function getCleanUri($relative = true)
@@ -391,6 +393,16 @@ class Router
     public function hasUrl($name)
     {
         return $this->getRouteByName($name) ? true : false;
+    }
+
+    public function getPublicRoutes()
+    {
+        $publicRoutes = config('pckg.router.publicRoutes', []);
+        $routes = [];
+        foreach ($publicRoutes as $route) {
+            $routes[$route] = url($route);
+        }
+        return $routes;
     }
 
 }
