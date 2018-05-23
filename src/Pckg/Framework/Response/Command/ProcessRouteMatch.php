@@ -9,6 +9,7 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Exception\NotFound;
 use Pckg\Framework\Response;
 use Pckg\Framework\Response\Exception\TheEnd;
+use Pckg\Framework\Router\Command\ResolveDependencies;
 use Pckg\Framework\View\ViewInterface;
 use Throwable;
 
@@ -62,7 +63,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 /**
                  * Get main action response.
                  */
-                $response = $this->loadView->set($this->match['view'], [], $this->controller)->execute();
+                $data = (new ResolveDependencies(router()->get('resolvers')))->execute();
+                $response = $this->loadView->set($this->match['view'], $data, $this->controller)->execute();
             }
 
             $output = $this->parseView($response);
