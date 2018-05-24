@@ -17,6 +17,7 @@ use Pckg\Htmlbuilder\Provider\Htmlbuilder;
 use Pckg\Locale\LangInterface;
 use Pckg\Locale\Provider\Localizer;
 use Pckg\Migration\Provider\Migration as MigrationProvider;
+use Pckg\Translator\Service\Translator;
 
 class Framework extends Provider
 {
@@ -52,6 +53,7 @@ class Framework extends Provider
             '_cookie'   => Cookie::class,
             '_flash'    => Flash::class,
             '_debugBar' => debugBar(),
+            '_translator' => Translator::class,
         ];
     }
 
