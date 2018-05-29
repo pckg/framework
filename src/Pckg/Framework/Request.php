@@ -35,9 +35,9 @@ class Request extends Lazy
 
         if (!$input) {
             $input = file_get_contents('php://input');
-            if ($this->isJson() || (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
+            if ((strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
                 $input = json_decode($input, true);
-            } else {
+            } elseif ($input) {
                 parse_str($input, $input);
             }
         }
