@@ -13,7 +13,7 @@ class PullProject extends Command
         ];
 
         if (!$this->option('no-composer')) {
-            $execs[] = 'composer install --no-dev --prefer-dist';
+            $execs[] = 'composer install --no-dev --prefer-dist --ignore-platform-reqs';
         }
 
         if (!$this->option('no-yarn')) {
