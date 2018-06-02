@@ -1488,7 +1488,7 @@ if (!function_exists('cdn')) {
             return $file;
         }
 
-        return '//' . $host . $file;
+        return 'https://' . $host . $file;
     }
 }
 
