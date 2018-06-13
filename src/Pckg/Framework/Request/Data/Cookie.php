@@ -22,13 +22,15 @@ class Cookie extends Lazy
         $httponly = false
     ) {
         setcookie($name, $value, time() + $expiration, $path, $domain, $secure, $httponly);
+        $_COOKIE[$name] = $value;
 
         return $this;
     }
 
     public function delete($name)
     {
-        setcookie($name, null, time() - static::EXPIRATION);
+        setcookie($name, null, time() - static::EXPIRATION, '/', null, false, false);
+        unset($_COOKIE[$name]);
 
         return $this;
     }
