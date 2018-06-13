@@ -38,10 +38,12 @@ class InitRequest extends AbstractChainOfReponsibility
             /**
              * Resolve without domain.
              */
+            message('Match by domain not found, matching without domain');
             $match = (new ResolveRoute($this->router, $url))->execute();
         }
 
         if (!$match) {
+            message('No route match found');
             response()->code(404);
             trigger(ResolveRoute::class . '.notFound');
 
@@ -68,6 +70,7 @@ class InitRequest extends AbstractChainOfReponsibility
          */
         $this->router->setData($match);
         $this->request->setMatch($match);
+        message('Match found ' . json_encode($match));
 
         trigger(Request::class . '.initialized', [$this->request]);
 

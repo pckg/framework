@@ -49,8 +49,12 @@ class ResolveRoute
                         break;
                     }
 
-                    if ($this->domain && isset($route['language']) && $route['domain'] && $route['domain'] != $this->domain) {
-                        break;
+                    if ($route['language'] ?? false) {
+                        if ($this->domain) {
+                            if ($route['domain'] && $route['domain'] != $this->domain) {
+                                break;
+                            }
+                        }
                     }
 
                     $found = true;
@@ -172,8 +176,12 @@ class ResolveRoute
                     }
 
                     if ($error == false) {
-                        if ($this->domain && isset($conf['language']) && $conf['domain'] && $conf['domain'] != $this->domain) {
-                            continue;
+                        if ($conf['language'] ?? false) {
+                            if ($this->domain) {
+                                if ($conf['domain'] && $conf['domain'] != $this->domain) {
+                                    continue;
+                                }
+                            }
                         }
                         $match = $conf;
                         $match["data"] = $regexData;
