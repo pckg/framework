@@ -190,15 +190,10 @@ class Response
             $url = $this->getMinusUrl();
 
             $output = '<html><body><script>history.go(-1);</script></body></html>';
-        } else if (substr($url, 0, 1) == '@') {
-            $url = (new URL())->setParams($httpParams)
-                              ->setUrl(
-                                  $this->router->make(
-                                      substr($url, 1),
-                                      $routerParams
-                                  )
-                              )->relative();
-        } else if ($url === null) {
+        } elseif (substr($url, 0, 1) == '@') {
+            $url = (new URL())->setParams($httpParams)->setUrl($this->router->make(substr($url, 1),
+                                                                                   $routerParams))->relative();
+        } elseif ($url === null) {
             $url = $this->router->getUri();
         }
 
@@ -206,8 +201,7 @@ class Response
             if (request()->isJson() || request()->isAjax()) {
                 $output = json_encode(['redirect' => $url]);
             } else {
-                $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url .
-                          '" /></head><body></body></html>';
+                $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url . '" /></head><body></body></html>';
             }
         }
 
@@ -233,16 +227,13 @@ class Response
 
     /**
      * @T00D00 - rename this to success()
-     *
      * @return Response
      */
     public function respondWithSuccess($data = [])
     {
         $this->code = 200;
 
-        return request()->isJson() || request()->isAjax()
-            ? $this->respondWithAjaxSuccess($data)
-            : $this->redirect();
+        return request()->isJson() || request()->isAjax() ? $this->respondWithAjaxSuccess($data) : $this->redirect();
     }
 
     public function respondWithSuccessRedirect($url = -1)
@@ -253,29 +244,22 @@ class Response
 
         $this->code = 200;
 
-        return request()->isJson() || request()->isAjax()
-            ? $this->respondWithAjaxSuccessAndRedirect($url)
-            : $this->redirect($url);
+        return request()->isJson() || request()->isAjax() ? $this->respondWithAjaxSuccessAndRedirect($url) : $this->redirect($url);
     }
 
     /**
      * @T00D00 - rename this to ajaxSuccess()
-     *
      * @return Response
      */
     public function respondWithAjaxSuccess($data = [])
     {
         $this->code = 200;
 
-        return $this->respond(
-            array_merge(
-                [
-                    'success' => true,
-                    'error'   => false,
-                ],
-                $data
-            )
-        );
+        return $this->respond(array_merge([
+                                              'success' => true,
+                                              'error'   => false,
+                                          ],
+                                          $data));
     }
 
     public function respondWithAjaxSuccessAndRedirect($url)
@@ -286,35 +270,29 @@ class Response
 
         $this->code = 200;
 
-        return $this->respond(
-            [
-                'success'  => true,
-                'error'    => false,
-                'redirect' => $url,
-            ]
-        );
+        return $this->respond([
+                                  'success'  => true,
+                                  'error'    => false,
+                                  'redirect' => $url,
+                              ]);
     }
 
     public function respondWithAjaxSuccessAndRedirectBack()
     {
         $this->code = 200;
 
-        return $this->respond(
-            [
-                'success'  => true,
-                'error'    => false,
-                'redirect' => $this->getMinusUrl(),
-            ]
-        );
+        return $this->respond([
+                                  'success'  => true,
+                                  'error'    => false,
+                                  'redirect' => $this->getMinusUrl(),
+                              ]);
     }
 
     public function respondWithSuccessOrRedirect($url)
     {
         $this->code = 200;
 
-        return request()->isJson() || request()->isAjax()
-            ? $this->respondWithAjaxSuccessAndRedirect($url)
-            : $this->redirect($url);
+        return request()->isJson() || request()->isAjax() ? $this->respondWithAjaxSuccessAndRedirect($url) : $this->redirect($url);
     }
 
     public function respondWithSuccessOrRedirectBack()
@@ -326,9 +304,7 @@ class Response
 
     public function respondWithError($data = [])
     {
-        return request()->isJson() || request()->isAjax()
-            ? $this->respondWithAjaxError($data)
-            : $this->notFound();
+        return request()->isJson() || request()->isAjax() ? $this->respondWithAjaxError($data) : $this->notFound();
     }
 
     public function respondWithErrorRedirect($url = -1)
@@ -339,24 +315,18 @@ class Response
 
         $this->code = 200;
 
-        return request()->isAjax()
-            ? $this->respondWithAjaxErrorAndRedirect($url)
-            : $this->redirect($url);
+        return request()->isAjax() ? $this->respondWithAjaxErrorAndRedirect($url) : $this->redirect($url);
     }
 
     public function respondWithAjaxError($data = [])
     {
         $this->code = 200;
 
-        return $this->respond(
-            array_merge(
-                [
-                    'success' => false,
-                    'error'   => true,
-                ],
-                $data
-            )
-        );
+        return $this->respond(array_merge([
+                                              'success' => false,
+                                              'error'   => true,
+                                          ],
+                                          $data));
     }
 
     public function respondWithAjaxErrorAndRedirect($url)
@@ -367,13 +337,11 @@ class Response
 
         $this->code = 200;
 
-        return $this->respond(
-            [
-                'success'  => false,
-                'error'    => true,
-                'redirect' => $url,
-            ]
-        );
+        return $this->respond([
+                                  'success'  => false,
+                                  'error'    => true,
+                                  'redirect' => $url,
+                              ]);
     }
 
     /**
@@ -433,12 +401,20 @@ class Response
         return $this;
     }
 
-    public function download($file, $filename)
+    public function image($file)
     {
-        $this->sendFileContentTypeHeaders($filename);
-        $this->sendFileDispositionHeader($filename);
-        header("Content-Length: " . filesize($file));
+        $this->sendFileContentTypeHeaders($file);
+        $this->sendContentLengthHeader($file);
+        $this->readFile($file);
+    }
 
+    public function sendContentLengthHeader($file)
+    {
+        header("Content-Length: " . filesize($file));
+    }
+
+    protected function readFile($file)
+    {
         $fp = fopen($file, "r");
         while (!feof($fp)) {
             echo fread($fp, 65536);
@@ -446,6 +422,14 @@ class Response
         }
 
         exit;
+    }
+
+    public function download($file, $filename)
+    {
+        $this->sendFileContentTypeHeaders($filename);
+        $this->sendFileDispositionHeader($filename);
+        $this->sendContentLengthHeader($file);
+        $this->readFile($file);
     }
 
     public function downloadString($string, $filename)
@@ -461,6 +445,8 @@ class Response
     {
         if (strpos($filename, '.pdf')) {
             header("Content-Type: application/pdf");
+        } elseif (strpos($filename, '.png')) {
+            header("Content-Type: image/png");
         } else {
             header("Content-Type: application/octet-stream");
             header("Content-Type: application/download");
