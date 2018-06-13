@@ -353,7 +353,7 @@ class Response
     {
         $this->sendJsonHeader();
 
-        return json_encode($array, JSON_PARTIAL_OUTPUT_ON_ERROR);
+        return json_encode($array, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_NUMERIC_CHECK);
     }
 
     public function respondAndContinue($string = null)
