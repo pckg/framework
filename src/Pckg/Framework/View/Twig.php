@@ -305,9 +305,19 @@ class Twig extends AbstractView implements ViewInterface
 
             return $render;
         } catch (Twig_Error_Syntax $e) {
-            return "<pre>Twig error:" . exception($e) . "</pre>";
+            if (prod()) {
+                //return " ";
+            }
+
+            throw $e;
+            //return "<pre>Twig error:" . exception($e) . "</pre>";
         } catch (Throwable $e) {
-            return '<pre>' . exception($e) . '</pre>';
+            if (prod()) {
+                //return " ";
+            }
+
+            throw $e;
+            //return '<pre>' . exception($e) . '</pre>';
         }
     }
 

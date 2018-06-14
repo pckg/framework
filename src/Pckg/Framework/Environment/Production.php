@@ -70,7 +70,7 @@ class Production extends Environment
         $message = $e->getMessage();
 
         $handled = false;
-        $codes = [$code, 'default'];
+        $codes = [/*$code, */'default'];
         foreach ($codes as $file) {
             try {
                 $response = view(
@@ -82,12 +82,13 @@ class Production extends Environment
                     ]
                 )->autoparse();
 
-                if ($response) {
-                    $handled = true;
-                    break;
+                if (!$response) {
+                    continue;
                 }
+
+                $handled = true;
+                break;
             } catch (Throwable $e) {
-                die(exception($e));
             }
         }
 
