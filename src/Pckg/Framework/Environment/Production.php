@@ -6,9 +6,9 @@ use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
-use Rollbar;
 use Throwable;
 use Whoops\Run;
+use Rollbar\Rollbar;
 
 class Production extends Environment
 {
