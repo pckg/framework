@@ -52,7 +52,7 @@ class Production extends Environment
                             'root'              => path('root'),
                         ]
                     );
-                    Rollbar::report_exception($exception);
+                    Rollbar::log(Level::ERROR, $exception);
                 }
 
                 $this->handleException($exception);

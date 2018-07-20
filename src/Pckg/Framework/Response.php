@@ -216,11 +216,17 @@ class Response
             $session->__destruct();
         }
 
+        $code = $this->getCode();
+        if ($code == 200) {
+            $this->code(301);
+        }
+
         // try with php
         header("Location: " . $url);
 
         // fallback with html
         $this->respond($output);
+        exit;
 
         return $this;
     }

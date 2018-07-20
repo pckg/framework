@@ -32,6 +32,11 @@ class Command extends SymfonyConsoleCommand
         $this->output = $output;
     }
 
+
+    protected function prepareForExecution() {
+
+    }
+
     /**
      * @param $data
      *
