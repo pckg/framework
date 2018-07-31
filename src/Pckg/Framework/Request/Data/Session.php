@@ -1,18 +1,17 @@
-<?php
+<?php namespace Pckg\Framework\Request\Data;
 
-namespace Pckg\Framework\Request\Data;
-
-use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\SessionDriver\Db;
 use Pckg\Framework\Request\Data\SessionDriver\FileDriver;
 
-class Session extends Lazy
+class Session
 {
 
     /**
      * @var Db
      */
     protected $driver;
+
+    protected $source;
 
     public function __construct(array $arr = [])
     {
@@ -21,14 +20,23 @@ class Session extends Lazy
         $this->driver = new $driver;
     }
 
-    function __destruct()
+    public function get($key, $default = null)
     {
-        /**
-         * Fix issue first!
-         * Is it fixed?
-         */
+        return $_SESSION[$key] ?? $default;
+    }
+
+    public function set($key, $value)
+    {
+        $_SESSION[$key] = $value;
+
+        return $this;
+    }
+
+    public function delete($key)
+    {
+        unset($_SESSION[$key]);
+
+        return $this;
     }
 
 }
-
-?>

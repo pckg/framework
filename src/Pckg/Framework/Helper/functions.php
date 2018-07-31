@@ -328,11 +328,17 @@ if (!function_exists('chain')) {
 
 if (!function_exists('session')) {
     /**
-     * @return mixed
+     * @return mixed|Session
      */
-    function session()
+    function session($key = null, $default = null)
     {
-        return context()->getOrCreate(Session::class);
+        $session = context()->getOrCreate(Session::class);
+
+        if (!$key) {
+            return $session;
+        }
+
+        return $session->get($key, $default);
     }
 }
 

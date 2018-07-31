@@ -10,7 +10,7 @@ class FileDriver extends SessionHandler
         $this->register();
     }
 
-    function register()
+    public function register()
     {
         session_set_save_handler([$this, 'open'],
                                  [$this, 'close'],
