@@ -39,4 +39,9 @@ class Session
         return $this;
     }
 
+    public function __destruct()
+    {
+        // TODO: Implement __destruct() method.
+    }
+
 }
