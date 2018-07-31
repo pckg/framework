@@ -6,6 +6,7 @@ use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
+use Rollbar\Payload\Level;
 use Throwable;
 use Whoops\Run;
 use Rollbar\Rollbar;
