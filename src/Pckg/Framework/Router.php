@@ -154,7 +154,7 @@ class Router
             $this->routes[$conf["url"]] = [];
         }
 
-        array_unshift($this->routes[$conf["url"]], $conf);
+        array_push($this->routes[$conf["url"]], $conf);
     }
 
     public function replace($route, $conf = [])
