@@ -6,6 +6,7 @@ use Pckg\Concept\Context;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
+use Pckg\Framework\Exception;
 use Rollbar\Payload\Level;
 use Throwable;
 use Whoops\Run;
@@ -20,8 +21,8 @@ class Production extends Environment
 
     function __construct(Config $config, Context $context)
     {
-        error_reporting(null);
-        ini_set("display_errors", false);
+        error_reporting(0);
+        ini_set("display_errors", 0);
 
         $this->context = $context;
 
@@ -48,12 +49,18 @@ class Production extends Environment
                     Rollbar::init(
                         [
                             'access_token'      => config('rollbar.access_token'),
-                            'report_suppressed' => config('rollbar.report_suppressed', true),
+                            'reportSuppressed'  => config('rollbar.reportSuppressed', true),
                             'environment'       => 'production',
                             'root'              => path('root'),
                         ]
                     );
-                    Rollbar::log(Level::ERROR, $exception);
+                    $level = Level::ERROR;
+                    if (response()->code() == 500) {
+                        $level = Level::CRITICAL;
+                    } else if (in_array(response()->code(), [400, 401, 402, 403, 404])) {
+                        $level = Level::WARNING;
+                    }
+                    Rollbar::log($level, $exception);
                 }
 
                 $this->handleException($exception);
