@@ -55,9 +55,9 @@ class Production extends Environment
                         ]
                     );
                     $level = Level::ERROR;
-                    if (response()->code() == 500) {
+                    if (response()->getCode() == 500) {
                         $level = Level::CRITICAL;
-                    } else if (in_array(response()->code(), [400, 401, 402, 403, 404])) {
+                    } else if (in_array(response()->getCode(), [400, 401, 402, 403, 404])) {
                         $level = Level::WARNING;
                     }
                     Rollbar::log($level, $exception);
