@@ -1408,11 +1408,22 @@ if (!function_exists('transform')) {
 }
 
 if (!function_exists('cache')) {
-    function cache($key, $value, $type = 'request', $time = 0)
+    /**
+     * @param null          $key
+     * @param callable|null $value
+     * @param string        $type
+     * @param int           $time
+     *
+     * @return mixed|Cache
+     * @throws Exception
+     */
+    function cache($key = null, callable $value = null, $type = 'request', $time = 0)
     {
         $cache = context()->getOrCreate(Cache::class);
 
-        return $cache->cache($key, $value, $type, $time);
+        return $key
+            ? $cache->cache($key, $value, $type, $time)
+            : $cache;
     }
 }
 
