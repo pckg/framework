@@ -130,7 +130,7 @@ var http = {
 
     redirect: function redirect(url) {
         if (!url || typeof url == 'undefined') {
-            url = window.location.href = window.location.href;
+            url = window.location.href;
         }
 
         window.location.href = url;
