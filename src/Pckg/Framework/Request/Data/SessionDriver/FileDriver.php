@@ -12,16 +12,16 @@ class FileDriver extends SessionHandler
 
     public function register()
     {
-        session_set_save_handler([$this, 'open'],
-                                 [$this, 'close'],
-                                 [$this, 'read'],
-                                 [$this, 'write'],
-                                 [$this, 'destroy'],
-                                 [$this, 'gc']);
-
-        register_shutdown_function('session_write_close');
-
         if (!($SID = session_id())) {
+            session_set_save_handler([$this, 'open'],
+                                     [$this, 'close'],
+                                     [$this, 'read'],
+                                     [$this, 'write'],
+                                     [$this, 'destroy'],
+                                     [$this, 'gc']);
+
+            register_shutdown_function('session_write_close');
+
             /**
              * Keep session data in server in client for 1h by default.
              */
