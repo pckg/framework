@@ -36,6 +36,34 @@ if (!function_exists('env')) {
 }
 
 /**
+ * @return Environment
+ */
+if (!function_exists('dotenv')) {
+    function dotenv($key, $default = null)
+    {
+        $dotenv = context()->getOrCreate(\josegonzalez\Dotenv\Loader::class, [], null, function(){
+            $file = path('root') . '.env';
+            if (!file_exists($file)) {
+                return;
+            }
+            $dotenv = new \josegonzalez\Dotenv\Loader($file);
+
+            $dotenv->parse();
+
+            return $dotenv;
+        });
+
+        if (!$dotenv) {
+            return $default;
+        }
+
+        $var = $dotenv->toArray();
+
+        return $var[$key] ?? $default;
+    }
+}
+
+/**
  * @return Application
  */
 if (!function_exists('app')) {

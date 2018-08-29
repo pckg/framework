@@ -54,6 +54,8 @@ class ResolveRoute
                             if ($route['domain'] && $route['domain'] != $this->domain) {
                                 break;
                             }
+                        } else if ($route['language'] != localeManager()->getDefaultFrontendLanguage()->slug) {
+                            break;
                         }
                     }
 
@@ -181,6 +183,8 @@ class ResolveRoute
                                 if ($conf['domain'] && $conf['domain'] != $this->domain) {
                                     continue;
                                 }
+                            } else if (localeManager()->getDefaultFrontendLanguage()->slug != $conf['language']) {
+                                continue;
                             }
                         }
                         $match = $conf;

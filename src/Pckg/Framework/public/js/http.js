@@ -67,6 +67,10 @@ var http = {
             whenDone = http.postDone;
         }
 
+        if (typeof whenError == 'undefined') {
+            whenError = http.postError;
+        }
+
         data = http.fixUndefined(data);
 
         return $.ajax({
@@ -132,6 +136,10 @@ var http = {
 
             }
         }
+    },
+
+    postError: function postError(response) {
+        console.log('postError', response.responseJSON);
     },
 
     redirect: function (url) {
