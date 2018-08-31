@@ -42,6 +42,8 @@ class RunResponse extends AbstractChainOfReponsibility
                                                               'html' => $output,
                                                               'vue'  => $vue,
                                                           ]));
+        } else if (is_bool($output)) {
+            $response->setOutput($response->arrayToString(['success' => $output]));
         }
 
         if (!$response->getOutput()) {

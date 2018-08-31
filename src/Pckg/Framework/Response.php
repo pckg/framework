@@ -470,4 +470,21 @@ class Response
         header("Content-Description: File Transfer");
     }
 
+    public function sendCacheHeaders($seconds = 60)
+    {
+        $timestamp = gmdate("D, d M Y H:i:s", time() + $seconds) . " GMT";
+        header("Expires: " . $timestamp);
+        header("Pragma: cache");
+        header("Cache-Control: max-age=" . $seconds);
+    }
+
+    public function sendNoCacheHeaders()
+    {
+        $timestamp = gmdate("D, d M Y H:i:s") . " GMT";
+        header("Expires: " . $timestamp);
+        header("Last-Modified: " . $timestamp);
+        header("Pragma: no-cache");
+        header("Cache-Control: no-cache, must-revalidate");
+    }
+
 }

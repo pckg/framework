@@ -4,7 +4,7 @@ namespace Pckg\Framework\View;
 
 use Throwable;
 
-abstract class AbstractView implements ViewInterface
+abstract class AbstractView implements ViewInterface, \JsonSerializable
 {
 
     const PRIORITY_APP = 100;
@@ -132,6 +132,11 @@ abstract class AbstractView implements ViewInterface
         $this->file = $file;
 
         return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->__toString();
     }
 
     public function __toString()

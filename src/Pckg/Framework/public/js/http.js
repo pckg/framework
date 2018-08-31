@@ -343,6 +343,13 @@ var utils = {
         });
 
         return grouped;
+    },
+
+    lazyTemplate: function(resolve, obj, url) {
+        http.getJSON(url, function(data) {
+            obj.template = data.template;
+            resolve(obj);
+        });
     }
 
 };
