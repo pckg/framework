@@ -68,6 +68,8 @@ class Response
 
     protected $code = 200;
 
+    protected $responded = false;
+
     public function __construct(Router $router, Environment $environment)
     {
         $this->router = $router;
@@ -101,7 +103,7 @@ class Response
     public function code($code)
     {
         $this->code = $code;
-        @header($this->http[$code]);
+        header($this->http[$code]);
 
         return $this;
     }
@@ -140,6 +142,11 @@ class Response
         if (isset($_SERVER['HTTP_REFERER'])) {
             return $_SERVER['HTTP_REFERER'];
         }
+    }
+
+    public function hasResponded()
+    {
+        return $this->responded;
     }
 
     public function internal($url)
@@ -362,21 +369,34 @@ class Response
         return json_encode($array, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_NUMERIC_CHECK);
     }
 
-    public function respondAndContinue($string = null)
+    public function respondAndContinue($string = null, $seconds = 120)
     {
+        $isJson = false;
         if (is_array($string)) {
+            $isJson;
             $string = $this->arrayToString($string);
         }
 
+        ignore_user_abort(true);
+        set_time_limit($seconds);
+
         ob_start();
         echo $string;
-        $size = ob_get_length();
-        header("Content-Encoding: none");
-        header("Content-Length: " . $size);
+        if ($isJson) {
+            $this->sendJsonHeader();
+        }
+        $this->code(202);
+        header("Content-Length: " . ob_get_length());
         header("Connection: close");
         ob_end_flush();
         ob_flush();
         flush();
+
+        $this->responded = true;
+
+        if (session_id()) {
+            session_write_close();
+        }
     }
 
     public function stop($code = 0)
@@ -390,9 +410,7 @@ class Response
     {
         if (is_array($string)) {
             $string = $this->arrayToString($string);
-        }
-
-        if (!$string && func_get_args()) {
+        } else if (!$string && func_get_args()) {
             $string = $this->output;
         }
 
