@@ -673,7 +673,21 @@ if (!function_exists('isHttp')) {
 }
 
 if (!function_exists('dd')) {
+    /**
+     * @param mixed ...$mixed
+     * @deprecated 
+     */
     function dd(...$mixed)
+    {
+        foreach ($mixed as $m) {
+            d($m);
+        }
+        die();
+    }
+}
+
+if (!function_exists('ddd')) {
+    function ddd(...$mixed)
     {
         foreach ($mixed as $m) {
             d($m);
