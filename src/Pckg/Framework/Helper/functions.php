@@ -42,7 +42,7 @@ if (!function_exists('dotenv')) {
     function dotenv($key, $default = null)
     {
         $dotenv = context()->getOrCreate(\josegonzalez\Dotenv\Loader::class, [], null, function(){
-            $file = path('root') . '.env';
+            $file = BASE_PATH . '.env';
             if (!file_exists($file)) {
                 return;
             }
@@ -109,7 +109,7 @@ if (!function_exists('request')) {
      */
     function request()
     {
-        return context()->get(Request::class);
+        return context()->getOrCreate(Request::class);
     }
 }
 
@@ -185,7 +185,7 @@ if (!function_exists('response')) {
      */
     function response()
     {
-        return context()->get(Response::class);
+        return context()->getOrCreate(Response::class);
     }
 }
 
@@ -751,7 +751,7 @@ if (!function_exists('prod')) {
 if (!function_exists('implicitDev')) {
     function implicitDev()
     {
-        return (isset($_SERVER['REMOTE_ADDR']) && in_array($_SERVER['REMOTE_ADDR'], config('pckg.framework.dev', [])));
+        return server('REMOTE_ADDR') && in_array(server('REMOTE_ADDR'), config('pckg.framework.dev', []));
     }
 }
 

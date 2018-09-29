@@ -9,20 +9,16 @@ use Whoops\Run;
 class Console extends Environment
 {
 
-    function __construct(Config $config, Context $context)
+    public function register()
     {
         error_reporting(E_ALL);
         ini_set("display_errors", "1");
 
-        $this->context = $context;
+        $this->config->parseDir(BASE_PATH);
 
         $this->registerExceptionHandler();
 
-        $context->bind(Config::class, $config);
-
         $this->init();
-
-        $config->parseDir(path('root'));
     }
 
     public function registerExceptionHandler()

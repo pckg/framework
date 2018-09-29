@@ -23,6 +23,7 @@ class Context extends ConceptContext
         /**
          * Create development environment.
          * We automatically display errors and load debugbar.
+         * Exceptions are caught in method.
          */
         $this->createEnvironment($environment);
 
@@ -48,24 +49,35 @@ class Context extends ConceptContext
          * This will parse config, set localization 'things', estamblish connection to database, initialize and register
          * routes, set application autoloaders and providers, session, response, request and assets.
          */
-        measure('Initializing ' . get_class($application), function() use ($application) {
-            $application->init(); // 0.37s -> 0.94s / 1.03s = 57%
-        });
+        measure('Initializing ' . get_class($application),
+            function() use ($application) {
+                $application->init(); // 0.37s -> 0.94s / 1.03s = 57%
+            });
+
 
         /**
          * Run applications.
          * Everything was preset, we need to run command or request and return response.
          */
         if ($run) {
-            measure('Running ' . get_class($application), function() use ($application) {
-                $application->run();
-            });
+            measure('Running ' . get_class($application),
+                function() use ($application) {
+                    $application->run();
+                });
         }
     }
 
     public function createEnvironment($environment)
     {
-        $this->bind(Environment::class, Reflect::create($environment));
+        try {
+            $env = Reflect::create($environment);
+            $this->bind(Environment::class, $env);
+            $env->register();
+        } catch (\Throwable $e) {
+            error_log('Error registering environment: ' . $e->getMessage());
+            die();
+            exit;
+        }
 
         return $this;
     }

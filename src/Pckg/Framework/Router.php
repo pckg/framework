@@ -398,9 +398,20 @@ class Router
     public function getPublicRoutes()
     {
         $publicRoutes = config('pckg.router.publicRoutes', []);
+        $allRoutes = router()->getRoutes();
         $routes = [];
         foreach ($publicRoutes as $route) {
-            $routes[$route] = url($route);
+            if (strpos($route, '(.*)') === false) {
+                $routes[$route] = url($route);
+                continue;
+            }
+            foreach ($allRoutes as $key => $routeArr) {
+                $firstRoute = $routeArr[0];
+                if (!preg_match('~^' . $route . '$~', $firstRoute['name'])) {
+                    continue;
+                }
+                $routes[$firstRoute['name']] = url($firstRoute['name']);
+            }
         }
         return $routes;
     }

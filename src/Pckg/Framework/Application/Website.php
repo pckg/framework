@@ -23,9 +23,9 @@ class Website extends Application
         return [
             InitConfig::class,
             Localize::class,
-            InitDatabase::class,
             InitRouter::class,
             InitSession::class,
+            InitDatabase::class, // can we init it on demand?
 
             RegisterApplication::class,
 

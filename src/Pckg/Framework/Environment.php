@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework;
 
+use Pckg\Concept\Context;
 use Pckg\Framework\Environment\Command\DefinePaths;
 use Pckg\Framework\Environment\Development;
 use Pckg\Framework\Environment\Production;
@@ -13,6 +14,24 @@ class Environment implements AssetManager
     protected $urlPrefix = '/index.php';
 
     protected $env;
+
+    /**
+     * @var Context
+     */
+    protected $context;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    function __construct(Config $config, Context $context)
+    {
+        $this->config = $config;
+        $this->context = $context;
+
+        $this->context->bind(Config::class, $this->config);
+    }
 
     public function getUrlPrefix()
     {
