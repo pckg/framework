@@ -145,6 +145,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 return $viewData->toArray();
             } else if (method_exists($viewData, '__toString')) {
                 return (string)$viewData;
+            } else if ($viewData instanceof \stdClass) {
+                return json_encode($viewData);
             }
         } else if (is_string($viewData) || is_array($viewData)) {
             // print view as content
