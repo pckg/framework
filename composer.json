@@ -12,7 +12,6 @@
   "require": {
     "pckg/concept": "dev-master",
     "pckg/database": "dev-master",
-    "pckg/manager": "dev-master",
     "pckg/htmlbuilder": "dev-master",
     "pckg/cache": "dev-master",
     "pckg/locale": "dev-master",
