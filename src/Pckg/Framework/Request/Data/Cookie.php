@@ -18,8 +18,8 @@ class Cookie extends Lazy
         $expiration = self::EXPIRATION,
         $path = '/',
         $domain = null,
-        $secure = false,
-        $httponly = false
+        $secure = true,
+        $httponly = true
     ) {
         setcookie($name, $value, time() + $expiration, $path, $domain, $secure, $httponly);
         $_COOKIE[$name] = $value;
@@ -29,7 +29,7 @@ class Cookie extends Lazy
 
     public function delete($name)
     {
-        setcookie($name, null, time() - static::EXPIRATION, '/', null, false, false);
+        setcookie($name, null, time() - static::EXPIRATION, '/', null, true, true);
         unset($_COOKIE[$name]);
 
         return $this;
