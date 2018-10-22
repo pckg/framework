@@ -46,7 +46,7 @@ class Production extends Environment
             /**
              * Try report to rollbar.
              */
-            $this->reportToRollbar();
+            $this->reportToRollbar($exception);
 
             /**
              * Respond to client.
@@ -72,7 +72,7 @@ class Production extends Environment
                                   'root'             => path('root'),
                               ]);
                 $level = Level::ERROR;
-                if (response()->getCode() == 500) {
+                if (in_array(response()->getCode(), [500, 200])) {
                     $level = Level::CRITICAL;
                 } elseif (in_array(response()->getCode(), [400, 401, 402, 403, 404])) {
                     $level = Level::WARNING;
