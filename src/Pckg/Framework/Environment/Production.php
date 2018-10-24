@@ -60,7 +60,7 @@ class Production extends Environment
         $whoops->register();
     }
 
-    public function reportToRollbar()
+    public function reportToRollbar(Throwable $exception)
     {
         try {
             $whitelist = config('rollbar.whitelist');
