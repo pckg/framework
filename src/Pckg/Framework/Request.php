@@ -53,7 +53,6 @@ class Request extends Lazy
         $this->get = new Lazy($_GET);
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
-        //setcookie('ref', 'test123', mktime() + 999999, '/');
         $this->cookie = new Cookie($_COOKIE);
         $this->request = new Lazy($_REQUEST);
 
