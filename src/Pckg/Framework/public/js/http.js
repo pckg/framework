@@ -222,6 +222,44 @@ var locale = {
 
 };
 
+var collection = {
+
+    groupBy: function(collection, groupBy) {
+        let groups = {};
+
+        $.each(collection, function(i, item){
+            let group = groupBy(item, i);
+            if (!groups[group]) {
+                groups[group] = [];
+            }
+            groups[group].push(item);
+        });
+
+        return groups;
+    },
+
+    map: function(collection, map) {
+        let mapped = {};
+
+        $.each(collection, function(i, item){
+            mapped[i] = map(item);
+        });
+
+        return mapped;
+    },
+
+    keyBy: function(collection, key) {
+        let keyed = {};
+
+        $.each(collection, function(i, item){
+            keyed[key(item, i)] = item;
+        });
+
+        return keyed;
+    }
+
+};
+
 var utils = {
 
     isSameDate: function (first, second) {
