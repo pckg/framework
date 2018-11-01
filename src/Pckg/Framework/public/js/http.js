@@ -346,6 +346,9 @@ var utils = {
     },
 
     lazyTemplate: function(resolve, obj, url) {
+        if (typeof url !== 'string') {
+            url = url(obj);
+        }
         http.getJSON(url, function(data) {
             obj.template = data.template;
             resolve(obj);
