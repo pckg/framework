@@ -268,8 +268,11 @@ var utils = {
         if (!_url) {
             return;
         }
-        if (_url.indexOf('@') === 0) {
-            _url = Pckg.router.urls[_url.substring(1)] || null;
+        if (_url.indexOf('@') === 0 && Pckg.router.urls[_url.substring(1)]) {
+            _url = Pckg.router.urls[_url.substring(1)];
+        }
+        if (_url.indexOf('@') === 0 && Pckg.router.urls[_url.substring(1) + ':' + Pckg.config.locale.current.substring(0, 2)]) {
+            _url = Pckg.router.urls[_url.substring(1) + ':' + Pckg.config.locale.current.substring(0, 2)];
         }
         if (!_url) {
             return;

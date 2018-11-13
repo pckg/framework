@@ -274,8 +274,11 @@ var utils = {
         if (!url) {
             return;
         }
-        if (url.indexOf('@') === 0) {
-            url = Pckg.router.urls[url.substring(1)] || null;
+        if (url.indexOf('@') === 0 && Pckg.router.urls[url.substring(1)]) {
+            url = Pckg.router.urls[_url.substring(1)];
+        }
+        if (url.indexOf('@') === 0 && Pckg.router.urls[url.substring(1) + ':' + Pckg.config.locale.current.substring(0, 2)]) {
+            url = Pckg.router.urls[_url.substring(1) + ':' + Pckg.config.locale.current.substring(0, 2)];
         }
         if (!url) {
             return;
