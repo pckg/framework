@@ -26,6 +26,8 @@ class RegisterApplication
          */
         chain([Localize::class]);
 
+        trigger(Application::class . '.registered');
+
         return $next();
     }
 
