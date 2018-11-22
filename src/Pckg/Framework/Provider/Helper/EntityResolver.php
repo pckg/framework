@@ -19,20 +19,31 @@ trait EntityResolver
         return $this;
     }
 
+    public function getBy()
+    {
+        return $this->by ?? 'id';
+    }
+
     public function parametrize($record)
     {
         return $record->{$this->by ?? 'id'};
     }
 
+    public function prepareEntity()
+    {
+        $e = $this->entity;
+        return $this->e = new $e;
+    }
+
     public function resolve($value)
     {
-        $entity = $this->entity;
-
         if ($this->postField && !post($this->postField, null)) {
             return null;
         }
 
-        $this->e = (new $entity)->where($this->by ?? 'id', ($this->postField ? post($this->postField, null) : $value));
+        $this->prepareEntity($value);
+
+        $this->e->where($this->getBy(), ($this->postField ? post($this->postField, null) : $value));
 
         if (method_exists($this, 'also')) {
             $this->also();
