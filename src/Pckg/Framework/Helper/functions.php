@@ -798,6 +798,10 @@ if (!function_exists('merge_arrays')) {
     {
         $replace = config('pckg.config.parse.replace', []);
 
+        if ($k && array_preg_match($replace, $k)) {
+            return $merge;
+        }
+
         foreach ($merge as $key => $val) {
             /**
              * Value is set first time.
