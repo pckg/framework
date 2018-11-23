@@ -256,6 +256,14 @@ var collection = {
 
 var utils = {
 
+    ucfirst: function(str) {
+        if (!str) {
+            return '';
+        }
+
+        return str.charAt(0).toUpperCase() + str.slice(1);
+    },
+
     isSameDate: function isSameDate(first, second) {
         return locale.date(first) == locale.date(second);
     },
