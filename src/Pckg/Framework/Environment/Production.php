@@ -24,7 +24,6 @@ class Production extends Environment
         $this->config->parseDir(BASE_PATH);
 
         $this->registerExceptionHandler();
-        //throw new \Exception('Test prexception');
 
         $this->init();
     }
@@ -90,6 +89,8 @@ class Production extends Environment
             $code = $e->getCode() ? $e->getCode() : response()->getCode();
             $message = $e->getMessage();
 
+            @error_log($message . ' (' . $code . ')');
+
             $handled = false;
             $codes = [/*$code, */
                       'default',
@@ -115,14 +116,13 @@ class Production extends Environment
                 }
             }
 
-            if ($handled) {
-                echo $response;
-            } else {
-                echo $message . ' (' . $code . ')';
+            echo $response ?? '<p>Service is temporarily unavailable</p>';
+
+            if (!$handled && implicitDev()) {
+                echo '<p>' . exception($e) . '</p>';
             }
         } catch (Throwable $e) {
-            // slowly die
-            die("E");
+            @error_log('Error handling exception: ' . $e->getMessage());
         }
 
         exit;

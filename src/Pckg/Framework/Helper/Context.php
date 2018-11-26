@@ -54,7 +54,6 @@ class Context extends ConceptContext
                 $application->init(); // 0.37s -> 0.94s / 1.03s = 57%
             });
 
-
         /**
          * Run applications.
          * Everything was preset, we need to run command or request and return response.
