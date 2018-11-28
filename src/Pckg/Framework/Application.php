@@ -24,7 +24,11 @@ class Application
     {
         trigger(Application::class . '.initializing', [$this]);
 
-        chain($this->inits(), 'execute', [$this]);
+        $init = chain($this->inits(), 'execute', [$this]);
+
+        if (!$init) {
+            throw new \Exception('Error initializing application');
+        }
 
         trigger(Application::class . '.initialized', [$this]);
 
@@ -35,7 +39,11 @@ class Application
     {
         trigger(Application::class . '.running', [$this]);
 
-        chain($this->runs(), 'execute', [$this]);
+        $run = chain($this->runs(), 'execute', [$this]);
+
+        if (!$run) {
+            throw new \Exception('Error running application');
+        }
 
         trigger(Application::class . '.ran', [$this]);
 

@@ -346,7 +346,7 @@ if (!function_exists('chain')) {
      * @return mixed|null|object
      * @throws Exception
      */
-    function chain($chains, $method = 'execute', array $args = [], $firstChain = null)
+    function chain($chains, $method = 'execute', array $args = [], callable $firstChain = null)
     {
         return (new ChainOfResponsibility($chains, $method, $args, $firstChain))->runChains();
     }
@@ -933,7 +933,7 @@ if (!function_exists('isArrayList')) {
 }
 
 if (!function_exists('sluggify')) {
-    function sluggify($str, $separator = '-')
+    function sluggify($str, $separator = '-', $special = null)
     {
         # special accents
         $a = [
@@ -1364,7 +1364,7 @@ if (!function_exists('sluggify')) {
         ];
 
         return strtolower(
-            preg_replace(['/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'], ['', $separator, ''], str_replace($a, $b, $str))
+            preg_replace(['/[^a-zA-Z0-9 -' . $special . ']/', '/[ -]+/', '/^-|-$/'], ['', $separator, ''], str_replace($a, $b, $str))
         );
     }
 }
