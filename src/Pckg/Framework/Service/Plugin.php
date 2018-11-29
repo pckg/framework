@@ -26,6 +26,8 @@ class Plugin
                     $httpMethod = 'get';
                 }
                 $method = $httpMethod . ucfirst($method);
+            } else {
+                $method = strtolower($byRequest) . ucfirst($method);
             }
 
             /**

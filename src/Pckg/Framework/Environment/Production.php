@@ -109,14 +109,23 @@ class Production extends Environment
                         continue;
                     }
 
-                    $handled = true;
-                    break;
+                    echo $response;
+                    exit;
                 } catch (Throwable $e) {
+                    if (implicitDev()) {
+                        echo '<p>' . exception($e) . '</p>';
+                    }
+                    @error_log($e->getMessage());
                     // slowly die
                 }
             }
 
-            echo $response ?? '<p>Service is temporarily unavailable</p>';
+            /**
+             * @T00D00 - add nice html response?
+             */
+            $response = '<html><head><title>Service is temporarily unavailable</title></head><body><p>Service is temporarily unavailable</p></body></html>';
+
+            echo $response;
 
             if (!$handled && implicitDev()) {
                 echo '<p>' . exception($e) . '</p>';

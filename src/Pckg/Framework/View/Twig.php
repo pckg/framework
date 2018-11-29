@@ -8,8 +8,6 @@ use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Manager\Locale;
-use Throwable;
-use Twig_Error_Syntax;
 use Twig_Extension_Debug;
 use Twig_Extension_StringLoader;
 use Twig_Loader_Chain;
@@ -277,48 +275,26 @@ class Twig extends AbstractView implements ViewInterface
             $this->twig = $this->twig->createTemplate($this->template);
         }
 
-        try {
+        /**
+         * Render template.
+         */
+        $render = measure('Rendering ' . $this->file, function() {
             /**
-             * Render template.
+             * Trigger rendering event so we can attach some handlers.
              */
-            message('Rendering ' . $this->file);
-            $render = measure(
-                'Rendering ' . $this->file,
-                function() {
-                    /**
-                     * Trigger rendering event so we can attach some handlers.
-                     */
-                    trigger(RenderingView::class, ['view' => $this->file, 'twig' => $this]);
+            trigger(RenderingView::class, ['view' => $this->file, 'twig' => $this]);
 
-                    return $this->twig->render($this->getFullData());
-                }
-            );
+            return $this->twig->render($this->getFullData());
+        });
 
-            if ($render == $this->file . '.twig') {
-                if (prod()) {
-                    return null;
-                }
-
-                return '<span style="color: black; font-weight: bold; background-color: red;">Cannot load file ' .
-                       $this->file . '.twig</span>';
-            }
-
-            return $render;
-        } catch (Twig_Error_Syntax $e) {
-            if (prod()) {
-                //return " ";
-            }
-
-            throw $e;
-            //return "<pre>Twig error:" . exception($e) . "</pre>";
-        } catch (Throwable $e) {
-            if (prod()) {
-                //return " ";
-            }
-
-            throw $e;
-            //return '<pre>' . exception($e) . '</pre>';
+        /**
+         * Check if template wasn't loaded.
+         */
+        if ($render == $this->file . '.twig') {
+            throw new \Exception('Cannot find file ' . $this->file . '.twig');
         }
+
+        return $render;
     }
 
 }
