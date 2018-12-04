@@ -13,6 +13,8 @@ use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\Router\Console\ListRoutes;
+use Pckg\Framework\View\Handler\RegisterTwigExtensions;
+use Pckg\Framework\View\Twig;
 use Pckg\Htmlbuilder\Provider\Htmlbuilder;
 use Pckg\Locale\LangInterface;
 use Pckg\Locale\Provider\Localizer;
@@ -43,16 +45,16 @@ class Framework extends Provider
     public function viewObjects()
     {
         return [
-            '_request'  => Request::class,
-            '_response' => Response::class,
-            '_server'   => Server::class,
-            '_router'   => Router::class,
-            '_env'      => Environment::class,
-            '_lang'     => LangInterface::class,
-            '_session'  => Session::class,
-            '_cookie'   => Cookie::class,
-            '_flash'    => Flash::class,
-            '_debugBar' => debugBar(),
+            '_request'    => Request::class,
+            '_response'   => Response::class,
+            '_server'     => Server::class,
+            '_router'     => Router::class,
+            '_env'        => Environment::class,
+            '_lang'       => LangInterface::class,
+            '_session'    => Session::class,
+            '_cookie'     => Cookie::class,
+            '_flash'      => Flash::class,
+            '_debugBar'   => debugBar(),
             '_translator' => Translator::class,
         ];
     }
@@ -60,8 +62,11 @@ class Framework extends Provider
     public function listeners()
     {
         return [
-            'forked' => [
+            'forked'                            => [
                 Forked::class,
+            ],
+            Twig::class . '.registerExtensions' => [
+                RegisterTwigExtensions::class,
             ],
         ];
     }
