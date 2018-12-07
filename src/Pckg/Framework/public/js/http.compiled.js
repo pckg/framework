@@ -23,20 +23,24 @@ var http = {
         return http.post($(vueElement.$el.attr('action')), http.formToData(vueElement, fields));
     },
 
-    get: function get(url, whenDone, whenError) {
+    get: function get(url, whenDone, whenError, options) {
+        if (options) {
+            return this.getJSON(url, whenDone, whenError, options);
+        }
+
         return $.ajax({
             url: url,
             method: 'get'
         }).done(whenDone).error(whenError);
     },
 
-    getJSON: function getJSON(url, whenDone, whenError) {
-        var request = $.ajax({
+    getJSON: function getJSON(url, whenDone, whenError, options) {
+        var request = $.ajax(Object.assign({
             url: url,
             dataType: 'JSON',
             method: 'get',
             type: 'get'
-        });
+        }, options || {}));
 
         if (whenDone) {
             request.done(whenDone);
