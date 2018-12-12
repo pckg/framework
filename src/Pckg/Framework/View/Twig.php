@@ -2,6 +2,8 @@
 
 namespace Pckg\Framework\View;
 
+use Pckg\Auth\Form\Register;
+use Pckg\Framework\Router;
 use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Twig_Loader_Chain;
@@ -77,6 +79,7 @@ class Twig extends AbstractView implements ViewInterface
             ]
         );
 
+        //(new View\Handler\RegisterTwigExtensions())->handle($this->twig);
         trigger(Twig::class . '.registerExtensions', $this->twig);
     }
 

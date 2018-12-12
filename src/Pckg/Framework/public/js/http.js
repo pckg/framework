@@ -23,6 +23,17 @@ var http = {
         return http.post($(vueElement.$el.attr('action')), http.formToData(vueElement, fields));
     },
 
+    search: function get(url, whenDone, whenError, options) {
+        if (options) {
+            return this.getJSON(url, whenDone, whenError, options);
+        }
+
+        return $.ajax({
+            url: url,
+            type: 'SEARCH'
+        }).done(whenDone).error(whenError);
+    },
+
     get: function (url, whenDone, whenError, options) {
         if (options) {
             return this.getJSON(url, whenDone, whenError, options);
@@ -30,7 +41,7 @@ var http = {
 
         return $.ajax({
             url: url,
-            method: 'get'
+            type: 'GET'
         }).done(whenDone).error(whenError);
     },
 
@@ -38,8 +49,7 @@ var http = {
         var request = $.ajax(Object.assign({
             url: url,
             dataType: 'JSON',
-            method: 'get',
-            type: 'get'
+            type: 'GET'
         }, options || {}));
 
         if (whenDone) {
@@ -57,8 +67,7 @@ var http = {
         return $.ajax({
             url: url,
             dataType: 'JSON',
-            method: 'delete',
-            type: 'delete'
+            type: 'DELETE'
         }).done(whenDone).error(whenError);
     },
 
@@ -80,8 +89,7 @@ var http = {
         return $.ajax({
             url: url,
             dataType: 'JSON',
-            method: 'post',
-            type: 'post',
+            type: 'POST',
             data: data
         }).done(whenDone).error(whenError);
     },
@@ -100,8 +108,7 @@ var http = {
         return $.ajax({
             url: url,
             dataType: 'JSON',
-            method: 'patch',
-            type: 'patch',
+            type: 'PATCH',
             data: data
         }).done(whenDone).error(whenError);
     },
