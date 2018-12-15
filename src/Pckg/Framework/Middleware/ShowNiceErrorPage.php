@@ -14,12 +14,27 @@ class ShowNiceErrorPage
                 throw $e;
             }
 
-            $output = '<p>Error during displaying error page. Yes, not funny at all ...</p>';
+            $output = '<p>No page found.</p>';
         }
 
         if ($output) {
             return response()->setOutput($output);
         }
+    }
+
+    public function handlePartial()
+    {
+        try {
+            $output = view('Pckg/Framework:error/_partial');
+        } catch (Throwable $e) {
+            if (dev()) {
+                throw $e;
+            }
+
+            $output = '<p>No page found.</p>';
+        }
+
+        return $output;
     }
 
 }

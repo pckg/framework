@@ -4,6 +4,7 @@ namespace Pckg\Framework\Request\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Context;
+use Pckg\Framework\Middleware\ShowNiceErrorPage;
 use Pckg\Framework\Request;
 use Pckg\Framework\Router;
 use Pckg\Framework\Router\Command\ResolveRoute;
@@ -53,7 +54,7 @@ class InitRequest extends AbstractChainOfReponsibility
                         return $output;
                     }
 
-                    return 'No page found';
+                    return (new ShowNiceErrorPage())->handlePartial();
                 },
                 'tags'      => ['layout:frontend'],
                 'name'      => null,
