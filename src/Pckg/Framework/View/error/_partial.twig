@@ -1,0 +1,12 @@
+<div class="container">
+
+    <h1>Error loading request</h1>
+    <p>Code {{ _response.getCode() }}</p>
+
+    <p>Go to <a href="#back">previous page</a> or <a href="/">home</a></p>
+
+    {% if implicitDev() and exception %}
+        <p>{{ exception.getMessage() }}</p>
+        <p>{{ exception.getTraceAsString() | nl2br }}</p>
+    {% endif %}
+</div>
