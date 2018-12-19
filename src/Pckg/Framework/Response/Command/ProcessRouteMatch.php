@@ -118,6 +118,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             if (request()->isAjax() && request()->isPost()) {
                 $this->response->respond(
                     [
+                        'message'   => $e->getMessage(),
                         'exception' => implicitDev() ? exception($e) : null,
                         'error'     => true,
                         'success'   => false,

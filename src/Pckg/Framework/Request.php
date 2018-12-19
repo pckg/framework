@@ -59,6 +59,18 @@ class Request extends Lazy
         $this->fetchUrl();
     }
 
+    public function setConstructs($post, $get, $server, $files, $cookie, $request)
+    {
+        $this->post = new Lazy($post);
+        $this->get = new Lazy($get);
+        $this->server = new Lazy($server);
+        $this->files = new Lazy($files);
+        $this->cookie = new Cookie($cookie);
+        $this->request = new Lazy($request);
+
+        $this->fetchUrl();
+    }
+
     public function initDependencies(Router $router, Response $response)
     {
         $this->router = $router;

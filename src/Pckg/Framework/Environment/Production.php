@@ -103,6 +103,7 @@ class Production extends Environment
                                          'message'   => $message,
                                          'code'      => $code,
                                          'exception' => $e,
+                                         'message'   => $e->getMessage(),
                                      ])->autoparse();
 
                     if (!$response) {
