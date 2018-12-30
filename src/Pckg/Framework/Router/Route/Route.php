@@ -122,6 +122,26 @@ class Route
         return $this;
     }
 
+    public function mergeToData($data = [])
+    {
+        foreach ($data as $k => $v) {
+            if (is_array($v)) {
+                foreach ($v as $k2 => $v2) {
+                    if (is_int($k2)) {
+                        $this->data[$k][] = $v2;
+                        continue;
+                    }
+                    $this->data[$k][$k2] = $v2;
+                }
+                continue;
+            }
+
+            $this->data[$k] = $v;
+        }
+
+        return $this;
+    }
+
     public function methods($methods)
     {
         $this->methods = $methods;

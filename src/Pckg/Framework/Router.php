@@ -50,16 +50,11 @@ class Router
     public function getCache()
     {
         if (!$this->cache) {
-            $this->cache = new Cache(
-                'framework/router_' . str_replace(
-                    [
-                        '\\',
-                        '/',
-                    ],
-                    '_',
-                    (get_class(app()) . '_' . get_class(env()))
-                ) . '.cache'
-            );
+            $this->cache = new Cache('framework/router_' . str_replace([
+                                                                           '\\',
+                                                                           '/',
+                                                                       ], '_',
+                                         (get_class(app()) . '_' . get_class(env()))) . '.cache');
         }
 
         return $this->cache;
@@ -92,14 +87,11 @@ class Router
         if (isset($router['providers'])) {
             foreach ($router['providers'] AS $providerType => $arrProviders) {
                 foreach ($arrProviders AS $provider => $providerConfig) {
-                    $routeProvider = Reflect::create(
-                        'Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType),
-                        [
-                            $providerType => $provider,
-                            'config'      => $providerConfig,
-                            'name'        => $provider,
-                        ]
-                    );
+                    $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
+                                                                                                                       $providerType => $provider,
+                                                                                                                       'config'      => $providerConfig,
+                                                                                                                       'name'        => $provider,
+                                                                                                                   ]);
                     $routeProvider->init();
                 }
             }
@@ -110,12 +102,10 @@ class Router
 
     public function writeCache()
     {
-        $this->getCache()->writeToCache(
-            [
-                'routes'     => $this->routes,
-                'cachedInit' => $this->cachedInit,
-            ]
-        );
+        $this->getCache()->writeToCache([
+                                            'routes'     => $this->routes,
+                                            'cachedInit' => $this->cachedInit,
+                                        ]);
     }
 
     public function addCachedInit($cachedInit = [])
@@ -142,13 +132,11 @@ class Router
 
     public function add($route, $conf = [], $name = null, $domain = null)
     {
-        $conf = array_merge(
-            $conf, [
-            'name'   => $name,
-            'url'    => $route,
-            'domain' => $domain,
-        ]
-        );
+        $conf = array_merge($conf, [
+                                     'name'   => $name,
+                                     'url'    => $route,
+                                     'domain' => $domain,
+                                 ]);
 
         if (!isset($this->routes[$conf["url"]])) {
             $this->routes[$conf["url"]] = [];
@@ -236,13 +224,10 @@ class Router
 
     private function getRoutePrefix($absolute = false, $domain = null, $envPrefix = true)
     {
-        $host = $absolute || isConsole()
-            ? config('protocol') . '://' . first($domain, server('HTTP_HOST'), config('domain'))
-            : '';
+        $host = $absolute || isConsole() ? config('protocol') . '://' .
+            first($domain, server('HTTP_HOST'), config('domain')) : '';
 
-        $env = $envPrefix && dev() && !isConsole()
-            ? '/dev.php'
-            : '';
+        $env = $envPrefix && dev() && !isConsole() ? '/dev.php' : '';
 
         return $host . $env;
     }
@@ -256,8 +241,7 @@ class Router
         foreach ($this->routes AS $routeArr) {
             foreach ($routeArr AS $route) {
                 if ($route['name'] != $routeName &&
-                    $route['name'] != $routeName . ':' . config('pckg.locale.language')
-                ) {
+                    $route['name'] != $routeName . ':' . config('pckg.locale.language')) {
                     continue;
                 }
 
@@ -272,9 +256,7 @@ class Router
                      * T00D00 - this needs to be resolved without proper index (find by class)
                      */
                     if (isset($args['[' . $key . ']']) && is_object($args['[' . $key . ']'])) {
-                        $realResolver = is_object($resolver)
-                            ? $resolver
-                            : resolve($resolver);
+                        $realResolver = is_object($resolver) ? $resolver : resolve($resolver);
                         $args['[' . $key . ']'] = $realResolver->parametrize($args['[' . $key . ']']);
                     }
                 }
@@ -292,17 +274,13 @@ class Router
                             }
                         }
                     }
-                    $filteredArgs = (new Collection($args))->reduce(
-                        function($item) {
-                            return !is_object($item);
-                        },
-                        true
-                    )->all();
+                    $filteredArgs = (new Collection($args))->reduce(function($item) {
+                        return !is_object($item);
+                    }, true)->all();
                     $route['url'] = str_replace(array_keys($filteredArgs), $filteredArgs, $route['url']);
                 }
 
-                return $this->getRoutePrefix($absolute, $route['domain'] ?? null, $envPrefix) .
-                    $route["url"];
+                return $this->getRoutePrefix($absolute, $route['domain'] ?? null, $envPrefix) . $route["url"];
             }
         }
 
@@ -311,11 +289,7 @@ class Router
 
     public function get($param = null, $default = [])
     {
-        return $param ?
-            (isset($this->data[$param])
-                ? $this->data[$param]
-                : $default)
-            : $this->data;
+        return $param ? (isset($this->data[$param]) ? $this->data[$param] : $default) : $this->data;
     }
 
     public function getURL($relative = true)
@@ -327,12 +301,9 @@ class Router
     {
         $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
 
-        return ($relative
-                ? ''
-                : $this->config->get("url")) .
-            ((strpos($requestUri, '?') === false
-                    ? $requestUri
-                    : substr($requestUri, 0, strpos($requestUri, '?'))) ?? '/');
+        return ($relative ? '' : $this->config->get("url")) .
+            ((strpos($requestUri, '?') === false ? $requestUri : substr($requestUri, 0, strpos($requestUri, '?'))) ??
+                '/');
     }
 
     public function getCleanUri($relative = true)
@@ -373,11 +344,7 @@ class Router
 
     public function resolved($key = null)
     {
-        return $key
-            ? (array_key_exists($key, $this->resolved)
-                ? $this->resolved[$key]
-                : null)
-            : $this->resolved;
+        return $key ? (array_key_exists($key, $this->resolved) ? $this->resolved[$key] : null) : $this->resolved;
     }
 
     public function getResolves()
@@ -413,7 +380,74 @@ class Router
                 $routes[$firstRoute['name']] = url($firstRoute['name']);
             }
         }
+
         return $routes;
+    }
+
+    protected function transformVueRoute($route)
+    {
+        $tags = $route['tags'] ?? [];
+        $vueRoute = [
+            'path' => $route['url'],
+        ];
+        if (array_key_exists('vue:route:redirect', $tags)) {
+            $vueRoute['redirect'] = $tags['vue:route:redirect'];
+        }
+        if (array_key_exists('vue:route:template', $tags)) {
+            $vueRoute['component'] = ['template' => $tags['vue:route:template']];
+        }
+        if (array_key_exists('vue:route:children', $tags)) {
+            $routes = $this->getRoutes();
+            $vueRoute['children'] = [];
+            foreach ($tags['vue:route:children'] as $key) {
+                $foundRoute = null;
+                foreach ($routes as $url => $routesArr) {
+                    if ($routesArr[0]['name'] == $key) {
+                        $foundRoute = $routesArr[0];
+                    }
+                }
+                if (!$foundRoute) {
+                    continue;
+                }
+                $childRoute = $this->transformVueRoute($foundRoute);
+                $vueRoute['children'][] = $childRoute;
+            }
+        }
+
+        return $vueRoute;
+    }
+
+    public function getVueRoutes()
+    {
+        $allRoutes = $this->getRoutes();
+        $vueRoutes = [];
+        foreach ($allRoutes as $url => $routeArr) {
+            $firstRoute = $routeArr[0];
+            $tags = $firstRoute['tags'] ?? [];
+            if (!in_array('vue:route', $tags)) {
+                continue;
+            }
+            /**
+             * Build vue route.
+             */
+            $vueRoutes[] = $this->transformVueRoute($firstRoute);
+        }
+        return $vueRoutes;
+        /*[
+        {
+            path: '/maestro/listings',
+            redirect: '/maestro/listings/packets',
+            component: {template: '<derive-dashboard-listings></derive-dashboard-listings>'},
+            children: [
+                {path: 'categories', component: {template: '<pckg-maestro-table :table-id="44"></pckg-maestro-table>'}},
+                {path: 'offers', component: {template: '<pckg-maestro-table :table-id="32"></pckg-maestro-table>'}},
+                {path: 'packets', component: {template: '<pckg-maestro-table :table-id="22"></pckg-maestro-table>'}},
+                {path: 'items', component: {template: '<pckg-maestro-table :table-id="46"></pckg-maestro-table>'}},
+                {path: 'packet-instances', component: {template: '<pckg-maestro-table :table-id="83"></pckg-maestro-table>'}},
+                {path: 'packet-dimensions', component: {template: '<pckg-maestro-table :table-id="85"></pckg-maestro-table>'}},
+            ]
+        }
+    ]*/
     }
 
 }
