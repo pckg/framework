@@ -384,11 +384,11 @@ class Router
         return $routes;
     }
 
-    protected function transformVueRoute($route)
+    protected function transformVueRoute($route, $prefix = '')
     {
         $tags = $route['tags'] ?? [];
         $vueRoute = [
-            'path' => $route['url'],
+            'path' => $prefix . $route['url'],
         ];
         if (array_key_exists('vue:route:redirect', $tags)) {
             $vueRoute['redirect'] = $tags['vue:route:redirect'];
@@ -409,7 +409,7 @@ class Router
                 if (!$foundRoute) {
                     continue;
                 }
-                $childRoute = $this->transformVueRoute($foundRoute);
+                $childRoute = $this->transformVueRoute($foundRoute, $prefix);
                 $vueRoute['children'][] = $childRoute;
             }
         }
@@ -421,6 +421,7 @@ class Router
     {
         $allRoutes = $this->getRoutes();
         $vueRoutes = [];
+        $prefix = dev() ? '/dev' : '';
         foreach ($allRoutes as $url => $routeArr) {
             $firstRoute = $routeArr[0];
             $tags = $firstRoute['tags'] ?? [];
@@ -430,7 +431,7 @@ class Router
             /**
              * Build vue route.
              */
-            $vueRoutes[] = $this->transformVueRoute($firstRoute);
+            $vueRoutes[] = $this->transformVueRoute($firstRoute, $prefix);
         }
         return $vueRoutes;
         /*[

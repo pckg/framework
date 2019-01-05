@@ -289,7 +289,7 @@ var utils = {
         return value ? value : null;
     },
 
-    url: function (url, params) {
+    url: function (url, params, absolute) {
         if (!url) {
             return;
         }
@@ -305,6 +305,10 @@ var utils = {
         $.each(params, function (key, val) {
             url = url.replace('[' + key + ']', val);
         });
+
+        if (absolute) {
+            url = (Pckg.site.url || '') + url;
+        }
 
         return url;
     },
