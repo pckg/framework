@@ -421,7 +421,7 @@ class Router
     {
         $allRoutes = $this->getRoutes();
         $vueRoutes = [];
-        $prefix = dev() ? '/dev' : '';
+        $prefix = dev() ? '/dev.php' : '';
         foreach ($allRoutes as $url => $routeArr) {
             $firstRoute = $routeArr[0];
             $tags = $firstRoute['tags'] ?? [];
