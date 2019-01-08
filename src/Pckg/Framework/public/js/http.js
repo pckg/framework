@@ -31,7 +31,7 @@ var http = {
         return $.ajax({
             url: url,
             type: 'SEARCH'
-        }).done(whenDone).fail(whenError);
+        }).done(whenDone).error(whenError);
     },
 
     get: function (url, whenDone, whenError, options) {
@@ -42,7 +42,7 @@ var http = {
         return $.ajax({
             url: url,
             type: 'GET'
-        }).done(whenDone).fail(whenError);
+        }).done(whenDone).error(whenError);
     },
 
     getJSON: function (url, whenDone, whenError, options) {
@@ -57,7 +57,7 @@ var http = {
         }
 
         if (whenError) {
-            request.fail(whenError);
+            request.error(whenError);
         }
 
         return request;
@@ -68,7 +68,7 @@ var http = {
             url: url,
             dataType: 'JSON',
             type: 'DELETE'
-        }).done(whenDone).fail(whenError);
+        }).done(whenDone).error(whenError);
     },
 
     post: function (url, data, whenDone, whenError) {
@@ -91,7 +91,7 @@ var http = {
             dataType: 'JSON',
             type: 'POST',
             data: data
-        }).done(whenDone).fail(whenError);
+        }).done(whenDone).error(whenError);
     },
 
     patch: function (url, data, whenDone, whenError) {
@@ -110,7 +110,7 @@ var http = {
             dataType: 'JSON',
             type: 'PATCH',
             data: data
-        }).done(whenDone).fail(whenError);
+        }).done(whenDone).error(whenError);
     },
 
     form: function ($form, successCallback) {
