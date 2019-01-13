@@ -1,4 +1,8 @@
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+};
 
 var data = data || {};
 var http = {
@@ -229,10 +233,10 @@ var locale = {
 
 var collection = {
 
-    groupBy: function(collection, groupBy) {
+    groupBy: function (collection, groupBy) {
         let groups = {};
 
-        $.each(collection, function(i, item){
+        $.each(collection, function (i, item) {
             let group = groupBy(item, i);
             if (!groups[group]) {
                 groups[group] = [];
@@ -243,20 +247,20 @@ var collection = {
         return groups;
     },
 
-    map: function(collection, map) {
+    map: function (collection, map) {
         let mapped = {};
 
-        $.each(collection, function(i, item){
+        $.each(collection, function (i, item) {
             mapped[i] = map(item);
         });
 
         return mapped;
     },
 
-    keyBy: function(collection, key) {
+    keyBy: function (collection, key) {
         let keyed = {};
 
-        $.each(collection, function(i, item){
+        $.each(collection, function (i, item) {
             keyed[key(item, i)] = item;
         });
 
@@ -267,7 +271,7 @@ var collection = {
 
 var utils = {
 
-    ucfirst: function(str) {
+    ucfirst: function (str) {
         if (!str) {
             return '';
         }
@@ -307,7 +311,7 @@ var utils = {
         return _url;
     },
 
-    sluggify: function(str){
+    sluggify: function (str) {
         return str.replace(/[^a-zA-Z0-9 -]/g, '')
             .replace(/[ -]+/g, '-')
             .replace(/^-|-$/g, '')
@@ -401,12 +405,20 @@ var utils = {
         return grouped;
     },
 
-    lazyTemplate: function(resolve, obj, url) {
+    lazyTemplate: function (resolve, obj, url) {
         if (typeof url !== 'string') {
             url = url(obj);
         }
-        http.getJSON(url, function(data) {
+        http.getJSON(url, function (data) {
             obj.template = data.template;
+            if (data.form) {
+                let originalData = obj.data;
+                obj.data = function () {
+                    let d = originalData ? originalData.call(this) : {};
+                    d.form = data.form;
+                    return d;
+                };
+            }
             resolve(obj);
         });
     }

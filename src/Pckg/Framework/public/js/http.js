@@ -415,6 +415,14 @@ var utils = {
         }
         http.getJSON(url, function(data) {
             obj.template = data.template;
+            if (data.form) {
+                let originalData = obj.data;
+                obj.data = function () {
+                    let d = originalData ? originalData.call(this) : {};
+                    d.form = data.form;
+                    return d;
+                };
+            }
             resolve(obj);
         });
     }
