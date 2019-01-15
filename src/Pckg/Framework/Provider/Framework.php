@@ -51,9 +51,9 @@ class Framework extends Provider
             '_router'     => Router::class,
             '_env'        => Environment::class,
             '_lang'       => LangInterface::class,
-            '_session'    => Session::class,
+            // '_session'    => Session::class,
             '_cookie'     => Cookie::class,
-            '_flash'      => Flash::class,
+            // '_flash'      => Flash::class,
             '_debugBar'   => debugBar(),
             '_translator' => Translator::class,
         ];
