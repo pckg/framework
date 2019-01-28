@@ -456,6 +456,13 @@ class Response
         $this->readFile($file);
     }
 
+    public function printFile($file, $filename)
+    {
+        $this->sendFileContentTypeHeaders($filename);
+        $this->sendContentLengthHeader($file);
+        $this->readFile($file);
+    }
+
     public function downloadString($string, $filename)
     {
         $this->sendFileContentTypeHeaders($filename);
