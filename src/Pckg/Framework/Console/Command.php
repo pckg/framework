@@ -200,6 +200,13 @@ class Command extends SymfonyConsoleCommand
         return context()->getOrDefault('appName');
     }
 
+    public function decodeOption($name, $assoc = false)
+    {
+        $option = $this->option($name);
+
+        return json_decode($option, $assoc);
+    }
+
     public function deserializeOption($name)
     {
         $option = $this->option($name);

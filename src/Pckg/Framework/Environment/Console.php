@@ -66,7 +66,7 @@ class Console extends Environment
         $context->bind(SymfonyConsole::class, new SymfonyConsole());
 
         if ($appName) {
-            Context::bind('appName', $appName);
+            $context->bind('appName', $appName);
 
             /**
              * Register app paths, autoloaders and create application provider.

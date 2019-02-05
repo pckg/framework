@@ -330,9 +330,14 @@ if (!function_exists('queue')) {
     /**
      * @return Queue
      */
-    function queue()
+    function queue($channel = null, $command = null, $data = [])
     {
-        return context()->getOrCreate(Queue::class);
+        $queue = context()->getOrCreate(Queue::class);
+        if (!$channel) {
+            return $queue;
+        }
+
+        return $queue->queue($channel, $command, $data);
     }
 }
 
