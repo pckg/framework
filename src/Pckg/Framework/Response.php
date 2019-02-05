@@ -371,6 +371,10 @@ class Response
 
     public function respondAndContinue($string = null, $seconds = 120)
     {
+        if ($this->responded) {
+            return;
+        }
+        
         $isJson = false;
         if (is_array($string)) {
             $isJson;
