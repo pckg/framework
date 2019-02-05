@@ -85,7 +85,15 @@ class Twig extends AbstractView implements ViewInterface
 
     public function getFullData()
     {
-        return array_merge(static::$staticData, $this->data);
+        $data = array_merge(static::$staticData, $this->data);
+        foreach ($data as &$val) {
+            if (!is_only_callable($val)) {
+                continue;
+            }
+
+            $val = $val();
+        }
+        return $data;
     }
 
     public function autoparse()

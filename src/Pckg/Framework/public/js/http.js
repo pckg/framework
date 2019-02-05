@@ -289,7 +289,7 @@ var utils = {
         return value ? value : null;
     },
 
-    url: function (url, params) {
+    url: function (url, params, absolute) {
         if (!url) {
             return;
         }
@@ -305,6 +305,10 @@ var utils = {
         $.each(params, function (key, val) {
             url = url.replace('[' + key + ']', val);
         });
+
+        if (absolute) {
+            url = (Pckg.site.url || '') + url;
+        }
 
         return url;
     },
@@ -411,6 +415,14 @@ var utils = {
         }
         http.getJSON(url, function(data) {
             obj.template = data.template;
+            if (data.form) {
+                let originalData = obj.data;
+                obj.data = function () {
+                    let d = originalData ? originalData.call(this) : {};
+                    d.form = data.form;
+                    return d;
+                };
+            }
             resolve(obj);
         });
     }

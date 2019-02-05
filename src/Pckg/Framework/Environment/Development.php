@@ -9,7 +9,7 @@ use Pckg\Framework\Environment;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
-class Development extends Environment
+class Development extends Production
 {
 
     public $env = 'dev';

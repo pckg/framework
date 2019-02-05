@@ -384,11 +384,13 @@ class Router
         return $routes;
     }
 
-    protected function transformVueRoute($route)
+    protected function transformVueRoute($route, $prefix = '')
     {
         $tags = $route['tags'] ?? [];
+        $url = $prefix . $route['url'];
+        $url = str_replace(['[', ']'], [':', ''], $url);
         $vueRoute = [
-            'path' => $route['url'],
+            'path' => $url,
         ];
         if (array_key_exists('vue:route:redirect', $tags)) {
             $vueRoute['redirect'] = $tags['vue:route:redirect'];
@@ -409,7 +411,7 @@ class Router
                 if (!$foundRoute) {
                     continue;
                 }
-                $childRoute = $this->transformVueRoute($foundRoute);
+                $childRoute = $this->transformVueRoute($foundRoute, $prefix);
                 $vueRoute['children'][] = $childRoute;
             }
         }
@@ -421,6 +423,7 @@ class Router
     {
         $allRoutes = $this->getRoutes();
         $vueRoutes = [];
+        $prefix = dev() ? '/dev.php' : '';
         foreach ($allRoutes as $url => $routeArr) {
             $firstRoute = $routeArr[0];
             $tags = $firstRoute['tags'] ?? [];
@@ -430,24 +433,9 @@ class Router
             /**
              * Build vue route.
              */
-            $vueRoutes[] = $this->transformVueRoute($firstRoute);
+            $vueRoutes[] = $this->transformVueRoute($firstRoute, $prefix);
         }
         return $vueRoutes;
-        /*[
-        {
-            path: '/maestro/listings',
-            redirect: '/maestro/listings/packets',
-            component: {template: '<derive-dashboard-listings></derive-dashboard-listings>'},
-            children: [
-                {path: 'categories', component: {template: '<pckg-maestro-table :table-id="44"></pckg-maestro-table>'}},
-                {path: 'offers', component: {template: '<pckg-maestro-table :table-id="32"></pckg-maestro-table>'}},
-                {path: 'packets', component: {template: '<pckg-maestro-table :table-id="22"></pckg-maestro-table>'}},
-                {path: 'items', component: {template: '<pckg-maestro-table :table-id="46"></pckg-maestro-table>'}},
-                {path: 'packet-instances', component: {template: '<pckg-maestro-table :table-id="83"></pckg-maestro-table>'}},
-                {path: 'packet-dimensions', component: {template: '<pckg-maestro-table :table-id="85"></pckg-maestro-table>'}},
-            ]
-        }
-    ]*/
     }
 
 }
