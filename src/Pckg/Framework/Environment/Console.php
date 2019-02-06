@@ -31,7 +31,7 @@ class Console extends Environment
         $whoops->register();
     }
 
-    public function createApplication(\Pckg\Framework\Helper\Context $context, $appName = null)
+    public function createApplication(\Pckg\Framework\Helper\Context $context, $appName)
     {
         /**
          * Examples:
