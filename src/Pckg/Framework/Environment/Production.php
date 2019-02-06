@@ -161,7 +161,7 @@ class Production extends Environment
         }
     }
 
-    public function createApplication(\Pckg\Framework\Helper\Context $context)
+    public function createApplication(\Pckg\Framework\Helper\Context $context, $appName)
     {
         if (!($appName = $this->getApplicationNameFromGlobalRouter())) {
             throw new \Exception('Cannot fetch app from global router.');
