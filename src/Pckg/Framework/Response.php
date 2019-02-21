@@ -239,6 +239,19 @@ class Response
     }
 
     /**
+     * @param array $response
+     */
+    public function unprocessable($response = [])
+    {
+        if (is_array($response) && !array_key_exists('success', $response)) {
+            $response['success'] = false;
+        }
+
+        $this->code(422);
+        $this->respond($response);
+    }
+
+    /**
      * @T00D00 - rename this to success()
      * @return Response
      */
@@ -366,7 +379,7 @@ class Response
     {
         $this->sendJsonHeader();
 
-        return json_encode((object)$array, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_NUMERIC_CHECK);
+        return json_encode((object)$array, JSON_PARTIAL_OUTPUT_ON_ERROR);
     }
 
     public function respondAndContinue($string = null, $seconds = 120)
