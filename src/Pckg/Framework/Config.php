@@ -95,7 +95,7 @@ class Config
 
         $this->data = merge_arrays($this->data, $settings);
 
-        $this->set('url', config('protocol') . "://" . config('domain'));
+        $this->set('url', "https://" . config('domain'));
     }
 
     protected function parseFiles($files)

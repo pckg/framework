@@ -224,8 +224,9 @@ class Router
 
     private function getRoutePrefix($absolute = false, $domain = null, $envPrefix = true)
     {
-        $host = $absolute || isConsole() ? config('protocol') . '://' .
-            first($domain, server('HTTP_HOST'), config('domain')) : '';
+        $host = $absolute || isConsole()
+            ? 'https://' . first($domain, server('HTTP_HOST'), config('domain'))
+            : '';
 
         $env = $envPrefix && dev() && !isConsole() ? '/dev.php' : '';
 
