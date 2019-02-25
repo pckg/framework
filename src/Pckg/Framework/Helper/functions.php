@@ -1667,3 +1667,10 @@ if (!function_exists('escapeshellargs')) {
         return $parameters;
     }
 }
+
+if (!function_exists('numequals')) {
+    function numequals($a, $b)
+    {
+        return abs((float)$a - (float)$b) < PHP_FLOAT_EPSILON;
+    }
+}
