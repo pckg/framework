@@ -25,9 +25,6 @@ class RegisterTwigExtensions
         /**
          * This should be added to Framework/Inter Provider.
          */
-        $twig->addFunction(new Twig_SimpleFunction('__', function($key, $data = [], $lang = null) {
-            return __($key, $data, $lang);
-        }, ['is_safe' => ['html']]));
         $twig->addFunction(new Twig_SimpleFunction('config', function($text, $default = null) {
             return config($text, $default);
         }));

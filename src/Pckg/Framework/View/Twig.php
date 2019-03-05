@@ -80,6 +80,9 @@ class Twig extends AbstractView implements ViewInterface
         );
 
         //(new View\Handler\RegisterTwigExtensions())->handle($this->twig);
+        $this->twig->addFunction(new \Twig_SimpleFunction('__', function($key, $data = [], $lang = null) {
+            return __($key, $data, $lang);
+        }, ['is_safe' => ['html']]));
         trigger(Twig::class . '.registerExtensions', $this->twig);
     }
 
