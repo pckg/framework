@@ -4,6 +4,7 @@ namespace Pckg\Framework\Response;
 
 use Exception;
 use Pckg\Framework\Exception\NotFound;
+use Pckg\Framework\Exception\Unauthorized;
 use Throwable;
 
 trait Exceptions
@@ -25,14 +26,15 @@ trait Exceptions
         }
 
         if (is_string($class)) {
-            $up = new $class($message, $code);
-
-        } else {
-            $up = $class;
+            throw new $class($message, $code);
 
         }
 
-        throw $up;
+        if ($class instanceof Throwable) {
+            throw $class;
+        }
+
+        throw new Exception($message ?? 'Unknown exception type');
     }
 
     public function bad($message = 'Bad request')
@@ -42,7 +44,7 @@ trait Exceptions
 
     public function unauthorized($message = 'Unauthorized')
     {
-        $this->exception($message, 401);
+        $this->exception($message, 401, Unauthorized::class);
     }
 
     public function forbidden($message = 'Forbidden')

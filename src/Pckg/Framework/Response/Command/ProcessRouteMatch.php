@@ -7,6 +7,7 @@ use Pckg\Collection;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Exception\NotFound;
+use Pckg\Framework\Exception\Unauthorized;
 use Pckg\Framework\Response;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Router\Command\ResolveDependencies;
@@ -96,6 +97,11 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * Set response code to 404.
              */
             $this->response->code(404);
+        } catch (Unauthorized $e) {
+            /**
+             * Set response code to 401.
+             */
+            $this->response->code(401);
         } catch (Throwable $e) {
             /**
              * Set response code to 500.
