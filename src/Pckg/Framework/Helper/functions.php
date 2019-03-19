@@ -480,7 +480,7 @@ if (!function_exists('uniqueFile')) {
     function uniqueFile($filename, $folder)
     {
         $i = 0;
-        $newPath = $folder . $filename;
+        $newPath = $folder . ($folder ? '/' : '') . $filename;
         while (is_file($newPath)) {
             $newPath = $folder . $i . '_' . $filename;
             $i++;
