@@ -470,6 +470,26 @@ if (!function_exists('relativePath')) {
     }
 }
 
+if (!function_exists('uniqueFile')) {
+    /**
+     * @param $filename
+     * @param $dir
+     *
+     * @return string
+     */
+    function uniqueFile($filename, $folder)
+    {
+        $i = 0;
+        $newPath = $folder . $filename;
+        while (is_file($newPath)) {
+            $newPath = $folder . $i . '_' . $filename;
+            $i++;
+        }
+
+        return $newPath;
+    }
+}
+
 /* quick helpers */
 
 if (!function_exists('__i18n')) {
