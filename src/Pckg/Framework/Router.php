@@ -247,6 +247,10 @@ class Router
                 }
 
                 $args = [];
+                /**
+                 * $arguments = ['packet' => $packet];
+                 * $args = ['[packet]' => $packet];
+                 */
                 foreach ($arguments AS $key => $val) {
                     $args["[" . $key . "]"] = $val;
                 }
@@ -258,7 +262,18 @@ class Router
                      */
                     if (isset($args['[' . $key . ']']) && is_object($args['[' . $key . ']'])) {
                         $realResolver = is_object($resolver) ? $resolver : resolve($resolver);
-                        $args['[' . $key . ']'] = $realResolver->parametrize($args['[' . $key . ']']);
+                        $recordObject = $args['[' . $key . ']'];
+                        $args['[' . $key . ']'] = $realResolver->parametrize($recordObject);
+                        /**
+                         * Add auto resolved slugged value.
+                         */
+                        if (strpos($route['url'], '[' . $key . 'Url]') !== false) {
+                            $originalTitle = trim($recordObject->title);
+                            if (!$originalTitle) {
+                                $originalTitle = $recordObject->id;
+                            }
+                            $args['[' . $key . 'Url]'] = $originalTitle;
+                        }
                     }
                 }
 
