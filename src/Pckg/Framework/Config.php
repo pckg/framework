@@ -31,38 +31,37 @@ class Config
         /**
          * Get all keys, separated by dot.
          */
-        if (strpos($key, '.')) {
-            $keys = explode('.', $key);
-        } else {
-            $keys = [$key];
-        }
+        $keys = explode('.', $key);
 
         $this->data = $this->setRecursive($keys, $val, $this->data, 0);
     }
 
     private function setRecursive($keys, $val, $data, $i)
     {
-        if ($i >= count($keys)) {
-            /**
-             * Key doesn't exist in config yet.
-             * We can fully overwrite it.
-             */
-            $data = $val;
-
-            return $data;
-        }
-
-        $key = $keys[$i];
-
         if (!is_array($data)) {
             /**
              * Data is string, integer, float, callable, null.
              * We can fully overwrite it.
              */
-            $data = $val;
-
-            return $data;
+            return $val;
         }
+
+        if ($i >= count($keys)) {
+            /**
+             * We want to merge existing values.
+             */
+            if (is_array($val) && $data) {
+                return array_merge($data, $val);
+            }
+
+            /**
+             * Key doesn't exist in config yet.
+             * We can fully overwrite it.
+             */
+            return $val;
+        }
+
+        $key = $keys[$i];
 
         if (!array_key_exists($key, $data)) {
             /**
