@@ -191,6 +191,16 @@ class Config
             : null;
     }
 
+    public function getPublicConfig()
+    {
+        $public = [];
+        foreach (config('pckg.config.public', []) as $key => $callback) {
+            $public[$key] = $callback($this);
+        }
+
+        return base64_encode(json_encode($public));
+    }
+
 }
 
 ?>

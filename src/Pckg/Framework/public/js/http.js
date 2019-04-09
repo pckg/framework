@@ -425,6 +425,10 @@ var utils = {
             }
             resolve(obj);
         });
+    },
+
+    base64decode(str) {
+        return atob(str);
     }
 
 };
