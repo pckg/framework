@@ -68,6 +68,11 @@ class Provider
         return $this;
     }
 
+    public function isRegistered()
+    {
+        return $this->registered;
+    }
+
     public function registered()
     {
         return $this;
