@@ -42,13 +42,6 @@ class RunCommand extends AbstractChainOfReponsibility
             }
 
             /**
-             * Remove platform name.
-             */
-            if (isset($argv[2]) && !strpos($argv[2], ':') && false === strpos($argv[2], '-')) {
-                unset($argv[2]);
-            }
-
-            /**
              * Trigger event
              */
             trigger(RunCommand::class . '.running', []);

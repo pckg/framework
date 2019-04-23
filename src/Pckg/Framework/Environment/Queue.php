@@ -32,7 +32,8 @@ class Queue extends Environment
         /**
          * Register app paths, autoloaders and create application provider.
          */
-        $applicationProvider = $this->registerAndBindApplication($context, 'queue');
+        $appName = $appName ?? ($_SERVER['argv'][1] ?? null);
+        $applicationProvider = $this->registerAndBindApplication($context, $appName);
 
         /**
          * Bind application to context.
@@ -42,7 +43,7 @@ class Queue extends Environment
         /**
          * Then we create actual application wrapper.
          */
-        $application = new \Pckg\Framework\Application\Queue($applicationProvider);
+        $application = new Application\Queue($applicationProvider);
 
         return $application;
     }
