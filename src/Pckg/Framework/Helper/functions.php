@@ -1581,13 +1581,31 @@ if (!function_exists('strbetween')) {
 if (!function_exists('cdn')) {
     function cdn($file)
     {
-        $host = config('storage.cdn.host');
+        $file = trim($file);
 
+        if (!$file) {
+            return $file;
+        }
+
+        if (isRemoteUrl($file)) {
+            return $file;
+        }
+
+        $host = config('storage.cdn.host');
         if (!$host) {
             return $file;
         }
 
         return 'https://' . $host . $file;
+    }
+}
+
+if (!function_exists('isRemoteUrl')) {
+    function isRemoteUrl($url)
+    {
+        $url = trim($url);
+
+        return strpos($file, '//') === 0 || strpos($url, 'https://') === 0 || strpos($url, 'http://') === 0;
     }
 }
 
