@@ -421,6 +421,17 @@ if (!function_exists('first')) {
     }
 }
 
+if (!function_exists('oneFrom')) {
+    function oneFrom($needle, $haystack, $default)
+    {
+        if (in_array($needle, $haystack)) {
+            return $needle;
+        }
+
+        return $default;
+    }
+}
+
 if (!function_exists('firstWithZero')) {
     function firstWithZero(...$args)
     {
