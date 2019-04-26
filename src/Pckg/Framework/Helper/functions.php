@@ -1605,7 +1605,7 @@ if (!function_exists('isRemoteUrl')) {
     {
         $url = trim($url);
 
-        return strpos($file, '//') === 0 || strpos($url, 'https://') === 0 || strpos($url, 'http://') === 0;
+        return strpos($url, '//') === 0 || strpos($url, 'https://') === 0 || strpos($url, 'http://') === 0;
     }
 }
 
