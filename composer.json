@@ -15,7 +15,7 @@
     "pckg/htmlbuilder": "dev-master",
     "pckg/cache": "dev-master",
     "pckg/locale": "dev-master",
-    "twig/twig": "1.25.*",
+    "twig/twig": "1.*",
     "filp/whoops": "2.*",
     "maximebf/debugbar": "1.*",
     "rollbar/rollbar": "1.*",
