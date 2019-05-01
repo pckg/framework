@@ -10,21 +10,22 @@
     }
   ],
   "require": {
-    "pckg/concept": "dev-master@dev",
-    "pckg/database": "dev-master@dev",
-    "pckg/htmlbuilder": "dev-master@dev",
-    "pckg/cache": "dev-master@dev",
-    "pckg/locale": "dev-master@dev",
+    "pckg/concept": "dev-master",
+    "pckg/database": "dev-master",
+    "pckg/htmlbuilder": "dev-master",
+    "pckg/cache": "dev-master",
+    "pckg/locale": "dev-master",
     "twig/twig": "1.*",
     "filp/whoops": "2.*",
     "maximebf/debugbar": "1.*",
     "rollbar/rollbar": "1.*",
-    "josegonzalez/dotenv": "3.*"
+    "josegonzalez/dotenv": "dev-master"
   },
   "autoload": {
     "psr-0": {
       "Pckg": "src\\"
     },
     "files": ["src/Pckg/Framework/Helper/functions.php"]
-  }
+  },
+  "minimum-stability": "dev"
 }
