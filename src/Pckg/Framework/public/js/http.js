@@ -427,7 +427,7 @@ var utils = {
         });
     },
 
-    base64decode(str) {
+    base64decode: function(str) {
         return atob(str);
     }
 
