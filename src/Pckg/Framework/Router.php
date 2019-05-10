@@ -284,7 +284,7 @@ class Router
                     foreach ($args as $key => &$arg) {
                         if (is_string($arg)) {
                             if (strpos(strtolower($key), 'url') !== false) {
-                                $arg = sluggify($arg);
+                                $arg = trim(substr(sluggify($arg), 0, 42), '-');
                             } else {
                                 $arg = urlencode($arg);
                             }
