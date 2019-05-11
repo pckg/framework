@@ -57,7 +57,7 @@ var http = {
         }
 
         if (whenError) {
-            request.error(whenError);
+            request.fail(whenError);
         }
 
         return request;
