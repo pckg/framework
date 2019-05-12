@@ -259,14 +259,22 @@ var collection = {
         return mapped;
     },
 
-    keyBy: function(collection, key) {
+    keyBy: function(c, key) {
         let keyed = {};
 
-        $.each(collection, function(i, item){
-            keyed[key(item, i)] = item;
+        $.each(c, function(i, item){
+            keyed[collection.getCallableKey(key, item, i)] = item;
         });
 
         return keyed;
+    },
+
+    getCallableKey: function(key, item, i) {
+        if (typeof key === 'string') {
+            return item[key];
+        }
+
+        return key(item, i);
     }
 
 };
