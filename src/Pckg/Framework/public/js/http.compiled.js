@@ -251,7 +251,7 @@ var collection = {
         let mapped = {};
 
         $.each(collection, function (i, item) {
-            mapped[i] = map(item);
+            mapped[i] = collection.getCallableKey(map, item, i);
         });
 
         return mapped;
