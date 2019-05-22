@@ -247,20 +247,20 @@ var collection = {
         return groups;
     },
 
-    map: function (collection, map) {
+    map: function (items, map) {
         let mapped = {};
 
-        $.each(collection, function (i, item) {
+        $.each(items, function (i, item) {
             mapped[i] = collection.getCallableKey(map, item, i);
         });
 
         return mapped;
     },
 
-    keyBy: function (c, key) {
+    keyBy: function (items, key) {
         let keyed = {};
 
-        $.each(c, function (i, item) {
+        $.each(items, function (i, item) {
             keyed[collection.getCallableKey(key, item, i)] = item;
         });
 
