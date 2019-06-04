@@ -26,14 +26,14 @@ class Config
         return $default;
     }
 
-    public function set($key, $val)
+    public function set($key, $val, $merge = true)
     {
         /**
          * Get all keys, separated by dot.
          */
         $keys = explode('.', $key);
 
-        $this->data = $this->setRecursive($keys, $val, $this->data, 0, false);
+        $this->data = $this->setRecursive($keys, $val, $this->data, 0, $merge);
     }
 
     private function setRecursive($keys, $val, $data, $i, $merge = true)
