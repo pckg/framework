@@ -33,10 +33,10 @@ class Config
          */
         $keys = explode('.', $key);
 
-        $this->data = $this->setRecursive($keys, $val, $this->data, 0);
+        $this->data = $this->setRecursive($keys, $val, $this->data, 0, false);
     }
 
-    private function setRecursive($keys, $val, $data, $i)
+    private function setRecursive($keys, $val, $data, $i, $merge = true)
     {
         if (!is_array($data)) {
             /**
@@ -50,7 +50,7 @@ class Config
             /**
              * We want to merge existing values.
              */
-            if (is_array($val) && $data) {
+            if ($merge && is_array($val) && $data) {
                 return array_merge($data, $val);
             }
 
@@ -71,7 +71,7 @@ class Config
             $data[$key] = [];
         }
 
-        $data[$key] = $this->setRecursive($keys, $val, $data[$key], $i + 1);
+        $data[$key] = $this->setRecursive($keys, $val, $data[$key], $i + 1, $merge);
 
         return $data;
     }
