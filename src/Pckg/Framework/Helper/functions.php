@@ -1717,6 +1717,54 @@ if (!function_exists('escapeshellargs')) {
     }
 }
 
+if (!function_exists('seededShuffle')) {
+    function seededShuffle($seed = null, $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    {
+        $items = str_split($chars, 1);
+        mt_srand($seed ? $seed : time());
+        for ($i = count($items) - 1; $i > 0; $i--) {
+            $j = mt_rand(0, $i);
+            list($items[$i], $items[$j]) = [$items[$j], $items[$i]];
+        }
+
+        return implode($items);
+    }
+}
+
+if (!function_exists('seededHash')) {
+    function seededHash($seed, $length)
+    {
+        $shuffled = seededShuffle($seed);
+
+        $items = str_split($shuffled, 1);
+        mt_srand($seed ? $seed : (int)(microtime(true) * 1000));
+
+        $hash = [];
+        while (count($hash) < $length) {
+            $hash[] = $items[mt_rand(0, count($items) - 1)];
+        }
+
+        return implode($hash);
+    }
+}
+
+if (!function_exists('str2int')) {
+    function str2int($string, $max = PHP_INT_MAX)
+    {
+        $array = str_split($string, 1);
+        $sum = 0.0;
+        foreach ($array as $i => $char) {
+            mt_srand(($i + 1) / ord($char) * 10000);
+            $rand = mt_rand(1, 10000);
+            $sum += 1 / $rand;
+        }
+
+        $range = $sum - floor($sum);
+
+        return (int)floor($range * $max);
+    }
+}
+
 if (!function_exists('numequals')) {
     function numequals($a, $b)
     {
