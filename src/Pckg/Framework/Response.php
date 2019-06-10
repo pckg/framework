@@ -529,4 +529,9 @@ class Response
         header("Cache-Control: no-cache, must-revalidate");
     }
 
+    public function sendFeaturePolicyHeader()
+    {
+        header("Feature-Policy: usb 'self'");
+    }
+
 }
