@@ -51,6 +51,7 @@ class Provider
             $this->registerAssets($this->assets());
             $this->registerJobs($this->jobs());
             $this->registerTranslations();
+            dispatcher()->trigger(static::class . '.postRegistered');
         });
 
         /**
