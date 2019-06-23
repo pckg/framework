@@ -17,10 +17,10 @@
     "pckg/locale": "dev-master",
     "twig/twig": "1.*",
     "filp/whoops": "2.*",
-    "rollbar/rollbar": "1.*",
     "josegonzalez/dotenv": "dev-master"
   },
   "suggest": {
+    "rollbar/rollbar": "Production debugging",
     "maximebf/debugbar": "Debugbar for dev environment"
   },
   "autoload": {
