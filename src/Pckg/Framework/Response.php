@@ -449,19 +449,47 @@ class Response
         $this->readFile($file);
     }
 
+    /**
+     * @param $file
+     *
+     * @return $this
+     */
     public function sendContentLengthHeader($file)
     {
         header("Content-Length: " . filesize($file));
+
+        return $this;
     }
 
-    protected function readFile($file)
+    /**
+     * Read file with file_get_contents or handle (> 10MB) and print contents.
+     *
+     * @param $file
+     */
+    public function readFile($file)
     {
-        $fp = fopen($file, "r");
-        while (!feof($fp)) {
-            echo fread($fp, 65536);
-            flush();
+        /**
+         * Set limit.
+         */
+        $limit = 1024 * 1024 * 10;
+
+        /**
+         * Read with handle and exit.
+         */
+        if (filesize($file) > $limit) {
+            $fp = fopen($file, "r");
+            while (!feof($fp)) {
+                echo fread($fp, $limit);
+                flush();
+            }
+
+            exit;
         }
 
+        /**
+         * Read whole file and exit.
+         */
+        echo file_get_contents($file);
         exit;
     }
 
