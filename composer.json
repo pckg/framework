@@ -21,7 +21,7 @@
     "josegonzalez/dotenv": "dev-master"
   },
   "suggest": {
-    "maximebf/debugbar": "Debugbar for dev environment",
+    "maximebf/debugbar": "Debugbar for dev environment"
   },
   "autoload": {
     "psr-0": {
