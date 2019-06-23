@@ -20,8 +20,8 @@
     "rollbar/rollbar": "1.*",
     "josegonzalez/dotenv": "dev-master"
   },
-  "suggests": {
-    "maximebf/debugbar": "1.*",
+  "suggest": {
+    "maximebf/debugbar": "Debugbar for dev environment",
   },
   "autoload": {
     "psr-0": {
