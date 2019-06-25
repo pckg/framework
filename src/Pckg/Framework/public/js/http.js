@@ -166,6 +166,10 @@ var http = {
 var locale = {
 
     price: function (price, decimals) {
+        return this.number(price, decimals) + ' ' + Pckg.config.locale.currencySign;
+    },
+
+    number: function (price, decimals) {
         if (typeof decimals == 'undefined' || decimals === null) {
             decimals = Pckg.config.locale.decimals;
         }
@@ -175,11 +179,11 @@ var locale = {
         }
 
         return parseFloat(price).toLocaleString(Pckg.config.locale.current.replace('_', '-').toLowerCase(), {
-                currency: 'eur',
-                currencyDisplay: 'symbol',
-                maximumFractionDigits: decimals,
-                minimumFractionDigits: decimals
-            }) + ' ' + Pckg.config.locale.currencySign;
+            currency: 'eur',
+            currencyDisplay: 'symbol',
+            maximumFractionDigits: decimals,
+            minimumFractionDigits: decimals
+        });
     },
 
     roundPrice: function (price, decimals) {

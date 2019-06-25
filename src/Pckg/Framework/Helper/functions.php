@@ -1546,6 +1546,13 @@ if (!function_exists('routeGroup')) {
 if (!function_exists('price')) {
     function price($price)
     {
+        return number($price) . ' ' . config('pckg.payment.currencySign');
+    }
+}
+
+if (!function_exists('number')) {
+    function number($price)
+    {
         if (is_null($price)) {
             $price = 0.0;
         }
@@ -1557,7 +1564,7 @@ if (!function_exists('price')) {
                 firstWithZero(config('pckg.locale.decimals'), 2),
                 $localeManager->getDecimalPoint(),
                 $localeManager->getThousandSeparator()
-            ) . ' ' . config('pckg.payment.currencySign');
+            );
     }
 }
 

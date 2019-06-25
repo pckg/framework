@@ -164,6 +164,10 @@ var http = {
 var locale = {
 
     price: function price(_price, decimals) {
+        return this.number(_price, decimals) + ' ' + Pckg.config.locale.currencySign;
+    },
+
+    number: function price(_price, decimals) {
         if (typeof decimals == 'undefined' || decimals === null) {
             decimals = Pckg.config.locale.decimals;
         }
@@ -177,7 +181,7 @@ var locale = {
             currencyDisplay: 'symbol',
             maximumFractionDigits: decimals,
             minimumFractionDigits: decimals
-        }) + ' ' + Pckg.config.locale.currencySign;
+        });
     },
 
     roundPrice: function roundPrice(price, decimals) {
