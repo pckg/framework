@@ -206,7 +206,7 @@ class Response
 
         if (!$output) {
             if (request()->isJson() || request()->isAjax()) {
-                $output = json_encode(['redirect' => $url]);
+                $output = json_encode(['output' => null]);
             } else {
                 $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url . '" /></head><body></body></html>';
             }

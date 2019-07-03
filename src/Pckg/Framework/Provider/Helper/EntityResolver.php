@@ -46,7 +46,9 @@ trait EntityResolver
         $this->e->where($this->getBy(), ($this->postField ? post($this->postField, null) : $value));
 
         if (method_exists($this, 'also')) {
-            $this->also();
+            $this->also($value);
+        } else if (isset($this->also) && is_only_callable($this->also)) {
+            $this->also($value, $this->e);
         }
 
         if (isset($this->compareTo)) {

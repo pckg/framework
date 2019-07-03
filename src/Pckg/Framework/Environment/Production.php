@@ -46,12 +46,10 @@ class Production extends Environment
 
             /**
              * Try report to rollbar.
+             * Respond to client.
+             * @T00D00 - emit event and report in listener
              */
             $this->reportToRollbar($exception);
-
-            /**
-             * Respond to client.
-             */
             $this->handleException($exception);
         });
 
@@ -92,6 +90,21 @@ class Production extends Environment
             $message = $e->getMessage();
 
             @error_log($message . ' (' . $code . ')');
+
+            /**
+             * Handle JSON request.
+             */
+            $request = request();
+            if ($request->isJson()) {
+                $response = [
+                    'success' => false,
+                    'error' => true,
+                    'message' => $e->getMessage(),
+                ];
+
+                response()->respond($response);
+                exit;
+            }
 
             $handled = false;
             $codes = [/*$code, */

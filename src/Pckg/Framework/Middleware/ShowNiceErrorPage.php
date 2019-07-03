@@ -37,4 +37,17 @@ class ShowNiceErrorPage
         return $output;
     }
 
+    public function handleJson($data = [])
+    {
+        try {
+            return array_merge([
+                'success' => false,
+                'error'   => true,
+                'message' => 'Error',
+            ], $data);
+        } catch (Throwable $e) {
+
+        }
+    }
+
 }

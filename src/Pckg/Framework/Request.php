@@ -212,10 +212,10 @@ class Request extends Lazy
     {
         $headers = function_exists('getallheaders') ? getallheaders() : [];
 
-        $contentType = $this->header('content-type');
+        $contentType = $this->header('Content-Type');
         $accept = $this->header('Accept');
 
-        return $contentType == 'application/json'
+        return in_array($contentType, ['application/json', 'application/x-www-form-urlencoded'])
                || strpos($accept, 'application/json') !== false;
     }
 
