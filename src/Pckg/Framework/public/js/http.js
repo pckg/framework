@@ -169,7 +169,7 @@ var locale = {
         return this.number(price, decimals) + ' ' + Pckg.config.locale.currencySign;
     },
 
-    number: function (price, decimals) {
+    number: function (price, decimals, locale) {
         if (typeof decimals == 'undefined' || decimals === null) {
             decimals = Pckg.config.locale.decimals;
         }
@@ -178,7 +178,7 @@ var locale = {
             price = 0.0;
         }
 
-        return parseFloat(price).toLocaleString(Pckg.config.locale.current.replace('_', '-').toLowerCase(), {
+        return parseFloat(price).toLocaleString((locale || Pckg.config.locale.current).replace('_', '-').toLowerCase(), {
             currency: 'eur',
             currencyDisplay: 'symbol',
             maximumFractionDigits: decimals,

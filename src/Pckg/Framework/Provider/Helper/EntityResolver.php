@@ -47,8 +47,6 @@ trait EntityResolver
 
         if (method_exists($this, 'also')) {
             $this->also($value);
-        } else if (isset($this->also) && is_only_callable($this->also)) {
-            $this->also($value, $this->e);
         }
 
         if (isset($this->compareTo)) {
