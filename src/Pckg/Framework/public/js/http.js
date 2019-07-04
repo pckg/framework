@@ -118,6 +118,10 @@ var http = {
     },
 
     fixUndefined: function (data) {
+        if (data && typeof data === 'string') {
+            return data;
+        }
+
         $.each(data, function (key, val) {
             if (Array.isArray(val) || typeof val == 'object') {
                 data[key] = http.fixUndefined(val);
