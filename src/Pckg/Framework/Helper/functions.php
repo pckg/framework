@@ -1629,6 +1629,22 @@ if (!function_exists('only')) {
     }
 }
 
+if (!function_exists('onlyWhen')) {
+    function onlyWhen($array, $keys)
+    {
+        $final = [];
+
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $array)) {
+                continue;
+            }
+            $final[$key] = $array[$key];
+        }
+
+        return $final;
+    }
+}
+
 if (!function_exists('throwLogOrContinue')) {
     function throwLogOrContinue(Throwable $e)
     {
