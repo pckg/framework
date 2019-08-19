@@ -1544,9 +1544,9 @@ if (!function_exists('routeGroup')) {
 }
 
 if (!function_exists('price')) {
-    function price($price)
+    function price($price, $currency = null)
     {
-        return number($price) . ' ' . config('pckg.payment.currencySign');
+        return number($price) . ' ' . ($currency ?? config('pckg.payment.currencySign'));
     }
 }
 
