@@ -39,18 +39,28 @@ var http = {
             return this.getJSON(url, whenDone, whenError, options);
         }
 
-        return $.ajax({
+        let options = {
             url: url,
-            type: 'GET'
-        }).done(whenDone).error(whenError);
+            type: 'GET',
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+            },
+        };
+
+        return $.ajax(options).done(whenDone).error(whenError);
     },
 
     getJSON: function (url, whenDone, whenError, options) {
+        options = options || {};
+        options.beforeSend = function (request) {
+            request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+        };
+
         var request = $.ajax(Object.assign({
             url: url,
             dataType: 'JSON',
             type: 'GET'
-        }, options || {}));
+        }, options));
 
         if (whenDone) {
             request.done(whenDone);
@@ -85,13 +95,17 @@ var http = {
         }
 
         data = http.fixUndefined(data);
-
-        return $.ajax({
+        let options = {
             url: url,
             dataType: 'JSON',
             type: 'POST',
-            data: data
-        }).done(whenDone).error(whenError);
+            data: data,
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+            },
+        };
+
+        return $.ajax(options).done(whenDone).error(whenError);
     },
 
     patch: function (url, data, whenDone, whenError) {

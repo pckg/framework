@@ -50,11 +50,16 @@ var http = {
     },
 
     getJSON: function getJSON(url, whenDone, whenError, options) {
+        options = options || {};
+        options.beforeSend = function (request) {
+            request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+        };
+
         var request = $.ajax(Object.assign({
             url: url,
             dataType: 'JSON',
             type: 'GET'
-        }, options || {}));
+        }, options));
 
         if (whenDone) {
             request.done(whenDone);
@@ -89,13 +94,17 @@ var http = {
         }
 
         data = http.fixUndefined(data);
-
-        return $.ajax({
+        let options = {
             url: url,
             dataType: 'JSON',
             type: 'POST',
             data: data
-        }).done(whenDone).error(whenError);
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+            },
+        };
+
+        return $.ajax(options).done(whenDone).error(whenError);
     },
 
     patch: function post(url, data, whenDone, whenError) {
