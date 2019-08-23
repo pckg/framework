@@ -98,7 +98,7 @@ var http = {
             url: url,
             dataType: 'JSON',
             type: 'POST',
-            data: data
+            data: data,
             beforeSend: function(request) {
                 request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
             },
