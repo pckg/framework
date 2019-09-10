@@ -198,8 +198,9 @@ class Response
 
             $output = '<html><body><script>history.go(-1);</script></body></html>';
         } elseif (substr($url, 0, 1) == '@') {
-            $url = (new URL())->setParams($httpParams)->setUrl($this->router->make(substr($url, 1),
-                                                                                   $routerParams))->relative();
+            $url = (new URL())->setParams($httpParams)
+                              ->setUrl($this->router->make(substr($url, 1), $routerParams))
+                              ->relative();
         } elseif ($url === null) {
             $url = $this->router->getUri();
         }
@@ -208,7 +209,8 @@ class Response
             if (request()->isJson() || request()->isAjax()) {
                 $output = json_encode(['output' => null]);
             } else {
-                $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url . '" /></head><body></body></html>';
+                $output = '<html><head><meta http-equiv="refresh" content="0; url=' . $url .
+                    '" /></head><body></body></html>';
             }
         }
 
@@ -270,7 +272,8 @@ class Response
 
         $this->code = 200;
 
-        return request()->isJson() || request()->isAjax() ? $this->respondWithAjaxSuccessAndRedirect($url) : $this->redirect($url);
+        return request()->isJson() || request()->isAjax() ? $this->respondWithAjaxSuccessAndRedirect($url)
+            : $this->redirect($url);
     }
 
     /**
@@ -284,8 +287,7 @@ class Response
         return $this->respond(array_merge([
                                               'success' => true,
                                               'error'   => false,
-                                          ],
-                                          $data));
+                                          ], $data));
     }
 
     public function respondWithAjaxSuccessAndRedirect($url)
@@ -318,7 +320,8 @@ class Response
     {
         $this->code = 200;
 
-        return request()->isJson() || request()->isAjax() ? $this->respondWithAjaxSuccessAndRedirect($url) : $this->redirect($url);
+        return request()->isJson() || request()->isAjax() ? $this->respondWithAjaxSuccessAndRedirect($url)
+            : $this->redirect($url);
     }
 
     public function respondWithSuccessOrRedirectBack()
@@ -351,8 +354,7 @@ class Response
         return $this->respond(array_merge([
                                               'success' => false,
                                               'error'   => true,
-                                          ],
-                                          $data));
+                                          ], $data));
     }
 
     public function respondWithAjaxErrorAndRedirect($url)
@@ -387,7 +389,7 @@ class Response
         if ($this->responded) {
             return;
         }
-        
+
         $isJson = false;
         if (is_array($string)) {
             $isJson;
@@ -427,7 +429,7 @@ class Response
     {
         if (is_array($string)) {
             $string = $this->arrayToString($string);
-        } else if (!$string && func_get_args()) {
+        } elseif (!$string && func_get_args()) {
             $string = $this->output;
         }
 
@@ -527,17 +529,23 @@ class Response
             header("Content-Type: application/octet-stream");
             header("Content-Type: application/download");
         }
+
+        return $this;
     }
 
     public function sendJsonHeader()
     {
         header("Content-Type: application/json");
+
+        return $this;
     }
 
     public function sendFileDispositionHeader($filename)
     {
         header("Content-Disposition: attachment; filename=" . $filename);
         header("Content-Description: File Transfer");
+
+        return $this;
     }
 
     public function sendCacheHeaders($seconds = 60)
@@ -546,6 +554,8 @@ class Response
         header("Expires: " . $timestamp);
         header("Pragma: cache");
         header("Cache-Control: max-age=" . $seconds);
+
+        return $this;
     }
 
     public function sendNoCacheHeaders()
@@ -555,11 +565,15 @@ class Response
         header("Last-Modified: " . $timestamp);
         header("Pragma: no-cache");
         header("Cache-Control: no-cache, must-revalidate");
+
+        return $this;
     }
 
     public function sendFeaturePolicyHeader()
     {
         header("Feature-Policy: usb 'self'");
+
+        return $this;
     }
 
 }

@@ -222,7 +222,7 @@ class Router
         return $this;
     }
 
-    private function getRoutePrefix($absolute = false, $domain = null, $envPrefix = true)
+    public function getRoutePrefix($absolute = false, $domain = null, $envPrefix = true)
     {
         $host = $absolute || isConsole()
             ? 'https://' . first($domain, server('HTTP_HOST'), config('domain'))
