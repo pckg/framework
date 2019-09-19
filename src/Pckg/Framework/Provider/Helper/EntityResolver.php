@@ -12,6 +12,8 @@ trait EntityResolver
 
     protected $postField = null;
 
+    protected $filter = null;
+
     public function by($field)
     {
         $this->by = $field;
@@ -32,7 +34,15 @@ trait EntityResolver
     public function prepareEntity()
     {
         $e = $this->entity;
+
         return $this->e = new $e;
+    }
+
+    public function filter(callable $filter = null)
+    {
+        $this->filter = $filter;
+
+        return $this;
     }
 
     public function resolve($value)
@@ -52,6 +62,10 @@ trait EntityResolver
         if (isset($this->compareTo)) {
             $compared = router()->resolved($this->compareTo);
             $this->e->where('id', $compared->id);
+        }
+
+        if ($filter = $this->filter) {
+            $filter($this->e, $value);
         }
 
         return $this->e->oneOrFail();

@@ -50,11 +50,16 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 chain($this->match['middlewares'], 'execute');
             }
 
+            /**
+             * Resolve dependencies.
+             */
+            $resolved = (new ResolveDependencies(router()->get('resolvers')))->execute();
+
             if (is_only_callable($this->match['view'])) {
                 /**
                  * Simple action.
                  */
-                $response = Reflect::call($this->match['view']);
+                $response = Reflect::call($this->match['view'], $resolved);
             } else {
                 /**
                  * Create controller object.
@@ -64,8 +69,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 /**
                  * Get main action response.
                  */
-                $data = (new ResolveDependencies(router()->get('resolvers')))->execute();
-                $response = $this->loadView->set($this->match['view'], $data, $this->controller)->execute();
+                $response = $this->loadView->set($this->match['view'], $resolved, $this->controller)->execute();
             }
 
             if (!$this->response->hasResponded()) {
