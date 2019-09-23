@@ -93,7 +93,7 @@ class ComposerProject extends Command
                         $this->exec($pullCommand);
                     }
                 }
-                foreach ($composer['packages'] as $composerPacket) {
+                foreach ($composer['packages'] ?? [] as $composerPacket) {
                     if ($composerPacket['name'] == $packet) {
                         $installed = $composerPacket['source']['reference'];
                         $logOutput = $this->exec($logCommand, false);

@@ -26,17 +26,17 @@ class Config
         return $default;
     }
 
-    public function set($key, $val)
+    public function set($key, $val, $merge = true)
     {
         /**
          * Get all keys, separated by dot.
          */
         $keys = explode('.', $key);
 
-        $this->data = $this->setRecursive($keys, $val, $this->data, 0);
+        $this->data = $this->setRecursive($keys, $val, $this->data, 0, $merge);
     }
 
-    private function setRecursive($keys, $val, $data, $i)
+    private function setRecursive($keys, $val, $data, $i, $merge = true)
     {
         if (!is_array($data)) {
             /**
@@ -50,7 +50,7 @@ class Config
             /**
              * We want to merge existing values.
              */
-            if (is_array($val) && $data) {
+            if ($merge && is_array($val) && $data) {
                 return array_merge($data, $val);
             }
 
@@ -71,7 +71,7 @@ class Config
             $data[$key] = [];
         }
 
-        $data[$key] = $this->setRecursive($keys, $val, $data[$key], $i + 1);
+        $data[$key] = $this->setRecursive($keys, $val, $data[$key], $i + 1, $merge);
 
         return $data;
     }
@@ -189,6 +189,16 @@ class Config
         return array_key_exists($key, $this->data)
             ? $this->data[$key]
             : null;
+    }
+
+    public function getPublicConfig()
+    {
+        $public = [];
+        foreach (config('pckg.config.public', []) as $key => $callback) {
+            $public[$key] = $callback($this);
+        }
+
+        return base64_encode(json_encode($public));
     }
 
 }

@@ -51,6 +51,7 @@ class Provider
             $this->registerAssets($this->assets());
             $this->registerJobs($this->jobs());
             $this->registerTranslations();
+            dispatcher()->trigger(static::class . '.postRegistered');
         });
 
         /**
@@ -66,6 +67,11 @@ class Provider
         $this->registered();
 
         return $this;
+    }
+
+    public function isRegistered()
+    {
+        return $this->registered;
     }
 
     public function registered()

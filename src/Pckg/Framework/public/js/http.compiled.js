@@ -50,18 +50,23 @@ var http = {
     },
 
     getJSON: function getJSON(url, whenDone, whenError, options) {
+        options = options || {};
+        options.beforeSend = function (request) {
+            request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+        };
+
         var request = $.ajax(Object.assign({
             url: url,
             dataType: 'JSON',
             type: 'GET'
-        }, options || {}));
+        }, options));
 
         if (whenDone) {
             request.done(whenDone);
         }
 
         if (whenError) {
-            request.error(whenError);
+            request.fail(whenError);
         }
 
         return request;
@@ -89,13 +94,17 @@ var http = {
         }
 
         data = http.fixUndefined(data);
-
-        return $.ajax({
+        let options = {
             url: url,
             dataType: 'JSON',
             type: 'POST',
-            data: data
-        }).done(whenDone).error(whenError);
+            data: data,
+            beforeSend: function(request) {
+                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+            },
+        };
+
+        return $.ajax(options).done(whenDone).error(whenError);
     },
 
     patch: function post(url, data, whenDone, whenError) {
@@ -122,6 +131,10 @@ var http = {
     },
 
     fixUndefined: function fixUndefined(data) {
+        if (data && typeof data === 'string') {
+            return data;
+        }
+
         $.each(data, function (key, val) {
             if (Array.isArray(val) || (typeof val === 'undefined' ? 'undefined' : _typeof(val)) == 'object') {
                 data[key] = http.fixUndefined(val);
@@ -164,6 +177,10 @@ var http = {
 var locale = {
 
     price: function price(_price, decimals) {
+        return this.number(_price, decimals) + ' ' + Pckg.config.locale.currencySign;
+    },
+
+    number: function price(_price, decimals, locale) {
         if (typeof decimals == 'undefined' || decimals === null) {
             decimals = Pckg.config.locale.decimals;
         }
@@ -172,12 +189,12 @@ var locale = {
             _price = 0.0;
         }
 
-        return parseFloat(_price).toLocaleString(Pckg.config.locale.current.replace('_', '-').toLowerCase(), {
+        return parseFloat(_price).toLocaleString((locale || Pckg.config.locale.current).replace('_', '-').toLowerCase(), {
             currency: 'eur',
             currencyDisplay: 'symbol',
             maximumFractionDigits: decimals,
             minimumFractionDigits: decimals
-        }) + ' ' + Pckg.config.locale.currencySign;
+        });
     },
 
     roundPrice: function roundPrice(price, decimals) {
@@ -247,24 +264,32 @@ var collection = {
         return groups;
     },
 
-    map: function (collection, map) {
+    map: function (items, map) {
         let mapped = {};
 
-        $.each(collection, function (i, item) {
-            mapped[i] = map(item);
+        $.each(items, function (i, item) {
+            mapped[i] = collection.getCallableKey(map, item, i);
         });
 
         return mapped;
     },
 
-    keyBy: function (collection, key) {
+    keyBy: function (items, key) {
         let keyed = {};
 
-        $.each(collection, function (i, item) {
-            keyed[key(item, i)] = item;
+        $.each(items, function (i, item) {
+            keyed[collection.getCallableKey(key, item, i)] = item;
         });
 
         return keyed;
+    },
+
+    getCallableKey: function(key, item, i) {
+        if (typeof key === 'string') {
+            return item[key];
+        }
+
+        return key(item, i);
     }
 
 };
@@ -421,6 +446,10 @@ var utils = {
             }
             resolve(obj);
         });
+    },
+
+    base64decode: function(str) {
+        return atob(str);
     }
 
 };

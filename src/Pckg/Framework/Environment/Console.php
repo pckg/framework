@@ -72,11 +72,6 @@ class Console extends Environment
              * Register app paths, autoloaders and create application provider.
              */
             $applicationProvider = $this->registerAndBindApplication($context, $appName);
-
-            /**
-             * We register console provider so consoles can be easily accessable.
-             */
-            // (new ConsoleProvider())->register();
         } else {
             $applicationProvider = new ConsoleProvider();
         }

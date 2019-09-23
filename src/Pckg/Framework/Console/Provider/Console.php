@@ -10,6 +10,7 @@ use Pckg\Framework\Console\Command\LockProject;
 use Pckg\Framework\Console\Command\PreprodProject;
 use Pckg\Framework\Console\Command\ProdProject;
 use Pckg\Framework\Console\Command\PullProject;
+use Pckg\Framework\Console\Command\Sleep;
 use Pckg\Framework\Console\Command\TagProject;
 use Pckg\Framework\Console\Command\TestProject;
 use Pckg\Framework\Console\Command\UpdateProject;
@@ -35,6 +36,7 @@ class Console extends Provider
             LockProject::class,
             ClearCache::class,
             TagProject::class,
+            Sleep::class,
         ];
     }
 

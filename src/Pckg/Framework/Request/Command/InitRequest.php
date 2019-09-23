@@ -54,6 +54,10 @@ class InitRequest extends AbstractChainOfReponsibility
                         return $output;
                     }
 
+                    if (request()->isJson()) {
+                        return (new ShowNiceErrorPage())->handleJson(['message' => 'Not found']);
+                    }
+
                     return (new ShowNiceErrorPage())->handlePartial();
                 },
                 'tags'      => ['layout:frontend'],

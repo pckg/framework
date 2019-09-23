@@ -3,6 +3,7 @@
 use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Exception\Unauthorized;
 use Pckg\Framework\Request;
 use Pckg\Framework\Router;
 
@@ -41,7 +42,7 @@ class LoadView extends AbstractChainOfReponsibility
         $result = null;
 
         if (!method_exists($this->controller, $viewHttp . "Action")) {
-            throw new Exception('Method ' . $viewHttp . 'Action() does not exist in ' . get_class($this->controller));
+            response()->bad('Method ' . $viewHttp . 'Action() does not exist in ' . get_class($this->controller));
         }
 
         /**

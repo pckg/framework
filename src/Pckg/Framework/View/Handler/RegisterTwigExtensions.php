@@ -84,8 +84,11 @@ class RegisterTwigExtensions
         /**
          * This should be added to Framework provider.
          */
-        $twig->addFilter(new Twig_SimpleFilter('price', function($price) {
-            return price($price);
+        $twig->addFilter(new Twig_SimpleFilter('price', function($price, $currency = null) {
+            return price($price, $currency);
+        }));
+        $twig->addFilter(new Twig_SimpleFilter('number', function($price) {
+            return number($price);
         }));
         $twig->addFilter(new Twig_SimpleFilter('roundPrice', function($price) {
             if (is_null($price)) {

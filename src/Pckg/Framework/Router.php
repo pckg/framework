@@ -222,7 +222,7 @@ class Router
         return $this;
     }
 
-    private function getRoutePrefix($absolute = false, $domain = null, $envPrefix = true)
+    public function getRoutePrefix($absolute = false, $domain = null, $envPrefix = true)
     {
         $host = $absolute || isConsole()
             ? 'https://' . first($domain, server('HTTP_HOST'), config('domain'))
@@ -284,7 +284,7 @@ class Router
                     foreach ($args as $key => &$arg) {
                         if (is_string($arg)) {
                             if (strpos(strtolower($key), 'url') !== false) {
-                                $arg = sluggify($arg);
+                                $arg = trim(substr(sluggify($arg), 0, 42), '-');
                             } else {
                                 $arg = urlencode($arg);
                             }
@@ -409,7 +409,7 @@ class Router
             'path' => $url,
         ];
         if (array_key_exists('vue:route:redirect', $tags)) {
-            $vueRoute['redirect'] = $tags['vue:route:redirect'];
+            $vueRoute['redirect'] = $prefix . $tags['vue:route:redirect'];
         }
         if (array_key_exists('vue:route:template', $tags)) {
             $vueRoute['component'] = ['template' => $tags['vue:route:template']];
@@ -439,7 +439,6 @@ class Router
     {
         $allRoutes = $this->getRoutes();
         $vueRoutes = [];
-        $prefix = dev() ? '/dev.php' : '';
         foreach ($allRoutes as $url => $routeArr) {
             $firstRoute = $routeArr[0];
             $tags = $firstRoute['tags'] ?? [];
@@ -449,7 +448,10 @@ class Router
             /**
              * Build vue route.
              */
-            $vueRoutes[] = $this->transformVueRoute($firstRoute, $prefix);
+            $vueRoutes[] = $this->transformVueRoute($firstRoute);
+            if (dev()) {
+                $vueRoutes[] = $this->transformVueRoute($firstRoute, '/dev.php');
+            }
         }
         return $vueRoutes;
     }

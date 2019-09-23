@@ -421,6 +421,17 @@ if (!function_exists('first')) {
     }
 }
 
+if (!function_exists('oneFrom')) {
+    function oneFrom($needle, $haystack, $default)
+    {
+        if (in_array($needle, $haystack)) {
+            return $needle;
+        }
+
+        return $default;
+    }
+}
+
 if (!function_exists('firstWithZero')) {
     function firstWithZero(...$args)
     {
@@ -1533,7 +1544,14 @@ if (!function_exists('routeGroup')) {
 }
 
 if (!function_exists('price')) {
-    function price($price)
+    function price($price, $currency = null)
+    {
+        return number($price) . ' ' . ($currency ?? config('pckg.payment.currencySign'));
+    }
+}
+
+if (!function_exists('number')) {
+    function number($price)
     {
         if (is_null($price)) {
             $price = 0.0;
@@ -1546,7 +1564,7 @@ if (!function_exists('price')) {
                 firstWithZero(config('pckg.locale.decimals'), 2),
                 $localeManager->getDecimalPoint(),
                 $localeManager->getThousandSeparator()
-            ) . ' ' . config('pckg.payment.currencySign');
+            );
     }
 }
 
@@ -1570,13 +1588,31 @@ if (!function_exists('strbetween')) {
 if (!function_exists('cdn')) {
     function cdn($file)
     {
-        $host = config('storage.cdn.host');
+        $file = trim($file);
 
+        if (!$file) {
+            return $file;
+        }
+
+        if (isRemoteUrl($file)) {
+            return $file;
+        }
+
+        $host = config('storage.cdn.host');
         if (!$host) {
             return $file;
         }
 
         return 'https://' . $host . $file;
+    }
+}
+
+if (!function_exists('isRemoteUrl')) {
+    function isRemoteUrl($url)
+    {
+        $url = trim($url);
+
+        return strpos($url, '//') === 0 || strpos($url, 'https://') === 0 || strpos($url, 'http://') === 0;
     }
 }
 
@@ -1587,6 +1623,22 @@ if (!function_exists('only')) {
 
         foreach ($keys as $key) {
             $final[$key] = $array[$key] ?? null;
+        }
+
+        return $final;
+    }
+}
+
+if (!function_exists('onlyWhen')) {
+    function onlyWhen($array, $keys)
+    {
+        $final = [];
+
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $array)) {
+                continue;
+            }
+            $final[$key] = $array[$key];
         }
 
         return $final;
@@ -1685,6 +1737,54 @@ if (!function_exists('escapeshellargs')) {
         }
 
         return $parameters;
+    }
+}
+
+if (!function_exists('seededShuffle')) {
+    function seededShuffle($seed = null, $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    {
+        $items = str_split($chars, 1);
+        mt_srand($seed ? $seed : time());
+        for ($i = count($items) - 1; $i > 0; $i--) {
+            $j = mt_rand(0, $i);
+            list($items[$i], $items[$j]) = [$items[$j], $items[$i]];
+        }
+
+        return implode($items);
+    }
+}
+
+if (!function_exists('seededHash')) {
+    function seededHash($seed, $length)
+    {
+        $shuffled = seededShuffle($seed);
+
+        $items = str_split($shuffled, 1);
+        mt_srand($seed ? $seed : (int)(microtime(true) * 1000));
+
+        $hash = [];
+        while (count($hash) < $length) {
+            $hash[] = $items[mt_rand(0, count($items) - 1)];
+        }
+
+        return implode($hash);
+    }
+}
+
+if (!function_exists('str2int')) {
+    function str2int($string, $max = PHP_INT_MAX)
+    {
+        $array = str_split($string, 1);
+        $sum = 0.0;
+        foreach ($array as $i => $char) {
+            mt_srand(($i + 1) / ord($char) * 10000);
+            $rand = mt_rand(1, 10000);
+            $sum += 1 / $rand;
+        }
+
+        $range = $sum - floor($sum);
+
+        return (int)floor($range * $max);
     }
 }
 

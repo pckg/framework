@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\StringInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
@@ -56,12 +57,14 @@ class Command extends SymfonyConsoleCommand
         $application->setAutoExit(false);
 
         array_unshift($data, $this->getName());
+        $output = isConsole() ? new ConsoleOutput() : new BufferedOutput();
         $ok = $application->run(
-            new ArrayInput($data), $output = new BufferedOutput()
+            new ArrayInput($data), $output
         );
 
         if ($ok !== 0) {
-            throw new \Exception('Cannot execute command ' . get_class($this) . ':' . $output->fetch());
+            error_log($output);
+            throw new \Exception('Cannot execute command ' . get_class($this));
         }
 
         return $ok == 0;
