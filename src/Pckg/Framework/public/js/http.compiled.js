@@ -304,6 +304,13 @@ var utils = {
         return str.charAt(0).toUpperCase() + str.slice(1);
     },
 
+    toCamelCase: function(str) {
+        return str.replace(/^([A-Z])|\s(\w)/g, function(match, p1, p2, offset) {
+            if (p2) return p2.toUpperCase();
+            return p1.toLowerCase();
+        });
+    },
+
     isSameDate: function isSameDate(first, second) {
         return locale.date(first) == locale.date(second);
     },
