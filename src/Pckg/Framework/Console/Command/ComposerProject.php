@@ -35,6 +35,8 @@ class ComposerProject extends Command
             'pckg-app/center-api',
             'pckg-app/medium-api',
             'pckg-app/api',
+            'commscenter/comms-hub-api',
+            'commscenter/comms-php-sdk',
         ];
 
         $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];
