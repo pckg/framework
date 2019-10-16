@@ -132,7 +132,7 @@ var http = {
     },
 
     fixUndefined: function (data) {
-        if (data && typeof data === 'string') {
+        if (typeof data === 'string' || typeof data === 'number') {
             return data;
         }
 
@@ -149,6 +149,8 @@ var http = {
             } else if (val === false || val === '' || val === null) {
                 data[key] = null;
 
+            } else {
+                data[key] = val;
             }
         });
 

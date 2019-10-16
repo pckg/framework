@@ -131,7 +131,7 @@ var http = {
     },
 
     fixUndefined: function fixUndefined(data) {
-        if (data && typeof data === 'string') {
+        if (typeof data === 'string' || typeof data === 'number') {
             return data;
         }
 
@@ -144,6 +144,8 @@ var http = {
                 data[key] = 1;
             } else if (val === false || val === '' || val === null) {
                 data[key] = null;
+            } else {
+                data[key] = http.fixUndefined(val);
             }
         });
 
