@@ -210,10 +210,6 @@ class ResolveRoute
             throw new Exception("View not set.");
         }
 
-        if (!isset($match["controller"]) && !is_only_callable($match['view'])) {
-            throw new Exception("Controller not set." . print_r($match, true));
-        }
-
         return $match;
     }
 

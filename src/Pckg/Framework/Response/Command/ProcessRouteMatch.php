@@ -60,7 +60,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                  * Simple action.
                  */
                 $response = Reflect::call($this->match['view'], $resolved);
-            } else {
+            } elseif (array_key_exists('controller', $this->match)) {
                 /**
                  * Create controller object.
                  */
@@ -70,6 +70,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                  * Get main action response.
                  */
                 $response = $this->loadView->set($this->match['view'], $resolved, $this->controller)->execute();
+            } else {
+                $response = $this->match['view'];
             }
 
             if (!$this->response->hasResponded()) {

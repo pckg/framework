@@ -15,7 +15,9 @@ class InitDatabase
                 continue;
             }
 
-            RepositoryFactory::createRepositoryConnection($config, $name);
+            measure('Connecting to database ' . $name, function() use ($config, $name) {
+                RepositoryFactory::createRepositoryConnection($config, $name);
+            });
         }
 
         return $next();
