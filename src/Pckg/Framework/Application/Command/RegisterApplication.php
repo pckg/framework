@@ -18,7 +18,14 @@ class RegisterApplication
 
     public function execute(callable $next)
     {
+        /**
+         * Register main application provider.
+         */
         $this->application->getProvider()->register(); // 0.44 -> 0.97 / 1.03 = 0.53s = 50%
+
+        /**
+         * Parse application config.
+         */
         config()->parseDir(path('app'));
 
         /**
@@ -26,6 +33,9 @@ class RegisterApplication
          */
         chain([Localize::class]);
 
+        /**
+         * Trigger event.
+         */
         trigger(Application::class . '.registered');
 
         return $next();

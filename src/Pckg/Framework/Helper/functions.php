@@ -1755,7 +1755,7 @@ if (!function_exists('seededShuffle')) {
 }
 
 if (!function_exists('seededHash')) {
-    function seededHash($seed, $length)
+    function seededHash(int $seed, $length)
     {
         $shuffled = seededShuffle($seed);
 
