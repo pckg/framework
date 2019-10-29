@@ -320,9 +320,9 @@ if (!function_exists('email')) {
 }
 
 if (!function_exists('resolve')) {
-    function resolve($class)
+    function resolve($class, $data = [])
     {
-        return Reflect::resolve($class);
+        return Reflect::resolve($class, $data);
     }
 }
 

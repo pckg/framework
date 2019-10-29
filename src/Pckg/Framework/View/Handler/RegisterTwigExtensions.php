@@ -60,6 +60,9 @@ class RegisterTwigExtensions
         $twig->addFunction(new Twig_SimpleFunction('imageCache', function($pic, $type, $arg) {
             return $pic ? '/cache/img/' . $type . '/' . $arg . $pic : null;
         }));
+        $twig->addFunction(new Twig_SimpleFunction('resolve', function($class, $attrs = []) {
+            return resolve($class, $attrs);
+        }));
 
         /**
          * This should be added to Framework provider.
