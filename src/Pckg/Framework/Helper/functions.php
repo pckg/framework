@@ -1788,6 +1788,23 @@ if (!function_exists('str2int')) {
     }
 }
 
+if (!function_exists('int2str')) {
+    function int2str(int $int, $length = 8)
+    {
+        $chars = 'abcdefghijklmnopqrstuvwxyz';
+        $max = strlen($chars);
+        $str = '';
+        while ($int >= $max) {
+            $mod = $int % $max;
+            $str = $chars[$mod] . $str;
+            $int = (int)(($int - $mod) / $max);
+        }
+        $str = $chars[$int] . $str;
+
+        return str_pad($str, $length, 'a', STR_PAD_LEFT);
+    }
+}
+
 if (!function_exists('numequals')) {
     function numequals($a, $b)
     {

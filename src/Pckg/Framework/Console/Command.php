@@ -128,7 +128,7 @@ class Command extends SymfonyConsoleCommand
 
     public function output($msg = '', $type = null) // info, comment, question, error
     {
-        $this->output->write(($type ? '<' . $type . '>' : '') . $msg . "\n" . ($type ? '</' . $type . '>' : ''));
+        $this->output->write(($type ? '<' . $type . '>' : '') . "\n" . $msg . ($type ? '</' . $type . '>' : ''));
 
         return $this;
     }
