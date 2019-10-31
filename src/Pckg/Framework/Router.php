@@ -431,6 +431,7 @@ class Router
                 $vueRoute['children'][] = $childRoute;
             }
         }
+        $vueRoute['meta']['tags'] = $tags;
 
         return $vueRoute;
     }
