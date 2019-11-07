@@ -48,7 +48,7 @@ class ResolveDependencies
                 $realResolver = resolve($resolver);
             }
 
-            $k = $router[$urlKey] ?? router()->getCleanUri();
+            $k = $router[$urlKey] ?? null;
             $resolved = $realResolver->resolve(urldecode($k));
 
             if (is_string($urlKey)) {
