@@ -51,9 +51,12 @@ var http = {
 
     getJSON: function getJSON(url, whenDone, whenError, options) {
         options = options || {};
-        options.beforeSend = function (request) {
-            request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
-        };
+
+        if (Pckg.config.locale) {
+            options.beforeSend = function (request) {
+                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+            };
+        }
 
         var request = $.ajax(Object.assign({
             url: url,
@@ -98,11 +101,14 @@ var http = {
             url: url,
             dataType: 'JSON',
             type: 'POST',
-            data: data,
-            beforeSend: function(request) {
-                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
-            },
+            data: data
         };
+
+        if (Pckg.config.locale) {
+            options.beforeSend = function (request) {
+                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+            };
+        }
 
         return $.ajax(options).done(whenDone).error(whenError);
     },
