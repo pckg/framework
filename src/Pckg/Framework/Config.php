@@ -195,7 +195,11 @@ class Config
     {
         $public = [];
         foreach (config('pckg.config.public', []) as $key => $callback) {
-            $public[$key] = $callback($this);
+            if (is_only_callable($callback)) {
+                $public[$key] = $callback($this);
+            } else if (is_string($callback)) {
+                $public[$callback] = config($callback);
+            }
         }
 
         return base64_encode(json_encode($public));
