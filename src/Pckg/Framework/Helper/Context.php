@@ -68,6 +68,7 @@ class Context extends ConceptContext
         /**
          * @T00D00 - Simplify this.
          */
+        Reflect::prependResolver(new Reflect\Resolver\Context());
         Reflect::prependResolver(new FrameworkResolver());
         Reflect::prependResolver(new FormResolver());
 

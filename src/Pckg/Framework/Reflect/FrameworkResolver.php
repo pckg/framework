@@ -33,6 +33,7 @@ class FrameworkResolver implements Resolver
         Lang::class,
         Auth::class,
         Locale::class,
+        Generic::class,
     ];
 
     protected static $parents = [
