@@ -98,16 +98,10 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * Catch end of execution.
              */
             exit;
-        } catch (NotFound $e) {
+        } catch (\Pckg\Framework\Exception $e) {
             /**
-             * Set response code to 404.
+             * Response code was already set.
              */
-            $this->response->code(404);
-        } catch (Unauthorized $e) {
-            /**
-             * Set response code to 401.
-             */
-            $this->response->code(401);
         } catch (Throwable $e) {
             /**
              * Set response code to 500.

@@ -1,6 +1,6 @@
 <?php namespace Pckg\Framework\Exception;
 
-use Exception;
+use Pckg\Framework\Exception;
 
 class Bad extends Exception
 {

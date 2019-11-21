@@ -15,10 +15,10 @@ trait Exceptions
         $this->exception($message, 400);
     }
 
-    public function exception($message, $code = 400, $class = Exception::class)
+    public function exception($message, $code = 400, $class = \Pckg\Framework\Exception::class)
     {
         if (!$class) {
-            $class = Exception::class;
+            $class = \Pckg\Framework\Exception::class;
         }
         
         if ($code) {
@@ -34,7 +34,7 @@ trait Exceptions
             throw $class;
         }
 
-        throw new Exception($message ?? 'Unknown exception type');
+        throw new \Pckg\Framework\Exception($message ?? 'Unknown exception type');
     }
 
     public function bad($message = 'Bad request')
