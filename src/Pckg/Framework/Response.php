@@ -569,6 +569,13 @@ class Response
         return $this;
     }
 
+    public function sendNoIndexHeader()
+    {
+        header('X-Robots-Tax', 'noindex');
+
+        return $this;
+    }
+
     public function sendFeaturePolicyHeader()
     {
         header("Feature-Policy: usb 'self'");

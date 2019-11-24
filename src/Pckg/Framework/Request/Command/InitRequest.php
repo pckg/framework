@@ -54,7 +54,7 @@ class InitRequest extends AbstractChainOfReponsibility
                         return $output;
                     }
 
-                    if (request()->isJson()) {
+                    if (request()->isJson() || request()->isAjax()) {
                         return (new ShowNiceErrorPage())->handleJson(['message' => 'Not found']);
                     }
 
