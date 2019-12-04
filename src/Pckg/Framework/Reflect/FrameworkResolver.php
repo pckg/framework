@@ -10,7 +10,6 @@ use Pckg\Framework\Request;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
-use Pckg\Generic\Service\Generic;
 use Pckg\Locale\Lang;
 use Pckg\Manager\Asset as AssetManager;
 use Pckg\Manager\Locale;
@@ -33,7 +32,6 @@ class FrameworkResolver implements Resolver
         Lang::class,
         Auth::class,
         Locale::class,
-        Generic::class,
     ];
 
     protected static $parents = [
