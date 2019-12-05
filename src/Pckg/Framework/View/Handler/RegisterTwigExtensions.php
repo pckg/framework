@@ -114,6 +114,10 @@ class RegisterTwigExtensions
             return timef($date, $format);
         }));
 
+        $twig->addFilter(new Twig_SimpleFilter('base64_encode', function($string) {
+            return base64_encode($string);
+        }));
+
         $twig->getExtension('core')->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
     }
 
