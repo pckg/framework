@@ -36,12 +36,12 @@ if (!function_exists('env')) {
 }
 
 /**
- * @return Environment
+ * @return mixed|string|array
  */
 if (!function_exists('dotenv')) {
     function dotenv($key, $default = null)
     {
-        $dotenv = context()->getOrCreate(\josegonzalez\Dotenv\Loader::class, [], null, function(){
+        $dotenv = context()->getOrCreate(\josegonzalez\Dotenv\Loader::class, [], null, function() {
             $file = BASE_PATH . '.env';
             if (!file_exists($file)) {
                 return;
@@ -266,7 +266,7 @@ if (!function_exists('isValidEmail')) {
         }
 
         if ($dns) {
-            list($address, $host) = explode('@', $email);
+            [$address, $host] = explode('@', $email);
             $dnsr = checkdnsrr(idn_to_ascii($host, IDNA_NONTRANSITIONAL_TO_ASCII, INTL_IDNA_VARIANT_UTS46) . '.', 'MX');
             return !!$dnsr;
         }
@@ -1417,7 +1417,7 @@ if (!function_exists('get_date_diff')) {
         }
         // If time1 > time2 then swap the 2 values
         if ($time1 > $time2) {
-            list($time1, $time2) = [$time2, $time1];
+            [$time1, $time2] = [$time2, $time1];
         }
         // Set up intervals and diffs arrays
         $intervals = ['year', 'month', 'day', 'hour', 'minute', 'second'];
@@ -1747,7 +1747,7 @@ if (!function_exists('seededShuffle')) {
         mt_srand($seed ? $seed : time());
         for ($i = count($items) - 1; $i > 0; $i--) {
             $j = mt_rand(0, $i);
-            list($items[$i], $items[$j]) = [$items[$j], $items[$i]];
+            [$items[$i], $items[$j]] = [$items[$j], $items[$i]];
         }
 
         return implode($items);

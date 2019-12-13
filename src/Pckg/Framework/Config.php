@@ -7,6 +7,11 @@ class Config
 
     protected $data = [];
 
+    public function __construct(array $data = [])
+    {
+        $this->data = $data;
+    }
+
     public function get($key = null, $default = null)
     {
         if (!$key) {

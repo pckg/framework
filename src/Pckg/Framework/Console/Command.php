@@ -210,6 +210,38 @@ class Command extends SymfonyConsoleCommand
         return json_decode($option, $assoc);
     }
 
+    /**
+     * @param string $option
+     * @param array  $keys
+     *
+     * @return array
+     */
+    protected function unpackOption(string $option, array $keys)
+    {
+        /**
+         * JSON decode option
+         */
+        $decoded = $this->decodeOption($option, true);
+
+        /**
+         * Build new array.
+         */
+        $collected = [];
+        foreach ($keys as $key) {
+            $collected[] = $decoded[$key];
+        }
+
+        return $collected;
+    }
+
+    /**
+     * @param \Throwable $e
+     */
+    protected function outputException(\Throwable $e)
+    {
+        $this->outputDated(exception($e), 'error');
+    }
+
     public function deserializeOption($name)
     {
         $option = $this->option($name);
