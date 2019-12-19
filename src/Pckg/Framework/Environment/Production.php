@@ -155,7 +155,7 @@ class Production extends Environment
 
     public function getApplicationNameFromGlobalRouter()
     {
-        $apps = config('router.apps');
+        $apps = config('router.apps', []);
 
         foreach ($apps as $app => $config) {
             if (in_array($_SERVER['HTTP_HOST'], $config['host'])) {
@@ -172,6 +172,8 @@ class Production extends Environment
                 }
             }
         }
+
+        return config('app');
     }
 
     public function createApplication(\Pckg\Framework\Helper\Context $context, $appName)
