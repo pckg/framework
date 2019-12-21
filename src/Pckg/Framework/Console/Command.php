@@ -63,7 +63,7 @@ class Command extends SymfonyConsoleCommand
         );
 
         if ($ok !== 0) {
-            error_log($output);
+            // error_log($output);
             throw new \Exception('Cannot execute command ' . get_class($this));
         }
 
@@ -118,12 +118,12 @@ class Command extends SymfonyConsoleCommand
 
     public function argument($name, $default = null)
     {
-        return $this->input->getArgument($name) ?: $default;
+        return $this->input->hasArgument($name) ? $this->input->getArgument($name) : $default;
     }
 
     public function option($name, $default = null)
     {
-        return $this->input->getOption($name) ?? $default;
+        return $this->input->hasOption($name) ? $this->input->getOption($name) : $default;
     }
 
     public function output($msg = '', $type = null) // info, comment, question, error
