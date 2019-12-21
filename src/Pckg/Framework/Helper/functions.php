@@ -1534,7 +1534,9 @@ if (!function_exists('vueRoute')) {
     function vueRoute($route, $component)
     {
         return route($route, function() {
-            return view('Fons:layout', ['content' => Vue::getLayout()]);
+            $config = config();
+
+            return view($config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
         })->data([
                      'tags' => [
                          'vue:route',
