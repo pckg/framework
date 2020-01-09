@@ -223,6 +223,18 @@ var locale = {
             }) + ' ' + Pckg.config.locale.currencySign;
     },
 
+    roundNumber: function(number, decimals){
+        if (typeof decimals == 'undefined' || decimals === null) {
+            decimals = Pckg.config.locale.decimals;
+        }
+
+        if (typeof number == 'undefined' || number === null) {
+            number = 0.0;
+        }
+
+        return parseInt(number) == parseFloat(number) ? parseInt(number) : parseFloat(number).toFixed(decimals || 2)
+    },
+
     date: function (date) {
         if (!date) {
             return null;
