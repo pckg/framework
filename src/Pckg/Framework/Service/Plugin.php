@@ -26,14 +26,11 @@ class Plugin
                     $httpMethod = 'get';
                 }
                 $method = $httpMethod . ucfirst($method);
-            } else {
+                $method .= 'Action';
+            } elseif ($byRequest) {
                 $method = strtolower($byRequest) . ucfirst($method);
+                $method .= 'Action';
             }
-
-            /**
-             * Add Action suffix.
-             */
-            $method .= 'Action';
 
             /**
              * Get action response.
