@@ -163,6 +163,24 @@ if (!function_exists('files')) {
     }
 }
 
+/**
+ * @return mixed
+ */
+if (!function_exists('required')) {
+    function required($value, $type, $key = null)
+    {
+        if (!$value) {
+            throw new Exception('Missing required value ' . $key);
+        }
+
+        if (is_int($type) && $value != (int)$value) {
+            throw new Exception('Invalid required value ' . $key);
+        }
+
+        return $value;
+    }
+}
+
 if (!function_exists('auth')) {
     /**
      * @return Auth
