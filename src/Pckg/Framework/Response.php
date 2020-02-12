@@ -525,6 +525,8 @@ class Response
             header("Content-Type: application/pdf");
         } elseif (strpos($filename, '.png')) {
             header("Content-Type: image/png");
+        } elseif (strpos($filename, '.xlsx')) {
+            header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         } else {
             header("Content-Type: application/octet-stream");
             header("Content-Type: application/download");
@@ -542,7 +544,7 @@ class Response
 
     public function sendFileDispositionHeader($filename)
     {
-        header("Content-Disposition: attachment; filename=" . $filename);
+        header("Content-Disposition: attachment; filename=\"" . ($filename) . "\"; filename*=UTF-8''" . ($filename) . "");
         header("Content-Description: File Transfer");
 
         return $this;
