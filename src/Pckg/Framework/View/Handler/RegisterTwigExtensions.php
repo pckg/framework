@@ -87,7 +87,11 @@ class RegisterTwigExtensions
         /**
          * This should be added to Framework provider.
          */
-        $twig->addFilter(new Twig_SimpleFilter('price', function($price, $currency = null) {
+        $twig->addFilter(new Twig_SimpleFilter('price', function($price, $currency = null, $percentage = false) {
+            if ($percentage && strpos($price, '%')) {
+                return $price;
+            }
+
             return price($price, $currency);
         }));
         $twig->addFilter(new Twig_SimpleFilter('number', function($price) {
@@ -101,8 +105,17 @@ class RegisterTwigExtensions
             $localeManager = resolve(Locale::class);
 
             return trim((string)number_format($price, 2, $localeManager->getDecimalPoint(),
-                                              $localeManager->getThousandSeparator()), '0') . ' ' .
+                                              $localeManager->getThousandSeparator()), '0.,') . ' ' .
                 config('pckg.payment.currencySign');
+        }));
+        $twig->addFilter(new Twig_SimpleFilter('roundNumber', function($price) {
+            if (is_null($price)) {
+                $price = 0.0;
+            }
+
+            $localeManager = resolve(Locale::class);
+
+            return trim((string)number_format($price, 2, $localeManager->getDecimalPoint(), $localeManager->getThousandSeparator()), '0.,');
         }));
         $twig->addFilter(new Twig_SimpleFilter('datetime', function($date, $format = null) {
             return datetime($date, $format);
