@@ -544,6 +544,7 @@ class Response
 
     public function sendFileDispositionHeader($filename)
     {
+        $filename = toSafeFilename($filename);
         header("Content-Disposition: attachment; filename=\"" . ($filename) . "\"; filename*=UTF-8''" . ($filename) . "");
         header("Content-Description: File Transfer");
 

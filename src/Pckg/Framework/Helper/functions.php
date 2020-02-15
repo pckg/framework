@@ -1688,6 +1688,21 @@ if (!function_exists('throwLogOrContinue')) {
     }
 }
 
+if (!function_exists('toSafeFilename')) {
+    function toSafeFilename($filename)
+    {
+        /**
+         * Set default non-safe characters.
+         */
+        $chars = [',', '<', '>', ':', '"', '/', '\\', '|', '?', '*'];
+
+        /**
+         * Remove non printable and special chars.
+         */
+        return htmlspecialchars(substr(preg_replace('/[^ -~]+/', '', str_replace($chars, '-', $filename)), 0, 200));
+    }
+}
+
 if (!function_exists('datetime')) {
     function datetime($date, $format = null)
     {
