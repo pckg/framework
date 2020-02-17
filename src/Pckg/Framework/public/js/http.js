@@ -376,6 +376,12 @@ var utils = {
         return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2');
     },
 
+    html2text: function (html) {
+        let span = document.createElement('span');
+        span.innerHTML = html;
+        return span.textContent || span.innerText;
+    },
+
     closeIfIframe: function () {
         this.sendToParent('popup.close');
     },
