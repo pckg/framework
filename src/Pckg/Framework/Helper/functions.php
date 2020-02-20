@@ -729,7 +729,7 @@ if (!function_exists('isHttp')) {
 if (!function_exists('dd')) {
     /**
      * @param mixed ...$mixed
-     * @deprecated 
+     * @deprecated
      */
     function dd(...$mixed)
     {
@@ -805,7 +805,26 @@ if (!function_exists('prod')) {
 if (!function_exists('implicitDev')) {
     function implicitDev()
     {
-        return server('REMOTE_ADDR') && in_array(server('REMOTE_ADDR'), config('pckg.framework.dev', []));
+        $remote = server('REMOTE_ADDR');
+        if (!$remote) {
+            return false;
+        }
+
+        $allowed = config('pckg.framework.dev', []);
+        if (in_array($remote, $allowed)) {
+            return true;
+        }
+
+        foreach ($allowed as $ip) {
+            if (substr(strrev($ip), 0, 3) !== '...') {
+                continue;
+            }
+            if (strpos($remote, substr($ip, 0, -3)) === 0) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 
