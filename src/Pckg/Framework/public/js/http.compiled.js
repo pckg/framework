@@ -483,6 +483,10 @@ var utils = {
 
     base64decode: function(str) {
         return atob(str);
+    },
+
+    base64encode: function(str) {
+        return btoa(str);
     }
 
 };
