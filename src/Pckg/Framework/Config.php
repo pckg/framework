@@ -131,9 +131,9 @@ class Config
                 } else {
                     $keys = explode('.', $key);
                     /**
-                     * Key is for example pckg.generic.templates.
-                     * [pckg, generic, templates]
-                     * We will create $content = pckg => [generic => [templates => $content]]
+                     * Key is for example foo.bar.baz.
+                     * [foo, bar, baz]
+                     * We will create $content = foo => [bar => [baz => $content]]
                      */
                     $content = $this->setRecursive($keys, $content, [], 0);
                     /**
