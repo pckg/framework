@@ -82,12 +82,12 @@ class InitProject extends Command
     {
         $files = [
             'codeception.sample.yml'                 => 'codeception.yml',
-            'config' . path('ds') . 'env.sample.php' => 'config' . path('ds') . 'env.php',
+            '.env.example' => '.env',
         ];
 
         if ($app = $this->option('app')) {
             $path = 'app' . path('ds') . $app . path('ds') . 'config' . path('ds');
-            $files[$path . 'env.sample.php'] = $path . 'env.php';
+            // $files[$path . 'env.sample.php'] = $path . 'env.php';
         }
 
         foreach ($files as $original => $copy) {

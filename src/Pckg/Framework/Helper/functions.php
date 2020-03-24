@@ -1670,11 +1670,17 @@ if (!function_exists('isRemoteUrl')) {
 }
 
 if (!function_exists('only')) {
-    function only($array, $keys)
+    function only($array, $keys, $keepUndefined = true)
     {
         $final = [];
 
         foreach ($keys as $key) {
+            /**
+             * Skip not set values (used when patching).
+             */
+            if (!$keepUndefined && !array_key_exists($key, $array)) {
+                continue;
+            }
             $final[$key] = $array[$key] ?? null;
         }
 
