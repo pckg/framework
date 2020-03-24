@@ -1708,17 +1708,9 @@ if (!function_exists('throwLogOrContinue')) {
 }
 
 if (!function_exists('toSafeFilename')) {
-    function toSafeFilename($filename)
+    function toSafeFilename($filename, $special = ' ()\[\]#')
     {
-        /**
-         * Set default non-safe characters.
-         */
-        $chars = [',', '<', '>', ':', '"', '/', '\\', '|', '?', '*'];
-
-        /**
-         * Remove non printable and special chars.
-         */
-        return htmlspecialchars(substr(preg_replace('/[^ -~]+/', '', str_replace($chars, '-', $filename)), 0, 200));
+        return substr(preg_replace("/[^A-Za-z0-9\-." . $special . "]/", '', $filename), -200);
     }
 }
 
