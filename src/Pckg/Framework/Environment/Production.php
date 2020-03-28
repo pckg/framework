@@ -128,9 +128,6 @@ class Production extends Environment
                     echo $response;
                     exit;
                 } catch (Throwable $e) {
-                    if (implicitDev()) {
-                        echo '<p>' . exception($e) . '</p>';
-                    }
                     @error_log($e->getMessage());
                     // slowly die
                 }

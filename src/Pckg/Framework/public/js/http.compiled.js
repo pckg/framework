@@ -310,6 +310,19 @@ var collection = {
         }
 
         return key(item, i);
+    },
+
+    shuffle: function (unshuffled) {
+        return unshuffled
+            .map(function (a) {
+                return {sort: Math.random(), value: a};
+            })
+            .sort(function (a, b) {
+                return a.sort - b.sort;
+            })
+            .map(function (a) {
+                return a.value;
+            });
     }
 
 };
@@ -448,11 +461,44 @@ var utils = {
     last: function last(items) {
         return items[items.length - 1];
     },
+    next: function (all, current, noLoop) {
+        let i = all.indexOf(current) + 1;
+        if (i < 0) {
+            i = 0;
+        } else if (i >= all.length) {
+            if (noLoop) {
+                i = all.length - 1;
+            } else {
+                i = 0;
+            }
+        }
+        return all[i];
+    },
+    prev: function (all, current, noLoop) {
+        let i = all.indexOf(current) - 1;
+        if (i < 0) {
+            if (noLoop) {
+                i = 0;
+            } else {
+                i = all.length - 1;
+            }
+        } else if (i >= all.length) {
+            i = all.length - 1;
+        }
+        return all[i];
+    },
     sortInt: function sortInt(a, b) {
         return a < b ? -1 : a > b ? 1 : 0;
     },
     splice: function splice(collection, item) {
         return collection.splice(collection.indexOf(item), 1);
+    },
+    toggle: function(items, key){
+        if (items.indexOf(key) > 0) {
+            utils.splice(items, key);
+        } else {
+            items.push(key);
+        }
     },
     groupBy: function (collection, groupBy) {
         grouped = {};

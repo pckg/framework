@@ -84,6 +84,11 @@ class Twig extends AbstractView implements ViewInterface
         $this->twig->addFunction(new \Twig_SimpleFunction('__', function($key, $data = [], $lang = null) {
             return __($key, $data, $lang);
         }, ['is_safe' => ['html']]));
+
+        $this->twig->addFilter(new \Twig_SimpleFilter('base64_encode', function($string) {
+            return base64_encode($string);
+        }));
+
         trigger(Twig::class . '.registerExtensions', $this->twig);
     }
 
