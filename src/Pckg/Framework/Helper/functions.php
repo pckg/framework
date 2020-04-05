@@ -103,6 +103,52 @@ if (!function_exists('hasDotted')) {
     }
 }
 
+if (!function_exists('retry')) {
+    function retry(callable $task, int $times = 1, callable $onError = null)
+    {
+        while ($times >= 0) {
+            /**
+             * First decrease the counter.
+             */
+            $times--;
+
+            try {
+                /**
+                 * Call task.
+                 */
+                $response = $task();
+
+                /**
+                 * Return response on first success.
+                 */
+                return $response;
+            } catch (\Throwable $e) {
+                /**
+                 * Continue when error handler is not set.
+                 */
+                if (!$onError) {
+                    continue;
+                }
+
+                /**
+                 * Return false when we should end with execution.
+                 */
+                $end = $onError($e);
+                if ($end) {
+                    return false;
+                }
+
+                /**
+                 * Retry when we can continue with execution.
+                 */
+                continue;
+            }
+
+            return true;
+        }
+    }
+}
+
 if (!function_exists('request')) {
     /**
      * @return Request
