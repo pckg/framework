@@ -40,7 +40,7 @@ class ResolveDependencies
                  * Array was passed with resolver value.
                  */
                 $realResolver = resolve(array_keys($resolver)[0]);
-                $router[$urlKey] = end($resolver);
+                $data[$urlKey] = end($resolver);
             } else {
                 /**
                  * Create resolver.
@@ -48,7 +48,7 @@ class ResolveDependencies
                 $realResolver = resolve($resolver);
             }
 
-            $k = $router[$urlKey] ?? null;
+            $k = $data[$urlKey] ?? null;
             $resolved = $realResolver->resolve(urldecode($k));
 
             if (is_string($urlKey)) {

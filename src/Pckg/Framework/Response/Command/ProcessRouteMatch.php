@@ -122,6 +122,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * @T00D00 - this should be somewhere else?
              */
             if (request()->isAjax()) {
+                $this->response->code(500);
                 $this->response->respond(
                     [
                         'message'   => $e->getMessage(),

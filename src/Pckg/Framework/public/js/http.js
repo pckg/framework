@@ -494,7 +494,11 @@ var utils = {
         return a < b ? -1 : (a > b ? 1 : 0);
     },
     splice: function (collection, item) {
-        return collection.splice(collection.indexOf(item), 1);
+        let index = collection.indexOf(item);
+        if (index === -1) {
+            return collection;
+        }
+        return collection.splice(index, 1);
     },
     toggle: function(items, key){
         if (items.indexOf(key) > 0) {
