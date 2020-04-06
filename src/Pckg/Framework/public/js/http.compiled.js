@@ -28,14 +28,12 @@ var http = {
     },
 
     search: function get(url, whenDone, whenError, options) {
-        if (options) {
-            return this.getJSON(url, whenDone, whenError, options);
-        }
-
-        return $.ajax({
+        let finalOptions = Object.assign({
             url: url,
             type: 'SEARCH'
-        }).done(whenDone).error(whenError);
+        }, options || {});
+
+        return $.ajax(finalOptions).done(whenDone).error(whenError);
     },
 
     get: function get(url, whenDone, whenError, options) {
