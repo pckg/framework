@@ -19,9 +19,9 @@ class Url implements RouteProviderInterface
         $this->config = $config;
         $this->name = $name
             ? $name
-            : isset($config['name'])
+            : (isset($config['name'])
                 ? $config['name']
-                : null;
+                : null);
     }
 
     public function init()
