@@ -496,7 +496,7 @@ var utils = {
         return collection.splice(index, 1);
     },
     toggle: function(items, key){
-        if (items.indexOf(key) > 0) {
+        if (items.indexOf(key) >= 0) {
             utils.splice(items, key);
         } else {
             items.push(key);
