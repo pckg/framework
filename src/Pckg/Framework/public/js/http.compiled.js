@@ -28,14 +28,12 @@ var http = {
     },
 
     search: function get(url, whenDone, whenError, options) {
-        if (options) {
-            return this.getJSON(url, whenDone, whenError, options);
-        }
-
-        return $.ajax({
+        let finalOptions = Object.assign({
             url: url,
             type: 'SEARCH'
-        }).done(whenDone).error(whenError);
+        }, options || {});
+
+        return $.ajax(finalOptions).done(whenDone).error(whenError);
     },
 
     get: function get(url, whenDone, whenError, options) {
@@ -184,8 +182,8 @@ var http = {
 
 var locale = {
 
-    price: function price(_price, decimals) {
-        return this.number(_price, decimals) + ' ' + Pckg.config.locale.currencySign;
+    price: function price(_price, decimals, currency) {
+        return this.number(_price, decimals) + ' ' + (currency || Pckg.config.locale.currencySign);
     },
 
     number: function price(_price, decimals, locale) {
@@ -498,7 +496,7 @@ var utils = {
         return collection.splice(index, 1);
     },
     toggle: function(items, key){
-        if (items.indexOf(key) > 0) {
+        if (items.indexOf(key) >= 0) {
             utils.splice(items, key);
         } else {
             items.push(key);

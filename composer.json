@@ -17,7 +17,10 @@
     "pckg/locale": "dev-master",
     "twig/twig": "1.*",
     "filp/whoops": "2.*",
-    "josegonzalez/dotenv": "dev-master"
+    "josegonzalez/dotenv": "dev-master",
+    "maximebf/debugbar": "dev-master",
+    "fzaninotto/faker": "^1.9@dev",
+    "rollbar/rollbar": "dev-master"
   },
   "suggest": {
     "rollbar/rollbar": "Production debugging",
