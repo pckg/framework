@@ -213,14 +213,18 @@ if (!function_exists('files')) {
  * @return mixed
  */
 if (!function_exists('required')) {
-    function required($value, $type, $key = null)
+    function required($value, $type = null, $key = null)
     {
         if (!$value) {
-            throw new Exception('Missing required value ' . $key);
+            throw new Exception(trim('Missing required value ' . $key));
         }
 
         if (is_int($type) && $value != (int)$value) {
-            throw new Exception('Invalid required value ' . $key);
+            throw new Exception(trim('Invalid required value ' . $key));
+        }
+
+        if (is_array($type) && $type && !in_array($value, $type)) {
+            throw new Exception(trim('Invalid value ' . $key));
         }
 
         return $value;
