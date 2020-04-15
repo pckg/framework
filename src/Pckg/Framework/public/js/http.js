@@ -183,8 +183,8 @@ var http = {
 
 var locale = {
 
-    price: function (price, decimals) {
-        return this.number(price, decimals) + ' ' + Pckg.config.locale.currencySign;
+    price: function (price, decimals, currency) {
+        return this.number(price, decimals) + ' ' + (currency || Pckg.config.locale.currencySign);
     },
 
     number: function (price, decimals, locale) {
