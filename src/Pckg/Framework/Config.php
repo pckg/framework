@@ -9,7 +9,16 @@ class Config
 
     public function __construct(array $data = [])
     {
-        $this->data = $data;
+        $this->overwrite($data);
+    }
+
+    public function preserveConfig(callable $callable)
+    {
+        $export = config()->get();
+        $result = $callable();
+        config()->overwrite($export);
+        
+        return $result;
     }
 
     public function get($key = null, $default = null)
@@ -29,6 +38,11 @@ class Config
         }
 
         return $default;
+    }
+
+    public function overwrite($data)
+    {
+        $this->data = $data;
     }
 
     public function set($key, $val, $merge = true)
