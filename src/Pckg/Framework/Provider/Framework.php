@@ -45,7 +45,7 @@ class Framework extends Provider
     public function viewObjects()
     {
         return [
-            '_request'    => Request::class,
+            // '_request'    => Request::class,
             '_response'   => Response::class,
             '_server'     => Server::class,
             '_router'     => Router::class,

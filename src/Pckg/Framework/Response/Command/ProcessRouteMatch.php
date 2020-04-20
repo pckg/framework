@@ -68,6 +68,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
                 /**
                  * Get main action response.
+                 * This is where Resolvers may already Respond with final response.
                  */
                 $response = $this->loadView->set($this->match['view'], $resolved, $this->controller)->execute();
             } else {

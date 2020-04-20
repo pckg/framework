@@ -11,10 +11,10 @@ class TestProject extends Command
         $compact = $this->option('compact')
             ? ''
             : ' --steps';
-        $exec = ['codecept run' . $compact];
-        $packages = ['database'];
+        $exec = ['php vendor/bin/codecept run unit Api' . $compact];
+        $packages = ['collection'];
         foreach ($packages as $package) {
-            $exec[] = 'codecept run' . $compact . ' -c ./vendor/pckg/' . $package;
+            $exec[] = 'php vendor/bin/codecept run' . $compact . ' -c ./vendor/pckg/' . $package;
         }
         $this->exec($exec);
     }
@@ -22,13 +22,13 @@ class TestProject extends Command
     protected function configure()
     {
         $this->setName('project:test')
-             ->setDescription('Test project via codeception (execute this before deploy)')
-             ->addOptions(
-                 [
-                     'compact' => 'Simplify output',
-                 ],
-                 InputOption::VALUE_NONE
-             );
+            ->setDescription('Test project via codeception (execute this before deploy)')
+            ->addOptions(
+                [
+                    'compact' => 'Simplify output',
+                ],
+                InputOption::VALUE_NONE
+            );
     }
 
 }

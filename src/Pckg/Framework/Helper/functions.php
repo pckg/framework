@@ -771,6 +771,7 @@ if (!function_exists('autoloader')) {
 if (!function_exists('isConsole')) {
     function isConsole()
     {
+        return !request()->server('HTTP_HOST');
         return !isset($_SERVER['HTTP_HOST']);
     }
 }
@@ -778,6 +779,7 @@ if (!function_exists('isConsole')) {
 if (!function_exists('isHttp')) {
     function isHttp()
     {
+        return !!request()->server('HTTP_HOST');
         return isset($_SERVER['HTTP_HOST']);
     }
 }

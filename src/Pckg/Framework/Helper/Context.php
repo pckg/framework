@@ -38,10 +38,11 @@ class Context extends ConceptContext
          */
         if ($run) {
             $application->initAndRun($run);
-            return;
+        } else {
+            $application->init();
         }
 
-        $application->init();
+        return $application;
     }
 
     /**

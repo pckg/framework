@@ -3,7 +3,7 @@
 /**
  * Used in tests.
  */
-return function($app, $environment = Pckg\Framework\Environment\Console::class, $run = false) {
+return function($app = null, $environment = Pckg\Framework\Environment\Console::class, $run = false) {
     /**
      * Define base path if it's not defined yet.
      * We need to know this because it's used in a lot of things.
@@ -27,5 +27,9 @@ return function($app, $environment = Pckg\Framework\Environment\Console::class, 
      * Create development environment.
      * We automatically display errors and load debugbar.
      */
-    $context->boot($environment, $run, $app);
+    if ($environment) {
+        $context->boot($environment, $run, $app);
+    }
+
+    return $context;
 };

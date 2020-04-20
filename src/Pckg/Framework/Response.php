@@ -13,10 +13,6 @@ class Response
 
     use Exceptions;
 
-    protected $router;
-
-    protected $environment;
-
     protected $output;
 
     protected $http = [
@@ -69,12 +65,6 @@ class Response
     protected $code = 200;
 
     protected $responded = false;
-
-    public function __construct(Router $router, Environment $environment)
-    {
-        $this->router = $router;
-        $this->environment = $environment;
-    }
 
     public function addMiddleware($middleware)
     {
@@ -199,10 +189,10 @@ class Response
             $output = '<html><body><script>history.go(-1);</script></body></html>';
         } elseif (substr($url, 0, 1) == '@') {
             $url = (new URL())->setParams($httpParams)
-                              ->setUrl($this->router->make(substr($url, 1), $routerParams))
+                              ->setUrl(router()->make(substr($url, 1), $routerParams))
                               ->relative();
         } elseif ($url === null) {
-            $url = $this->router->getUri();
+            $url = router()->getUri();
         }
 
         if (!$output) {

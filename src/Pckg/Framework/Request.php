@@ -29,16 +29,20 @@ class Request extends Lazy
 
     protected $internals = [];
 
-    function __construct($input = null)
+    protected $headers;
+
+    function __construct($input = [])
     {
         Reflect::method($this, 'initDependencies');
 
         if (!$input) {
             $input = file_get_contents('php://input');
-            if ((strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
+            if ($input && (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
                 $input = json_decode($input, true);
             } elseif ($input) {
                 parse_str($input, $input);
+            } else {
+                $input = [];
             }
         }
 
@@ -49,7 +53,7 @@ class Request extends Lazy
             $input = $_POST;
         }
 
-        $this->post = new Lazy($input);
+        $this->setPost($input);
         $this->get = new Lazy($_GET);
         $this->server = new Lazy($_SERVER);
         $this->files = new Lazy($_FILES);
@@ -59,16 +63,46 @@ class Request extends Lazy
         $this->fetchUrl();
     }
 
-    public function setConstructs($post, $get, $server, $files, $cookie, $request)
+    public function setConstructs($post, $get, $server, $files, $cookie, $request, $headers = [])
     {
-        $this->post = new Lazy($post);
+        $this->setPost($post);
         $this->get = new Lazy($get);
         $this->server = new Lazy($server);
         $this->files = new Lazy($files);
         $this->cookie = new Cookie($cookie);
         $this->request = new Lazy($request);
+        $this->headers = $headers;
 
         $this->fetchUrl();
+
+        return $this;
+    }
+
+    /**
+     * @param array $headers
+     * @return $this
+     */
+    public function setHeaders(array $headers = [])
+    {
+        $this->headers = $headers;
+
+        return $this;
+    }
+
+    public function setPost(array $post = [])
+    {
+        $this->post = new Lazy($post);
+
+        return $this;
+    }
+
+    public function getHeaders()
+    {
+        if (isset($this->headers)) {
+            return $this->headers;
+        }
+
+        return getallheaders();
     }
 
     public function initDependencies(Router $router, Response $response)
@@ -89,7 +123,7 @@ class Request extends Lazy
 
     public function fetchUrl()
     {
-        $parsedUrl = parse_url($_SERVER['REQUEST_URI'] ?? '/');
+        $parsedUrl = parse_url($this->server('REQUEST_URI') ?? '/');
 
         $url = $parsedUrl['path'];
 
@@ -210,7 +244,7 @@ class Request extends Lazy
 
     public function isJson()
     {
-        $headers = function_exists('getallheaders') ? getallheaders() : [];
+        $headers = $this->getHeaders();
 
         $contentType = $this->header('Content-Type');
         $accept = $this->header('Accept');
@@ -221,9 +255,7 @@ class Request extends Lazy
 
     public function header($key)
     {
-        $headers = function_exists('getallheaders') ? getallheaders() : [];
-
-        return $headers[$key] ?? null;
+        return $this->getHeaders()[$key] ?? null;
     }
 
     function isAjax()
