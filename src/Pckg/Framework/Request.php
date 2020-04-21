@@ -123,7 +123,7 @@ class Request extends Lazy
 
     public function fetchUrl()
     {
-        $parsedUrl = parse_url($this->server('REQUEST_URI') ?? '/');
+        $parsedUrl = parse_url($this->server('REQUEST_URI', null) ?? '/');
 
         $url = $parsedUrl['path'];
 
@@ -260,9 +260,7 @@ class Request extends Lazy
 
     function isAjax()
     {
-        return (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower(
-                                                                 $_SERVER['HTTP_X_REQUESTED_WITH']
-                                                             ) == 'xmlhttprequest') || isset($_POST['ajax']);
+        return strtolower($this->server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest' || isset($_POST['ajax']);
     }
 
     function isPost()

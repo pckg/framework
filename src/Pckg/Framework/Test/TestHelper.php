@@ -20,7 +20,7 @@ trait TestHelper
     {
         include "vendor/autoload.php";
         $run = $this->getPckgBootstrap();
-        $this->context = $run('scintilla');
+        $this->context = $run($this->app);
     }
 
     /**

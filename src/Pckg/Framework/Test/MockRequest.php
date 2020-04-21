@@ -56,6 +56,20 @@ class MockRequest
     }
 
     /**
+     * @param $code
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public function assertResponseHas($key)
+    {
+        $response = $this->context->get(Response::class)->getOutput();
+
+        $this->test->assertEquals(true, is_array($response) ? ($response[$key] ?? null) : (json_decode($response, true)[$key] ?? null), 'Response does not have a ' . $key);
+
+        return $this;
+    }
+
+    /**
      * @param $url
      * @param callable|null $configurator
      * @return $this
@@ -84,7 +98,9 @@ class MockRequest
     public function httpPost($url, array $post = [], callable $configurator = null)
     {
         $newConfigurator = function (Context $context) use ($post, $configurator) {
-            $context->get(Request::class)->setPost($post);
+            $request = $context->get(Request::class);
+            $request->setPost($post)->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
+            $request->setHeaders(['Accept' => 'application/json']);
             if ($configurator) {
                 $configurator($context);
             }
@@ -128,7 +144,7 @@ class MockRequest
         /**
          * Now we can boot the Context and init the Application.
          */
-        $this->application = $environment->createApplication($context, 'scintilla');
+        $this->application = $environment->createApplication($context, $this->app);
 
         /**
          * Init request
@@ -165,8 +181,10 @@ class MockRequest
         try {
             (new Request\Command\RunRequest($request))->execute(function () {
             });
+        } catch (Response\MockStop $e) {
         } catch (\Throwable $e) {
             $this->exception = $e;
+            ddd('EXCEPTION: ' . exception($e));
         }
 
         return $this;

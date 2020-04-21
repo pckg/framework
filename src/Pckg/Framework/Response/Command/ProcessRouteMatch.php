@@ -99,6 +99,11 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * Catch end of execution.
              */
             exit;
+        } catch (Response\MockStop $e) {
+            /**
+             * Fake end.
+             */
+            throw $e;
         } catch (\Pckg\Framework\Exception $e) {
             /**
              * Response code was already set.
@@ -115,7 +120,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             /**
              * Yeeey, no exception, return with execution
              */
-            if (!$e) {
+            if (!$e || get_class($e) === Response\MockStop::class) {
                 return;
             }
 

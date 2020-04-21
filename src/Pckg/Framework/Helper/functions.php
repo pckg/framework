@@ -1749,13 +1749,24 @@ if (!function_exists('only')) {
 if (!function_exists('onlyWhen')) {
     function onlyWhen($array, $keys)
     {
-        $final = [];
+        if (!is_array($array) && !is_object($array)) {
+            return [];
+        }
 
+        $final = [];
         foreach ($keys as $key) {
-            if (!array_key_exists($key, $array)) {
-                continue;
+            if (is_array($array)) {
+                if (!array_key_exists($key, $array)) {
+                    continue;
+                }
+                $final[$key] = $array[$key];
+            } else {
+                if (!$array->{$key}) {
+                    continue;
+                }
+
+                $final[$key] = $array->{$key};
             }
-            $final[$key] = $array[$key];
         }
 
         return $final;

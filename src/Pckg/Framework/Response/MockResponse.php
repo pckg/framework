@@ -10,6 +10,8 @@ class MockResponse extends Response
         trigger(Response::class . '.responded');
 
         $this->responded = true;
+        
+        throw new MockStop('Response STOP');
 
         return $this;
     }
@@ -25,6 +27,19 @@ class MockResponse extends Response
         $this->code($this->code);
 
         $this->stop();
+
+        return $this;
+    }
+
+
+    public function redirect($url = null, $routerParams = [], $httpParams = [])
+    {
+        $code = $this->getCode();
+        if ($code == 200) {
+            $this->code(301);
+        }
+
+        $this->redirected = $url;
 
         return $this;
     }
