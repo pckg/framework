@@ -260,7 +260,7 @@ class Request extends Lazy
 
     function isAjax()
     {
-        return strtolower($this->server('HTTP_X_REQUESTED_WITH')) === 'xmlhttprequest' || isset($_POST['ajax']);
+        return strtolower($this->server('HTTP_X_REQUESTED_WITH', null)) === 'xmlhttprequest' || isset($_POST['ajax']);
     }
 
     function isPost()
