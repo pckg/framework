@@ -16,7 +16,7 @@ class ResolveDependencies
      * @param Router $router
      * @param        $resolvers
      */
-    public function __construct(array $resolvers = null)
+    public function __construct(array $resolvers = [])
     {
         $this->resolvers = $resolvers;
     }
@@ -26,10 +26,22 @@ class ResolveDependencies
      */
     public function execute()
     {
-        $router = router()->get();
-
+        $router = router();
         $data = router()->get('data');
-        foreach ($this->resolvers as $urlKey => $resolver) {
+        $resolvers = $this->resolvers;
+
+        /**
+         * First resolve datas.
+         */
+        foreach ($data as $k => $v) {
+            if (isset($resolvers[$k])) {
+                continue;
+            }
+
+            $router->resolve($k, $v);
+        }
+
+        foreach ($resolvers as $urlKey => $resolver) {
             if (is_object($resolver)) {
                 /**
                  * Resolver was passed.
