@@ -1637,6 +1637,7 @@ if (!function_exists('vueRoute')) {
                          'vue:route',
                          'vue:route:template' => '<' . $component . '></' . $component . '>',
                      ],
+            'method' => 'GET',
                  ]);
     }
 }

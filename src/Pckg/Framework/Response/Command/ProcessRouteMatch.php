@@ -57,7 +57,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
             if (is_only_callable($this->match['view'])) {
                 /**
-                 * Simple action.
+                 * Simple action will take all requests - GET, POST, DELETE, ...
                  */
                 $response = Reflect::call($this->match['view'], $resolved);
             } elseif (array_key_exists('controller', $this->match)) {
@@ -72,6 +72,9 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                  */
                 $response = $this->loadView->set($this->match['view'], $resolved, $this->controller)->execute();
             } else {
+                /**
+                 * Vue route or similar?
+                 */
                 $response = $this->match['view'];
             }
 
@@ -104,16 +107,12 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * Fake end.
              */
             throw $e;
-        } catch (\Pckg\Framework\Exception $e) {
-            /**
-             * Response code was already set.
-             */
         } catch (Throwable $e) {
             /**
              * Set response code to 500.
              */
             $code = $this->response->getCode();
-            if (!$code || in_array(substr($code, 0, 1), [2, 3, 4])) {
+            if (!$code || in_array(substr($code, 0, 1), [2, 3])) {
                 $this->response->code(500);
             }
         } finally {
@@ -128,13 +127,13 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * @T00D00 - this should be somewhere else?
              */
             if (request()->isAjax()) {
-                $this->response->code(500);
                 $this->response->respond(
                     [
-                        'message'   => $e->getMessage(),
-                        'exception' => implicitDev() ? exception($e) : null,
                         'error'     => true,
                         'success'   => false,
+                        'message'   => $e->getMessage(),
+                        'statusCode' => $this->response->getCode(),
+                        'exception' => implicitDev() ? exception($e) : null,
                     ]
                 );
 
