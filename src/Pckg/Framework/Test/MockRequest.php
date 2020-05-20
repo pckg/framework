@@ -13,6 +13,11 @@ class MockRequest
 {
 
     /**
+     *
+     */
+    const MODE_JSON = 'JSON';
+
+    /**
      * @var Unit
      */
     protected $test;
@@ -37,9 +42,15 @@ class MockRequest
      */
     protected $exception;
 
-    function __construct(Unit $test)
+    /**
+     * @var string
+     */
+    protected $app;
+
+    function __construct(Unit $test, $app)
     {
         $this->test = $test;
+        $this->app = $app;
     }
 
     /**
@@ -50,6 +61,7 @@ class MockRequest
     public function assertResponseCode($code)
     {
         $response = $this->context->get(Response::class);
+
         $this->test->assertEquals($code, $response->getCode(), 'Response code not ' . $code);
 
         return $this;
@@ -64,9 +76,34 @@ class MockRequest
     {
         $response = $this->context->get(Response::class)->getOutput();
 
-        $this->test->assertEquals(true, is_array($response) ? ($response[$key] ?? null) : (json_decode($response, true)[$key] ?? null), 'Response does not have a ' . $key);
+        $this->test->assertEquals(true, !!(is_array($response) ? ($response[$key] ?? null) : (json_decode($response, true)[$key] ?? null)), 'Response does not have a ' . $key);
 
         return $this;
+    }
+
+    /**
+     * Add JSON support.
+     *
+     * @param callable|null $configurator
+     * @param null $mode
+     * @return callable|\Closure|null
+     */
+    public function modifyConfigurator(callable $configurator = null, $mode = null)
+    {
+        if (!$mode && !$configurator) {
+            return null;
+        } else if (!$mode) {
+            return $configurator;
+        }
+
+        return function (Context $context) use ($configurator) {
+            $request = $context->get(Request::class);
+            $request->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
+            $request->setHeaders(['Accept' => 'application/json']);
+            if ($configurator) {
+                $configurator($context);
+            }
+        };
     }
 
     /**
@@ -74,9 +111,19 @@ class MockRequest
      * @param callable|null $configurator
      * @return $this
      */
-    public function httpGet($url, callable $configurator = null)
+    public function httpGet($url, callable $configurator = null, $mode = null)
     {
-        return $this->fullHttpRequest($url, $configurator, 'GET');
+        return $this->fullHttpRequest($url, $this->modifyConfigurator($configurator, $mode), 'GET');
+    }
+
+    /**
+     * @param $url
+     * @param callable|null $configurator
+     * @return $this
+     */
+    public function httpGetJson($url, callable $configurator = null)
+    {
+        return $this->fullHttpRequest($url, $this->modifyConfigurator($configurator, static::MODE_JSON), 'GET');
     }
 
     /**
@@ -86,7 +133,7 @@ class MockRequest
      */
     public function httpDelete($url, callable $configurator = null)
     {
-        return $this->fullHttpRequest($url, $configurator, 'DELETE');
+        return $this->fullHttpRequest($url, $this->modifyConfigurator($configurator), 'DELETE');
     }
 
     /**
@@ -97,15 +144,11 @@ class MockRequest
      */
     public function httpPost($url, array $post = [], callable $configurator = null)
     {
-        $newConfigurator = function (Context $context) use ($post, $configurator) {
-            $request = $context->get(Request::class);
-            $request->setPost($post)->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
-            $request->setHeaders(['Accept' => 'application/json']);
-            if ($configurator) {
-                $configurator($context);
-            }
-        };
-        return $this->fullHttpRequest($url, $newConfigurator, 'POST');
+        return $this->fullHttpRequest($url, function (Context $context) use ($post, $configurator) {
+            $configurator = $this->modifyConfigurator($configurator, static::MODE_JSON);
+            $configurator($context);
+            $context->get(Request::class)->setPost($post);
+        }, 'POST');
     }
 
     /**
@@ -179,12 +222,15 @@ class MockRequest
          * Init the Application.
          */
         try {
+            $this->exception = null;
             (new Request\Command\RunRequest($request))->execute(function () {
+            });
+            (new Response\Command\RunResponse($response, $request))->execute(function () {
             });
         } catch (Response\MockStop $e) {
         } catch (\Throwable $e) {
             $this->exception = $e;
-            ddd('EXCEPTION: ' . exception($e));
+            d('EXCEPTION: ' . exception($e));
         }
 
         return $this;
@@ -213,7 +259,16 @@ class MockRequest
      */
     public function getOutput()
     {
-        return $this->getResponse()->getOutput;
+        return $this->getResponse()->getOutput();
+    }
+
+    /**
+     * @return mixed|string|array|null
+     * @throws \Exception
+     */
+    public function getDecodedOutput()
+    {
+        return json_decode($this->getOutput(), true);
     }
 
     /**
