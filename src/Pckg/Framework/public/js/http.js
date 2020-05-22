@@ -100,6 +100,11 @@ var http = {
             data: data,
             beforeSend: function(request) {
                 request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+                var elements = document.getElementsByName('pckgvdth');
+                if (elements.length === 0) {
+                    return;
+                }
+                request.setRequestHeader("X-Pckg-CSRF", elements[0].getAttribute('content'));
             },
         };
 
