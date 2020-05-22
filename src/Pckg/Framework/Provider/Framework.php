@@ -47,11 +47,11 @@ class Framework extends Provider
         return [
             // '_request'    => Request::class,
             '_response'   => Response::class,
-            '_server'     => Server::class,
+            //'_server'     => Server::class,
             '_router'     => Router::class,
             '_env'        => Environment::class,
-            '_lang'       => LangInterface::class,
-            '_config'     => Config::class,
+            //'_lang'       => LangInterface::class,
+            //'_config'     => Config::class,
             '_session'    => Session::class, // why is this commented out?
             '_cookie'     => Cookie::class,
             // '_flash'      => Flash::class,

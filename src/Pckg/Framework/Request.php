@@ -169,6 +169,11 @@ class Request extends Lazy
         return server('REQUEST_METHOD', 'GET');
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Post|mixed|array|string|null
+     */
     function post($key = null, $default = [])
     {
         if (is_array($key)) {

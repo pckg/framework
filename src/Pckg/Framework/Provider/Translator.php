@@ -9,7 +9,7 @@ class Translator extends Provider
     public function viewObjects()
     {
         return [
-            '_translator' => TranslatorService::class,
+            // '_translator' => TranslatorService::class,
         ];
     }
 
