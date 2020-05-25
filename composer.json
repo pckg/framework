@@ -16,11 +16,11 @@
     "pckg/cache": "dev-master",
     "pckg/locale": "dev-master",
     "twig/twig": "1.*",
-    "josegonzalez/dotenv": "dev-master"
-  },
-  "suggest": {
+    "josegonzalez/dotenv": "dev-master",
     "rollbar/rollbar": "Production debugging",
     "fzaninotto/faker": "Fake data",
+  },
+  "require-dev": {
     "maximebf/debugbar": "Debugbar for dev environment",
     "filp/whoops": "Nice exceptions"
   },
