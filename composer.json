@@ -17,10 +17,10 @@
     "pckg/locale": "dev-master",
     "twig/twig": "1.*",
     "josegonzalez/dotenv": "dev-master",
-    "rollbar/rollbar": "Production debugging",
-    "fzaninotto/faker": "Fake data",
-    "maximebf/debugbar": "Debugbar for dev environment",
-    "filp/whoops": "Nice exceptions"
+    "rollbar/rollbar": "2.*",
+    "fzaninotto/faker": "1.*",
+    "maximebf/debugbar": "1.*",
+    "filp/whoops": "2.*"
   },
   "autoload": {
     "psr-0": {
