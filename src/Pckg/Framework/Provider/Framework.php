@@ -51,7 +51,7 @@ class Framework extends Provider
             '_router'     => Router::class,
             '_env'        => Environment::class,
             //'_lang'       => LangInterface::class,
-            //'_config'     => Config::class,
+            '_config'     => Config::class,
             '_session'    => Session::class, // why is this commented out?
             '_cookie'     => Cookie::class,
             // '_flash'      => Flash::class,
