@@ -20,7 +20,9 @@
     "rollbar/rollbar": "2.*",
     "fzaninotto/faker": "1.*",
     "maximebf/debugbar": "1.*",
-    "filp/whoops": "2.*"
+    "filp/whoops": "2.*",
+    "tgalopin/html-sanitizer": "dev-master",
+    "ezyang/htmlpurifier": "dev-master"
   },
   "autoload": {
     "psr-0": {
