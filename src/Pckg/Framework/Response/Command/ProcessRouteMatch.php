@@ -39,6 +39,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             /**
              * Apply global middlewares.
              */
+            $dispatcher = dispatcher();
+            $dispatcher->trigger(ProcessRouteMatch::class .'.runningMiddlewares');
             if ($middlewares = $this->response->getMiddlewares()) {
                 chain($middlewares, 'execute');
             }
@@ -87,6 +89,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             /**
              * Apply global afterwares/decorators.
              */
+            $dispatcher->trigger(ProcessRouteMatch::class .'.runningAfterwares');
             if ($afterwares = $this->response->getAfterwares()) {
                 chain($afterwares, 'execute', [$this->response]);
             }

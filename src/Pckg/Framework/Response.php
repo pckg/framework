@@ -532,6 +532,13 @@ class Response
         return $this;
     }
 
+    public function sendTextHeader()
+    {
+        header("Content-Type: text/plain");
+
+        return $this;
+    }
+
     public function sendFileDispositionHeader($filename)
     {
         $filename = toSafeFilename($filename);
