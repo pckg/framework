@@ -217,11 +217,13 @@ var locale = {
             price = 0.0;
         }
 
+        let digits = parseInt(price) == parseFloat(price) ? 0 : (decimals || 2);
+
         return parseFloat(price).toLocaleString(Pckg.config.locale.current.replace('_', '-').toLowerCase(), {
             currency: 'eur',
             currencyDisplay: 'symbol',
-            maximumFractionDigits: decimals,
-            minimumFractionDigits: 0
+            maximumFractionDigits: digits,
+            minimumFractionDigits: digits
         }) + ' ' + Pckg.config.locale.currencySign;
     },
 
