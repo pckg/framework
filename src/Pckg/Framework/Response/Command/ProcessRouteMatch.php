@@ -56,6 +56,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * Resolve dependencies.
              */
             $resolved = (new ResolveDependencies(router()->get('resolvers')))->execute();
+            $dispatcher->trigger(ProcessRouteMatch::class . '.dependenciesResolved');
 
             if (is_only_callable($this->match['view'])) {
                 /**
@@ -80,7 +81,11 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 $response = $this->match['view'];
             }
 
+            /**
+             * Trigger an event on successful response.
+             */
             if (!$this->response->hasResponded()) {
+                $dispatcher->trigger(ProcessRouteMatch::class . '.ran');
                 $output = $this->parseView($response);
 
                 $this->response->setOutput($output);

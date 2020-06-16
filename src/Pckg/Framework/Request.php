@@ -333,7 +333,7 @@ class Request extends Lazy
 
     public function getDomain()
     {
-        return server('SERVER_NAME', null);
+        return first(server('HTTP_HOST', null), server('SERVER_NAME', null));
     }
 
 }
