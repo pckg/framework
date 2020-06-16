@@ -47,7 +47,9 @@ class ListRoutes extends Command
                 $row = [
                     'name'    => $route['name'],
                     'url'     => substr($route['url'], 0, 40),
-                    'action'  => $route['controller'] . ' @ ' . $route['view'],
+                    'action'  => is_only_callable($route['view'] ?? null)
+                        ? 'callable'
+                        : (isset($route['controller']) ? $route['controller'] . ' @ ' . $route['view'] : $route['view']),
                     'methods' => 'POST|GET',
                 ];
 

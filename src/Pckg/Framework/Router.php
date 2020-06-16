@@ -134,7 +134,7 @@ class Router
     {
         $conf = array_merge($conf, [
                                      'name'   => $name,
-                                     'url'    => $route,
+                                     'url'    => $route === '/' ? '/' : rtrim($route, '/'),
                                      'domain' => $domain,
                                  ]);
 
