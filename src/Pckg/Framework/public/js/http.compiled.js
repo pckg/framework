@@ -335,7 +335,6 @@ var collection = {
 var utils = {
 
     is: function (val) {
-        console.log('typeof', typeof val, val);
         if (typeof val === 'number') {
             return val.toString().length > 0;
         } else if (typeof val === 'boolean') {
@@ -343,6 +342,8 @@ var utils = {
         } else if (typeof val === 'string') {
             return val.length > 0;
         }
+
+        return !!val;
     },
 
     ucfirst: function (str) {

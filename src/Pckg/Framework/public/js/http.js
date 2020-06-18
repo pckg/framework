@@ -344,6 +344,8 @@ var utils = {
         } else if (typeof val === 'string') {
             return val.length > 0;
         }
+
+        return !!val;
     },
 
     ucfirst: function(str) {
