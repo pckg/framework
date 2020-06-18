@@ -1,6 +1,7 @@
 <?php namespace Pckg\Framework\Request\Data\SessionDriver;
 
 use SessionHandler;
+use \Exception;
 
 class FileDriver extends SessionHandler
 {
