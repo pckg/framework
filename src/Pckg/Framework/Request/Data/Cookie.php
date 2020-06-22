@@ -15,14 +15,14 @@ class Cookie extends Lazy
     public function set(
         $name,
         $value = '',
-        $expiration = self::EXPIRATION,
-        //$path = '/; samesite=strict',
-        $path = '',
-        $domain = null,
-        $secure = true,
-        $httponly = true
+        $expiration = self::EXPIRATION
     ) {
-        setcookie($name, $value, time() + $expiration, $path, $domain, $secure, $httponly);
+        setcookie($name, $value, [
+            'expires' => time() + $expiration,
+            'path' => $path,
+            'secure' => true,
+            'samesite' => 'strict'
+        ]);
         $_COOKIE[$name] = $value;
 
         return $this;
