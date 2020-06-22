@@ -15,7 +15,8 @@ class Cookie extends Lazy
     public function set(
         $name,
         $value = '',
-        $expiration = self::EXPIRATION
+        $expiration = self::EXPIRATION,
+        $path = '/'
     ) {
         setcookie($name, $value, [
             'expires' => time() + $expiration,
