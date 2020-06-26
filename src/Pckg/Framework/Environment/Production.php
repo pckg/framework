@@ -8,6 +8,7 @@ use Pckg\Framework\Application;
 use Pckg\Framework\Application\Website;
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
+use Pckg\Framework\Exception\NotFound;
 use Rollbar\Payload\Level;
 use Rollbar\Rollbar;
 use Throwable;
@@ -61,6 +62,11 @@ class Production extends Environment
 
     public function reportToRollbar(Throwable $exception)
     {
+        if (is_subclass_of($exception, NotFound::class)) {
+            error_log('Not found: ' . exception($e));
+            return;
+        }
+
         try {
             $whitelist = config('rollbar.whitelist');
             if (config('rollbar.access_token') && $whitelist && Reflect::call($whitelist)) {
