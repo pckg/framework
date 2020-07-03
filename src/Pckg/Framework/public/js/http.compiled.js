@@ -275,6 +275,10 @@ var locale = {
 
 var collection = {
 
+    collect: function(items, of) {
+        return items.map((item) => { return new of(item) });
+    },
+
     groupBy: function (collection, groupBy) {
         let groups = {};
 
@@ -344,6 +348,14 @@ var utils = {
         }
 
         return !!val;
+    },
+
+    lcfirst: function (str) {
+        if (!str) {
+            return '';
+        }
+
+        return str.charAt(0).toLowerCase() + str.slice(1);
     },
 
     ucfirst: function (str) {
