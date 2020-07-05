@@ -173,7 +173,6 @@ var http = {
     },
 
     postError: function postError(response) {
-        console.log('postError', response.responseJSON);
     },
 
     redirect: function (url) {
@@ -336,7 +335,6 @@ var collection = {
 var utils = {
 
     is: function (val) {
-        console.log('typeof', typeof val, val);
         if (typeof val === 'number') {
             return val.toString().length > 0;
         } else if (typeof val === 'boolean') {

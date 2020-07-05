@@ -172,7 +172,6 @@ var http = {
     },
 
     postError: function postError(response) {
-        console.log('postError', response.responseJSON);
     },
 
     redirect: function redirect(url) {

@@ -111,7 +111,6 @@ var Pckg = {
 
                     if (typeof callback == 'undefined') {
                         callback = function callback(data) {
-                            console.log('auto callback', data);
                         };
                     }
 
@@ -148,8 +147,6 @@ var Pckg = {
                     if (type == 'insert') {
                         return utils.url();
                     }
-
-                    console.log('unknown url');
                 }
             }, {
                 key: 'getCollections',

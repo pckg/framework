@@ -31,9 +31,13 @@ class Cookie extends Lazy
 
     public function delete($name)
     {
-        //setcookie($name, null, time() - static::EXPIRATION, '/; samesite=strict', '', true, true);
-        setcookie($name, null, time() - static::EXPIRATION, '', '', true, true);
-        unset($_COOKIE[$name]);
+        setcookie($name, null, [
+            'expires' => time() - static::EXPIRATION,
+            'path' => '/',
+            'secure' => true,
+            'samesite' => 'strict'
+        ]);
+        //unset($_COOKIE[$name]);
 
         return $this;
     }
