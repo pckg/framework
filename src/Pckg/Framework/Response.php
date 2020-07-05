@@ -216,8 +216,8 @@ class Response
         }
 
         $code = $this->getCode();
-        if ($code == 200) {
-            $this->code(301);
+        if ($code !== 301) {
+            $this->code(302);
         }
 
         // try with php
