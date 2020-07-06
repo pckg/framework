@@ -4,6 +4,7 @@ namespace Pckg\Framework;
 
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Request\Data\Session;
+use Pckg\Framework\Response\Command\RunResponse;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
 use Throwable;
@@ -66,6 +67,8 @@ class Response
 
     protected $responded = false;
 
+    protected $type = 'text/html';
+
     public function addMiddleware($middleware)
     {
         $this->middlewares[] = $middleware;
@@ -93,7 +96,6 @@ class Response
     public function code($code)
     {
         $this->code = $code;
-        header($this->http[$code]);
 
         return $this;
     }
@@ -101,6 +103,11 @@ class Response
     public function getCode()
     {
         return $this->code;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 
     public function setType($type)
@@ -220,11 +227,13 @@ class Response
             $this->code(302);
         }
 
-        // try with php
+        /**
+         * Run classic response.
+         */
+        $this->sendCodeHeader();
         header("Location: " . $url);
-
-        // fallback with html
         $this->respond($output);
+        
         exit;
 
         return $this;
@@ -369,7 +378,7 @@ class Response
      */
     public function arrayToString(array $array)
     {
-        $this->sendJsonHeader();
+        $this->setJsonHeader();
 
         return json_encode((object)$array, JSON_PARTIAL_OUTPUT_ON_ERROR);
     }
@@ -380,23 +389,24 @@ class Response
             return;
         }
 
-        $isJson = false;
-        if (is_array($string)) {
-            $isJson;
-            $string = $this->arrayToString($string);
-        }
-
         ignore_user_abort(true);
         set_time_limit($seconds);
-
         ob_start();
-        echo $string;
-        if ($isJson) {
-            $this->sendJsonHeader();
+
+        if (func_get_args()) {
+            $this->setOutput($string);
         }
+
+        /**
+         * Set custom response, code 202 as accepted.
+         * Run classic response.
+         */
         $this->code(202);
+        resolve(RunResponse::class)->execute(function(){});
+
         header("Content-Length: " . ob_get_length());
         header("Connection: close");
+
         ob_end_flush();
         ob_flush();
         flush();
@@ -408,6 +418,25 @@ class Response
         }
     }
 
+    public function respond($string = null)
+    {
+        /**
+         * Set custom output when provided.
+         */
+        if (func_get_args()) {
+            $this->setOutput($string);
+        }
+
+        /**
+         * Run classic response.
+         */
+        resolve(RunResponse::class)->execute(function(){});
+
+        $this->stop();
+
+        return $this;
+    }
+
     public function stop($code = 0)
     {
         trigger(Response::class . '.responded');
@@ -415,30 +444,31 @@ class Response
         exit($code);
     }
 
-    public function respond($string = null)
-    {
-        if (is_array($string)) {
-            $string = $this->arrayToString($string);
-        } elseif (!$string && func_get_args()) {
-            $string = $this->output;
-        }
-
-        trigger(Response::class . '.responding');
-
-        $this->code($this->code);
-
-        echo $string;
-
-        $this->stop();
-
-        return $this;
-    }
-
     public function image($file)
     {
         $this->sendFileContentTypeHeaders($file);
         $this->sendContentLengthHeader($file);
         $this->readFile($file);
+    }
+
+    /**
+     * @return $this
+     */
+    public function sendCodeHeader()
+    {
+        header($this->http[$this->code] ?? $this->http[501]);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function sendTypeHeader()
+    {
+        header('Content-Type: ' . $this->type);
+
+        return $this;
     }
 
     /**
@@ -525,16 +555,16 @@ class Response
         return $this;
     }
 
-    public function sendJsonHeader()
+    public function setJsonHeader()
     {
-        header("Content-Type: application/json");
+        $this->setType('application/json');
 
         return $this;
     }
 
-    public function sendTextHeader()
+    public function setTextHeader()
     {
-        header("Content-Type: text/plain");
+        $this->setType('text/plain');
 
         return $this;
     }
@@ -550,6 +580,10 @@ class Response
 
     public function sendCacheHeaders($seconds = 60)
     {
+        if (is_string($seconds) && (int)$seconds != $seconds) {
+            $seconds = strtotime('+' . $seconds) - time();
+        }
+
         $timestamp = gmdate("D, d M Y H:i:s", time() + $seconds) . " GMT";
         header("Expires: " . $timestamp);
         header("Pragma: cache");

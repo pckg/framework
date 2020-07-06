@@ -46,9 +46,20 @@ class RunResponse extends AbstractChainOfReponsibility
             $response->setOutput($response->arrayToString(['success' => $output]));
         }
 
-        if (!$response->getOutput()) {
+        /**
+         * Set empty content when no content.
+         */
+        if (!$response->getOutput() && substr($response->getCode(), 0, 1) === '2') {
             $response->code(204);
         }
+
+        trigger(Response::class . '.responding');
+
+        /**
+         * Send HTTP code and Content-Type headers.
+         */
+        $response->sendCodeHeader();
+        $response->sendTypeHeader();
 
         echo $response->getOutput();
 
