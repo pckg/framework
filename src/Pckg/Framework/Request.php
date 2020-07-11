@@ -13,6 +13,8 @@ class Request extends Lazy
 
     const POST = 'POST';
 
+    const SEARCH = 'SEARCH';
+
     const PUT = 'PUT';
 
     const DELETE = 'DELETE';
@@ -271,6 +273,11 @@ class Request extends Lazy
     function isPost()
     {
         return $this->isMethod(self::POST);
+    }
+
+    function isSearch()
+    {
+        return $this->isMethod(self::SEARCH);
     }
 
     function isGet()
