@@ -95,7 +95,7 @@ class CreatePckgProject extends Command
          * Create paths.
          */
         $path = path('apps') . $this->app . path('ds');
-        mkdir($path, 0777);
+        mkdir($path, 0777, true);
         mkdir($path . 'config', 0777);
         mkdir($path . 'src', 0777);
         mkdir($path . 'public', 0777);
