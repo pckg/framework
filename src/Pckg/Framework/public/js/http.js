@@ -29,6 +29,8 @@ var http = {
             type: 'SEARCH'
         }, options || {});
 
+        finalOptions.beforeSend = http.addCsrf;
+
         return $.ajax(finalOptions).done(whenDone).error(whenError);
     },
 
@@ -79,7 +81,7 @@ var http = {
         }).done(whenDone).error(whenError);
     },
 
-    post: function (url, data, whenDone, whenError) {
+    post: function post(url, data, whenDone, whenError) {
         if (typeof data == 'function') {
             data = data();
         }
@@ -97,18 +99,27 @@ var http = {
             url: url,
             dataType: 'JSON',
             type: 'POST',
-            data: data,
-            beforeSend: function(request) {
-                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
-                var elements = document.getElementsByName('pckgvdth');
-                if (elements.length === 0) {
-                    return;
-                }
-                request.setRequestHeader("X-Pckg-CSRF", elements[0].getAttribute('content'));
-            },
+            data: data
         };
 
+        if (Pckg.config.locale) {
+            options.beforeSend = function (request) {
+                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+                http.addCsrf(request);
+            };
+        } else {
+            options.beforeSend = http.addCsrf;
+        }
+
         return $.ajax(options).done(whenDone).error(whenError);
+    },
+
+    addCsrf: function(request) {
+        var elements = document.getElementsByName('pckgvdth');
+        if (elements.length === 0) {
+            return;
+        }
+        request.setRequestHeader("X-Pckg-CSRF", elements[0].getAttribute('content'));
     },
 
     patch: function (url, data, whenDone, whenError) {

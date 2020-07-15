@@ -33,6 +33,8 @@ var http = {
             type: 'SEARCH'
         }, options || {});
 
+        finalOptions.beforeSend = http.addCsrf;
+
         return $.ajax(finalOptions).done(whenDone).error(whenError);
     },
 
@@ -105,15 +107,21 @@ var http = {
         if (Pckg.config.locale) {
             options.beforeSend = function (request) {
                 request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
-                var elements = document.getElementsByName('pckgvdth');
-                if (elements.length === 0) {
-                    return;
-                }
-                request.setRequestHeader("X-Pckg-CSRF", elements[0].getAttribute('content'));
+                http.addCsrf(request);
             };
+        } else {
+            options.beforeSend = http.addCsrf;
         }
 
         return $.ajax(options).done(whenDone).error(whenError);
+    },
+
+    addCsrf: function(request) {
+        var elements = document.getElementsByName('pckgvdth');
+        if (elements.length === 0) {
+            return;
+        }
+        request.setRequestHeader("X-Pckg-CSRF", elements[0].getAttribute('content'));
     },
 
     patch: function post(url, data, whenDone, whenError) {
