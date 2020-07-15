@@ -44,6 +44,7 @@ var http = {
             type: 'GET',
             beforeSend: function(request) {
                 request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+                http.addCsrf(request);
             },
         };
 
@@ -107,8 +108,6 @@ var http = {
                 request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
                 http.addCsrf(request);
             };
-        } else {
-            options.beforeSend = http.addCsrf;
         }
 
         return $.ajax(options).done(whenDone).error(whenError);
