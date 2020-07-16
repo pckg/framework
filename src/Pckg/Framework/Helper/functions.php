@@ -104,48 +104,23 @@ if (!function_exists('hasDotted')) {
 }
 
 if (!function_exists('retry')) {
-    function retry(callable $task, int $times = 1, callable $onError = null)
+    function retry(callable $task, int $times = null, callable $onError = null, $interval = null)
     {
-        while ($times >= 0) {
-            /**
-             * First decrease the counter.
-             */
-            $times--;
+        $retry = new \Pckg\Framework\Helper\Retry($task);
 
-            try {
-                /**
-                 * Call task.
-                 */
-                $response = $task();
-
-                /**
-                 * Return response on first success.
-                 */
-                return $response;
-            } catch (\Throwable $e) {
-                /**
-                 * Continue when error handler is not set.
-                 */
-                if (!$onError) {
-                    continue;
-                }
-
-                /**
-                 * Return false when we should end with execution.
-                 */
-                $end = $onError($e);
-                if ($end) {
-                    return false;
-                }
-
-                /**
-                 * Retry when we can continue with execution.
-                 */
-                continue;
-            }
-
-            return true;
+        if ($times) {
+            $retry->times($times);
         }
+
+        if ($interval) {
+            $retry->interval($interval);
+        }
+
+        if ($onError) {
+            $retry->onError($onError);
+        }
+
+        return $retry->make();
     }
 }
 
