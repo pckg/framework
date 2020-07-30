@@ -28,6 +28,11 @@ class Retry
     protected $check;
 
     /**
+     * @var
+     */
+    protected $heartbeat;
+
+    /**
      * Define how many times we should retry the task.
      *
      * @param int $times
@@ -36,6 +41,17 @@ class Retry
     public function retry(int $times)
     {
         $this->retry = $times;
+
+        return $this;
+    }
+
+    /**
+     * @param callable $heartbeat
+     * @return $this
+     */
+    public function heartbeat(callable $heartbeat)
+    {
+        $this->heartbeat = $heartbeat;
 
         return $this;
     }
@@ -86,6 +102,13 @@ class Retry
         $tries = 0;
         $exceptions = collect();
         do {
+            /**
+             * Make heart beat at the beginning to have as much time as possible.
+             */
+            if ($this->heartbeat) {
+                ($this->heartbeat)();
+            }
+
             $repeat = false;
             $tries++;
 
@@ -94,6 +117,14 @@ class Retry
                  * Call task.
                  */
                 $response = $task($tries - 1);
+
+                try {
+                    if ($this->heartbeat) {
+                        ($this->heartbeat)();
+                    }
+                } catch (\Throwable $e) {
+                    error_log(exception($e));
+                }
 
                 return $response;
             } catch (\Throwable $e) {
@@ -106,8 +137,32 @@ class Retry
                 }
             }
 
+            /**
+             * Make heart beat at the beginning to have as much time as possible.
+             */
+            if ($this->heartbeat) {
+                ($this->heartbeat)();
+            }
+
+            /**
+             * Check if we should try to repeat the task.
+             */
             if ($this->shouldRepeat($tries)) {
                 $repeat = true;
+            }
+
+            /**
+             * Sleep between repeats.
+             */
+            if ($repeat && $this->interval) {
+                sleep($this->interval);
+            }
+
+            /**
+             * Make heartbeat right after sleep.
+             */
+            if ($this->heartbeat) {
+                ($this->heartbeat)();
             }
         } while ($repeat);
 
