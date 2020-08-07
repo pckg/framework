@@ -8,6 +8,8 @@ use Whoops\Run;
 class Queue extends Environment
 {
 
+    protected $appClass = Application\Queue::class;
+
     public function register()
     {
         error_reporting(E_ALL);
@@ -43,7 +45,8 @@ class Queue extends Environment
         /**
          * Then we create actual application wrapper.
          */
-        $application = new Application\Queue($applicationProvider);
+        $appClass = $this->appClass;
+        $application = new $appClass($applicationProvider);
 
         return $application;
     }
