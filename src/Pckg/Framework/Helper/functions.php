@@ -1205,7 +1205,9 @@ if (!function_exists('vueRoute')) {
         })->data([
                      'tags' => [
                          'vue:route',
-                         'vue:route:template' => '<' . $component . '></' . $component . '>',
+                         'vue:route:template' => substr($component, 0, 1) !== '<'
+                             ? '<' . $component . '></' . $component . '>'
+                             : $component,
                      ],
             'method' => 'GET',
                  ]);
