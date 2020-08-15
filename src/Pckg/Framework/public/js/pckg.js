@@ -1,4 +1,5 @@
-var Pckg = {
+var Pckg = Pckg || {};
+Pckg = Object.assign(Pckg, {
     Collection: class extends Array {
 
         static collect(items, type) {
@@ -114,4 +115,4 @@ var Pckg = {
 
         }
     }
-};
+});
