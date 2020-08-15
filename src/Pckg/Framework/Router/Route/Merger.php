@@ -39,7 +39,7 @@ trait Merger
                 if (!$data[$prefixed]) {
                     $realSeparator = '';
                 }
-                $data[$prefixed] = $prefix . $realSeparator . $data[$prefixed];
+                $data[$prefixed] = trim($prefix . $realSeparator . $data[$prefixed], $realSeparator);
             }
         }
 
