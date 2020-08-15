@@ -8,7 +8,7 @@ class Frontend extends Provider
     public function assets()
     {
         return [
-            'main' => [
+            'libraries' => [
                 'js/http.compiled.js',
                 'js/pckg.compiled.js',
             ],
