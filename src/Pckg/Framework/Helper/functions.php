@@ -982,9 +982,10 @@ if (!function_exists('exception')) {
      *
      * @return string
      */
-    function exception(Throwable $e)
+    function exception(Throwable $e, $parent = false)
     {
-        return $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine();
+        return $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine()
+            . ($parent && $e->getPrevious() ? ('(' . exception($e->getPrevious()) . ')') : '');
     }
 }
 
