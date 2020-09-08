@@ -115,7 +115,14 @@ class RegisterTwigExtensions
 
             $localeManager = resolve(Locale::class);
 
-            return trim((string)number_format($price, 2, $localeManager->getDecimalPoint(), $localeManager->getThousandSeparator()), '0.,');
+            $decimalPoint = $localeManager->getDecimalPoint();
+            $formatted = (string)number_format($price, 2, $decimalPoint, $localeManager->getThousandSeparator());
+            $reversed = strrev($formatted);
+            if (strpos($reversed, '00' . $decimalPoint) === 0) {
+                $formatted = substr($formatted, 0, -3);
+            }
+
+            return $formatted;
         }));
         $twig->addFilter(new Twig_SimpleFilter('datetime', function($date, $format = null) {
             return datetime($date, $format);
