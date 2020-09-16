@@ -210,9 +210,8 @@ class Config
             : null;
     }
 
-    public function getPublicConfig()
+    public function getPublicConfig(array $public = [])
     {
-        $public = [];
         foreach (config('pckg.config.public', []) as $key => $callback) {
             if (is_only_callable($callback)) {
                 $public[$key] = $callback($this);
