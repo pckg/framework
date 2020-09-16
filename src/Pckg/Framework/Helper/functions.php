@@ -1165,7 +1165,7 @@ if (!function_exists('cache')) {
      * @return mixed|Cache
      * @throws Exception
      */
-    function cache($key = null, callable $value = null, $type = 'request', $time = 0)
+    function cache($key = null, $value = null, $type = 'request', $time = 0)
     {
         $cache = context()->getOrCreate(Cache::class);
 
