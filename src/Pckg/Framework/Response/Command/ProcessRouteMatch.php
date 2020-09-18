@@ -115,6 +115,12 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * Fake end.
              */
             throw $e;
+        } catch (NotFound $e) {
+            /**
+             * Set response code to 404.
+             */
+            $code = $this->response->getCode();
+            $this->response->code(404);
         } catch (Throwable $e) {
             /**
              * Set response code to 500.
@@ -128,23 +134,6 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              * Yeeey, no exception, return with execution
              */
             if (!$e || get_class($e) === Response\MockStop::class) {
-                return;
-            }
-
-            /**
-             * @T00D00 - this should be somewhere else?
-             */
-            if (request()->isAjax()) {
-                $this->response->respond(
-                    [
-                        'error'     => true,
-                        'success'   => false,
-                        'message'   => $e->getMessage(),
-                        'statusCode' => $this->response->getCode(),
-                        'exception' => implicitDev() ? exception($e) : null,
-                    ]
-                );
-
                 return;
             }
 

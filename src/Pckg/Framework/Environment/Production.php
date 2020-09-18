@@ -92,20 +92,25 @@ class Production extends Environment
     protected function handleException(Throwable $e)
     {
         try {
-            $code = $e->getCode() ? $e->getCode() : response()->getCode();
+            $request = request();
+            $response = response();
+
+            $code = $e->getCode() ? $e->getCode() : $response->getCode();
             $message = $e->getMessage();
+            $response->sendCodeHeader();
 
             @error_log($message . ' (' . $code . ')');
 
             /**
              * Handle JSON request.
              */
-            $request = request();
-            if ($request->isJson()) {
+            if ($request->isJson() || $request->isAjax()) {
                 $response = [
                     'success' => false,
                     'error' => true,
                     'message' => $e->getMessage(),
+                    'statusCode' => $response->getCode(),
+                    'exception' => implicitDev() ? exception($e) : null,
                 ];
 
                 response()->respond($response);
@@ -118,8 +123,8 @@ class Production extends Environment
             ];
             foreach ($codes as $file) {
                 try {
-                    $response = view(config('pckg.framework.errorTemplateDir',
-                                            'vendor/pckg/generic/src/Pckg/Generic/View/error/') . $file,
+                    $view = config('pckg.framework.errorTemplateDir', 'vendor/pckg/generic/src/Pckg/Generic/View/error/') . $file;
+                    $output = view($view,
                                      [
                                          'message'   => $message,
                                          'code'      => $code,
@@ -127,11 +132,11 @@ class Production extends Environment
                                          'message'   => $e->getMessage(),
                                      ])->autoparse();
 
-                    if (!$response) {
+                    if (!$output) {
                         continue;
                     }
 
-                    echo $response;
+                    echo $output;
                     exit;
                 } catch (Throwable $e) {
                     @error_log($e->getMessage());
@@ -142,9 +147,9 @@ class Production extends Environment
             /**
              * @T00D00 - add nice html response?
              */
-            $response = '<html><head><title>Service is temporarily unavailable</title></head><body><p>Service is temporarily unavailable</p></body></html>';
+            $output = '<html><head><title>Service is temporarily unavailable</title></head><body><p>Service is temporarily unavailable</p></body></html>';
 
-            echo $response;
+            echo $output;
 
             if (!$handled && implicitDev()) {
                 echo '<p>' . exception($e) . '</p>';
