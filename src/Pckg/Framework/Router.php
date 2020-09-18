@@ -440,10 +440,27 @@ class Router
     {
         $allRoutes = $this->getRoutes();
         $vueRoutes = [];
+        $isLoggedIn = auth()->isLoggedIn();
+        $isAdmin = auth()->isAdmin();
         foreach ($allRoutes as $url => $routeArr) {
             $firstRoute = $routeArr[0];
             $tags = $firstRoute['tags'] ?? [];
+            /**
+             * Skip non-vue routes.
+             */
             if (!in_array('vue:route', $tags)) {
+                continue;
+            }
+            /**
+             * Skip auth routes for non-auth users.
+             */
+            if (!$isLoggedIn && in_array('auth:in', $tags)) {
+                continue;
+            }
+            /**
+             * Skip admin routes for non-admin users.
+             */
+            if (!$isAdmin && in_array('group:admin', $tags)) {
                 continue;
             }
             /**
