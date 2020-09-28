@@ -6,6 +6,7 @@ use Exception;
 use Pckg\Collection;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Exception\Bad;
 use Pckg\Framework\Exception\NotFound;
 use Pckg\Framework\Exception\Unauthorized;
 use Pckg\Framework\Response;
@@ -58,16 +59,39 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             $resolved = (new ResolveDependencies(router()->get('resolvers')))->execute();
             $dispatcher->trigger(ProcessRouteMatch::class . '.dependenciesResolved');
 
+            /**
+             * Check for CORS?
+             */
+            $isOptionsRequest = request()->isOptions();
+            $processOptions = function() use ($isOptionsRequest) {
+                if (!$isOptionsRequest) {
+                    return;
+                };
+
+                $this->response->code(204)->respond();
+            };
+
             if (is_only_callable($this->match['view'])) {
                 /**
                  * Simple action will take all requests - GET, POST, DELETE, ...
                  */
+                $processOptions();
                 $response = Reflect::call($this->match['view'], $resolved);
             } elseif (array_key_exists('controller', $this->match)) {
                 /**
                  * Create controller object.
                  */
                 $this->controller = Reflect::create($this->match['controller']);
+
+                /**
+                 * Check for OPTIONS.
+                 */
+                $method = strtolower(request()->header('Access-Control-Request-Method')) . ucfirst($this->match['view']) . 'Action';
+                if (method_exists($this->controller, $method)) {
+                    $processOptions();
+                } elseif ($isOptionsRequest) {
+                    throw new Exception('Method not supported');
+                }
 
                 /**
                  * Get main action response.
@@ -78,6 +102,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 /**
                  * Vue route or similar?
                  */
+                $processOptions();
                 $response = $this->match['view'];
             }
 
@@ -121,14 +146,24 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              */
             $code = $this->response->getCode();
             $this->response->code(404);
+            error_log('CODE 404: ' . exception($e));
+        } catch (Bad $e) {
+            /**
+             * Set response code to 400.
+             */
+            $code = $this->response->getCode();
+            $this->response->code(400);
+            error_log('CODE 400: ' . exception($e));
         } catch (Throwable $e) {
             /**
              * Set response code to 500.
              */
             $code = $this->response->getCode();
             if (!$code || in_array(substr($code, 0, 1), [2, 3])) {
-                $this->response->code(500);
+                $code = 500;
+                $this->response->code($code);
             }
+            error_log('CODE ' . $code . ': ' . exception($e));
         } finally {
             /**
              * Yeeey, no exception, return with execution
