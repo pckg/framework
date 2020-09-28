@@ -13,6 +13,8 @@ class Request extends Lazy
 
     const POST = 'POST';
 
+    const OPTIONS = 'OPTIONS';
+
     const SEARCH = 'SEARCH';
 
     const PUT = 'PUT';
@@ -268,6 +270,11 @@ class Request extends Lazy
     function isAjax()
     {
         return strtolower($this->server('HTTP_X_REQUESTED_WITH', null)) === 'xmlhttprequest' || isset($_POST['ajax']);
+    }
+
+    function isOptions()
+    {
+        return $this->isMethod(self::OPTIONS);
     }
 
     function isPost()
