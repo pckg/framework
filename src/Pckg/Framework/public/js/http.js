@@ -1,5 +1,5 @@
 var data = data || {};
-var http = {
+let http = window.http = {
 
     formToData: function (vueElement, keys) {
         var data = {};
@@ -39,11 +39,11 @@ var http = {
             return this.getJSON(url, whenDone, whenError, options);
         }
 
-        let options = {
+        options = {
             url: url,
             type: 'GET',
             beforeSend: function(request) {
-                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+                http.addLocale(request);
                 http.addCsrf(request);
             },
         };
@@ -54,7 +54,8 @@ var http = {
     getJSON: function (url, whenDone, whenError, options) {
         options = options || {};
         options.beforeSend = function (request) {
-            request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+            http.addLocale(request);
+            http.addCsrf(request);
         };
 
         var request = $.ajax(Object.assign({
@@ -105,7 +106,7 @@ var http = {
 
         if (Pckg.config.locale) {
             options.beforeSend = function (request) {
-                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+                http.addLocale(request);
                 http.addCsrf(request);
             };
         }
@@ -119,6 +120,14 @@ var http = {
             return;
         }
         request.setRequestHeader("X-Pckg-CSRF", elements[0].getAttribute('content'));
+    },
+
+    addLocale: function(request) {
+        if (!Pckg || !Pckg.config || !Pckg.config.locale || !Pckg.config.locale.current) {
+            return;
+        }
+
+        request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
     },
 
     patch: function (url, data, whenDone, whenError) {
@@ -407,6 +416,10 @@ var utils = {
         $.each(params, function (key, val) {
             url = url.replace('[' + key + ']', val);
         });
+
+        if (url.indexOf('@/') === 0) {
+            url = url.substring(1);
+        }
 
         if (absolute) {
             url = (Pckg.site.url || '') + url;

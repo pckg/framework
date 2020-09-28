@@ -54,7 +54,7 @@ var http = {
 
         if (Pckg.config.locale) {
             options.beforeSend = function (request) {
-                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+                http.addLocale(request);
                 http.addCsrf(request);
             };
         }
@@ -107,7 +107,7 @@ var http = {
 
         if (Pckg.config.locale) {
             options.beforeSend = function (request) {
-                request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
+                http.addLocale(request);
                 http.addCsrf(request);
             };
         }
@@ -121,6 +121,14 @@ var http = {
             return;
         }
         request.setRequestHeader("X-Pckg-CSRF", elements[0].getAttribute('content'));
+    },
+
+    addLocale: function(request) {
+        if (!Pckg || !Pckg.config || !Pckg.config.locale || !Pckg.config.locale.current) {
+            return;
+        }
+
+        request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
     },
 
     patch: function post(url, data, whenDone, whenError) {
@@ -403,6 +411,10 @@ var utils = {
         $.each(params, function (key, val) {
             _url = _url.replace('[' + key + ']', val);
         });
+
+        if (_url.indexOf('@/') === 0) {
+            _url = _url.substring(1);
+        }
 
         if (absolute) {
             _url = (Pckg.site.url || '') + _url;

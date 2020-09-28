@@ -1,5 +1,5 @@
 var Pckg = Pckg || {};
-Pckg = Object.assign(Pckg, {
+Pckg = window.Pckg = Object.assign(Pckg, {
     Collection: class extends Array {
 
         static collect(items, type) {
