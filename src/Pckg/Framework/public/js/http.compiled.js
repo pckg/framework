@@ -157,7 +157,7 @@ var http = {
     fixUndefined: function fixUndefined(data) {
         if (typeof data === 'string' || typeof data === 'number') {
             return data;
-        } else if (typeof val === 'undefined') {
+        } else if (typeof data === 'undefined') {
             return null;
         }
 
