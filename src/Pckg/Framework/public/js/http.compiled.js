@@ -157,6 +157,8 @@ var http = {
     fixUndefined: function fixUndefined(data) {
         if (typeof data === 'string' || typeof data === 'number') {
             return data;
+        } else if (typeof val === 'undefined') {
+            return null;
         }
 
         $.each(data, function (key, val) {

@@ -44,8 +44,10 @@ class ProtectCORS
             /**
              * Send the same origin as we see it.
              */
-            $origin = server('HTTP_ORIGIN', server('HTTP_REFERER'));
-            header('Access-Control-Allow-Origin: ' . $origin);
+            $origin = server('HTTP_ORIGIN', server('HTTP_REFERER', null), null);
+            if ($origin) {
+                header('Access-Control-Allow-Origin: ' . $origin);
+            }
         }
 
         /**
