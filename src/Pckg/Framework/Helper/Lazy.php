@@ -174,7 +174,7 @@ class Lazy implements ArrayAccess
 
     public function __toString()
     {
-        return (string)$this->data;
+        return json_encode($this->data);
     }
 
     public function __toBool()

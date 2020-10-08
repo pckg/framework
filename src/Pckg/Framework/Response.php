@@ -4,12 +4,19 @@ namespace Pckg\Framework;
 
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Request\Data\Session;
+use Pckg\Framework\Request\Message;
 use Pckg\Framework\Response\Command\RunResponse;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
+use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
-class Response
+/**
+ * Class Response
+ * @package Pckg\Framework
+ * PSR7 implementation of Response.
+ */
+class Response extends Message implements ResponseInterface
 {
 
     use Exceptions;
@@ -615,6 +622,37 @@ class Response
         header("Feature-Policy: usb 'self'");
 
         return $this;
+    }
+
+    /**
+     * PSR7
+     */
+    /**
+     * @return int
+     */
+    public function getStatusCode()
+    {
+        return $this->getCode();
+    }
+
+    /**
+     * @param int $code
+     * @param string $reasonPhrase
+     * @return $this|Response
+     */
+    public function withStatus($code, $reasonPhrase = '')
+    {
+        $this->code($code);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getReasonPhrase()
+    {
+        return $this->http[$this->code] ?? 'NO REASON PHRASE';
     }
 
 }

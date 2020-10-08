@@ -2,6 +2,7 @@
 
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Router;
+use Pckg\Framework\View\Twig;
 use Pckg\Framework\View\TwigEnv;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Manager\Locale;
@@ -139,6 +140,8 @@ class RegisterTwigExtensions
         }));
 
         $twig->getExtension('core')->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
+        
+        Twig::addDir(path('vendor') . 'pckg/framework/src/');
     }
 
 }

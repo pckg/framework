@@ -21,7 +21,7 @@ class Route
 
     protected $data = [];
 
-    protected $methods = [];
+    protected $methods;
 
     public function __construct($url = null, $view = null, $controller = null)
     {
@@ -71,6 +71,10 @@ class Route
             if ($value = $this->{$main}) {
                 $data[$main] = $value;
             }
+        }
+
+        if ($this->methods) {
+            $data['method'] = $this->methods;
         }
 
         /**

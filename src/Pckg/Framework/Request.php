@@ -5,8 +5,18 @@ namespace Pckg\Framework;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\Cookie;
+use Pckg\Framework\Request\Data\Server;
+use Pckg\Framework\Request\Message;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UriInterface;
 
-class Request extends Lazy
+/**
+ * Class Request
+ * @package Pckg\Framework
+ * PSR7 implementation of Request.
+ */
+class Request extends Message implements RequestInterface, ServerRequestInterface
 {
 
     const GET = 'GET';
@@ -21,10 +31,6 @@ class Request extends Lazy
 
     const DELETE = 'DELETE';
 
-    protected $url;
-
-    public $post, $get, $server, $session, $cookie, $files;
-
     protected $router, $response;
 
     protected $match;
@@ -33,7 +39,12 @@ class Request extends Lazy
 
     protected $internals = [];
 
-    protected $headers;
+    protected $attributes = [];
+
+    /**
+     * @var UriInterface
+     */
+    protected $uri;
 
     function __construct($input = [])
     {
@@ -59,12 +70,16 @@ class Request extends Lazy
 
         $this->setPost($input);
         $this->get = new Lazy($_GET);
-        $this->server = new Lazy($_SERVER);
+        $this->server = new Server($_SERVER);
         $this->files = new Lazy($_FILES);
         $this->cookie = new Cookie($_COOKIE);
         $this->request = new Lazy($_REQUEST);
 
         $this->fetchUrl();
+
+        $this->headers = collect(getallheaders())->groupBy(function ($value, $key) {
+            return $key;
+        })->all();
     }
 
     public function setConstructs($post, $get, $server, $files, $cookie, $request, $headers = [])
@@ -102,11 +117,7 @@ class Request extends Lazy
 
     public function getHeaders()
     {
-        if (isset($this->headers)) {
-            return $this->headers;
-        }
-
-        return getallheaders();
+        return $this->headers;
     }
 
     public function initDependencies(Router $router, Response $response)
@@ -125,35 +136,6 @@ class Request extends Lazy
         }
     }
 
-    public function fetchUrl()
-    {
-        $parsedUrl = parse_url($this->server('REQUEST_URI', null) ?? '/');
-
-        $url = $parsedUrl['path'];
-
-        $envPrefix = env()->getUrlPrefix();
-
-        // replace environment prefix
-        if (strpos($url, $envPrefix) === 0) {
-            $url = substr($url, strlen($envPrefix));
-        }
-
-        // default url if empty
-        if (!$url) {
-            $url = '/';
-        } else if (strlen($url) > 1 && substr($url, -1) == "/") {
-            // add / to beginning
-            $url = substr($url, 0, -1);
-        }
-
-        $this->setUrl($url);
-    }
-
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
     public function setMatch($match)
     {
         $this->match = $match;
@@ -168,9 +150,12 @@ class Request extends Lazy
             : $this->match;
     }
 
+    /**
+     * @return mixed|Lazy|null
+     */
     public function method()
     {
-        return server('REQUEST_METHOD', 'GET');
+        return $this->server('REQUEST_METHOD', 'GET');
     }
 
     /**
@@ -253,8 +238,6 @@ class Request extends Lazy
 
     public function isJson()
     {
-        $headers = $this->getHeaders();
-
         $contentType = $this->header('Content-Type');
         $accept = $this->header('Accept');
 
@@ -264,7 +247,7 @@ class Request extends Lazy
 
     public function header($key)
     {
-        return $this->getHeaders()[$key] ?? null;
+        return $this->getHeaders()[$key][0] ?? null;
     }
 
     function isAjax()
@@ -349,5 +332,181 @@ class Request extends Lazy
     {
         return first(server('HTTP_HOST', null), server('SERVER_NAME', null));
     }
+
+    /**
+     * @return string
+     */
+    public function getRequestTarget()
+    {
+        return $this->getUrl();
+    }
+
+    /**
+     * @param mixed $requestTarget
+     * @return $this|Request
+     */
+    public function withRequestTarget($requestTarget)
+    {
+        $this->setUrl($requestTarget);
+
+        return $this;
+    }
+
+    /**
+     * @param string $method
+     * @return $this|Request
+     */
+    public function withMethod($method)
+    {
+        $this->server->set('REQUEST_METHOD', $method);
+        
+        return $this;
+    }
+
+    /**
+     * @return UriInterface
+     */
+    public function getUri()
+    {
+        return $this->uri;
+    }
+
+    /**
+     * @param UriInterface $uri
+     * @param false $preserveHost
+     * @return $this|Request
+     */
+    public function withUri(UriInterface $uri, $preserveHost = false)
+    {
+        $this->uri = $uri;
+
+        return $this;
+    }
+
+    /**
+     * @return array|void
+     */
+    public function getServerParams()
+    {
+        return $this->server->all();
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getCookieParams()
+    {
+        return $this->cookie->all();
+    }
+
+    /**
+     * @param array $cookies
+     * @return $this|Request
+     */
+    public function withCookieParams(array $cookies)
+    {
+        $this->cookie->setData($cookies);
+
+        return $this;
+    }
+
+    /**
+     * @return array|mixed
+     */
+    public function getQueryParams()
+    {
+        return $this->get->all();
+    }
+
+    /**
+     * @param array $query
+     * @return $this|Request
+     */
+    public function withQueryParams(array $query)
+    {
+        $this->get->setData($query);
+
+        return $this;
+    }
+
+    /**
+     * @return array|void
+     */
+    public function getUploadedFiles()
+    {
+        return $this->files->all();
+    }
+
+    /**
+     * @param array $uploadedFiles
+     * @return $this|Request
+     */
+    public function withUploadedFiles(array $uploadedFiles)
+    {
+        $this->files->setData($uploadedFiles);
+
+        return $this;
+    }
+
+    /**
+     * @return array|object|void|null
+     */
+    public function getParsedBody()
+    {
+        return $this->post->all();
+    }
+
+    /**
+     * @param array|object|null $data
+     * @return $this|Request
+     */
+    public function withParsedBody($data)
+    {
+        $this->body = $data;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return [];
+    }
+
+    /**
+     * @param string $name
+     * @param null $default
+     * @return $this|mixed
+     */
+    public function getAttribute($name, $default = null)
+    {
+        return $this->attributes[$name] ?? $default;
+    }
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return $this|Request
+     */
+    public function withAttribute($name, $value)
+    {
+        $this->attributes[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $name
+     * @return $this|Request
+     */
+    public function withoutAttribute($name)
+    {
+        unset($this->attributes[$name]);
+
+        return $this;
+    }
+
 
 }

@@ -70,7 +70,6 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
                 $this->response->code(204)->respond();
             };
-
             if (is_only_callable($this->match['view'])) {
                 /**
                  * Simple action will take all requests - GET, POST, DELETE, ...

@@ -28,7 +28,7 @@ class Development extends Production
 
         $this->config->parseDir(BASE_PATH);
 
-        if (isHttp() && !implicitDev()) {
+        if (false && isHttp() && !implicitDev()) {
             die('Unauthorized for dev!');
             exit;
         }

@@ -3,8 +3,10 @@
 namespace Pckg\Framework\Request\Data;
 
 use Pckg\Framework\Helper\Lazy;
+use pckg\Framework\Request\Message;
+use Psr\Http\Message\ServerRequestInterface;
 
-class Server extends Lazy
+class Server extends Lazy /*extends Message implements ServerRequestInterface*/
 {
 
     function __construct()
@@ -14,7 +16,8 @@ class Server extends Lazy
 
     public function __destruct()
     {
-        $_SERVER = $this->data;
     }
+    
+    
 
 }

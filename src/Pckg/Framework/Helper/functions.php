@@ -1520,3 +1520,15 @@ if (!function_exists('numequals')) {
         return abs((float)$a - (float)$b) < PHP_FLOAT_EPSILON;
     }
 }
+
+if (!function_exists('appendIf')) {
+    function appendIf($is, $append) {
+        return $is ? $is . $append : '';
+    }
+}
+
+if (!function_exists('prependIf')) {
+    function prependIf($prepend, $is) {
+        return $is ? $prepend . $is : '';
+    }
+}

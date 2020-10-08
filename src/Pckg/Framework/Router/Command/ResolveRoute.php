@@ -30,21 +30,24 @@ class ResolveRoute
 
         foreach ($routes AS $routeArr) {
             foreach ($routeArr AS $route) {
-                if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[") || strpos(
-                            $url,
-                            "]"
-                        ))
+                if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[")
+                        || strpos($url, "]"))
                 ) {
                     // validate method
                     if (isset($route['method']) && !empty($route['method']) && !in_array(
-                            strtolower($_SERVER['REQUEST_METHOD']),
-                            explode("|", $route['method'])
+                            strtoupper($_SERVER['REQUEST_METHOD']),
+                            explode("|", strtoupper($route['method']))
                         )
                     ) {
-                        break;
+                        /**
+                         * Check next resolved route.
+                         */
+                        continue;
                     }
 
-                    // validate secure
+                    /**
+                     * @deprecated 
+                     */
                     if (isset($route['secure']) && is_only_callable($route['secure']) && !$route['secure']()) {
                         break;
                     }

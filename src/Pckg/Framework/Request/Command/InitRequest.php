@@ -8,6 +8,7 @@ use Pckg\Framework\Middleware\ShowNiceErrorPage;
 use Pckg\Framework\Request;
 use Pckg\Framework\Router;
 use Pckg\Framework\Router\Command\ResolveRoute;
+use Pckg\Framework\View\Twig;
 
 class InitRequest extends AbstractChainOfReponsibility
 {
@@ -32,6 +33,16 @@ class InitRequest extends AbstractChainOfReponsibility
         trigger(Request::class . '.initializing', [$this->request]);
 
         $url = $this->request->getUrl();
+
+        /**
+         * Check that router has any routes defined.
+         */
+        if (!$this->router->getRoutes()) {
+            if ($this->request->isGet()) {
+                return response()->respond(view('vendor/pckg/framework/src/Pckg/Framework:default/new-project'));
+            }
+            return response()->respond(['success' => false, 'error' => true, 'message' => 'No routes']);
+        }
 
         $match = (new ResolveRoute($this->router, $url, first(server('HTTP_HOST'), config('domain'))))->execute();
 
