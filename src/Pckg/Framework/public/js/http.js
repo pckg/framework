@@ -23,6 +23,23 @@ let http = window.http = {
         return http.post($(vueElement.$el.attr('action')), http.formToData(vueElement, fields));
     },
 
+    ajax: function ajax(options, done, error) {
+        let a = $.ajax(options);
+
+        if (a.done) {
+            if (done) {
+                a.done(done);
+            }
+            if (error) {
+                a.error(error);
+            }
+        } else {
+            a.then(done || function(){console.log('no success handler')}, error || function(){console.log('no error handler')});
+        }
+
+        return a;
+    },
+
     search: function get(url, whenDone, whenError, options) {
         let finalOptions = Object.assign({
             url: url,
@@ -31,7 +48,7 @@ let http = window.http = {
 
         finalOptions.beforeSend = http.addCsrf;
 
-        return $.ajax(finalOptions).done(whenDone).error(whenError);
+        return this.ajax(finalOptions, whenDone, whenError);
     },
 
     get: function (url, whenDone, whenError, options) {
@@ -48,7 +65,7 @@ let http = window.http = {
             },
         };
 
-        return $.ajax(options).done(whenDone).error(whenError);
+        return this.ajax(options, whenDone, whenError);
     },
 
     getJSON: function (url, whenDone, whenError, options) {
@@ -58,29 +75,19 @@ let http = window.http = {
             http.addCsrf(request);
         };
 
-        var request = $.ajax(Object.assign({
+        return this.ajax(Object.assign({
             url: url,
             dataType: 'JSON',
             type: 'GET'
-        }, options));
-
-        if (whenDone) {
-            request.done(whenDone);
-        }
-
-        if (whenError) {
-            request.fail(whenError);
-        }
-
-        return request;
+        }, options), whenDone, whenError);
     },
 
     deleteJSON: function (url, whenDone, whenError) {
-        return $.ajax({
+        return this.ajax({
             url: url,
             dataType: 'JSON',
             type: 'DELETE'
-        }).done(whenDone).error(whenError);
+        }, whenDone, whenError);
     },
 
     post: function post(url, data, whenDone, whenError) {
@@ -111,7 +118,7 @@ let http = window.http = {
             };
         }
 
-        return $.ajax(options).done(whenDone).error(whenError);
+        return this.ajax(options, whenDone, whenError);
     },
 
     addCsrf: function(request) {
@@ -141,12 +148,12 @@ let http = window.http = {
 
         data = http.fixUndefined(data);
 
-        return $.ajax({
+        return this.ajax({
             url: url,
             dataType: 'JSON',
             type: 'PATCH',
             data: data
-        }).done(whenDone).error(whenError);
+        }, whenDone, whenError);
     },
 
     form: function ($form, successCallback) {
@@ -241,11 +248,11 @@ var locale = {
         let digits = parseInt(price) == parseFloat(price) ? 0 : (decimals || 2);
 
         return parseFloat(price).toLocaleString(Pckg.config.locale.current.replace('_', '-').toLowerCase(), {
-                currency: 'eur',
-                currencyDisplay: 'symbol',
-                maximumFractionDigits: digits,
-                minimumFractionDigits: digits
-            }) + ' ' + Pckg.config.locale.currencySign;
+            currency: 'eur',
+            currencyDisplay: 'symbol',
+            maximumFractionDigits: digits,
+            minimumFractionDigits: digits
+        }) + ' ' + Pckg.config.locale.currencySign;
     },
 
     roundNumber: function(number, decimals){

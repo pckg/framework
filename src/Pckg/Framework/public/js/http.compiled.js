@@ -27,6 +27,23 @@ var http = {
         return http.post($(vueElement.$el.attr('action')), http.formToData(vueElement, fields));
     },
 
+    ajax: function ajax(options, done, error) {
+        let a = $.ajax(options);
+
+        if (a.done) {
+            if (done) {
+                a.done(done);
+            }
+            if (error) {
+                a.fail(error);
+            }
+        } else {
+            a.then(done || function(){console.log('no success handler')}, error || function(){console.log('no error handler')});
+        }
+
+        return a;
+    },
+
     search: function get(url, whenDone, whenError, options) {
         let finalOptions = Object.assign({
             url: url,
@@ -34,8 +51,7 @@ var http = {
         }, options || {});
 
         finalOptions.beforeSend = http.addCsrf;
-
-        return $.ajax(finalOptions).done(whenDone).error(whenError);
+        this.ajax(finalOptions, whenDone, whenError);
     },
 
     get: function get(url, whenDone, whenError, options) {
@@ -43,45 +59,33 @@ var http = {
             return this.getJSON(url, whenDone, whenError, options);
         }
 
-        return $.ajax({
+        return this.ajax({
             url: url,
             type: 'GET'
-        }).done(whenDone).error(whenError);
+        }, whenDone, whenError);
     },
 
     getJSON: function getJSON(url, whenDone, whenError, options) {
         options = options || {};
 
-        if (Pckg.config.locale) {
-            options.beforeSend = function (request) {
-                http.addLocale(request);
-                http.addCsrf(request);
-            };
-        }
+        options.beforeSend = function (request) {
+            http.addLocale(request);
+            http.addCsrf(request);
+        };
 
-        var request = $.ajax(Object.assign({
+        return this.ajax(Object.assign({
             url: url,
             dataType: 'JSON',
             type: 'GET'
-        }, options));
-
-        if (whenDone) {
-            request.done(whenDone);
-        }
-
-        if (whenError) {
-            request.fail(whenError);
-        }
-
-        return request;
+        }, options), whenDone, whenError);
     },
 
     deleteJSON: function deleteJSON(url, whenDone, whenError) {
-        return $.ajax({
+        return this.ajax({
             url: url,
             dataType: 'JSON',
             type: 'DELETE'
-        }).done(whenDone).error(whenError);
+        }, whenDone, whenError);
     },
 
     post: function post(url, data, whenDone, whenError) {
@@ -105,14 +109,12 @@ var http = {
             data: data
         };
 
-        if (Pckg.config.locale) {
-            options.beforeSend = function (request) {
-                http.addLocale(request);
-                http.addCsrf(request);
-            };
-        }
+        options.beforeSend = function (request) {
+            http.addLocale(request);
+            http.addCsrf(request);
+        };
 
-        return $.ajax(options).done(whenDone).error(whenError);
+        return this.ajax(options, whenDone, whenError);
     },
 
     addCsrf: function(request) {
@@ -142,12 +144,12 @@ var http = {
 
         data = http.fixUndefined(data);
 
-        return $.ajax({
+        return this.ajax({
             url: url,
             dataType: 'JSON',
             type: 'PATCH',
             data: data
-        }).done(whenDone).error(whenError);
+        }, whenDone, whenError);
     },
 
     form: function form($form, successCallback) {
