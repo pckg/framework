@@ -19,17 +19,21 @@ use Psr\Http\Message\UriInterface;
 class Request extends Message implements RequestInterface, ServerRequestInterface
 {
 
+    const OPTIONS = 'OPTIONS';
+
     const GET = 'GET';
 
     const POST = 'POST';
 
-    const OPTIONS = 'OPTIONS';
+    const PUT = 'PUT';
+
+    const PATCH = 'PATCH';
 
     const SEARCH = 'SEARCH';
 
-    const PUT = 'PUT';
-
     const DELETE = 'DELETE';
+
+    const HEAD = 'HEAD';
 
     protected $router, $response;
 
@@ -260,9 +264,24 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this->isMethod(self::OPTIONS);
     }
 
+    function isGet()
+    {
+        return $this->isMethod(self::GET);
+    }
+
     function isPost()
     {
         return $this->isMethod(self::POST);
+    }
+
+    function isPut()
+    {
+        return $this->isMethod(self::PUT);
+    }
+
+    function isPatch()
+    {
+        return $this->isMethod(self::PATCH);
     }
 
     function isSearch()
@@ -270,9 +289,14 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this->isMethod(self::SEARCH);
     }
 
-    function isGet()
+    function isDelete()
     {
-        return $this->isMethod(self::GET);
+        return $this->isMethod(self::DELETE);
+    }
+
+    function isHead()
+    {
+        return $this->isMethod(self::HEAD);
     }
 
     function host()
