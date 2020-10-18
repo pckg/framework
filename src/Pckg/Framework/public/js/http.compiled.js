@@ -84,7 +84,11 @@ var http = {
         return this.ajax({
             url: url,
             dataType: 'JSON',
-            type: 'DELETE'
+            type: 'DELETE',
+            beforeSend: function (request) {
+                http.addLocale(request);
+                http.addCsrf(request);
+            }
         }, whenDone, whenError);
     },
 
@@ -148,7 +152,11 @@ var http = {
             url: url,
             dataType: 'JSON',
             type: 'PATCH',
-            data: data
+            data: data,
+            beforeSend: function (request) {
+                http.addLocale(request);
+                http.addCsrf(request);
+            }
         }, whenDone, whenError);
     },
 
