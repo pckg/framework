@@ -54,15 +54,21 @@ var http = {
         this.ajax(finalOptions, whenDone, whenError);
     },
 
-    get: function get(url, whenDone, whenError, options) {
+    get: function (url, whenDone, whenError, options) {
         if (options) {
             return this.getJSON(url, whenDone, whenError, options);
         }
 
-        return this.ajax({
+        options = {
             url: url,
-            type: 'GET'
-        }, whenDone, whenError);
+            type: 'GET',
+            beforeSend: function(request) {
+                http.addLocale(request);
+                http.addCsrf(request);
+            },
+        };
+
+        return this.ajax(options, whenDone, whenError);
     },
 
     getJSON: function getJSON(url, whenDone, whenError, options) {
