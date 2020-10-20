@@ -358,6 +358,17 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
+     * @return bool
+     */
+    public function isCORS()
+    {
+        /**
+         * Leave OPTIONS and GET?
+         */
+        return $this->isPost() || $this->isSearch() || $this->isDelete() || $this->isPut() || $this->isPatch() || $this->isHead();
+    }
+
+    /**
      * @return string
      */
     public function getRequestTarget()

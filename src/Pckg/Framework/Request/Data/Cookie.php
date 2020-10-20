@@ -7,6 +7,8 @@ class Cookie extends Lazy
 
     const EXPIRATION = 2592000; // 30 days
 
+    const DURATION_MONTH = 2592000; // 30 days
+
     public function __construct(array $arr = [])
     {
         parent::__construct($_COOKIE);
@@ -15,15 +17,25 @@ class Cookie extends Lazy
     public function set(
         $name,
         $value = '',
-        $expiration = self::EXPIRATION,
+        $expiration = self::DURATION_MONTH,
         $path = '/'
     ) {
-        setcookie($name, $value, [
-            'expires' => time() + $expiration,
-            'path' => $path,
-            'secure' => true,
-            'samesite' => 'strict'
-        ]);
+        $time = time() + $expiration;
+        $domain = explode(':', server('HTTP_HOST'))[0];
+
+        if (PHP_VERSION_ID >= 70300) {
+            setcookie($name, $value, [
+                'expires' => $time,
+                'path' => $path,
+                'secure' => true,
+                'domain' => $domain,
+                'samesite' => 'strict', // httponly?
+            ]);
+            return;
+        } else {
+            setcookie($name, $value, $time, $path . '; samesite=strict', $domain, true, true);
+        }
+
         $_COOKIE[$name] = $value;
 
         return $this;
@@ -31,13 +43,7 @@ class Cookie extends Lazy
 
     public function delete($name)
     {
-        setcookie($name, null, [
-            'expires' => time() - static::EXPIRATION,
-            'path' => '/',
-            'secure' => true,
-            'samesite' => 'strict'
-        ]);
-        //unset($_COOKIE[$name]);
+        $this->set($name, null, -1 * static::EXPIRATION);
 
         return $this;
     }

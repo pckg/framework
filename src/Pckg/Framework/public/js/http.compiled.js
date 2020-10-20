@@ -28,7 +28,34 @@ var http = {
     },
 
     ajax: function ajax(options, done, error) {
+        let presetBeforeSend = options.beforeSend || null;
+        options.beforeSend = function (request) {
+            if (presetBeforeSend) {
+                presetBeforeSend(request);
+            }
+            http.addLocale(request);
+            http.addCsrf(request);
+        };
+
+        options = Object.assign({
+            dataType: 'JSON'
+        }, options || {});
+
         let a = $.ajax(options);
+
+        let preError = error || null;
+        error = function (response) {
+            /**
+             * Check for CSRF?
+             */
+            if ($dispatcher && response.responseJSON && ['Cross Site Request Forbidden', 'Cross Site Request Invalid'].indexOf(response.responseJSON.message || '') >= 0) {
+                $dispatcher.$emit('notification:error', 'Your session has expired, please refresh your browser');
+            }
+            
+            if (preError) {
+                preError(response);
+            }
+        };
 
         if (a.done) {
             if (done) {
@@ -38,93 +65,77 @@ var http = {
                 a.fail(error);
             }
         } else {
-            a.then(done || function(){console.log('no success handler')}, error || function(){console.log('no error handler')});
+            a.then(done || function(data){ console.log('no success handler', data); }, error || function(data){ console.log('no error handler', data); });
         }
 
         return a;
     },
 
-    search: function get(url, whenDone, whenError, options) {
-        let finalOptions = Object.assign({
-            url: url,
-            type: 'SEARCH'
-        }, options || {});
-
-        finalOptions.beforeSend = http.addCsrf;
-        this.ajax(finalOptions, whenDone, whenError);
-    },
-
     get: function (url, whenDone, whenError, options) {
-        if (options) {
-            return this.getJSON(url, whenDone, whenError, options);
-        }
-
-        options = {
-            url: url,
-            type: 'GET',
-            beforeSend: function(request) {
-                http.addLocale(request);
-                http.addCsrf(request);
-            },
-        };
-
-        return this.ajax(options, whenDone, whenError);
-    },
-
-    getJSON: function getJSON(url, whenDone, whenError, options) {
-        options = options || {};
-
-        options.beforeSend = function (request) {
-            http.addLocale(request);
-            http.addCsrf(request);
-        };
-
         return this.ajax(Object.assign({
             url: url,
-            dataType: 'JSON',
             type: 'GET'
-        }, options), whenDone, whenError);
+        }, options || {}), whenDone, whenError);
+    },
+
+    post: function post(url, data, whenDone, whenError) {
+        if (typeof data === 'function') {
+            data = data();
+        }
+
+        data = http.fixUndefined(data);
+
+        return this.ajax({
+            url: url,
+            type: 'POST',
+            data: data
+        }, whenDone, whenError);
+    },
+
+    patch: function post(url, data, whenDone, whenError) {
+        if (typeof data == 'function') {
+            data = data();
+        }
+
+        data = http.fixUndefined(data);
+
+        return this.ajax({
+            url: url,
+            type: 'PATCH',
+            data: data
+        }, whenDone, whenError);
+    },
+
+    put: function post(url, data, whenDone, whenError) {
+        if (typeof data == 'function') {
+            data = data();
+        }
+
+        data = http.fixUndefined(data);
+
+        return this.ajax({
+            url: url,
+            type: 'PATCH',
+            data: data
+        }, whenDone, whenError);
+    },
+
+    search: function get(url, whenDone, whenError, options) {
+        this.ajax(Object.assign({
+            url: url,
+            type: 'SEARCH'
+        }, options || {}), whenDone, whenError);
     },
 
     deleteJSON: function deleteJSON(url, whenDone, whenError) {
         return this.ajax({
             url: url,
-            dataType: 'JSON',
-            type: 'DELETE',
-            beforeSend: function (request) {
-                http.addLocale(request);
-                http.addCsrf(request);
-            }
+            type: 'DELETE'
         }, whenDone, whenError);
     },
 
-    post: function post(url, data, whenDone, whenError) {
-        if (typeof data == 'function') {
-            data = data();
-        }
-
-        if (typeof whenDone == 'undefined') {
-            whenDone = http.postDone;
-        }
-
-        if (typeof whenError == 'undefined') {
-            whenError = http.postError;
-        }
-
-        data = http.fixUndefined(data);
-        let options = {
-            url: url,
-            dataType: 'JSON',
-            type: 'POST',
-            data: data
-        };
-
-        options.beforeSend = function (request) {
-            http.addLocale(request);
-            http.addCsrf(request);
-        };
-
-        return this.ajax(options, whenDone, whenError);
+    getJSON: function getJSON(url, whenDone, whenError, options) {
+        return this.get(url, whenDone, whenError, options);
     },
 
     addCsrf: function(request) {
@@ -141,29 +152,6 @@ var http = {
         }
 
         request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
-    },
-
-    patch: function post(url, data, whenDone, whenError) {
-        if (typeof data == 'function') {
-            data = data();
-        }
-
-        if (typeof whenDone == 'undefined') {
-            whenDone = http.postDone;
-        }
-
-        data = http.fixUndefined(data);
-
-        return this.ajax({
-            url: url,
-            dataType: 'JSON',
-            type: 'PATCH',
-            data: data,
-            beforeSend: function (request) {
-                http.addLocale(request);
-                http.addCsrf(request);
-            }
-        }, whenDone, whenError);
     },
 
     form: function form($form, successCallback) {
