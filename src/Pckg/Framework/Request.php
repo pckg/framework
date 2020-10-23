@@ -254,6 +254,11 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this->getHeaders()[$key][0] ?? null;
     }
 
+    public function clientIp()
+    {
+        return first(server('HTTP_X_FORWARDED_FOR'), server('REMOTE_ADDR'));
+    }
+
     function isAjax()
     {
         return strtolower($this->server('HTTP_X_REQUESTED_WITH', null)) === 'xmlhttprequest' || isset($_POST['ajax']);
