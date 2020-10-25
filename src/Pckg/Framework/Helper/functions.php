@@ -223,8 +223,14 @@ if (!function_exists('auth')) {
 }
 
 if (!function_exists('uuid4')) {
-    function uuid4(){
-        return \Ramsey\Uuid\Uuid::uuid4();
+    function uuid4($toString = true) {
+        $uuid = \Ramsey\Uuid\Uuid::uuid4();
+
+        if ($toString) {
+            return $uuid->toString();
+        }
+
+        return $uuid;
     }
 }
 

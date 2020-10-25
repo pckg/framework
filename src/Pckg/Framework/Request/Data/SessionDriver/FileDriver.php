@@ -6,6 +6,12 @@ use \Exception;
 class FileDriver extends SessionHandler
 {
 
+    const PHPSESSID = 'PHPSESSID';
+
+    const SIGNATURE = 'SIGNATURE';
+
+    const SECURE = false;
+
     public function __construct()
     {
         $this->register();
@@ -13,14 +19,23 @@ class FileDriver extends SessionHandler
 
     public function register()
     {
-        if (!($SID = session_id())) {
-            session_set_save_handler([$this, 'open'],
-                                     [$this, 'close'],
-                                     [$this, 'read'],
-                                     [$this, 'write'],
-                                     [$this, 'destroy'],
-                                     [$this, 'gc']);
+        /**
+         * Read parameters for session.
+         */
+        $PHPSESSID = $_COOKIE[static::PHPSESSID] ?? null;
+        $PHPSESSIDSECURE = null;
+        $SID = session_id();
 
+        /**
+         * Start new session procedure.
+         */
+        if (!$SID) {
+            session_set_save_handler([$this, 'open'],
+                [$this, 'close'],
+                [$this, 'read'],
+                [$this, 'write'],
+                [$this, 'destroy'],
+                [$this, 'gc']);
             register_shutdown_function('session_write_close');
 
             /**
@@ -30,18 +45,70 @@ class FileDriver extends SessionHandler
             ini_set('session.gc_maxlifetime', $time);
             session_set_cookie_params($time);
 
-            session_start(/*[
-                              'cookie_lifetime' => $time,
-                          ]*/);
+            /**
+             * Define parameters for new session.
+             */
+            if (!$PHPSESSID) {
+                $PHPSESSID = uuid4();
+                $PHPSESSIDSECURE = auth()->hashPassword($PHPSESSID);
+                session_id($PHPSESSID);
+            }
 
             /**
-             * Allow session to be reused for 90 seconds.
+             * Start a new session.
              */
-            if (isset($_SESSION['deactivated']) && $_SESSION['deactivated'] + 90 < time()) {
-                session_destroy();
-                throw new Exception('Using inactive session');
-            }
+            $readAndClose = !$PHPSESSIDSECURE;
+            session_start([
+                'cookie_lifetime' => $time,
+                'read_and_close' => false && $readAndClose,
+            ]);
         }
+
+        /**
+         * Cookie-defined session should have signature fields set.
+         */
+        if (static::SECURE && !$PHPSESSIDSECURE && !array_key_exists(static::PHPSESSID . static::SIGNATURE, $_SESSION)) {
+            $this->destroyCookieSession('Missing session signature! ' . $PHPSESSID);
+        }
+
+        /**
+         * Cookie defined session should have valid signature.
+         */
+        if (static::SECURE && !$PHPSESSIDSECURE && !auth()->hashedPasswordMatches($_SESSION[static::PHPSESSID . static::SIGNATURE], $PHPSESSID)) {
+            $this->destroyCookieSession('Invalid session signature!');
+        }
+
+        /**
+         * Allow session to be reused for 90 seconds.
+         */
+        if (isset($_SESSION['deactivated']) && $_SESSION['deactivated'] + 90 < time()) {
+            $this->destroyCookieSession('Using inactive session');
+        }
+
+        /**
+         * Start / override session.
+         */
+        if ($PHPSESSIDSECURE) {
+            $_SESSION = [
+                static::PHPSESSID . static::SIGNATURE => $PHPSESSIDSECURE,
+            ];
+        }
+    }
+
+    /**
+     * @param null $message
+     * @throws Exception
+     */
+    public function destroyCookieSession($message = null)
+    {
+        session_destroy();
+        cookie()->set(static::PHPSESSID, null);
+
+        if (!$message) {
+            return;
+        }
+
+        throw new Exception($message);
     }
 
 }
