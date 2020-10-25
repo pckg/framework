@@ -63,7 +63,9 @@ class Command extends SymfonyConsoleCommand
         );
 
         if ($ok !== 0) {
-            // error_log($output);
+            if ($output instanceof BufferedOutput) {
+                error_log($output->fetch());
+            }
             throw new \Exception('Cannot execute command ' . get_class($this));
         }
 
