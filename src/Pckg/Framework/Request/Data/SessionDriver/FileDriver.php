@@ -6,7 +6,7 @@ use \Exception;
 class FileDriver extends SessionHandler
 {
 
-    const PHPSESSID = 'PHPSESSID';
+    const PHPSESSID = 'SID'; // PHPSESSID
 
     const SIGNATURE = 'SIGNATURE';
 
@@ -44,6 +44,7 @@ class FileDriver extends SessionHandler
          */
         $time = 24 * 60 * 60;
         ini_set('session.gc_maxlifetime', $time);
+        session_name(static::PHPSESSID);
         session_set_cookie_params([
             'lifetime' => $time,
             'path' => '/',
