@@ -42,7 +42,14 @@ class FileDriver extends SessionHandler
          */
         $time = 24 * 60 * 60;
         ini_set('session.gc_maxlifetime', $time);
-        session_set_cookie_params($time);
+        session_set_cookie_params([
+            'lifetime' => $time,
+            'path' => '/',
+            'domain' => '',
+            'secure' => 'true',
+            'httponly' => 'true',
+            'samesite' => 'Strict',
+        ]);
 
         /**
          * Old compatibility layer, will be removed.
