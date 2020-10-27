@@ -60,10 +60,10 @@ class FileDriver extends SessionHandler
             $SID = null;
         }
 
-        if (static::SECURE && $SID && strlen($SID) !== static::UUIDLENGTH) {
+        if (false && static::SECURE && $SID && strlen($SID) !== static::UUIDLENGTH) {
             $this->destroyCookieSession('Invalid session length');
             $SID = $PHPSESSID = null;
-        } else if (static::SECURE && $PHPSESSID && strlen($PHPSESSID) !== static::UUIDLENGTH) {
+        } else if (false && static::SECURE && $PHPSESSID && strlen($PHPSESSID) !== static::UUIDLENGTH) {
             $this->destroyCookieSession('Invalid cookie session length');
             $SID = $PHPSESSID = null;
         }
