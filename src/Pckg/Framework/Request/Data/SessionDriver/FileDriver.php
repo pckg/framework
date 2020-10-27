@@ -50,7 +50,7 @@ class FileDriver extends SessionHandler
             'domain' => '',
             'secure' => 'true',
             'httponly' => 'true',
-            'samesite' => 'Strict',
+            'samesite' => 'Lax',
         ]);
 
         /**

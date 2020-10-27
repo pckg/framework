@@ -30,7 +30,7 @@ class Cookie extends Lazy
                 'path' => $path,
                 'secure' => true,
                 'domain' => $domain,
-                'samesite' => 'strict', // httponly?
+                'samesite' => 'Lax', // httponly?
             ]);
             return;
         } else {
