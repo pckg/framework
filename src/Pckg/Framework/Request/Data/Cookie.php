@@ -35,7 +35,7 @@ class Cookie extends Lazy
             ]);
             return;
         } else {
-            setcookie($name, $value, $time, $path . '; samesite=strict', $domain, true, true);
+            setcookie($name, $value, $time, $path . '; samesite=Lax', $domain, true, true);
         }
 
         $_COOKIE[$name] = $value;
