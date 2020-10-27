@@ -18,10 +18,11 @@ class Cookie extends Lazy
         $name,
         $value = '',
         $expiration = self::DURATION_MONTH,
-        $path = '/'
+        $path = '/',
+        $domain = ''
     ) {
         $time = time() + $expiration;
-        $domain = explode(':', server('HTTP_HOST'))[0];
+        $domain = '';
 
         if (PHP_VERSION_ID >= 70300) {
             setcookie($name, $value, [
