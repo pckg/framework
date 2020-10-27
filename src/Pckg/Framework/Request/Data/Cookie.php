@@ -31,11 +31,12 @@ class Cookie extends Lazy
                 'secure' => true,
                 'domain' => $domain,
                 'httponly' => true,
-                'samesite' => 'Lax', // httponly?
+                //'samesite' => 'Lax', // httponly?
             ]);
             return;
         } else {
-            setcookie($name, $value, $time, $path . '; samesite=Lax', $domain, true, true);
+            setcookie($name, $value, $time, $path, $domain, true, true);
+            //setcookie($name, $value, $time, $path . '; samesite=Lax', $domain, true, true);
         }
 
         $_COOKIE[$name] = $value;

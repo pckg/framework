@@ -49,9 +49,9 @@ class FileDriver extends SessionHandler
             'lifetime' => $time,
             'path' => '/',
             'domain' => '',
-            'secure' => 'true',
-            'httponly' => 'true',
-            'samesite' => 'Lax',
+            'secure' => true,
+            'httponly' => true,
+            //'samesite' => 'Lax',
         ]);
 
         /**
