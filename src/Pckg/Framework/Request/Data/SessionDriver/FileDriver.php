@@ -27,24 +27,34 @@ class FileDriver extends SessionHandler
         $SID = session_id();
 
         /**
+         * Set session handlers.
+         */
+        session_set_save_handler([$this, 'open'],
+            [$this, 'close'],
+            [$this, 'read'],
+            [$this, 'write'],
+            [$this, 'destroy'],
+            [$this, 'gc']);
+        register_shutdown_function('session_write_close');
+
+        /**
+         * Keep session data in server in client for 24h by default.
+         */
+        $time = 24 * 60 * 60;
+        ini_set('session.gc_maxlifetime', $time);
+        session_set_cookie_params($time);
+
+        /**
+         * Old compatibility layer, will be removed.
+         */
+        if (static::SECURE && !$SID && strlen($SID) !== 40) {
+            $SID = null;
+        }
+
+        /**
          * Start new session procedure.
          */
         if (!$SID) {
-            session_set_save_handler([$this, 'open'],
-                [$this, 'close'],
-                [$this, 'read'],
-                [$this, 'write'],
-                [$this, 'destroy'],
-                [$this, 'gc']);
-            register_shutdown_function('session_write_close');
-
-            /**
-             * Keep session data in server in client for 24h by default.
-             */
-            $time = 24 * 60 * 60;
-            ini_set('session.gc_maxlifetime', $time);
-            session_set_cookie_params($time);
-
             /**
              * Define parameters for new session.
              */
