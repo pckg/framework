@@ -10,7 +10,9 @@ class FileDriver extends SessionHandler
 
     const SIGNATURE = 'SIGNATURE';
 
-    const SECURE = false;
+    const SECURE = true;
+
+    const UUIDLENGTH = 36;
 
     public function __construct()
     {
@@ -54,8 +56,16 @@ class FileDriver extends SessionHandler
         /**
          * Old compatibility layer, will be removed.
          */
-        if (static::SECURE && !$SID && strlen($SID) !== 40) {
+        if (!$SID) {
             $SID = null;
+        }
+
+        if (static::SECURE && $SID && strlen($SID) !== static::UUIDLENGTH) {
+            $this->destroyCookieSession('Invalid session length');
+            $SID = $PHPSESSID = null;
+        } else if (static::SECURE && $PHPSESSID && strlen($PHPSESSID) !== static::UUIDLENGTH) {
+            $this->destroyCookieSession('Invalid cookie session length');
+            $SID = $PHPSESSID = null;
         }
 
         /**
@@ -119,13 +129,13 @@ class FileDriver extends SessionHandler
     public function destroyCookieSession($message = null)
     {
         session_destroy();
-        cookie()->set(static::PHPSESSID, null);
+        //cookie()->set(static::PHPSESSID, null);
 
         if (!$message) {
             return;
         }
 
-        throw new Exception($message);
+        error_log($message);
     }
 
 }
