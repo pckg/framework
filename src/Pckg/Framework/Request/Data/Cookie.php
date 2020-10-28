@@ -33,7 +33,6 @@ class Cookie extends Lazy
                 'httponly' => true,
                 //'samesite' => 'Lax', // httponly?
             ]);
-            return;
         } else {
             setcookie($name, $value, $time, $path, $domain, true, true);
             //setcookie($name, $value, $time, $path . '; samesite=Lax', $domain, true, true);

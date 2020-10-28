@@ -14,6 +14,8 @@ class FileDriver extends SessionHandler
 
     const UUIDLENGTH = 36;
 
+    const DURATION = 24 * 60 * 60;
+
     public function __construct()
     {
         $this->register();
@@ -35,11 +37,10 @@ class FileDriver extends SessionHandler
         /**
          * Keep session data in server in client for 24h by default.
          */
-        $time = 24 * 60 * 60;
-        ini_set('session.gc_maxlifetime', $time);
+        ini_set('session.gc_maxlifetime', static::DURATION);
         session_name(static::PHPSESSID);
         session_set_cookie_params([
-            'lifetime' => $time,
+            'lifetime' => static::DURATION,
             'path' => '/',
             'domain' => '',
             'secure' => true,
@@ -51,7 +52,6 @@ class FileDriver extends SessionHandler
          * Read parameters for session.
          */
         $PHPSESSID = $_COOKIE[static::PHPSESSID] ?? null;
-        $PHPSESSIDSECURE = null;
         $SID = session_id();
 
         /**
@@ -64,36 +64,17 @@ class FileDriver extends SessionHandler
         /**
          * Start a new session.
          */
-        session_start([
-            'cookie_lifetime' => $time,
-            'read_and_close' => false,
-        ]);
-
-        /**
-         * Start new session procedure.
-         */
-        if (!$SID && !$PHPSESSID) {
-            /**
-             * Define parameters for new session.
-             */
-            if (!$PHPSESSID) {
-                $signSession = true;
-                $PHPSESSID = session_id();
-                $PHPSESSIDSECURE = auth()->hashPassword($PHPSESSID);
-            }
-        }
+        $PHPSESSIDSECURE = $this->startSession($SID, $PHPSESSID);
 
         /**
          * Cookie-defined session should have signature fields set.
          */
         if (static::SECURE && !$PHPSESSIDSECURE && !array_key_exists(static::PHPSESSID . static::SIGNATURE, $_SESSION)) {
             $this->destroyCookieSession('Missing session signature! ' . $PHPSESSID);
-        }
-
-        /**
+        } /**
          * Cookie defined session should have valid signature.
          */
-        if (static::SECURE && !$PHPSESSIDSECURE && !auth()->hashedPasswordMatches($_SESSION[static::PHPSESSID . static::SIGNATURE], $PHPSESSID)) {
+        else if (static::SECURE && !$PHPSESSIDSECURE && !auth()->hashedPasswordMatches($_SESSION[static::PHPSESSID . static::SIGNATURE], $PHPSESSID)) {
             $this->destroyCookieSession('Invalid session signature!');
         }
 
@@ -103,15 +84,43 @@ class FileDriver extends SessionHandler
         if (isset($_SESSION['deactivated']) && $_SESSION['deactivated'] + 90 < time()) {
             $this->destroyCookieSession('Using inactive session');
         }
+    }
+
+    protected function startSession($SID = null, $PHPSESSID = null)
+    {
+        /**
+         * Start a new session.
+         */
+        $started = session_start([
+            'cookie_lifetime' => static::DURATION,
+            'read_and_close' => false,
+        ]);
+
+        if (!$started) {
+            error_log('Cannot start session?');
+        }
+
+        /**
+         * Start new session procedure.
+         */
+        if ($SID || $PHPSESSID) {
+            return null;
+        }
+
+        /**
+         * Sign new sessions.
+         */
+        $PHPSESSID = session_id();
+        $PHPSESSIDSECURE = auth()->hashPassword($PHPSESSID);
 
         /**
          * Start / override session.
          */
-        if ($PHPSESSIDSECURE) {
-            $_SESSION = [
-                static::PHPSESSID . static::SIGNATURE => $PHPSESSIDSECURE,
-            ];
-        }
+        $_SESSION = [
+            static::PHPSESSID . static::SIGNATURE => $PHPSESSIDSECURE,
+        ];
+
+        return $PHPSESSIDSECURE;
     }
 
     /**
@@ -121,13 +130,15 @@ class FileDriver extends SessionHandler
     public function destroyCookieSession($message = null)
     {
         session_destroy();
+        $_SESSION = [];
+        $PHPSESSIDSECURE = $this->startSession();
         //cookie()->set(static::PHPSESSID, null);
 
-        if (!$message) {
-            return;
+        if ($message) {
+            error_log($message);
         }
 
-        error_log($message);
+        return $PHPSESSIDSECURE;
     }
 
 }
