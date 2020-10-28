@@ -22,13 +22,6 @@ class FileDriver extends SessionHandler
     public function register()
     {
         /**
-         * Read parameters for session.
-         */
-        $PHPSESSID = $_COOKIE[static::PHPSESSID] ?? null;
-        $PHPSESSIDSECURE = null;
-        $SID = session_id();
-
-        /**
          * Set session handlers.
          */
         session_set_save_handler([$this, 'open'],
@@ -55,41 +48,39 @@ class FileDriver extends SessionHandler
         ]);
 
         /**
-         * Old compatibility layer, will be removed.
+         * Read parameters for session.
+         */
+        $PHPSESSID = $_COOKIE[static::PHPSESSID] ?? null;
+        $PHPSESSIDSECURE = null;
+        $SID = session_id();
+
+        /**
+         * Nullify session.
          */
         if (!$SID) {
             $SID = null;
         }
 
-        if (false && static::SECURE && $SID && strlen($SID) !== static::UUIDLENGTH) {
-            $this->destroyCookieSession('Invalid session length');
-            $SID = $PHPSESSID = null;
-        } else if (false && static::SECURE && $PHPSESSID && strlen($PHPSESSID) !== static::UUIDLENGTH) {
-            $this->destroyCookieSession('Invalid cookie session length');
-            $SID = $PHPSESSID = null;
-        }
+        /**
+         * Start a new session.
+         */
+        session_start([
+            'cookie_lifetime' => $time,
+            'read_and_close' => false,
+        ]);
 
         /**
          * Start new session procedure.
          */
-        if (!$SID) {
+        if (!$SID && !$PHPSESSID) {
             /**
              * Define parameters for new session.
              */
             if (!$PHPSESSID) {
-                $PHPSESSID = uuid4();
+                $signSession = true;
+                $PHPSESSID = session_id();
                 $PHPSESSIDSECURE = auth()->hashPassword($PHPSESSID);
-                session_id($PHPSESSID);
             }
-
-            /**
-             * Start a new session.
-             */
-            $readAndClose = !$PHPSESSIDSECURE;
-            session_start([
-                'cookie_lifetime' => $time,
-                'read_and_close' => false && $readAndClose,
-            ]);
         }
 
         /**
