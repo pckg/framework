@@ -437,7 +437,7 @@ class Response extends Message implements ResponseInterface
         /**
          * Run classic response.
          */
-        resolve(RunResponse::class)->execute($callback);
+        resolve(RunResponse::class)->execute(function(){});
 
         $this->stop();
 
