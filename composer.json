@@ -12,7 +12,6 @@
   "require": {
     "pckg/concept": "dev-master",
     "pckg/database": "dev-master",
-    "pckg/htmlbuilder": "dev-master",
     "pckg/cache": "dev-master",
     "pckg/locale": "dev-master",
     "twig/twig": "1.*",
@@ -32,5 +31,6 @@
     },
     "files": ["src/Pckg/Framework/Helper/functions.php"]
   },
-  "minimum-stability": "dev"
+  "minimum-stability": "dev",
+  "prefer-stable": true
 }
