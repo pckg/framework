@@ -2,6 +2,19 @@ export const pckgDelimiters = {
     delimiters: ['${', '}']
 };
 
+export const pckgSpannify = {
+    methods: {
+        spannify: function (text) {
+            let split = text.split(' ');
+            if (split.length >= 2) {
+                return '<span>' + split[0] + '</span> ' + split.splice(1).join(' ');
+            }
+
+            return text;
+        }
+    }
+};
+
 export const dynamicEvents = {
     created: function () {
         $.each(this.triggers, function (method, events) {
