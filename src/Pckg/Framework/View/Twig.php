@@ -138,7 +138,7 @@ class Twig extends AbstractView implements ViewInterface
         /**
          * Check if template wasn't loaded.
          */
-        if ($render == $this->file . '.twig') {
+        if ($render === $this->file . '.twig') {
             throw new \Exception('Cannot find file ' . $this->file . '.twig');
         }
 

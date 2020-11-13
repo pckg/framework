@@ -48,6 +48,7 @@ class RunCommand extends AbstractChainOfReponsibility
 
             /**
              * Get Symfony Console Application, find available commands and run app.
+             * @var SymfonyConsole $application
              */
             $application = context()->get(SymfonyConsole::class);
             try {

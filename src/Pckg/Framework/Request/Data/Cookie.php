@@ -18,10 +18,11 @@ class Cookie extends Lazy
         $name,
         $value = '',
         $expiration = self::DURATION_MONTH,
-        $path = '/'
+        $path = '/',
+        $domain = ''
     ) {
         $time = time() + $expiration;
-        $domain = explode(':', server('HTTP_HOST'))[0];
+        $domain = '';
 
         if (PHP_VERSION_ID >= 70300) {
             setcookie($name, $value, [
@@ -29,11 +30,12 @@ class Cookie extends Lazy
                 'path' => $path,
                 'secure' => true,
                 'domain' => $domain,
-                'samesite' => 'strict', // httponly?
+                'httponly' => true,
+                //'samesite' => 'Lax', // httponly?
             ]);
-            return;
         } else {
-            setcookie($name, $value, $time, $path . '; samesite=strict', $domain, true, true);
+            setcookie($name, $value, $time, $path, $domain, true, true);
+            //setcookie($name, $value, $time, $path . '; samesite=Lax', $domain, true, true);
         }
 
         $_COOKIE[$name] = $value;

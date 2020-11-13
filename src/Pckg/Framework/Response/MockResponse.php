@@ -20,11 +20,11 @@ class MockResponse extends Response
     {
         if (is_array($string)) {
             $this->output = $this->arrayToString($string);
+        } else if ($string) {
+            $this->output = $string;
         }
 
         trigger(Response::class . '.responding');
-
-        $this->code($this->code);
 
         $this->stop();
 

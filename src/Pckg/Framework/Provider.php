@@ -18,7 +18,7 @@ class Provider
 
     public function shouldRegister()
     {
-        return !$this->registered;
+        return !($this->registered || in_array(static::class, Stack::$providers));
     }
 
     /**
@@ -30,6 +30,7 @@ class Provider
             return $this;
         }
 
+        Stack::$providers[] = static::class;
         $hadStack = context()->exists(Stack::class);
         if (!$hadStack) {
             context()->bind(Stack::class, new Stack());
@@ -60,6 +61,7 @@ class Provider
         if (!$hadStack) {
             $stack = context()->get(Stack::class);
             $stack->execute();
+            context()->unbind(Stack::class);
         }
 
         $this->registered = true;

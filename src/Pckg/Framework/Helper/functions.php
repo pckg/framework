@@ -223,8 +223,14 @@ if (!function_exists('auth')) {
 }
 
 if (!function_exists('uuid4')) {
-    function uuid4(){
-        return \Ramsey\Uuid\Uuid::uuid4();
+    function uuid4($toString = true) {
+        $uuid = \Ramsey\Uuid\Uuid::uuid4();
+
+        if ($toString) {
+            return $uuid->toString();
+        }
+
+        return $uuid;
     }
 }
 
@@ -1197,12 +1203,20 @@ if (!function_exists('route')) {
 }
 
 if (!function_exists('vueRoute')) {
-    function vueRoute($route, $component)
+    function vueRoute($route, $component, array $tags = [])
     {
-        return route($route, function() {
+        return route($route, function() use ($tags) {
             $config = config();
 
-            return view($config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
+            $layout = null;
+            foreach ($tags as $tag) {
+                if (strpos($tag, 'layout:') === 0) {
+                    $layout = 'Pckg/Generic:' . substr($tag, strlen('layout:'));
+                    break;
+                }
+            }
+
+            return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
         })->data([
                      'tags' => [
                          'vue:route',
