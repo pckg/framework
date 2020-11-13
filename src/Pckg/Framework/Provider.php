@@ -61,6 +61,7 @@ class Provider
         if (!$hadStack) {
             $stack = context()->get(Stack::class);
             $stack->execute();
+            context()->unbind(Stack::class);
         }
 
         $this->registered = true;
