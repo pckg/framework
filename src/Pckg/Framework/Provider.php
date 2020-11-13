@@ -18,7 +18,7 @@ class Provider
 
     public function shouldRegister()
     {
-        return !$this->registered && !in_array(static::class, Stack::$providers);
+        return !($this->registered || in_array(static::class, Stack::$providers));
     }
 
     /**
