@@ -9,12 +9,12 @@ class Post extends Lazy
 
     function __construct($arr = [])
     {
-        parent::__construct($_POST);
+        parent::__construct($arr ?? $_POST);
     }
 
     public function __destruct()
     {
-        $_POST = $this->data;
+        //$_POST = $this->data;
     }
 
 }

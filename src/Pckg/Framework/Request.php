@@ -5,6 +5,7 @@ namespace Pckg\Framework;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\Cookie;
+use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Server;
 use Pckg\Framework\Request\Message;
 use Psr\Http\Message\RequestInterface;
@@ -114,7 +115,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
 
     public function setPost(array $post = [])
     {
-        $this->post = new Lazy($post);
+        $this->post = new Post($post);
 
         return $this;
     }

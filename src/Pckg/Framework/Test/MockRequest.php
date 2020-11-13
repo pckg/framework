@@ -47,7 +47,12 @@ class MockRequest
      */
     protected $app;
 
-    function __construct(Unit $test, $app)
+    /**
+     * MockRequest constructor.
+     * @param Unit $test
+     * @param $app
+     */
+    function __construct($test, $app)
     {
         $this->test = $test;
         $this->app = $app;
@@ -97,9 +102,18 @@ class MockRequest
         }
 
         return function (Context $context) use ($configurator) {
+            /**
+             * @var $request Request
+             */
             $request = $context->get(Request::class);
-            $request->server->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
-            $request->setHeaders(['Accept' => 'application/json']);
+            $request->server()->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
+            $request->server()->set('HTTP_X_PCKG_CSRF', metaManager()->getCsrfValue());
+            $request->server()->set('HTTP_REFERER', 'https://localhost');
+            $request->server()->set('HTTP_ORIGIN', 'localhost:99999');
+            $request->setHeaders([
+                'Accept' => 'application/json',
+                'X-Pckg-CSRF' => metaManager()->getCsrfValue(),
+            ]);
             if ($configurator) {
                 $configurator($context);
             }
@@ -230,7 +244,7 @@ class MockRequest
         } catch (Response\MockStop $e) {
         } catch (\Throwable $e) {
             $this->exception = $e;
-            d('EXCEPTION: ' . exception($e));
+            ddd('EXCEPTION: ' . exception($e));
         }
 
         return $this;
