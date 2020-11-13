@@ -5,6 +5,8 @@ class Stack
 
     protected $stacks = [];
 
+    public static $providers = [];
+
     public function push(callable $callable)
     {
         $this->stacks[] = $callable;
