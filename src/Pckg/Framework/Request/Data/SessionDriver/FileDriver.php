@@ -62,6 +62,13 @@ class FileDriver extends SessionHandler
         }
 
         /**
+         * We do not need to always start a session?
+         */
+        if (!$PHPSESSID) {
+            //return;
+        }
+
+        /**
          * Start a new session.
          */
         $PHPSESSIDSECURE = $this->startSession($SID, $PHPSESSID);
