@@ -18,6 +18,7 @@ trait TestHelper
 
     protected function _before()
     {
+        return;
         include "vendor/autoload.php";
         $run = $this->getPckgBootstrap();
         $this->context = $run($this->app);

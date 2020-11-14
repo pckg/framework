@@ -260,6 +260,11 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return first(server('HTTP_X_FORWARDED_FOR'), server('REMOTE_ADDR'));
     }
 
+    public function clientPort()
+    {
+        return first(server('HTTP_X_FORWARDED_PORT'), server('SERVER_PORT'));
+    }
+
     function isAjax()
     {
         return strtolower($this->server('HTTP_X_REQUESTED_WITH', null)) === 'xmlhttprequest' || isset($_POST['ajax']);

@@ -8,6 +8,7 @@ use Pckg\Framework\Environment;
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
+use Pckg\Framework\Stack;
 
 class MockRequest
 {
@@ -82,6 +83,20 @@ class MockRequest
         $response = $this->context->get(Response::class)->getOutput();
 
         $this->test->assertEquals(true, !!(is_array($response) ? ($response[$key] ?? null) : (json_decode($response, true)[$key] ?? null)), 'Response does not have a ' . $key);
+
+        return $this;
+    }
+
+    /**
+     * @param $code
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     */
+    public function assertResponseContains($value)
+    {
+        $response = $this->context->get(Response::class)->getOutput();
+
+        $this->test->assertEquals(true, strpos($response, $value) >= 0, 'Response does not contain ' . $value);
 
         return $this;
     }
@@ -180,28 +195,22 @@ class MockRequest
 
         /**
          * Only bootstrap and create context. Do not create environment or init the application.
-         * @var $context \Pckg\Concept\Context
+         * @var $context \Pckg\Concept\Context|\Pckg\Framework\Helper\Context
          */
+        $originalContext = context();
+        Stack::$providers = [];
         $this->context = $context = $bootstrap(null, null);
-        //context()->bind(Context::class, $context);
 
-        $config = new Config();
-        $context->bind(Config::class, $config);
-
-        //$router = new Router($config);
-        //$context->bind(Router::class, $router);
+        $originalContext->bind(Context::class, $context);
+        $originalContext->bind(\Pckg\Framework\Helper\Context::class, $context);
 
         /**
-         * Create and bind the Environment. Do not register it.
+         * Create, bind and register the environment.
          */
+        $config = new Config();
         $environment = new Environment\Production($config, $context);
         $context->bind(Environment::class, $environment);
         $environment->register();
-
-        /**
-         * Now we can boot the Context and init the Application.
-         */
-        $this->application = $environment->createApplication($context, $this->app);
 
         /**
          * Init request
@@ -216,6 +225,10 @@ class MockRequest
             'HTTP_REFERER' => '',
             'REQUEST_METHOD' => $method,
         ];
+
+        $router = new Router($config);
+        $context->bind(Router::class, $router);
+
         $request = new Request();
         $request->setConstructs([], [], $server, [], [], [], []);
         $context->bind(Request::class, $request);
@@ -224,27 +237,38 @@ class MockRequest
         $context->bind(Response::class, $response);
 
         /**
+         * Now we can boot the Context and init the Application.
+         */
+        $this->application = $environment->createApplication($context, $this->app);
+
+        /**
          * This is where request and response are initialized.
          */
         if ($configurator) {
             $configurator($this->context);
         }
 
-        $this->application->init();
-
         /**
          * Init the Application.
          */
         try {
             $this->exception = null;
+            $this->application->init();
+            $this->application->run();
+/*
             (new Request\Command\RunRequest($request))->execute(function () {
+                //ddd('ran request');
             });
             (new Response\Command\RunResponse($response, $request))->execute(function () {
+                //ddd('ran response');
             });
+*/
         } catch (Response\MockStop $e) {
+            ddd('caught stop');
         } catch (\Throwable $e) {
+            ddd('not caught', get_class($e));
             $this->exception = $e;
-            ddd('EXCEPTION: ' . exception($e));
+            error_log('EXCEPTION: ' . exception($e));
         }
 
         return $this;
