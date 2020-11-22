@@ -420,7 +420,8 @@ class Router
         foreach ($tags as $k => $v) {
             if (strpos($v, 'layout:') === 0) {
                 if ($v === 'layout:frontend') {
-                    $component = '<route-layout></route-layout>';
+                    $component = '<pb-route-layout></pb-route-layout>';
+                } else if ($v === 'layout:backend') {
                 } else {
                     $component = substr($v, strlen('layout:'));
                     $component = '<' . $component . '></' . $component . '>';

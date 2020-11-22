@@ -95,7 +95,7 @@ class FileDriver extends SessionHandler
 
     protected function startSession($SID = null, $PHPSESSID = null)
     {
-        $readAndClose = ($SID || $PHPSESSID) && in_array('session:close', router()->get('tags'));
+        $readAndClose = ($SID || $PHPSESSID) && (in_array('session:close', router()->get('tags')) || (!get('lang') && !post()->all()));
 
         /**
          * Start a new session.
@@ -138,7 +138,11 @@ class FileDriver extends SessionHandler
      */
     public function destroyCookieSession($message = null)
     {
-        session_destroy();
+        try {
+            session_destroy();
+        } catch (\Throwable $e) {
+            error_log(exception($e));
+        }
         $_SESSION = [];
         $PHPSESSIDSECURE = $this->startSession();
         //cookie()->set(static::PHPSESSID, null);
