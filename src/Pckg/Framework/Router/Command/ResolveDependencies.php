@@ -42,7 +42,12 @@ class ResolveDependencies
         }
 
         foreach ($resolvers as $urlKey => $resolver) {
-            if (is_object($resolver)) {
+            if (is_only_callable($resolver)) {
+                /**
+                 * Callable was passed to optimize things.
+                 */
+                $realResolver = $resolver();
+            } else if (is_object($resolver)) {
                 /**
                  * Resolver was passed.
                  */
@@ -62,6 +67,10 @@ class ResolveDependencies
 
             $k = $data[$urlKey] ?? null;
             $resolved = $realResolver->resolve(urldecode($k));
+
+            /**
+             * Validate resolved value for access?
+             */
 
             if (is_string($urlKey)) {
                 $data[$urlKey] = $resolved;

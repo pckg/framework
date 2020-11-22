@@ -95,12 +95,14 @@ class FileDriver extends SessionHandler
 
     protected function startSession($SID = null, $PHPSESSID = null)
     {
+        $readAndClose = ($SID || $PHPSESSID) && in_array('session:close', router()->get('tags'));
+
         /**
          * Start a new session.
          */
         $started = session_start([
             'cookie_lifetime' => static::DURATION,
-            'read_and_close' => false,
+            'read_and_close' => $readAndClose,
         ]);
 
         if (!$started) {

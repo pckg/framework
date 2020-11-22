@@ -1203,27 +1203,43 @@ if (!function_exists('route')) {
 }
 
 if (!function_exists('vueRoute')) {
-    function vueRoute($route, $component, array $tags = [])
+    function vueRoute(string $route = '', string $component = null, array $tags = [])
     {
+        $defaultTags = [
+            'vue:route',
+            'vue:route:template' => substr($component, 0, 1) !== '<'
+                ? '<' . $component . '></' . $component . '>'
+                : $component,
+        ];
+
         return route($route, function() use ($tags) {
             $config = config();
 
             $layout = null;
+            $isVue = false;
             foreach ($tags as $tag) {
                 if (strpos($tag, 'layout:') === 0) {
-                    $layout = 'Pckg/Generic:' . substr($tag, strlen('layout:'));
+                    if (strpos($tag, '-') === false) {
+                        $layout = 'Pckg/Generic:' . substr($tag, strlen('layout:'));
+                    } else {
+                        $layout = substr($tag, strlen('layout:'));
+                        $isVue = true;
+                    }
                     break;
                 }
             }
 
+            if ($isVue) {
+                /**
+                 * We will parse Vue routes into the frontend layout.
+                 * It is currently hardcoded to print <frontend-app></frontend-app> which prints header, body and others.
+                 */
+                return view('Pckg/Generic/View/frontend', ['content' => '<pckg-app data-frontend></pckg-app>']);
+            }
+
             return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
         })->data([
-                     'tags' => [
-                         'vue:route',
-                         'vue:route:template' => substr($component, 0, 1) !== '<'
-                             ? '<' . $component . '></' . $component . '>'
-                             : $component,
-                     ],
+                     'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
             'method' => 'GET',
                  ]);
     }

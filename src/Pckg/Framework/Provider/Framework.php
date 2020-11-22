@@ -52,7 +52,7 @@ class Framework extends Provider
             '_env'        => Environment::class,
             //'_lang'       => LangInterface::class,
             '_config'     => Config::class,
-            '_session'    => Session::class, // why is this commented out?
+            //'_session'    => Session::class, // why is this commented out?
             '_cookie'     => Cookie::class,
             // '_flash'      => Flash::class,
             '_debugBar'   => debugBar(),

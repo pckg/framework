@@ -407,12 +407,31 @@ class Router
         $url = str_replace(['[', ']'], [':', ''], $url);
         $vueRoute = [
             'path' => $url,
+            'name' => $route['name'],
         ];
         if (array_key_exists('vue:route:redirect', $tags)) {
             $vueRoute['redirect'] = $prefix . $tags['vue:route:redirect'];
         }
-        if (array_key_exists('vue:route:template', $tags)) {
-            $vueRoute['component'] = ['template' => $tags['vue:route:template']];
+
+        /**
+         * When there's a layout, the layout should render the component.
+         */
+        $component = null;
+        foreach ($tags as $k => $v) {
+            if (strpos($v, 'layout:') === 0) {
+                if ($v === 'layout:frontend') {
+                    $component = '<route-layout></route-layout>';
+                } else {
+                    $component = substr($v, strlen('layout:'));
+                    $component = '<' . $component . '></' . $component . '>';
+                }
+                break;
+            }
+        }
+        if ($component) {
+            $vueRoute['component'] = ['name' => sluggify($component), 'template' => $component];
+        } else if (array_key_exists('vue:route:template', $tags)) {
+            $vueRoute['component'] = ['name' => sluggify($tags['vue:route:template']), 'template' => $tags['vue:route:template']];
         }
         if (array_key_exists('vue:route:children', $tags)) {
             $routes = $this->getRoutes();
