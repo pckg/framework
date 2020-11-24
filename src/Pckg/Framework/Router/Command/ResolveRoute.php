@@ -84,7 +84,7 @@ class ResolveRoute
                     // validate method
                     if (isset($conf['method']) && !empty($conf['method']) && !in_array(
                             strtolower($_SERVER['REQUEST_METHOD']),
-                            explode("|", strtolower($conf['method']))
+                            explode("|", strtolower(is_array($conf['method']) ? implode('|', $conf['method']) : $conf['method']))
                         )
                     ) {
                         continue;

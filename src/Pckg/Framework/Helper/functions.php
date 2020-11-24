@@ -14,6 +14,7 @@ use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\View\Twig;
+use Pckg\Generic\Service\Generic;
 use Pckg\Mail\Service\Mail\Handler\Queue as QueueMailHandler;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Cache;
@@ -1255,6 +1256,29 @@ if (!function_exists('routeGroup')) {
         }
 
         return $routeGroup;
+    }
+}
+
+if (!function_exists('component')) {
+    function component($component, array $params = [])
+    {
+        $build = '<' . $component . '';
+        $generic = null;
+        foreach ($params as $k => $v) {
+            if (substr($k, 0, 1) === ':') {
+                if (!$generic) {
+                    $generic = resolve(Generic::class);
+                }
+
+                $key = $generic->pushMetadata('router', substr($k, 1), $v);
+                $build .= ' ' . $k . '="' . $key . '"';
+            } else {
+                $build .= ' ' . $k . '="' . $v . '"';
+            }
+        }
+        $build .= '></' . $component . '>';
+
+        return $build;
     }
 }
 

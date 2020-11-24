@@ -6,6 +6,7 @@ use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
 use Pckg\Framework\View\AbstractView;
+use Pckg\Generic\Service\Generic;
 
 class RunResponse extends AbstractChainOfReponsibility
 {
@@ -41,6 +42,8 @@ class RunResponse extends AbstractChainOfReponsibility
             $response->setOutput($response->arrayToString([
                                                               'html' => $output,
                                                               'vue'  => $vue,
+                                                              'resolved' => router()->resolved(),
+                                                              'metadata' => resolve(Generic::class)->getMetadata(),
                                                           ]));
         } else if (is_bool($output)) {
             $response->setOutput($response->arrayToString(['success' => $output]));
