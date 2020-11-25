@@ -1203,9 +1203,9 @@ if (!function_exists('route')) {
 }
 
 if (!function_exists('vueRoute')) {
-    function vueRoute($route, $component, array $tags = [])
+    function vueRoute($route, $component, array $tags = [], array $children = [])
     {
-        return route($route, function() use ($tags) {
+        return (new Router\Route\VueRoute($route, function() use ($tags) {
             $config = config();
 
             $layout = null;
@@ -1217,7 +1217,7 @@ if (!function_exists('vueRoute')) {
             }
 
             return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
-        })->data([
+        }))->data([
                      'tags' => [
                          'vue:route',
                          'vue:route:template' => substr($component, 0, 1) !== '<'
@@ -1225,7 +1225,7 @@ if (!function_exists('vueRoute')) {
                              : $component,
                      ],
             'method' => 'GET',
-                 ]);
+                 ])->children($children);
     }
 }
 

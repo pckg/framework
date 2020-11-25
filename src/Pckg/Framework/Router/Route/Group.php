@@ -53,4 +53,16 @@ class Group
         return $this;
     }
 
+    /**
+     * @param array $resolvers
+     */
+    public function resolvers(array $resolvers = [])
+    {
+        foreach ($this->routes as $route) {
+            $route->resolvers($resolvers);
+        }
+
+        return $this;
+    }
+
 }
