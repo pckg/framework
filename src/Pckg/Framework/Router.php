@@ -474,6 +474,16 @@ class Router
         }
         $vueRoute['meta']['tags'] = $finalTags;
 
+        /**
+         * This needs to be available on the frontend so we can resolve the params on navigation.
+         */
+        $vueRoute['meta']['resolves'] = array_keys($route['resolvers'] ?? []);
+
+        /**
+         * This should be put to current route.
+         */
+        $vueRoute['meta']['resolved'] = $route['url'] === request()->getMatch('url') ? router()->getResolves() : [];
+
         return $vueRoute;
     }
 

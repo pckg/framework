@@ -14,6 +14,11 @@ use Pckg\Manager\Locale;
 use Pckg\Manager\Seo;
 use Pckg\Manager\Vue;
 
+/**
+ * Trait Traits
+ * @package Pckg\Framework\Helper
+ * @deprecated 
+ */
 trait Traits
 {
 
@@ -83,7 +88,7 @@ trait Traits
     public function response()
     {
         if (!$this->response) {
-            $this->response = resolve(Response::class);
+            $this->response = response();
         }
 
         return $this->response;
@@ -95,7 +100,7 @@ trait Traits
     public function request()
     {
         if (!$this->request) {
-            $this->request = resolve(Request::class);
+            $this->request = request();
         }
 
         return $this->request;
@@ -107,7 +112,7 @@ trait Traits
     public function post($key = null, $default = null)
     {
         if (!$this->post) {
-            $this->post = resolve(Post::class);
+            $this->post = post();
         }
 
         if ($key) {
@@ -123,7 +128,7 @@ trait Traits
     public function get($key = null, $default = null)
     {
         if (!$this->get) {
-            $this->get = resolve(Get::class);
+            $this->get = get();
         }
 
         if ($key) {
@@ -136,7 +141,7 @@ trait Traits
     public function server($key = null, $default = null)
     {
         if (!$this->server) {
-            $this->server = resolve(Server::class);
+            $this->server = server();
         }
 
         if ($key) {
@@ -162,7 +167,7 @@ trait Traits
     public function auth($provider = null)
     {
         if (!$this->auth) {
-            $this->auth = resolve(Auth::class);
+            $this->auth = auth();
         }
 
         if ($provider) {
@@ -175,7 +180,7 @@ trait Traits
     public function router()
     {
         if (!$this->router) {
-            $this->router = resolve(Router::class);
+            $this->router = router();
         }
 
         return $this->router;
@@ -184,7 +189,7 @@ trait Traits
     public function assetManager()
     {
         if (!$this->assetManager) {
-            $this->assetManager = resolve(Asset::class);
+            $this->assetManager = assetManager();
         }
 
         return $this->assetManager;
@@ -196,7 +201,7 @@ trait Traits
     public function seoManager()
     {
         if (!$this->seoManager) {
-            $this->seoManager = resolve(Seo::class);
+            $this->seoManager = seoManager();
         }
 
         return $this->seoManager;
@@ -208,7 +213,7 @@ trait Traits
     public function vueManager()
     {
         if (!$this->vueManager) {
-            $this->vueManager = resolve(Vue::class);
+            $this->vueManager = vueManager();
         }
 
         return $this->vueManager;
@@ -220,7 +225,7 @@ trait Traits
     public function localeManager()
     {
         if (!$this->localeManager) {
-            $this->localeManager = resolve(Locale::class);
+            $this->localeManager = localeManager();
         }
 
         return $this->localeManager;

@@ -1242,7 +1242,7 @@ if (!function_exists('vueRoute')) {
         })->data([
                      'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
             'method' => 'GET',
-                 ]);
+                 ])->children($children);
     }
 }
 

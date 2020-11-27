@@ -1,4 +1,4 @@
-var Pckg = Pckg || {};
+var Pckg = window.Pckg || {};
 Pckg = window.Pckg = Object.assign(Pckg, {
     Collection: class extends Array {
 

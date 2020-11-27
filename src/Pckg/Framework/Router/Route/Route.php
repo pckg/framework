@@ -95,7 +95,11 @@ class Route
             }
         }
 
-        router()->add($mergedData['url'] ?? '@', $mergedData, $mergedData['name'] ?? '@');
+        $url = $mergedData['url'] ?? '@';
+        $name = $mergedData['name'] ?? '@';
+        router()->add($url, $mergedData, $name);
+
+        return [$url, $mergedData, $name];
     }
 
     public function resolvers($resolvers = [])
