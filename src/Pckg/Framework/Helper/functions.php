@@ -1240,9 +1240,9 @@ if (!function_exists('vueRoute')) {
 
             return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
         })->data([
-                     'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
+            'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
             'method' => 'GET',
-                 ])->children($children);
+        ]);
     }
 }
 
