@@ -502,6 +502,9 @@ class Router
             if (!in_array('vue:route', $tags)) {
                 continue;
             }
+            if (in_array('vue:route:child', $tags)) {
+                continue;
+            }
             /**
              * Skip auth routes for non-auth users.
              */
