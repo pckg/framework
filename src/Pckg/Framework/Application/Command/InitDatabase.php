@@ -11,7 +11,7 @@ class InitDatabase
             /**
              * Skip lazy initialize connections which will be estamblished on demand.
              */
-            if (isset($config['lazy'])) {
+            if (is_string($config) || isset($config['lazy'])) {
                 continue;
             }
 
