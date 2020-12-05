@@ -127,6 +127,10 @@ var http = {
         }, options || {}), whenDone, whenError);
     },
 
+    delete: function (url, whenDone, whenError) {
+        return this.deleteJSON(url, whenDone, whenError);
+    },
+
     deleteJSON: function deleteJSON(url, whenDone, whenError) {
         return this.ajax({
             url: url,
