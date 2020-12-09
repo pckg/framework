@@ -325,9 +325,15 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this->url;
     }
 
-    function getUrl()
+    function getUrl($stripParams = false)
     {
-        return $this->url;
+        $url = $this->url;
+
+        if ($stripParams) {
+            [$url] = explode('?', $url);
+        }
+
+        return $url;
     }
 
     /**
