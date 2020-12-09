@@ -22,63 +22,41 @@ class LockInternal
             return $next();
         }
 
-        if (config('pckg.auth.tags.tag:internal')(auth())) {
+        /**
+         * Check for permissions.
+         */
+        if (static::hasAccess(auth())) {
             return $next();
         }
 
         /**
          * Respond with static response.
          */
-        response()->unauthorized('Page is not public yet');
+        response()->unauthorized('Page is not public');
     }
 
     public static function hasAccess(\Pckg\Auth\Service\Auth $auth)
     {
-
         if ($auth->isAdmin()) {
             return true;
         }
 
-        if (!($internal = request()->get('internal', null))) {
+        /**
+         * Check for values in header or get parameter.
+         */
+        $internal = request()->getHeader('X-Pckg-Anonymous');
+        if (!$internal) {
+            $internal = request()->get('internal', null);
+        }
+
+        /**
+         * Restrict access when none are set.
+         */
+        if (!$internal) {
             return false;
         }
 
-        try {
-            /**
-             * We will generate password on request
-             */
-            $decoded = json_decode(base64_decode($internal), true);
-
-            /**
-             * Validate request first.
-             */
-            $signature = $decoded['signature'];
-            unset($decoded['signature']);
-            if ($signature !== sha1(json_encode($decoded))) {
-                return false;
-            }
-
-            /**
-             * Validate timestamp.
-             */
-            $timestamp = $decoded['timestamp'];
-            if (strtotime($timestamp) < strtotime('-3hours')) {
-                return false;
-            }
-
-            /**
-             * Validate hash.
-             */
-            $hash = $decoded['hash'];
-            $identifier = config('identifier', null);
-            if ($auth->hashedPasswordMatches($hash, $identifier . $timestamp . $auth->getSecurityHash())) {
-                return true;
-            }
-        } catch (Throwable $e) {
-            error_log(exception($e));
-        }
-
-        return false;
+        return auth()->isValidInternalGetParameter($internal);
     }
 
 }
