@@ -505,7 +505,7 @@ if (!function_exists('path')) {
      * @param      $key
      * @param null $val
      *
-     * @return array|null
+     * @return string
      */
     function path($key = null, $val = null)
     {
@@ -1168,7 +1168,7 @@ if (!function_exists('cache')) {
      * @param string        $type
      * @param int           $time
      *
-     * @return mixed|Cache
+     * @return mixed|Cache|array|string
      * @throws Exception
      */
     function cache($key = null, $value = null, $type = 'request', $time = 0)

@@ -105,7 +105,7 @@ class Message extends Lazy implements MessageInterface
     }
 
     /**
-     * @return array|\string[][]
+     * @return array
      */
     public function getHeaders()
     {
