@@ -1218,7 +1218,12 @@ if (!function_exists('vueRoute')) {
 
             return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
         }))->data([
-                     'tags' => [
+                     'tags' => $tags ? array_merge($tags, [
+                         'vue:route',
+                         'vue:route:template' => substr($component, 0, 1) !== '<'
+                             ? '<' . $component . '></' . $component . '>'
+                             : $component,
+                     ]) : [
                          'vue:route',
                          'vue:route:template' => substr($component, 0, 1) !== '<'
                              ? '<' . $component . '></' . $component . '>'
