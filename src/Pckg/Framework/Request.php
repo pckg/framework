@@ -560,5 +560,14 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this;
     }
 
+    public function mock(callable $task)
+    {
+        $mock = new Request();
+        context()->bind(Request::class, $mock);
+        $response = $task($mock, $this);
+        context()->bind(Request::class, $this);
+        return $response;
+    }
+
 
 }
