@@ -513,8 +513,16 @@ if (!function_exists('path')) {
             context()->getOrCreate(Config::class)->set('path.' . $key, $val);
         }
 
-        $path = config('path.' . $key);
+        [$realKey] = explode('/', $key);
+        $path = config('path.' . $realKey);
 
+        if (strpos($key, '/')) {
+            $path .= rtrim(substr($key, strlen($realKey) + 1), '/') . '/';
+        }
+
+        /**
+         * Absolute path.
+         */
         if ($val === true) {
             $path = str_replace(path('root'), path('ds'), $path);
         }
