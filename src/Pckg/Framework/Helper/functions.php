@@ -1347,6 +1347,13 @@ if (!function_exists('only')) {
     }
 }
 
+if (!function_exists('onlyFromRequest')) {
+    function onlyFromRequest(array $data, string $key = null)
+    {
+        return only($data, array_keys($key ? post($key) : post()->all()), false);
+    }
+}
+
 if (!function_exists('onlyWhen')) {
     function onlyWhen($array, $keys)
     {
@@ -1545,6 +1552,26 @@ if (!function_exists('numequals')) {
     function numequals($a, $b)
     {
         return abs((float)$a - (float)$b) < PHP_FLOAT_EPSILON;
+    }
+}
+
+if (!function_exists('encryptBlob')) {
+    function encryptBlob($plaintext, $password = null) {
+        if (!$password) {
+            $password = config('security.hash', null);
+        }
+
+        return \Defuse\Crypto\Crypto::encryptWithPassword($plaintext, $password);
+    }
+}
+
+if (!function_exists('decryptBlob')) {
+    function decryptBlob($ciphertext, $password = null) {
+        if (!$password) {
+            $password = config('security.hash', null);
+        }
+
+        return \Defuse\Crypto\Crypto::decryptWithPassword($ciphertext, $password);
     }
 }
 
