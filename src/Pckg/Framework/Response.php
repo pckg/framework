@@ -556,6 +556,8 @@ class Response extends Message implements ResponseInterface
             header("Content-Type: image/png");
         } elseif (strpos($filename, '.xlsx')) {
             header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        } elseif (strpos($filename, '.zip')) {
+            header("Content-Type: application/zip");
         } else {
             header("Content-Type: application/octet-stream");
             header("Content-Type: application/download");
