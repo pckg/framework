@@ -495,7 +495,7 @@ class Response extends Message implements ResponseInterface
      *
      * @param $file
      */
-    public function readFile($file)
+    public function readFile($file, callable $then = null)
     {
         /**
          * Set limit.
@@ -512,6 +512,7 @@ class Response extends Message implements ResponseInterface
                 flush();
             }
 
+            $then && $then();
             exit;
         }
 
@@ -519,15 +520,16 @@ class Response extends Message implements ResponseInterface
          * Read whole file and exit.
          */
         echo file_get_contents($file);
+        $then && $then();
         exit;
     }
 
-    public function download($file, $filename)
+    public function download($file, $filename, callable $then = null)
     {
         $this->sendFileContentTypeHeaders($filename);
         $this->sendFileDispositionHeader($filename);
         $this->sendContentLengthHeader($file);
-        $this->readFile($file);
+        $this->readFile($file, $then);
     }
 
     public function printFile($file, $filename)
@@ -554,6 +556,8 @@ class Response extends Message implements ResponseInterface
             header("Content-Type: image/png");
         } elseif (strpos($filename, '.xlsx')) {
             header("Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        } elseif (strpos($filename, '.zip')) {
+            header("Content-Type: application/zip");
         } else {
             header("Content-Type: application/octet-stream");
             header("Content-Type: application/download");

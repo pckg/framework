@@ -125,7 +125,7 @@ class Command extends SymfonyConsoleCommand
 
     public function option($name, $default = null)
     {
-        return $this->input->hasOption($name) ? $this->input->getOption($name) : $default;
+        return $this->input->hasOption($name) ? ($this->input->getOption($name) ?? $default) : $default;
     }
 
     public function output($msg = '', $type = null) // info, comment, question, error
@@ -254,6 +254,42 @@ class Command extends SymfonyConsoleCommand
     public function serializeOption($data)
     {
         return base64_encode(serialize($data));
+    }
+
+    public function onTerminate(callable $callable, $signals = [SIGTERM, SIGHUP, SIGUSR1])
+    {
+        foreach ($signals as $signal) {
+            pcntl_signal($signal, $callable);
+        }
+/*
+        $h = function($signo)
+        {
+            d("signal", $signo);
+            switch ($signo) {
+                case SIGTERM:
+                    // handle shutdown tasks
+                    d('sigterm');
+                    exit;
+                    break;
+                case SIGHUP:
+                    // handle restart tasks
+                    d('sighup');
+                    break;
+                case SIGUSR1:
+                    echo "Caught SIGUSR1...\n";
+                    break;
+                default:
+                    // handle all other signals
+            }
+
+        };
+
+        echo "Installing signal handler...\n";
+
+// setup signal handlers
+        pcntl_signal(SIGTERM, $h);
+        pcntl_signal(SIGHUP,  $h);
+        pcntl_signal(SIGUSR1, $h);*/
     }
 
 }

@@ -527,5 +527,10 @@ class Router
         }
         return $vueRoutes;
     }
+    
+    public function mock(callable $task)
+    {
+        return context()->mock(new Router(config()), $task);
+    }
 
 }

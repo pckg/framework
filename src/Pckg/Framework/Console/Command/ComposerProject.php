@@ -28,15 +28,18 @@ class ComposerProject extends Command
             'pckg/cache',
             'pckg/helpers-js',
             'pckg/helpers-less',
+            'pckg-app/frontend',
+            'pckg-app/frontend-dev',
+            'pckg-app/api',
             'pckg-app/impero',
             'pckg-app/pendo-api',
             'pckg-app/impero-api',
             'pckg-app/mailo-api',
             'pckg-app/center-api',
             'pckg-app/medium-api',
-            'pckg-app/api',
             'commscenter/comms-hub-api',
             'commscenter/comms-php-sdk',
+            'commscenter/pagebuilder',
         ];
 
         $clean = ['nothing to commit, working directory clean', 'nothing to commit, working tree clean'];

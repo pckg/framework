@@ -325,9 +325,15 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this->url;
     }
 
-    function getUrl()
+    function getUrl($stripParams = false)
     {
-        return $this->url;
+        $url = $this->url;
+
+        if ($stripParams) {
+            [$url] = explode('?', $url);
+        }
+
+        return $url;
     }
 
     /**
@@ -552,6 +558,11 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         unset($this->attributes[$name]);
 
         return $this;
+    }
+
+    public function mock(callable $task)
+    {
+        return context()->mock(new Request(), $task);
     }
 
 
