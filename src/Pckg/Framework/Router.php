@@ -497,12 +497,15 @@ class Router
             $firstRoute = $routeArr[0];
             $tags = $firstRoute['tags'] ?? [];
             /**
-             * Skip non-vue routes.
+             * Skip non-vue routes, and non-vue child routes
              */
             if (!in_array('vue:route', $tags)) {
                 continue;
             }
-            if (in_array('vue:route:child', $tags)) {
+            /**
+             * Why skip child routes?
+             */
+            if (false && in_array('vue:route:child', $tags)) {
                 continue;
             }
             /**

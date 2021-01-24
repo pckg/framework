@@ -1238,14 +1238,21 @@ if (!function_exists('vueRoute')) {
                 }
             }
 
+
             if ($isVue) {
                 /**
                  * We will parse Vue routes into the frontend layout.
                  * It is currently hardcoded to print <frontend-app></frontend-app> which prints header, body and others.
                  */
+                if (request()->isAjax()) {
+                    return '<pckg-app data-frontend></pckg-app>';
+                }
                 return view('Pckg/Generic/View/frontend', ['content' => '<pckg-app data-frontend></pckg-app>']);
             }
 
+            if (request()->isAjax()) {
+                return Vue::getLayout();
+            }
             return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
         })->data([
             'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
