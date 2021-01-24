@@ -1212,6 +1212,12 @@ if (!function_exists('route')) {
 }
 
 if (!function_exists('vueRoute')) {
+    /**
+     * @param string $route
+     * @param string|null $component
+     * @param array $tags
+     * @return Router\Route\Route|Router\Route\VueRoute
+     */
     function vueRoute(string $route = '', string $component = null, array $tags = [])
     {
         $defaultTags = [
@@ -1221,12 +1227,12 @@ if (!function_exists('vueRoute')) {
                 : $component,
         ];
 
-        return route($route, function() use ($tags) {
+        return (new Router\Route\VueRoute($route, function() use ($tags) {
             $config = config();
 
             $layout = null;
             $isVue = false;
-            foreach ($tags as $tag) {
+            foreach ($tags as $key => $tag) {
                 if (strpos($tag, 'layout:') === 0) {
                     if (strpos($tag, '-') === false) {
                         $layout = 'Pckg/Generic:' . substr($tag, strlen('layout:'));
@@ -1235,6 +1241,9 @@ if (!function_exists('vueRoute')) {
                         $isVue = true;
                     }
                     break;
+                } elseif ($key === 'layout') {
+                    $layout = $tag;
+                    $isVue = true;
                 }
             }
 
@@ -1254,7 +1263,7 @@ if (!function_exists('vueRoute')) {
                 return Vue::getLayout();
             }
             return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
-        })->data([
+        }))->data([
             'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
             'method' => 'GET',
         ]);

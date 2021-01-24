@@ -420,6 +420,12 @@ class Router
          */
         $component = null;
         foreach ($tags as $k => $v) {
+            if (!is_string($v)) {
+                continue;
+            }
+            if ($k === 'layout') {
+                $component = '<' . $v . '></' . $v . '>';
+            }
             if (strpos($v, 'layout:') === 0) {
                 if ($v === 'layout:frontend') {
                     $component = '<pb-route-layout></pb-route-layout>';
