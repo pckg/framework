@@ -34,4 +34,4 @@ jobs:
         run: cp codeception.sample.travis.yml codeception.yml
 
       - name: Run tests
-        run: composer test
+        run: ls -la #composer test
