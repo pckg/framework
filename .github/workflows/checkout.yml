@@ -28,7 +28,7 @@ jobs:
           key: php-${{ hashFiles('composer.lock') }}
 
       - name: Install Composer dependencies
-        run: composer install --no-dev --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
+        run: composer install --dev --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
 
       - name: Run tests
         run: composer test
