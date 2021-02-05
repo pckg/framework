@@ -107,7 +107,7 @@ if (!function_exists('hasDotted')) {
 if (!function_exists('retry')) {
     function retry(callable $task, int $times = null, callable $onError = null, $interval = null)
     {
-        $retry = new \Pckg\Framework\Helper\Retry($task);
+        $retry = new \Pckg\Framework\Helper\Retry();
 
         if ($times) {
             $retry->times($times);
@@ -121,7 +121,7 @@ if (!function_exists('retry')) {
             $retry->onError($onError);
         }
 
-        return $retry->make();
+        return $retry->make($task);
     }
 }
 

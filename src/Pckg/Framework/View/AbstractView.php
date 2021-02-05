@@ -40,7 +40,7 @@ abstract class AbstractView implements ViewInterface, \JsonSerializable
     {
         if (!is_object($key) && is_array($key)) {
             foreach ($key as $k => $v) {
-                static::addData($k, $v);
+                static::addStaticData($k, $v);
             }
 
             return;

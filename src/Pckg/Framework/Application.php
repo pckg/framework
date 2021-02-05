@@ -5,9 +5,12 @@ namespace Pckg\Framework;
 use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Provider\Helper\Registrator;
 
-class Application
+abstract class Application
 {
+
     use Registrator;
+
+    protected $provider;
 
     public function __construct(Provider $provider)
     {
@@ -39,6 +42,8 @@ class Application
         });
     }
 
+    abstract public function inits();
+
     public function init()
     {
         trigger(Application::class . '.initializing', [$this]);
@@ -54,6 +59,8 @@ class Application
         return $this;
     }
 
+    abstract public function runs();
+
     public function run()
     {
         trigger(Application::class . '.running', [$this]);
@@ -68,4 +75,5 @@ class Application
 
         return $this;
     }
+
 }

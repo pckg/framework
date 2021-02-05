@@ -63,7 +63,7 @@ class Production extends Environment
     public function reportToRollbar(Throwable $exception)
     {
         if (is_subclass_of($exception, NotFound::class)) {
-            error_log('Not found: ' . exception($e));
+            error_log('Not found: ' . exception($exception));
             return;
         }
 
@@ -130,7 +130,6 @@ class Production extends Environment
                                          'message'   => $message,
                                          'code'      => $code,
                                          'exception' => $e,
-                                         'message'   => $e->getMessage(),
                         ]
                     )->autoparse();
 

@@ -194,7 +194,7 @@ class Lazy implements ArrayAccess
 
     public function offsetUnset($offset)
     {
-        return $this->__unset($offset);
+        $this->__unset($offset);
     }
 
     public function __unset($name)

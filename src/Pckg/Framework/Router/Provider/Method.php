@@ -12,6 +12,8 @@ class Method implements RouteProviderInterface
 
     protected $config;
 
+    protected $method;
+
     public function __construct($method, $config)
     {
         $this->method = $method;

@@ -7,7 +7,9 @@ use Pckg\Framework\Response;
 class MockResponse extends Response
 {
 
-    public function stop()
+    protected $redirected = null;
+
+    public function stop($code = null)
     {
         trigger(Response::class . '.responded');
 

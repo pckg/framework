@@ -14,6 +14,8 @@ class Router
 
     protected $resolved = [];
 
+    protected $config;
+
     private $routes = [];
 
     private $cachedInit = [];

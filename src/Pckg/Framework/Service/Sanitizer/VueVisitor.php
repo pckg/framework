@@ -21,4 +21,10 @@ class VueVisitor extends AbstractNodeVisitor
     {
         return new VueNode($cursor->node);
     }
+
+    protected function getDomNodeName(): string
+    {
+        return 'nonode';
+    }
+
 }

@@ -7,9 +7,9 @@ use Pckg\Framework\Helper\Lazy;
 class Get extends Lazy
 {
 
-    function __construct()
+    function __construct($arr = [])
     {
-        parent::__construct($_GET);
+        parent::__construct($_GET ?? $arr);
     }
 
     function __destruct()

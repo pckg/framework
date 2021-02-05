@@ -110,7 +110,8 @@ class Sanitizer
                 ],
                 [
                     'processors' => function (\DOMNode $domNode, TagNodeInterface $tagNode) use ($vueBind) {
-                        //$vueBind($domNode, $tagNode, [':href'], ['content.url', 'content.image', 'content.picture']);
+                        return;
+                        $vueBind($domNode, $tagNode, [':href'], ['content.url', 'content.image', 'content.picture']);
                     },
                 ],
             ];

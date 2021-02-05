@@ -24,7 +24,17 @@
   },
   "require-dev": {
     "maximebf/debugbar": "1.*",
-    "pckg-app/frontend-dev": "dev-master"
+    "pckg-app/frontend-dev": "dev-master",
+    "pckg/queue": "dev-master",
+    "pckg/manager": "dev-master",
+    "pckg/migrator": "dev-master",
+    "pckg/mail": "dev-master",
+    "pckg/translator": "dev-master",
+    "pckg/htmlbuilder": "dev-master",
+    "pckg/auth": "dev-master",
+    "ramsey/uuid": ">=4.1",
+    "nesbot/carbon": "2.*",
+    "defuse/php-encryption": "2.*"
   },
   "autoload": {
     "psr-0": {

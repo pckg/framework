@@ -15,7 +15,7 @@ class Cookie extends Lazy
 
     public function __construct(array $arr = [])
     {
-        parent::__construct($_COOKIE);
+        parent::__construct($_COOKIE ?? $arr);
     }
 
     public function set($name, $value = '', $expiration = self::DURATION_MONTH, $path = '/', $domain = '')

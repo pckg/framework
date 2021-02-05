@@ -11,10 +11,29 @@ use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Job;
 use Pckg\Translator\Service\Translator;
+use ReflectionClass;
 use Symfony\Component\Console\Application as SymfonyConsole;
 
 trait Registrator
 {
+
+    protected $routePrefix = null;
+
+    public function setRoutePrefix($prefix)
+    {
+        $this->routePrefix = $prefix;
+
+        return $this;
+    }
+
+    public function getTranslationPath()
+    {
+        $class = static::class;
+        $reflector = new ReflectionClass($class);
+        $file = $reflector->getFileName();
+
+        return realpath(substr($file, 0, strrpos($file, path('ds'))) . path('ds') . '..' . path('ds') . 'lang');
+    }
 
     /**
      * @param $routes
@@ -225,7 +244,7 @@ trait Registrator
 
     public function registerTranslations()
     {
-        if (!$this->translations) {
+        if (!isset($this->translations)) {
             return;
         }
 

@@ -1,0 +1,9 @@
+parameters:
+	paths:
+		- src
+	scanFiles:
+		- src/bootstrap.php
+		- src/console.php
+		- src/development.php
+		- src/production.php
+		- src/queue.php

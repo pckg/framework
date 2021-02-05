@@ -19,7 +19,7 @@ class Session
     {
         $driver = config('pckg.session.driver', FileDriver::class);
 
-        $this->driver = new $driver();
+        $this->driver = new $driver($arr);
     }
 
     public function get($key, $default = null)

@@ -27,7 +27,7 @@ class Message extends Lazy implements MessageInterface
     /**
      * @var Lazy|Cookie
      */
-    protected $post, $get, $server, $session, $cookie, $files;
+    protected $post, $get, $server, $session, $cookie, $files, $request;
 
     /**
      * @var array
@@ -39,7 +39,7 @@ class Message extends Lazy implements MessageInterface
      */
     protected $body;
 
-    function __construct($input = [])
+    function __construct()
     {
         $this->post = new Lazy([]);
         $this->get = new Lazy([]);
@@ -157,7 +157,7 @@ class Message extends Lazy implements MessageInterface
         })->all();
 
         $headers[$name] = $value;
-        $this->header = $headers;
+        $this->headers = $headers;
 
         return $this;
     }
@@ -169,12 +169,12 @@ class Message extends Lazy implements MessageInterface
      */
     public function withAddedHeader($name, $value)
     {
-        if (!array_key_exists($key, $this->headers)) {
-            $this->headers[$key] = [];
+        if (!array_key_exists($name, $this->headers)) {
+            $this->headers[$name] = [];
         }
 
-        $this->headers[$key][] = $value;
-        return $this->headers[$key];
+        $this->headers[$name][] = $value;
+        return $this->headers[$name];
     }
 
     /**
