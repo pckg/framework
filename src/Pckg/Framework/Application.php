@@ -5,7 +5,7 @@ namespace Pckg\Framework;
 use Pckg\Framework\Application\ApplicationInterface;
 use Pckg\Framework\Provider\Helper\Registrator;
 
-abstract class Application
+class Application
 {
     use Registrator;
 
@@ -41,7 +41,10 @@ abstract class Application
         });
     }
 
-    abstract public function inits();
+    public function inits()
+    {
+        return [];
+    }
 
     public function init()
     {
@@ -58,7 +61,10 @@ abstract class Application
         return $this;
     }
 
-    abstract public function runs();
+    public function runs()
+    {
+        return [];
+    }
 
     public function run()
     {
