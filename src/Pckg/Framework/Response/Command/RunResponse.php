@@ -65,5 +65,4 @@ class RunResponse extends AbstractChainOfReponsibility
 
         return $next();
     }
-
 }

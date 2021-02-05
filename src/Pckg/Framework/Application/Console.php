@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Application;
+<?php
+
+namespace Pckg\Framework\Application;
 
 use Pckg\Framework\Application;
 use Pckg\Framework\Application\Command\InitDatabase;
@@ -29,5 +31,4 @@ class Console extends Application
             RunCommand::class,
         ];
     }
-
 }

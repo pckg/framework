@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Request\Data;
+<?php
+
+namespace Pckg\Framework\Request\Data;
 
 use Pckg\Framework\Request\Data\SessionDriver\Db;
 use Pckg\Framework\Request\Data\SessionDriver\FileDriver;
@@ -17,7 +19,7 @@ class Session
     {
         $driver = config('pckg.session.driver', FileDriver::class);
 
-        $this->driver = new $driver;
+        $this->driver = new $driver();
     }
 
     public function get($key, $default = null)
@@ -43,5 +45,4 @@ class Session
     {
         // TODO: Implement __destruct() method.
     }
-
 }

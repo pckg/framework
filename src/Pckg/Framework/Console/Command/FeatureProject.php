@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,5 +26,4 @@ class FeatureProject extends Command
              ->setDescription('Create new feature branch (execute this before you start to develop new feature)')
              ->addArgument('branch', InputArgument::REQUIRED);
     }
-
 }

@@ -27,5 +27,4 @@ class RunRequest extends AbstractChainOfReponsibility
 
         return $next();
     }
-
 }

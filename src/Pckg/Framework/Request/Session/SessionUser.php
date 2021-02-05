@@ -55,5 +55,4 @@ class SessionUser
 
         return $this;
     }
-
 }

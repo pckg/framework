@@ -26,7 +26,5 @@ class Method implements RouteProviderInterface
 
     public function getMatch()
     {
-
     }
-
 }

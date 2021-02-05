@@ -20,14 +20,13 @@ trait Exceptions
         if (!$class) {
             $class = \Pckg\Framework\Exception::class;
         }
-        
+
         if ($code) {
             $this->code($code);
         }
 
         if (is_string($class)) {
             throw new $class($message, $code);
-
         }
 
         if ($class instanceof Throwable) {
@@ -66,5 +65,4 @@ trait Exceptions
     {
         $this->exception($message, 503, $e);
     }
-
 }

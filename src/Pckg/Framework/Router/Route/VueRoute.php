@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Router\Route;
+<?php
+
+namespace Pckg\Framework\Router\Route;
 
 class VueRoute extends Route
 {
@@ -38,5 +40,4 @@ class VueRoute extends Route
 
         return [$url, $mergedData, $name];
     }
-
 }

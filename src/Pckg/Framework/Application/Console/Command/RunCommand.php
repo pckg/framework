@@ -76,10 +76,8 @@ class RunCommand extends AbstractChainOfReponsibility
              */
             echo "\n";
         } catch (Throwable $e) {
-
         }
 
         return $next();
     }
-
 }

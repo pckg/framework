@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 
@@ -81,9 +83,10 @@ class ComposerProject extends Command
                     $this->output('Packet is changed.');
                     $this->exec($statusCommand);
                     $this->exec($diffCommand);
-                    if ($message = $this->askQuestion(
-                        'Enter commit message (or leave empty if you want to skip commit)'
-                    )
+                    if (
+                        $message = $this->askQuestion(
+                            'Enter commit message (or leave empty if you want to skip commit)'
+                        )
                     ) {
                         $this->exec($pullCommand);
                         $this->output('Committing changes.');
@@ -127,5 +130,4 @@ class ComposerProject extends Command
                  'Check changes for pckg dependencies'
              );
     }
-
 }

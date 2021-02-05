@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Request;
+<?php
+
+namespace Pckg\Framework\Request;
 
 use Psr\Http\Message\UriInterface;
 
@@ -224,5 +226,4 @@ class Uri implements UriInterface
             . $this->host . prependIf(':', $this->port) . $this->path
             . prependIf('?' . $this->query) . prependIf('#', $this->fragment);
     }
-
 }

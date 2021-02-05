@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Middleware;
+<?php
+
+namespace Pckg\Framework\Middleware;
 
 use Throwable;
 
@@ -46,8 +48,6 @@ class ShowNiceErrorPage
                 'message' => 'Error',
             ], $data);
         } catch (Throwable $e) {
-
         }
     }
-
 }

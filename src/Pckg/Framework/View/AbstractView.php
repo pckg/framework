@@ -39,7 +39,7 @@ abstract class AbstractView implements ViewInterface, \JsonSerializable
     public static function addStaticData($key, $val)
     {
         if (!is_object($key) && is_array($key)) {
-            foreach ($key AS $k => $v) {
+            foreach ($key as $k => $v) {
                 static::addData($k, $v);
             }
 
@@ -56,7 +56,7 @@ abstract class AbstractView implements ViewInterface, \JsonSerializable
     public function addData($key, $val = null)
     {
         if (!is_object($key) && is_array($key)) {
-            foreach ($key AS $k => $v) {
+            foreach ($key as $k => $v) {
                 $this->addData($k, $v);
             }
 
@@ -149,5 +149,4 @@ abstract class AbstractView implements ViewInterface, \JsonSerializable
 
         return $html;
     }
-
 }

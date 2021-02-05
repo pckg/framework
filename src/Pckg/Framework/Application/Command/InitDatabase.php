@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Application\Command;
+<?php
+
+namespace Pckg\Framework\Application\Command;
 
 use Pckg\Database\Repository\RepositoryFactory;
 
@@ -15,12 +17,11 @@ class InitDatabase
                 continue;
             }
 
-            measure('Connecting to database ' . $name, function() use ($config, $name) {
+            measure('Connecting to database ' . $name, function () use ($config, $name) {
                 RepositoryFactory::createRepositoryConnection($config, $name);
             });
         }
 
         return $next();
     }
-
 }

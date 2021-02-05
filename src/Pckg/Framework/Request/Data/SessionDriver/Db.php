@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Request\Data\SessionDriver;
+<?php
+
+namespace Pckg\Framework\Request\Data\SessionDriver;
 
 use Pckg\Framework\Request\Session\Record\Session;
 
@@ -44,5 +46,4 @@ class Db extends FileDriver
     {
         return true;
     }
-
 }

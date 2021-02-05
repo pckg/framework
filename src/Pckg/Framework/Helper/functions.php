@@ -28,6 +28,7 @@ use Pckg\Translator\Service\Translator;
 /**
  * @return Environment
  */
+
 if (!function_exists('env')) {
     function env()
     {
@@ -41,7 +42,7 @@ if (!function_exists('env')) {
 if (!function_exists('dotenv')) {
     function dotenv($key, $default = null)
     {
-        $dotenv = context()->getOrCreate(\josegonzalez\Dotenv\Loader::class, [], null, function() {
+        $dotenv = context()->getOrCreate(\josegonzalez\Dotenv\Loader::class, [], null, function () {
             $file = BASE_PATH . '.env';
             if (!file_exists($file)) {
                 return;
@@ -223,7 +224,8 @@ if (!function_exists('auth')) {
 }
 
 if (!function_exists('uuid4')) {
-    function uuid4($toString = true) {
+    function uuid4($toString = true)
+    {
         $uuid = \Ramsey\Uuid\Uuid::uuid4();
 
         if ($toString) {
@@ -573,7 +575,7 @@ if (!function_exists('__i18n')) {
             $translator = context()->getOrCreate(
                 Translator::class,
                 [],
-                function(Translator $translator) {
+                function (Translator $translator) {
                     $translator->boot();
                 }
             );
@@ -610,8 +612,9 @@ if (!function_exists('toCamel')) {
     {
         $text = str_split($text, 1);
 
-        foreach ($text AS $index => $char) {
-            if (($char == "_" && isset($text[$index + 1]))
+        foreach ($text as $index => $char) {
+            if (
+                ($char == "_" && isset($text[$index + 1]))
                 || ($char == "\\" && isset($text[$index + 1]))
             ) {
                 $text[$index + 1] = mb_strtoupper($text[$index + 1]);
@@ -653,9 +656,10 @@ if (!function_exists('view')) {
     function view($view = null, $data = [], $assets = [])
     {
         $view = new Twig($view, $data);
-        if ($parent = realpath(
-            dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . 'View' . path('ds')
-        )
+        if (
+            $parent = realpath(
+                dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . 'View' . path('ds')
+            )
         ) {
             if (is_dir($parent)) {
                 $view->addDir($parent, Twig::PRIORITY_LAST);
@@ -1213,7 +1217,7 @@ if (!function_exists('route')) {
 if (!function_exists('vueRoute')) {
     function vueRoute($route, $component, array $tags = [], array $children = [])
     {
-        return (new Router\Route\VueRoute($route, function() use ($tags) {
+        return (new Router\Route\VueRoute($route, function () use ($tags) {
             $config = config();
 
             $layout = null;
@@ -1237,7 +1241,7 @@ if (!function_exists('vueRoute')) {
                              ? '<' . $component . '></' . $component . '>'
                              : $component,
                      ],
-            'method' => 'GET',
+                     'method' => 'GET',
                  ])->children($children);
     }
 }
@@ -1272,11 +1276,11 @@ if (!function_exists('number')) {
         $localeManager = resolve(Locale::class);
 
         return number_format(
-                $price,
-                firstWithZero(config('pckg.locale.decimals'), 2),
-                $localeManager->getDecimalPoint(),
-                $localeManager->getThousandSeparator()
-            );
+            $price,
+            firstWithZero(config('pckg.locale.decimals'), 2),
+            $localeManager->getDecimalPoint(),
+            $localeManager->getThousandSeparator()
+        );
     }
 }
 
@@ -1556,7 +1560,8 @@ if (!function_exists('numequals')) {
 }
 
 if (!function_exists('encryptBlob')) {
-    function encryptBlob($plaintext, $password = null) {
+    function encryptBlob($plaintext, $password = null)
+    {
         if (!$password) {
             $password = config('security.hash', null);
         }
@@ -1566,7 +1571,8 @@ if (!function_exists('encryptBlob')) {
 }
 
 if (!function_exists('decryptBlob')) {
-    function decryptBlob($ciphertext, $password = null) {
+    function decryptBlob($ciphertext, $password = null)
+    {
         if (!$password) {
             $password = config('security.hash', null);
         }
@@ -1576,13 +1582,15 @@ if (!function_exists('decryptBlob')) {
 }
 
 if (!function_exists('appendIf')) {
-    function appendIf($is, $append) {
+    function appendIf($is, $append)
+    {
         return $is ? $is . $append : '';
     }
 }
 
 if (!function_exists('prependIf')) {
-    function prependIf($prepend, $is) {
+    function prependIf($prepend, $is)
+    {
         return $is ? $prepend . $is : '';
     }
 }

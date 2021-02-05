@@ -25,8 +25,8 @@ class Php implements RouteProviderInterface
             : null;
 
         if (isset($router['providers'])) {
-            foreach ($router['providers'] AS $providerType => $arrProviders) {
-                foreach ($arrProviders AS $provider => $providerConfig) {
+            foreach ($router['providers'] as $providerType => $arrProviders) {
+                foreach ($arrProviders as $provider => $providerConfig) {
                     if (isset($providerConfig['prefix'])) {
                         $providerConfig['prefix'] = $prefix . (isset($providerConfig['prefix'])
                                 ? $providerConfig['prefix']
@@ -50,5 +50,4 @@ class Php implements RouteProviderInterface
     {
         // TODO: Implement getMatch() method.
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Service\Sanitizer;
+<?php
+
+namespace Pckg\Framework\Service\Sanitizer;
 
 use HtmlSanitizer\Extension\Basic\Node\DelNode;
 use HtmlSanitizer\Model\Cursor;
@@ -8,7 +10,6 @@ use HtmlSanitizer\Visitor\HasChildrenNodeVisitorTrait;
 
 class VueVisitor extends AbstractNodeVisitor
 {
-
     use HasChildrenNodeVisitorTrait;
 
     public function supports(\DOMNode $domNode, Cursor $cursor): bool
@@ -20,5 +21,4 @@ class VueVisitor extends AbstractNodeVisitor
     {
         return new VueNode($cursor->node);
     }
-
 }

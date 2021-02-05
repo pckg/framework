@@ -23,7 +23,7 @@ trait Registrator
      */
     public function registerRoutes($routes)
     {
-        foreach ($routes AS $providerType => $arrProviders) {
+        foreach ($routes as $providerType => $arrProviders) {
             if (is_object($arrProviders)) {
                 /**
                  * $arrProviders is instance of Group or Route.
@@ -36,7 +36,7 @@ trait Registrator
                 continue;
             }
 
-            foreach ($arrProviders AS $provider => $providerConfig) {
+            foreach ($arrProviders as $provider => $providerConfig) {
                 if (isset($providerConfig['prefix'])) {
                     $providerConfig['prefix'] = '';
                 }
@@ -129,7 +129,7 @@ trait Registrator
             $appObject->register();
 
             $stack->push(
-                function() use ($app) {
+                function () use ($app) {
                     config()->parseDir(path('apps') . strtolower($app) . path('ds'));
                 }
             );
@@ -153,7 +153,7 @@ trait Registrator
 
         $consoleApplication = context()->get(SymfonyConsole::class);
         foreach ($consoles as $console) {
-            $consoleApplication->add(new $console);
+            $consoleApplication->add(new $console());
         }
     }
 
@@ -239,5 +239,4 @@ trait Registrator
             context()->whenRequested($service, $initiator);
         }
     }
-
 }

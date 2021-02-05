@@ -31,7 +31,7 @@ class NamespaceProvider implements RouteProviderInterface
 
         $arrMethods = get_class_methods($this->namespace . '\Controller\\' . end($explNamespace));
 
-        foreach ($arrMethods AS $method) {
+        foreach ($arrMethods as $method) {
             if (substr($method, -6) == 'Action') {
                 $action = substr($method, 0, -6);
                 $urlProvider = new Url(
@@ -58,7 +58,5 @@ class NamespaceProvider implements RouteProviderInterface
 
     public function getMatch()
     {
-
     }
-
 }

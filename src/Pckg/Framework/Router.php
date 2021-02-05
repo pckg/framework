@@ -50,11 +50,14 @@ class Router
     public function getCache()
     {
         if (!$this->cache) {
-            $this->cache = new Cache('framework/router_' . str_replace([
+            $this->cache = new Cache('framework/router_' . str_replace(
+                [
                                                                            '\\',
                                                                            '/',
-                                                                       ], '_',
-                                         (get_class(app()) . '_' . get_class(env()))) . '.cache');
+                                                                       ],
+                '_',
+                (get_class(app()) . '_' . get_class(env()))
+            ) . '.cache');
         }
 
         return $this->cache;
@@ -85,8 +88,8 @@ class Router
         $router = $this->config->get('router');
 
         if (isset($router['providers'])) {
-            foreach ($router['providers'] AS $providerType => $arrProviders) {
-                foreach ($arrProviders AS $provider => $providerConfig) {
+            foreach ($router['providers'] as $providerType => $arrProviders) {
+                foreach ($arrProviders as $provider => $providerConfig) {
                     $routeProvider = Reflect::create('Pckg\\Framework\\Router\\Provider\\' . ucfirst($providerType), [
                                                                                                                        $providerType => $provider,
                                                                                                                        'config'      => $providerConfig,
@@ -159,16 +162,16 @@ class Router
 
     public function getRouteByName($name)
     {
-        foreach ($this->routes AS $routeArr) {
-            foreach ($routeArr AS $route) {
+        foreach ($this->routes as $routeArr) {
+            foreach ($routeArr as $route) {
                 if ($route["name"] == $name) {
                     return $route;
                 }
             }
         }
 
-        foreach ($this->routes AS $routeArr) {
-            foreach ($routeArr AS $route) {
+        foreach ($this->routes as $routeArr) {
+            foreach ($routeArr as $route) {
                 if (strpos($route["name"], $name . ':') === 0) {
                     return $route;
                 }
@@ -181,8 +184,8 @@ class Router
     public function getRoutesByName($name)
     {
         $routes = [];
-        foreach ($this->routes AS $routeArr) {
-            foreach ($routeArr AS $route) {
+        foreach ($this->routes as $routeArr) {
+            foreach ($routeArr as $route) {
                 if ($route["name"] == $name || strpos($route['name'], $name . ':') === 0) {
                     $routes[] = $route;
                     break;
@@ -196,8 +199,8 @@ class Router
     public function removeRouteByName($routeName)
     {
 
-        foreach ($this->routes AS $i => $routeArr) {
-            foreach ($routeArr AS $j => $route) {
+        foreach ($this->routes as $i => $routeArr) {
+            foreach ($routeArr as $j => $route) {
                 /**
                  * Remove non-translated route.
                  */
@@ -239,10 +242,12 @@ class Router
             $routeName = $this->data["name"];
         }
 
-        foreach ($this->routes AS $routeArr) {
-            foreach ($routeArr AS $route) {
-                if ($route['name'] != $routeName &&
-                    $route['name'] != $routeName . ':' . config('pckg.locale.language')) {
+        foreach ($this->routes as $routeArr) {
+            foreach ($routeArr as $route) {
+                if (
+                    $route['name'] != $routeName &&
+                    $route['name'] != $routeName . ':' . config('pckg.locale.language')
+                ) {
                     continue;
                 }
 
@@ -251,7 +256,7 @@ class Router
                  * $arguments = ['packet' => $packet];
                  * $args = ['[packet]' => $packet];
                  */
-                foreach ($arguments AS $key => $val) {
+                foreach ($arguments as $key => $val) {
                     $args["[" . $key . "]"] = $val;
                 }
 
@@ -290,7 +295,7 @@ class Router
                             }
                         }
                     }
-                    $filteredArgs = (new Collection($args))->reduce(function($item) {
+                    $filteredArgs = (new Collection($args))->reduce(function ($item) {
                         return !is_object($item);
                     }, true)->all();
                     $route['url'] = str_replace(array_keys($filteredArgs), $filteredArgs, $route['url']);
@@ -483,10 +488,9 @@ class Router
         }
         return $vueRoutes;
     }
-    
+
     public function mock(callable $task)
     {
         return context()->mock(new Router(config()), $task);
     }
-
 }

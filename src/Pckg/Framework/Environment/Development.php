@@ -43,7 +43,7 @@ class Development extends Production
 
     public function registerExceptionHandler()
     {
-        $whoops = new Run;
+        $whoops = new Run();
         $whoops->pushHandler(new PrettyPageHandler());
         $whoops->register();
     }
@@ -53,7 +53,7 @@ class Development extends Production
         return [];
 
         return [
-            function() {
+            function () {
                 $renderer = $this->debugBar->getJavascriptRenderer();
 
                 $renderer->setOpenHandlerUrl('/open.php');
@@ -63,5 +63,4 @@ class Development extends Production
             },
         ];
     }
-
 }

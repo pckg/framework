@@ -353,8 +353,12 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         /**
          * Return true for bots madched by user agent.
          */
-        if (preg_match('/apple|baidu|bingbot|facebookexternalhit|googlebot|-google|ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo|teoma|contaxe|yandex|libwww-perl|facebookexternalhit/i',
-                       $_SERVER['HTTP_USER_AGENT'])) {
+        if (
+            preg_match(
+                '/apple|baidu|bingbot|facebookexternalhit|googlebot|-google|ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo|teoma|contaxe|yandex|libwww-perl|facebookexternalhit/i',
+                $_SERVER['HTTP_USER_AGENT']
+            )
+        ) {
             return true;
         }
 
@@ -411,7 +415,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     public function withMethod($method)
     {
         $this->server->set('REQUEST_METHOD', $method);
-        
+
         return $this;
     }
 
@@ -564,6 +568,4 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     {
         return context()->mock(new Request(), $task);
     }
-
-
 }

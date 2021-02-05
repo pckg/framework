@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Exception;
+<?php
+
+namespace Pckg\Framework\Exception;
 
 use Pckg\Framework\Exception;
 

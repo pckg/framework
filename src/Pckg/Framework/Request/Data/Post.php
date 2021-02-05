@@ -16,5 +16,4 @@ class Post extends Lazy
     {
         //$_POST = $this->data;
     }
-
 }

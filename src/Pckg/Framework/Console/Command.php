@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console;
+<?php
+
+namespace Pckg\Framework\Console;
 
 use Pckg\Concept\Reflect;
 use Symfony\Component\Console\Application;
@@ -21,12 +23,10 @@ class Command extends SymfonyConsoleCommand
      * @var InputInterface
      */
     protected $input;
-
-    /**
+/**
      * @var OutputInterface
      */
     protected $output;
-
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->input = $input;
@@ -34,8 +34,8 @@ class Command extends SymfonyConsoleCommand
     }
 
 
-    protected function prepareForExecution() {
-
+    protected function prepareForExecution()
+    {
     }
 
     /**
@@ -49,19 +49,17 @@ class Command extends SymfonyConsoleCommand
          * Create symfony application.
          */
         $application = new Application();
-
-        /**
+/**
          * Add current command.
          */
         $application->add($this);
         $application->setAutoExit(false);
-
         array_unshift($data, $this->getName());
         $output = isConsole() ? new ConsoleOutput() : new BufferedOutput();
         $ok = $application->run(
-            new ArrayInput($data), $output
+            new ArrayInput($data),
+            $output
         );
-
         if ($ok !== 0) {
             if ($output instanceof BufferedOutput) {
                 error_log($output->fetch());
@@ -70,18 +68,15 @@ class Command extends SymfonyConsoleCommand
         }
 
         return $ok == 0;
-
-        /**
+/**
          * Prepare args.
          */
         $args = escapeshellargs($data);
         array_unshift($args, $this->getName());
-
-        /**
+/**
          * Run command.
          */
         $application->run(new StringInput(implode(' ', $args)), new NullOutput());
-
         return $this;
     }
 
@@ -128,10 +123,9 @@ class Command extends SymfonyConsoleCommand
         return $this->input->hasOption($name) ? ($this->input->getOption($name) ?? $default) : $default;
     }
 
-    public function output($msg = '', $type = null) // info, comment, question, error
+    public function output($msg = '', $type = null)
     {
         $this->output->write(($type ? '<' . $type . '>' : '') . $msg . ($type ? '</' . $type . '>' : '') . "\n");
-
         return $this;
     }
 
@@ -148,7 +142,6 @@ class Command extends SymfonyConsoleCommand
     public function askQuestion($question, $default = null, $attempts = null, $validator = null)
     {
         $question = new Question('<question>' . $question . '</question>', $default);
-
         if ($attempts) {
             $question->setMaxAttempts($attempts);
         }
@@ -162,12 +155,11 @@ class Command extends SymfonyConsoleCommand
 
     public function askConfirmation($question, $default = true, $trueAnswerRegex = '/^y/i')
     {
-        return $this->ask(
-            new ConfirmationQuestion(
-                '<question>' . $question . '</question>', $default,
-                $trueAnswerRegex
-            )
-        );
+        return $this->ask(new ConfirmationQuestion(
+            '<question>' . $question . '</question>',
+            $default,
+            $trueAnswerRegex
+        ));
     }
 
     public function askChoice($question, array $choices, $default = null)
@@ -189,7 +181,6 @@ class Command extends SymfonyConsoleCommand
 
             $output = null;
             exec(($cd ? 'cd ' . (is_bool($cd) ? path('root') : $cd) . ' && ' : '') . $exec, $output);
-
             if ($printOutput) {
                 $this->output(implode("\n", $output));
             } else {
@@ -208,7 +199,6 @@ class Command extends SymfonyConsoleCommand
     public function decodeOption($name, $assoc = false)
     {
         $option = $this->option($name);
-
         return json_decode($option, $assoc);
     }
 
@@ -224,8 +214,7 @@ class Command extends SymfonyConsoleCommand
          * JSON decode option
          */
         $decoded = $this->decodeOption($option, true);
-
-        /**
+/**
          * Build new array.
          */
         $collected = [];
@@ -247,7 +236,6 @@ class Command extends SymfonyConsoleCommand
     public function deserializeOption($name)
     {
         $option = $this->option($name);
-
         return $user = unserialize(base64_decode($option));
     }
 
@@ -291,5 +279,4 @@ class Command extends SymfonyConsoleCommand
         pcntl_signal(SIGHUP,  $h);
         pcntl_signal(SIGUSR1, $h);*/
     }
-
 }

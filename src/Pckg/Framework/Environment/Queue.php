@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Environment;
+<?php
+
+namespace Pckg\Framework\Environment;
 
 use Pckg\Framework\Application;
 use Pckg\Framework\Environment;
@@ -24,7 +26,7 @@ class Queue extends Environment
 
     public function registerExceptionHandler()
     {
-        $whoops = new Run;
+        $whoops = new Run();
         $whoops->pushHandler(new PlainTextHandler());
         $whoops->register();
     }
@@ -50,5 +52,4 @@ class Queue extends Environment
 
         return $application;
     }
-
 }

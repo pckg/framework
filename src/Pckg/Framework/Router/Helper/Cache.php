@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Router\Helper;
+<?php
+
+namespace Pckg\Framework\Router\Helper;
 
 use Pckg\Cache\Cache as PckgCache;
 
@@ -13,5 +15,4 @@ class Cache extends PckgCache
             (get_class(app()) . '_' . get_class(env()))
         ) . '.cache';
     }
-
 }

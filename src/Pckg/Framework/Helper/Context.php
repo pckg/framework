@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Helper;
+<?php
+
+namespace Pckg\Framework\Helper;
 
 use Exception;
 use Pckg\Concept\Context as ConceptContext;
@@ -15,7 +17,6 @@ use Symfony\Component\Console\Application as SymfonyConsole;
 
 class Context extends ConceptContext
 {
-
     use Registrator;
 
     public function boot($environment, $run = true, $app = null)
@@ -77,5 +78,4 @@ class Context extends ConceptContext
 
         return $instance;
     }
-
 }

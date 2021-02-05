@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Test;
+<?php
+
+namespace Pckg\Framework\Test;
 
 use Codeception\Configuration;
 use Codeception\Module;
@@ -123,7 +125,7 @@ class Helper extends Module
         $CI = $this;
         $this->queryPreparedListener = dispatcher()->listen(
             Query::class . '.prepared' . $type,
-            function($sql, $binds, $repo = null) use ($CI, $sort) {
+            function ($sql, $binds, $repo = null) use ($CI, $sort) {
                 if ($sort) {
                     sort($binds);
                 }
@@ -156,5 +158,4 @@ class Helper extends Module
             dispatcher()->ignore(Query::class . '.prepared' . $type, $this->queryPreparedListener);
         }
     }
-
 }

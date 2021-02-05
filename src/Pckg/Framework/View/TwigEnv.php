@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\View;
+<?php
+
+namespace Pckg\Framework\View;
 
 use Twig_Environment;
 

@@ -1,7 +1,9 @@
-<?php namespace Pckg\Framework\Request\Data\SessionDriver;
+<?php
+
+namespace Pckg\Framework\Request\Data\SessionDriver;
 
 use SessionHandler;
-use \Exception;
+use Exception;
 
 class FileDriver extends SessionHandler
 {
@@ -26,12 +28,14 @@ class FileDriver extends SessionHandler
         /**
          * Set session handlers.
          */
-        session_set_save_handler([$this, 'open'],
+        session_set_save_handler(
+            [$this, 'open'],
             [$this, 'close'],
             [$this, 'read'],
             [$this, 'write'],
             [$this, 'destroy'],
-            [$this, 'gc']);
+            [$this, 'gc']
+        );
         register_shutdown_function('session_write_close');
 
         /**
@@ -147,5 +151,4 @@ class FileDriver extends SessionHandler
 
         return $PHPSESSIDSECURE;
     }
-
 }

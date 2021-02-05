@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Middleware;
+<?php
+
+namespace Pckg\Framework\Middleware;
 
 class DropRequests
 {
@@ -22,5 +24,4 @@ class DropRequests
             }
         }
     }
-
 }

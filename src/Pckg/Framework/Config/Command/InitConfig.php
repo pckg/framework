@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Config\Command;
+<?php
+
+namespace Pckg\Framework\Config\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Config;
@@ -22,5 +24,4 @@ class InitConfig extends AbstractChainOfReponsibility
 
         return $next();
     }
-
 }

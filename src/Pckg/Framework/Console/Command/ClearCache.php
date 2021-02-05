@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -13,7 +15,6 @@ class ClearCache extends Command
     public function handle()
     {
         $path = path('cache') . 'framework' . path('ds');
-
         if (!$this->option('skip-database')) {
             $this->unlink($path, 'database');
         }
@@ -40,8 +41,7 @@ class ClearCache extends Command
     {
         $this->setName('cache:clear')
              ->setDescription('Clear cache')
-             ->addOptions(
-                 [
+             ->addOptions([
                      'skip-database' => 'Skip database cache clear',
                      'skip-defaults' => 'Skip defaults cache clear',
                      'skip-router'   => 'Skip router cache clear',
@@ -49,9 +49,6 @@ class ClearCache extends Command
                      'skip-css'      => 'Skip CSS cache clear',
                      'skip-js'       => 'Skip JS cache clear',
                      'skip-img'      => 'Skip IMG cache clear',
-                 ],
-                 InputArgument::OPTIONAL
-             );
+                 ], InputArgument::OPTIONAL);
     }
-
 }

@@ -17,7 +17,4 @@ class Server extends Lazy /*extends Message implements ServerRequestInterface*/
     public function __destruct()
     {
     }
-    
-    
-
 }

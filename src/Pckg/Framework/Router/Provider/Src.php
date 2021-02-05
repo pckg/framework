@@ -26,21 +26,23 @@ class Src implements RouteProviderInterface
     public function init()
     {
         //startMeasure('Src RouterProvider: ' . $this->config['src']);
-        foreach ([
+        foreach (
+            [
                      path('app_src') . $this->config['src'] . path('ds'),
                      path('root') . $this->config['src'] . path('ds'),
-                 ] AS $dir) {
-
+                 ] as $dir
+        ) {
             if (is_dir($dir)) {
                 context()->get(Config::class)->parseDir($dir);
             }
         }
 
-        foreach ([
+        foreach (
+            [
                      path('app_src') . $this->config['src'] . path('ds') . 'Config/router.php',
                      path('root') . $this->config['src'] . path('ds') . 'Config/router.php',
-                 ] AS $file) {
-
+                 ] as $file
+        ) {
             if (!is_file($file)) {
                 continue;
             }
@@ -69,5 +71,4 @@ class Src implements RouteProviderInterface
     {
         // TODO: Implement getMatch() method.
     }
-
 }

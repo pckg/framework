@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Request\Session\Command;
+<?php
+
+namespace Pckg\Framework\Request\Session\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Request\Data\Flash;
@@ -14,5 +16,4 @@ class InitSession extends AbstractChainOfReponsibility
 
         return $next();
     }
-
 }

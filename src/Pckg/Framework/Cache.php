@@ -64,5 +64,4 @@ class Cache
     {
         return $this->cache;
     }
-
 }

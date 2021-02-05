@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Router\Command;
+<?php
+
+namespace Pckg\Framework\Router\Command;
 
 use Exception;
 use Pckg\Framework\Router;
@@ -7,11 +9,8 @@ class ResolveRoute
 {
 
     protected $router;
-
     protected $url;
-
     protected $domain;
-
     public function __construct(Router $router, $url, $domain = null)
     {
         $this->router = $router;
@@ -23,30 +22,28 @@ class ResolveRoute
     {
         $url = $this->url;
         $routes = $this->router->getRoutes();
-
-        // exact match
+// exact match
         $found = false;
         $match = false;
 
-        foreach ($routes AS $routeArr) {
-            foreach ($routeArr AS $route) {
-                if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[")
+        foreach ($routes as $routeArr) {
+            foreach ($routeArr as $route) {
+                if (
+                    ($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[")
                         || strpos($url, "]"))
                 ) {
-                    // validate method
-                    if (isset($route['method']) && !empty($route['method']) && !in_array(
-                            strtoupper($_SERVER['REQUEST_METHOD']),
-                            explode("|", strtoupper($route['method']))
-                        )
+        // validate method
+                    if (
+                        isset($route['method']) && !empty($route['method']) && !in_array(strtoupper($_SERVER['REQUEST_METHOD']), explode("|", strtoupper($route['method'])))
                     ) {
-                        /**
-                         * Check next resolved route.
-                         */
-                        continue;
+                /**
+                                         * Check next resolved route.
+                                         */
+                            continue;
                     }
 
                     /**
-                     * @deprecated 
+                     * @deprecated
                      */
                     if (isset($route['secure']) && is_only_callable($route['secure']) && !$route['secure']()) {
                         break;
@@ -71,21 +68,17 @@ class ResolveRoute
 
         if (!$found) {
             $arrUrl = explode("/", substr($url, 1));
-            foreach ($routes AS $routeArr) {
-                foreach ($routeArr AS $conf) {
-
+            foreach ($routes as $routeArr) {
+                foreach ($routeArr as $conf) {
                     $arrRoutes = explode("/", substr($conf["url"], 1));
-
-                    // check only urls longer than routes
+        // check only urls longer than routes
                     if (count($arrRoutes) > count($arrUrl)) {
                         continue;
                     }
 
                     // validate method
-                    if (isset($conf['method']) && !empty($conf['method']) && !in_array(
-                            strtolower($_SERVER['REQUEST_METHOD']),
-                            explode("|", strtolower($conf['method']))
-                        )
+                    if (
+                        isset($conf['method']) && !empty($conf['method']) && !in_array(strtolower($_SERVER['REQUEST_METHOD']), explode("|", strtolower($conf['method'])))
                     ) {
                         continue;
                     }
@@ -100,24 +93,23 @@ class ResolveRoute
                     for ($i = 0; $i < count($arrUrl); $i++) {
                         if (!isset($arrRoutes[$i])) {
                             if ($arrRoutes[$i - 1] == "*") {
-                                // ok
+        // ok
                                 break;
                             } else {
                                 $error = true;
                                 break;
                             }
                         } else if ($arrRoutes[$i] == $arrUrl[$i]) {
-                            // ok
+                        // ok
                             continue;
                         } else if (substr($arrRoutes[$i], 0, 1) == "[" && substr($arrRoutes[$i], -1) == "]") {
                             $var = substr($arrRoutes[$i], 1, -1);
-
-                            // validate url parts
+                        // validate url parts
                             if (isset($conf["validate"][$var])) {
                                 if (is_only_callable($conf["validate"][$var])) {
                                     if ($conf["validate"][$var]($arrUrl[$i]) == true) {
                                         $regexData[$var] = $arrUrl[$i];
-                                        // ok
+        // ok
                                     } else {
                                         $error = true;
                                         break;
@@ -125,7 +117,7 @@ class ResolveRoute
                                 } else if ($conf["validate"][$var] == "int") {
                                     if (is_int($arrUrl[$i])) {
                                         $regexData[$var] = $arrUrl[$i];
-                                        // ok
+        // ok
                                     } else {
                                         $error = true;
                                         break;
@@ -133,7 +125,7 @@ class ResolveRoute
                                 } else if ($conf["validate"][$var] == "string") {
                                     if (is_string($arrUrl[$i])) {
                                         $regexData[$var] = $arrUrl[$i];
-                                        // ok
+        // ok
                                     } else {
                                         $error = true;
                                         break;
@@ -141,35 +133,31 @@ class ResolveRoute
                                 } else if ($var == "id") {
                                     if (is_int($arrUrl[$i]) && $arrUrl[$i] > 0) {
                                         $regexData[$var] = $arrUrl[$i];
-                                        // ok
+        // ok
                                     } else {
                                         $error = true;
                                         break;
                                     }
-                                } else if (is_array($conf["validate"][$var]) && in_array(
-                                        $arrUrl[$i],
-                                        $conf["validate"][$var]
-                                    )
+                                } else if (
+                                    is_array($conf["validate"][$var]) && in_array($arrUrl[$i], $conf["validate"][$var])
                                 ) {
                                     $regexData[$var] = $arrUrl[$i];
                                     // ok
-                                } else if (is_string($conf["validate"][$var]) && preg_match(
-                                        $conf["validate"][$var],
-                                        $arrUrl[$i]
-                                    )
+                                } else if (
+                                    is_string($conf["validate"][$var]) && preg_match($conf["validate"][$var], $arrUrl[$i])
                                 ) {
                                     $regexData[$var] = $arrUrl[$i];
-                                    // ok
+                                // ok
                                 } else {
                                     $error = true;
                                     break;
                                 }
                             } else {
                                 $regexData[$var] = $arrUrl[$i];
-                                // ok
+        // ok
                             }
                         } else if ($arrRoutes[$i] == "*") {
-                            // ok
+                        // ok
                         } else {
                             $error = true;
                             break;
@@ -184,7 +172,7 @@ class ResolveRoute
                         if ($conf['language'] ?? false) {
                             if ($this->domain) {
                                 if ($conf['domain'] && $conf['domain'] != $this->domain) {
-                                    continue;
+                                                    continue;
                                 }
                             } else if (localeManager()->getDefaultFrontendLanguage()->slug != $conf['language']) {
                                 continue;
@@ -208,12 +196,10 @@ class ResolveRoute
         }
 
         $match['method'] = $match['method'] ?? 'GET|POST';
-
         if (!isset($match["view"])) {
             throw new Exception("View not set.");
         }
 
         return $match;
     }
-
 }

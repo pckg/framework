@@ -16,5 +16,4 @@ class Get extends Lazy
     {
         $_GET = $this->data;
     }
-
 }

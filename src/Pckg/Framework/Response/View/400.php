@@ -1,7 +1,10 @@
-<?php $message = $message ?? ''; $code = $code ?? ''; ?><!DOCTYPE html>
+<?php $message = $message ?? '';
+$code = $code ?? ''; ?><!DOCTYPE html>
 <html style="padding: 0; margin: 0; width: 100%; height: 100%;">
 <head>
-    <title><?= $message ?><?php if ($code): ?> (<?= $code ?>)<?php endif; ?></title>
+    <title><?= $message ?><?php if ($code) :
+        ?> (<?= $code ?>)<?php
+           endif; ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <style>
         body {
@@ -48,7 +51,9 @@
     <div>
         <p>
             <?= $message ?>
-            <?php if ($code): ?><span class="code"> - <?= $code ?></span><?php endif; ?>
+            <?php if ($code) :
+                ?><span class="code"> - <?= $code ?></span><?php
+            endif; ?>
         </p>
 
         <p>Go <a href="javascript:history.go(-1);">back</a> or <a href="/">home</a></p>

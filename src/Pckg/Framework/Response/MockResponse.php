@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Response;
+<?php
+
+namespace Pckg\Framework\Response;
 
 use Pckg\Framework\Response;
 
@@ -10,7 +12,7 @@ class MockResponse extends Response
         trigger(Response::class . '.responded');
 
         $this->responded = true;
-        
+
         throw new MockStop('Response STOP');
 
         return $this;
@@ -43,5 +45,4 @@ class MockResponse extends Response
 
         return $this;
     }
-
 }

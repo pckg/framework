@@ -7,7 +7,6 @@ use ReflectionClass;
 
 class Provider
 {
-
     use Registrator;
 
     protected $registered = false;
@@ -36,7 +35,7 @@ class Provider
             context()->bind(Stack::class, new Stack());
         }
 
-        measure('Registering provider ' . static::class, function() use (&$start) {
+        measure('Registering provider ' . static::class, function () use (&$start) {
             $this->registerAutoloaders($this->autoload());
             $this->registerClassMaps($this->classMaps());
             $this->registerApps($this->apps());
@@ -192,5 +191,4 @@ class Provider
     {
         return [];
     }
-
 }

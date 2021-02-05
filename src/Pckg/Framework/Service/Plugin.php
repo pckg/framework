@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Service;
+<?php
+
+namespace Pckg\Framework\Service;
 
 use Pckg\Concept\Reflect;
 use Throwable;
@@ -12,12 +14,11 @@ class Plugin
          * Create controller.
          */
         $controller = Reflect::create($controller, $params);
-
-        /**
+/**
          * Call action.
          */
         try {
-            /**
+/**
              * Prepend request method.
              */
             if ($byRequest === true) {
@@ -35,11 +36,11 @@ class Plugin
             /**
              * Get action response.
              */
-            $view = measure(get_class($controller) . '@' . $method, function() use ($controller, $method, $params) {
+            $view = measure(get_class($controller) . '@' . $method, function () use ($controller, $method, $params) {
+
                 return Reflect::method($controller, $method, $params);
             });
-
-            /**
+/**
              * Convert to string if required.
              */
             if ($toString) {
@@ -48,9 +49,9 @@ class Plugin
 
             return $view;
         } catch (Throwable $e) {
-            /**
-             * This is non-critical error, we can display empty output on production environment.
-             */
+        /**
+                     * This is non-critical error, we can display empty output on production environment.
+                     */
             if (prod()) {
                 return null;
             }
@@ -58,5 +59,4 @@ class Plugin
             throw $e;
         }
     }
-
 }

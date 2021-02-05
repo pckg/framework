@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Environment\Command;
+<?php
+
+namespace Pckg\Framework\Environment\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
 
@@ -24,5 +26,4 @@ class DefinePaths extends AbstractChainOfReponsibility
 
         return $next();
     }
-
 }

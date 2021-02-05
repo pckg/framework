@@ -53,5 +53,3 @@ class View
         return (string)$this->view->__toString();
     }
 }
-
-?>

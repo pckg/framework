@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Provider\Helper;
+<?php
+
+namespace Pckg\Framework\Provider\Helper;
 
 use Pckg\Database\Entity;
 
@@ -35,7 +37,7 @@ trait EntityResolver
     {
         $e = $this->entity;
 
-        return $this->e = new $e;
+        return $this->e = new $e();
     }
 
     public function filter(callable $filter = null)
@@ -84,5 +86,4 @@ trait EntityResolver
 
         return $this;
     }
-
 }

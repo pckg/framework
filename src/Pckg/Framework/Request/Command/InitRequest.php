@@ -60,7 +60,7 @@ class InitRequest extends AbstractChainOfReponsibility
             trigger(ResolveRoute::class . '.notFound');
 
             $match = [
-                'view'      => function() {
+                'view'      => function () {
                     if ($output = response()->getOutput()) {
                         return $output;
                     }
@@ -92,5 +92,4 @@ class InitRequest extends AbstractChainOfReponsibility
 
         return $next();
     }
-
 }

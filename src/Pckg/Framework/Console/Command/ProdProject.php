@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,5 +28,4 @@ class ProdProject extends Command
              ->setDescription('Merge #branch to prod (be careful!)')
              ->addArgument('branch', InputArgument::REQUIRED);
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Middleware;
+<?php
+
+namespace Pckg\Framework\Middleware;
 
 class ProtectCORS
 {
@@ -90,5 +92,4 @@ class ProtectCORS
 
         return $next();
     }
-
 }

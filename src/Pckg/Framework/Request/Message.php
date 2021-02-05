@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Request;
+<?php
+
+namespace Pckg\Framework\Request;
 
 use GuzzleHttp\Psr7\BufferStream;
 use GuzzleHttp\Psr7\Stream;
@@ -206,5 +208,4 @@ class Message extends Lazy implements MessageInterface
 
         return $this;
     }
-
 }

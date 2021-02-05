@@ -8,5 +8,4 @@ interface RouteProviderInterface
     public function init();
 
     public function getMatch();
-
 }

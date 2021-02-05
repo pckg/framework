@@ -16,5 +16,4 @@ interface ViewInterface
     public function autoparse();
 
     public function __toString();
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Test;
+<?php
+
+namespace Pckg\Framework\Test;
 
 use Pckg\Concept\Context;
 
@@ -10,7 +12,7 @@ trait TestHelper
      * @var \UnitTester
      */
     protected $tester;
-    
+
     /**
      * @var Context
      */
@@ -31,5 +33,4 @@ trait TestHelper
     {
         return include "vendor/pckg/framework/src/bootstrap.php";
     }
-
 }

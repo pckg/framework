@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Response\Afterware;
+<?php
+
+namespace Pckg\Framework\Response\Afterware;
 
 class EncapsulateResponse
 {
@@ -31,5 +33,4 @@ class EncapsulateResponse
 
         return $next();
     }
-
 }

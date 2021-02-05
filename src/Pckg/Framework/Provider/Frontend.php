@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Provider;
+<?php
+
+namespace Pckg\Framework\Provider;
 
 use Pckg\Framework\Provider;
 
@@ -14,5 +16,4 @@ class Frontend extends Provider
             ],
         ];
     }
-
 }

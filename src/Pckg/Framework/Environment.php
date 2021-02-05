@@ -105,10 +105,10 @@ class Environment implements AssetManager
      */
     public function createApplication(\Pckg\Framework\Helper\Context $context, $appName)
     {
-
     }
 
-    public function registerAndBindApplication(\Pckg\Framework\Helper\Context $context, $appName) {
+    public function registerAndBindApplication(\Pckg\Framework\Helper\Context $context, $appName)
+    {
 
         /**
          * Register active paths.
@@ -135,5 +135,4 @@ class Environment implements AssetManager
         path('app_storage', path('storage'));
         path('app_private', path('private'));
     }
-
 }

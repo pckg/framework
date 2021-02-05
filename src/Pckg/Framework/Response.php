@@ -18,7 +18,6 @@ use Throwable;
  */
 class Response extends Message implements ResponseInterface
 {
-
     use Exceptions;
 
     protected $output;
@@ -240,7 +239,7 @@ class Response extends Message implements ResponseInterface
         $this->sendCodeHeader();
         header("Location: " . $url);
         $this->respond($output);
-        
+
         exit;
 
         return $this;
@@ -409,7 +408,8 @@ class Response extends Message implements ResponseInterface
          * Run classic response.
          */
         $this->code(202);
-        resolve(RunResponse::class)->execute(function(){});
+        resolve(RunResponse::class)->execute(function () {
+        });
 
         header("Content-Length: " . ob_get_length());
         header("Connection: close");
@@ -437,7 +437,8 @@ class Response extends Message implements ResponseInterface
         /**
          * Run classic response.
          */
-        resolve(RunResponse::class)->execute(function(){});
+        resolve(RunResponse::class)->execute(function () {
+        });
 
         $this->stop();
 
@@ -658,5 +659,4 @@ class Response extends Message implements ResponseInterface
     {
         return $this->http[$this->code] ?? 'NO REASON PHRASE';
     }
-
 }
