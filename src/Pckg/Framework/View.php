@@ -13,7 +13,7 @@ class View
 
     protected $data;
 
-    function __construct($view = null, $data = [])
+    public function __construct($view = null, $data = [])
     {
         $this->createTwig($view, $data);
     }

@@ -26,7 +26,7 @@ class Environment implements AssetManager
      */
     protected $config;
 
-    function __construct(Config $config, Context $context)
+    public function __construct(Config $config, Context $context)
     {
         $this->config = $config;
         $this->context = $context;
@@ -66,17 +66,17 @@ class Environment implements AssetManager
         ];
     }
 
-    function isDev()
+    public function isDev()
     {
         return static::class == Development::class;
     }
 
-    function isPro()
+    public function isPro()
     {
         return static::class == Production::class;
     }
 
-    function isLocal()
+    public function isLocal()
     {
         return config('local', false) === true;
     }

@@ -7,7 +7,7 @@ use Pckg\Framework\Helper\Lazy;
 class Post extends Lazy
 {
 
-    function __construct($arr = [])
+    public function __construct($arr = [])
     {
         parent::__construct($arr ?? $_POST);
     }

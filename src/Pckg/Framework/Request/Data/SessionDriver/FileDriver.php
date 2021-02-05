@@ -68,9 +68,9 @@ class FileDriver extends SessionHandler
         /**
          * We do not need to always start a session?
          */
-        if (!$PHPSESSID) {
-            //return;
-        }
+        /*if (!$PHPSESSID) {
+            return;
+        }*/
 
         /**
          * Start a new session.
@@ -82,10 +82,10 @@ class FileDriver extends SessionHandler
          */
         if (static::SECURE && !$PHPSESSIDSECURE && !array_key_exists(static::PHPSESSID . static::SIGNATURE, $_SESSION)) {
             $this->destroyCookieSession('Missing session signature! ' . $PHPSESSID);
-        } /**
-         * Cookie defined session should have valid signature.
-         */
-        else if (static::SECURE && !$PHPSESSIDSECURE && !auth()->hashedPasswordMatches($_SESSION[static::PHPSESSID . static::SIGNATURE], $PHPSESSID)) {
+        } else if (static::SECURE && !$PHPSESSIDSECURE && !auth()->hashedPasswordMatches($_SESSION[static::PHPSESSID . static::SIGNATURE], $PHPSESSID)) {
+            /**
+             * Cookie defined session should have valid signature.
+             */
             $this->destroyCookieSession('Invalid session signature!');
         }
 

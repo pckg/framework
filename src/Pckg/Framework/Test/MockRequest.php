@@ -55,7 +55,7 @@ class MockRequest
      * @param Unit $test
      * @param $app
      */
-    function __construct($test, $app)
+    public function __construct($test, $app)
     {
         $this->test = $test;
         $this->app = $app;

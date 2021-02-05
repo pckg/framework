@@ -18,7 +18,10 @@ trait TestHelper
      */
     protected $context;
 
-    protected function _before()
+    /**
+     * Migrated from _before()
+     */
+    protected function beforeTestHelper()
     {
         return;
         include "vendor/autoload.php";

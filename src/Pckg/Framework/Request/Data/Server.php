@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class Server extends Lazy /*extends Message implements ServerRequestInterface*/
 {
 
-    function __construct($arr = [])
+    public function __construct($arr = [])
     {
         parent::__construct($_SERVER ?? $arr);
     }

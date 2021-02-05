@@ -40,7 +40,7 @@ class Twig extends AbstractView implements ViewInterface
         return $this->file;
     }
 
-    function initTwig($file = null)
+    public function initTwig($file = null)
     {
         $dirs = $this->getDirs();
 

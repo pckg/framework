@@ -25,9 +25,15 @@ class Message extends Lazy implements MessageInterface
     protected $url;
 
     /**
-     * @var Lazy|Cookie
+     * @var Lazy
      */
-    protected $post, $get, $server, $session, $cookie, $files, $request;
+    protected $post;
+    protected $get;
+    protected $server;
+    protected $session;
+    protected $cookie;
+    protected $files;
+    protected $request;
 
     /**
      * @var array
@@ -39,7 +45,7 @@ class Message extends Lazy implements MessageInterface
      */
     protected $body;
 
-    function __construct()
+    public function __construct()
     {
         $this->post = new Lazy([]);
         $this->get = new Lazy([]);

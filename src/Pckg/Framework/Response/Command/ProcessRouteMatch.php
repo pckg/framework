@@ -20,7 +20,9 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
     protected $match;
 
-    protected $view, $controller;
+    protected $view;
+
+    protected $controller;
 
     protected $response;
 

@@ -25,11 +25,10 @@ use Pckg\Manager\Vue;
 use Pckg\Queue\Service\Queue;
 use Pckg\Translator\Service\Translator;
 
-/**
- * @return Environment
- */
-
 if (!function_exists('env')) {
+    /**
+     * @return Environment
+     */
     function env()
     {
         return context()->get(Environment::class);
@@ -1247,7 +1246,7 @@ if (!function_exists('vueRoute')) {
 }
 
 if (!function_exists('routeGroup')) {
-    function routeGroup($data = [], $routes)
+    function routeGroup($data = [], $routes = [])
     {
         $routeGroup = new Pckg\Framework\Router\Route\Group($data);
 
