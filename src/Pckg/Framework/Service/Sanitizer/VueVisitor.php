@@ -26,5 +26,4 @@ class VueVisitor extends AbstractNodeVisitor
     {
         return 'nonode';
     }
-
 }

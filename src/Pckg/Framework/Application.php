@@ -7,7 +7,6 @@ use Pckg\Framework\Provider\Helper\Registrator;
 
 abstract class Application
 {
-
     use Registrator;
 
     protected $provider;
@@ -75,5 +74,4 @@ abstract class Application
 
         return $this;
     }
-
 }

@@ -18,5 +18,4 @@ class VueNode extends AbstractNode
     {
         return 'del';
     }*/
-
 }

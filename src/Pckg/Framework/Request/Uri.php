@@ -224,6 +224,6 @@ class Uri implements UriInterface
     {
         return $this->scheme . '://' . appendIf($this->user . prependIf(':', $this->pass), '@')
             . $this->host . prependIf(':', $this->port) . $this->path
-            . prependIf('?',  $this->query) . prependIf('#', $this->fragment);
+            . prependIf('?', $this->query) . prependIf('#', $this->fragment);
     }
 }
