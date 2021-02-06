@@ -74,5 +74,4 @@ class App implements RouteProviderInterface
     {
         // TODO: Implement getMatch() method.
     }
-
 }

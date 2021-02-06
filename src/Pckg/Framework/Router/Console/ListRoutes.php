@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Router\Console;
+<?php
+
+namespace Pckg\Framework\Router\Console;
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -15,10 +17,12 @@ class ListRoutes extends Command
              ->setDescription(
                  'List all available routes'
              )
-             ->addOptions([
+             ->addOptions(
+                 [
                               'search' => 'List only routes that match',
                           ],
-                          InputOption::VALUE_OPTIONAL);
+                 InputOption::VALUE_OPTIONAL
+             );
     }
 
     public function handle()
@@ -76,5 +80,4 @@ class ListRoutes extends Command
 
         $table->render();
     }
-
 }

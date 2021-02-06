@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 
@@ -205,5 +207,4 @@ class LockProject extends Command
                  ]
              );
     }
-
 }

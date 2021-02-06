@@ -40,7 +40,7 @@ class Twig extends AbstractView implements ViewInterface
         return $this->file;
     }
 
-    function initTwig($file = null)
+    public function initTwig($file = null)
     {
         $dirs = $this->getDirs();
 
@@ -81,11 +81,11 @@ class Twig extends AbstractView implements ViewInterface
         );
 
         //(new View\Handler\RegisterTwigExtensions())->handle($this->twig);
-        $this->twig->addFunction(new \Twig_SimpleFunction('__', function($key, $data = [], $lang = null) {
+        $this->twig->addFunction(new \Twig_SimpleFunction('__', function ($key, $data = [], $lang = null) {
             return __($key, $data, $lang);
         }, ['is_safe' => ['html']]));
 
-        $this->twig->addFilter(new \Twig_SimpleFilter('base64_encode', function($string) {
+        $this->twig->addFilter(new \Twig_SimpleFilter('base64_encode', function ($string) {
             return base64_encode($string);
         }));
 
@@ -125,7 +125,7 @@ class Twig extends AbstractView implements ViewInterface
         /**
          * Render template.
          */
-        $render = measure('Rendering ' . $this->file, function() {
+        $render = measure('Rendering ' . $this->file, function () {
             /**
              * Trigger rendering event so we can attach some handlers.
              */
@@ -144,5 +144,4 @@ class Twig extends AbstractView implements ViewInterface
 
         return $render;
     }
-
 }

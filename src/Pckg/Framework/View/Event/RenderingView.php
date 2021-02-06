@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\View\Event;
+<?php
+
+namespace Pckg\Framework\View\Event;
 
 class RenderingView
 {

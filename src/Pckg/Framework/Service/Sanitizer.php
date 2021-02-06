@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Service;
+<?php
+
+namespace Pckg\Framework\Service;
 
 use HtmlSanitizer\Node\TagNodeInterface;
 use HtmlSanitizer\SanitizerBuilder;
@@ -45,7 +47,7 @@ class Sanitizer
                  */
                 $value = collect($domNode->attributes)->first(function ($a) use ($attr) {
                         return $a->name === $attr;
-                    })->value ?? null;
+                })->value ?? null;
 
                 /**
                  * Skip when value is not set.
@@ -108,7 +110,8 @@ class Sanitizer
                 ],
                 [
                     'processors' => function (\DOMNode $domNode, TagNodeInterface $tagNode) use ($vueBind) {
-                        //$vueBind($domNode, $tagNode, [':href'], ['content.url', 'content.image', 'content.picture']);
+                        return;
+                        $vueBind($domNode, $tagNode, [':href'], ['content.url', 'content.image', 'content.picture']);
                     },
                 ],
             ];
@@ -185,5 +188,4 @@ class Sanitizer
 
         return $sanitizer->sanitize($untrustedHtml);
     }
-
 }

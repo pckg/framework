@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Test;
+<?php
+
+namespace Pckg\Framework\Test;
 
 use Codeception\Test\Unit;
 use Pckg\Concept\Context;
@@ -53,7 +55,7 @@ class MockRequest
      * @param Unit $test
      * @param $app
      */
-    function __construct($test, $app)
+    public function __construct($test, $app)
     {
         $this->test = $test;
         $this->app = $app;
@@ -316,5 +318,4 @@ class MockRequest
     {
         return include "vendor/pckg/framework/src/bootstrap.php";
     }
-
 }

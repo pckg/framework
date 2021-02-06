@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Router\Route;
+<?php
+
+namespace Pckg\Framework\Router\Route;
 
 trait Merger
 {
@@ -54,5 +56,4 @@ trait Merger
 
         return $data;
     }
-
 }

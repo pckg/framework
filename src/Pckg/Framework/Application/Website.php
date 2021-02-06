@@ -42,5 +42,4 @@ class Website extends Application
             RunResponse::class,
         ];
     }
-
 }

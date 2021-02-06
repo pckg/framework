@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Application;
+<?php
+
+namespace Pckg\Framework\Application;
 
 use Pckg\Framework\Application;
 use Pckg\Framework\Application\Command\InitDatabase;
@@ -27,5 +29,4 @@ class Queue extends Application
             RunRabbitMQ::class,
         ];
     }
-
 }

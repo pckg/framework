@@ -33,7 +33,5 @@ class Url implements RouteProviderInterface
 
     public function getMatch()
     {
-
     }
-
 }

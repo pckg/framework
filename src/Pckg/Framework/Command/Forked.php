@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Command;
+<?php
+
+namespace Pckg\Framework\Command;
 
 use Pckg\Database\Repository;
 
@@ -20,5 +22,4 @@ class Forked
             $repository->__wakeup();
         }
     }
-
 }

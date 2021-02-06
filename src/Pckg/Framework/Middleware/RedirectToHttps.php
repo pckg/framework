@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Middleware;
+<?php
+
+namespace Pckg\Framework\Middleware;
 
 class RedirectToHttps
 {
@@ -11,5 +13,4 @@ class RedirectToHttps
 
         redirect('https://' . first(request()->getDomain(), config('domain')) . router()->getURL());
     }
-
 }

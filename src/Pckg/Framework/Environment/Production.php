@@ -37,7 +37,7 @@ class Production extends Environment
     public function registerExceptionHandler()
     {
         $whoops = new Run();
-        $whoops->pushHandler(function($exception) {
+        $whoops->pushHandler(function ($exception) {
             /**
              * Change error to 500 on successful response.
              */
@@ -63,7 +63,7 @@ class Production extends Environment
     public function reportToRollbar(Throwable $exception)
     {
         if (is_subclass_of($exception, NotFound::class)) {
-            error_log('Not found: ' . exception($e));
+            error_log('Not found: ' . exception($exception));
             return;
         }
 
@@ -124,13 +124,14 @@ class Production extends Environment
             foreach ($codes as $file) {
                 try {
                     $view = config('pckg.framework.errorTemplateDir', 'vendor/pckg/generic/src/Pckg/Generic/View/error/') . $file;
-                    $output = view($view,
-                                     [
+                    $output = view(
+                        $view,
+                        [
                                          'message'   => $message,
                                          'code'      => $code,
                                          'exception' => $e,
-                                         'message'   => $e->getMessage(),
-                                     ])->autoparse();
+                        ]
+                    )->autoparse();
 
                     if (!$output) {
                         continue;
@@ -207,5 +208,4 @@ class Production extends Environment
 
         return $application;
     }
-
 }

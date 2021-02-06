@@ -26,10 +26,10 @@ use Pckg\Manager\Vue;
 use Pckg\Queue\Service\Queue;
 use Pckg\Translator\Service\Translator;
 
+if (!function_exists('env')) {
 /**
  * @return Environment
  */
-if (!function_exists('env')) {
     function env()
     {
         return context()->get(Environment::class);
@@ -107,7 +107,7 @@ if (!function_exists('hasDotted')) {
 if (!function_exists('retry')) {
     function retry(callable $task, int $times = null, callable $onError = null, $interval = null)
     {
-        $retry = new \Pckg\Framework\Helper\Retry($task);
+        $retry = new \Pckg\Framework\Helper\Retry();
 
         if ($times) {
             $retry->times($times);
@@ -121,7 +121,7 @@ if (!function_exists('retry')) {
             $retry->onError($onError);
         }
 
-        return $retry->make();
+        return $retry->make($task);
     }
 }
 
@@ -224,7 +224,8 @@ if (!function_exists('auth')) {
 }
 
 if (!function_exists('uuid4')) {
-    function uuid4($toString = true) {
+    function uuid4($toString = true)
+    {
         $uuid = \Ramsey\Uuid\Uuid::uuid4();
 
         if ($toString) {
@@ -611,8 +612,9 @@ if (!function_exists('toCamel')) {
     {
         $text = str_split($text, 1);
 
-        foreach ($text AS $index => $char) {
-            if (($char == "_" && isset($text[$index + 1]))
+        foreach ($text as $index => $char) {
+            if (
+                ($char == "_" && isset($text[$index + 1]))
                 || ($char == "\\" && isset($text[$index + 1]))
             ) {
                 $text[$index + 1] = mb_strtoupper($text[$index + 1]);
@@ -654,7 +656,8 @@ if (!function_exists('view')) {
     function view($view = null, $data = [], $assets = [])
     {
         $view = new Twig($view, $data);
-        if ($parent = realpath(
+        if (
+            $parent = realpath(
             dirname(debug_backtrace()[0]['file']) . path('ds') . '..' . path('ds') . 'View' . path('ds')
         )
         ) {
@@ -1271,7 +1274,7 @@ if (!function_exists('vueRoute')) {
 }
 
 if (!function_exists('routeGroup')) {
-    function routeGroup($data = [], $routes)
+    function routeGroup($data = [], $routes = [])
     {
         $routeGroup = new Pckg\Framework\Router\Route\Group($data);
 
@@ -1607,7 +1610,8 @@ if (!function_exists('numequals')) {
 }
 
 if (!function_exists('encryptBlob')) {
-    function encryptBlob($plaintext, $password = null) {
+    function encryptBlob($plaintext, $password = null)
+    {
         if (!$password) {
             $password = config('security.hash', null);
         }
@@ -1617,7 +1621,8 @@ if (!function_exists('encryptBlob')) {
 }
 
 if (!function_exists('decryptBlob')) {
-    function decryptBlob($ciphertext, $password = null) {
+    function decryptBlob($ciphertext, $password = null)
+    {
         if (!$password) {
             $password = config('security.hash', null);
         }
@@ -1627,13 +1632,15 @@ if (!function_exists('decryptBlob')) {
 }
 
 if (!function_exists('appendIf')) {
-    function appendIf($is, $append) {
+    function appendIf($is, $append)
+    {
         return $is ? $is . $append : '';
     }
 }
 
 if (!function_exists('prependIf')) {
-    function prependIf($prepend, $is) {
+    function prependIf($prepend, $is)
+    {
         return $is ? $prepend . $is : '';
     }
 }

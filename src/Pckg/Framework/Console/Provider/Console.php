@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Provider;
+<?php
+
+namespace Pckg\Framework\Console\Provider;
 
 use Pckg\Framework\Console\Command\ClearCache;
 use Pckg\Framework\Console\Command\ComposerProject;
@@ -46,5 +48,4 @@ class Console extends Provider
             MigrationProvider::class,
         ];
     }
-
 }

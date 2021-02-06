@@ -11,10 +11,29 @@ use Pckg\Framework\View\Twig;
 use Pckg\Manager\Asset;
 use Pckg\Manager\Job;
 use Pckg\Translator\Service\Translator;
+use ReflectionClass;
 use Symfony\Component\Console\Application as SymfonyConsole;
 
 trait Registrator
 {
+
+    protected $routePrefix = null;
+
+    public function setRoutePrefix($prefix)
+    {
+        $this->routePrefix = $prefix;
+
+        return $this;
+    }
+
+    public function getTranslationPath()
+    {
+        $class = static::class;
+        $reflector = new ReflectionClass($class);
+        $file = $reflector->getFileName();
+
+        return realpath(substr($file, 0, strrpos($file, path('ds'))) . path('ds') . '..' . path('ds') . 'lang');
+    }
 
     /**
      * @param $routes
@@ -23,7 +42,7 @@ trait Registrator
      */
     public function registerRoutes($routes)
     {
-        foreach ($routes AS $providerType => $arrProviders) {
+        foreach ($routes as $providerType => $arrProviders) {
             if (is_object($arrProviders)) {
                 /**
                  * $arrProviders is instance of Group or Route.
@@ -36,7 +55,7 @@ trait Registrator
                 continue;
             }
 
-            foreach ($arrProviders AS $provider => $providerConfig) {
+            foreach ($arrProviders as $provider => $providerConfig) {
                 if (isset($providerConfig['prefix'])) {
                     $providerConfig['prefix'] = '';
                 }
@@ -129,7 +148,7 @@ trait Registrator
             $appObject->register();
 
             $stack->push(
-                function() use ($app) {
+                function () use ($app) {
                     config()->parseDir(path('apps') . strtolower($app) . path('ds'));
                 }
             );
@@ -153,7 +172,7 @@ trait Registrator
 
         $consoleApplication = context()->get(SymfonyConsole::class);
         foreach ($consoles as $console) {
-            $consoleApplication->add(new $console);
+            $consoleApplication->add(new $console());
         }
     }
 
@@ -225,7 +244,7 @@ trait Registrator
 
     public function registerTranslations()
     {
-        if (!$this->translations) {
+        if (!isset($this->translations)) {
             return;
         }
 
@@ -239,5 +258,4 @@ trait Registrator
             context()->whenRequested($service, $initiator);
         }
     }
-
 }

@@ -7,14 +7,13 @@ use Pckg\Framework\Helper\Lazy;
 class Get extends Lazy
 {
 
-    function __construct()
+    public function __construct($arr = [])
     {
-        parent::__construct($_GET);
+        parent::__construct($_GET ?? $arr);
     }
 
-    function __destruct()
+    public function __destruct()
     {
         $_GET = $this->data;
     }
-
 }

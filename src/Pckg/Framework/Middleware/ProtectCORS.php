@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Middleware;
+<?php
+
+namespace Pckg\Framework\Middleware;
 
 class ProtectCORS
 {
@@ -44,7 +46,7 @@ class ProtectCORS
             /**
              * Send the same origin as we see it.
              */
-            $origin = server('HTTP_ORIGIN', server('HTTP_REFERER', null), null);
+            $origin = server('HTTP_ORIGIN', server('HTTP_REFERER', null));
             if ($origin) {
                 header('Access-Control-Allow-Origin: ' . $origin);
             }
@@ -90,5 +92,4 @@ class ProtectCORS
 
         return $next();
     }
-
 }

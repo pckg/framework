@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 
@@ -26,5 +28,4 @@ class UpdateProject extends Command
                  'Pull changes from origin, update composer and commit changes (execute this when you need to update dependencies)'
              );
     }
-
 }

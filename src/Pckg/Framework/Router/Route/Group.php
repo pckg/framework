@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Router\Route;
+<?php
+
+namespace Pckg\Framework\Router\Route;
 
 class Group
 {
@@ -64,5 +66,4 @@ class Group
 
         return $this;
     }
-
 }

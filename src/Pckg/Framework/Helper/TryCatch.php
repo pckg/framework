@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Helper;
+<?php
+
+namespace Pckg\Framework\Helper;
 
 class TryCatch
 {
@@ -62,5 +64,4 @@ class TryCatch
     {
         return $this->result;
     }
-
 }

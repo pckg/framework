@@ -1,7 +1,10 @@
-<?php namespace Pckg\Framework\Response\Exception;
+<?php
+
+namespace Pckg\Framework\Response\Exception;
 
 use Exception;
 
-class TheEnd extends Exception {
+class TheEnd extends Exception
+{
 
 }

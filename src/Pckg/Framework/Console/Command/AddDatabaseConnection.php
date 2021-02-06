@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 
@@ -21,7 +23,6 @@ trait AddDatabaseConnection
         }
 
         $connections = [];
-
         if ($connection = $this->argument('database')) {
             $connections[0] = [];
             list(
@@ -38,7 +39,6 @@ trait AddDatabaseConnection
                 $user = $this->askQuestion('User:');
                 $password = $this->askQuestion('Password:');
                 $database = $this->askQuestion('Database:');
-
                 $connections[] = [
                     'driver'   => $driver,
                     'host'     => $host,
@@ -50,8 +50,7 @@ trait AddDatabaseConnection
         }
 
         $this->output('Adding database connections');
-        // @T00D00 - Add to database.php
+// @T00D00 - Add to database.php
         $this->output('Database connections added');
     }
-
 }

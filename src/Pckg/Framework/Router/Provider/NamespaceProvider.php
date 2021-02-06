@@ -3,7 +3,7 @@
 namespace Pckg\Framework\Router\Provider;
 
 use Pckg\Framework\Router\RouteProviderInterface;
-use Pckg\Framework\Router\Url;
+use Pckg\Framework\Router\URL;
 
 /*
 $namespaceProvider = new (new NamespaceProvider('Weblab\Generic')->setPrefix('/weblab-generic');
@@ -31,10 +31,13 @@ class NamespaceProvider implements RouteProviderInterface
 
         $arrMethods = get_class_methods($this->namespace . '\Controller\\' . end($explNamespace));
 
-        foreach ($arrMethods AS $method) {
+        foreach ($arrMethods as $method) {
             if (substr($method, -6) == 'Action') {
                 $action = substr($method, 0, -6);
-                $urlProvider = new Url(
+                /**
+                 * @phpstan-ignore-next-line
+                 */
+                $urlProvider = new URL(
                     (isset($this->config['prefix']) ? $this->config['prefix'] : null) . '/' . $action,
                     [
                         'controller' => $this->namespace,
@@ -58,7 +61,5 @@ class NamespaceProvider implements RouteProviderInterface
 
     public function getMatch()
     {
-
     }
-
 }

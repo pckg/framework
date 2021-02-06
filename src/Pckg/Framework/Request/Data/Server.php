@@ -3,21 +3,18 @@
 namespace Pckg\Framework\Request\Data;
 
 use Pckg\Framework\Helper\Lazy;
-use pckg\Framework\Request\Message;
+use Pckg\Framework\Request\Message;
 use Psr\Http\Message\ServerRequestInterface;
 
 class Server extends Lazy /*extends Message implements ServerRequestInterface*/
 {
 
-    function __construct()
+    public function __construct($arr = [])
     {
-        parent::__construct($_SERVER);
+        parent::__construct($_SERVER ?? $arr);
     }
 
     public function __destruct()
     {
     }
-    
-    
-
 }

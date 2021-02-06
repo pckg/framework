@@ -3,7 +3,8 @@
 /**
  * Used in tests.
  */
-return function($app = null, $environment = Pckg\Framework\Environment\Console::class, $run = false) {
+
+return function ($app = null, $environment = Pckg\Framework\Environment\Console::class, $run = false) {
     /**
      * Define base path if it's not defined yet.
      * We need to know this because it's used in a lot of things.

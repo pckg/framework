@@ -5,7 +5,7 @@ namespace Pckg\Framework\View;
 interface ViewInterface
 {
 
-    function __construct($file, $data = []);
+    public function __construct($file, $data = []);
 
     public function addData($key, $val = null);
 
@@ -16,5 +16,4 @@ interface ViewInterface
     public function autoparse();
 
     public function __toString();
-
 }

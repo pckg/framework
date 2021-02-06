@@ -1,7 +1,9 @@
-<?php namespace Pckg\Framework\Request\Data\SessionDriver;
+<?php
+
+namespace Pckg\Framework\Request\Data\SessionDriver;
 
 use SessionHandler;
-use \Exception;
+use Exception;
 
 class FileDriver extends SessionHandler
 {
@@ -26,12 +28,14 @@ class FileDriver extends SessionHandler
         /**
          * Set session handlers.
          */
-        session_set_save_handler([$this, 'open'],
+        session_set_save_handler(
+            [$this, 'open'],
             [$this, 'close'],
             [$this, 'read'],
             [$this, 'write'],
             [$this, 'destroy'],
-            [$this, 'gc']);
+            [$this, 'gc']
+        );
         register_shutdown_function('session_write_close');
 
         /**
@@ -64,9 +68,9 @@ class FileDriver extends SessionHandler
         /**
          * We do not need to always start a session?
          */
-        if (!$PHPSESSID) {
-            //return;
-        }
+        /*if (!$PHPSESSID) {
+            return;
+        }*/
 
         /**
          * Start a new session.
@@ -78,10 +82,10 @@ class FileDriver extends SessionHandler
          */
         if (static::SECURE && !$PHPSESSIDSECURE && !array_key_exists(static::PHPSESSID . static::SIGNATURE, $_SESSION)) {
             $this->destroyCookieSession('Missing session signature! ' . $PHPSESSID);
-        } /**
+        } else if (static::SECURE && !$PHPSESSIDSECURE && !auth()->hashedPasswordMatches($_SESSION[static::PHPSESSID . static::SIGNATURE], $PHPSESSID)) {
+            /**
          * Cookie defined session should have valid signature.
          */
-        else if (static::SECURE && !$PHPSESSIDSECURE && !auth()->hashedPasswordMatches($_SESSION[static::PHPSESSID . static::SIGNATURE], $PHPSESSID)) {
             $this->destroyCookieSession('Invalid session signature!');
         }
 
@@ -153,5 +157,4 @@ class FileDriver extends SessionHandler
 
         return $PHPSESSIDSECURE;
     }
-
 }

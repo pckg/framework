@@ -17,7 +17,7 @@ class Config
         $export = config()->get();
         $result = $callable();
         config()->overwrite($export);
-        
+
         return $result;
     }
 
@@ -120,15 +120,21 @@ class Config
     {
         $settings = [];
 
-        foreach ([
-                     function($file) { return strpos($file, '/defaults.php'); },
-                     function($file) {
-                         return !strpos($file, '/defaults.php') && !strpos($file, '/env.php') &&
+        foreach (
+            [
+                        function ($file) {
+                            return strpos($file, '/defaults.php');
+                        },
+                        function ($file) {
+                            return !strpos($file, '/defaults.php') && !strpos($file, '/env.php') &&
                                 !strpos($file, '/migrations.php');
-                     },
-                     function($file) { return strpos($file, '/env.php'); },
-                 ] as $callback) {
-            foreach ($files AS $key => $file) {
+                        },
+                        function ($file) {
+                            return strpos($file, '/env.php');
+                        },
+                 ] as $callback
+        ) {
+            foreach ($files as $key => $file) {
                 if (!$callback($file)) {
                     continue;
                 }
@@ -222,7 +228,4 @@ class Config
 
         return base64_encode(json_encode($public));
     }
-
 }
-
-?>

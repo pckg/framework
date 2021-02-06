@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Test;
+<?php
+
+namespace Pckg\Framework\Test;
 
 use Pckg\Concept\Context;
 
@@ -10,13 +12,16 @@ trait TestHelper
      * @var \UnitTester
      */
     protected $tester;
-    
+
     /**
      * @var Context
      */
     protected $context;
 
-    protected function _before()
+    /**
+     * Migrated from _before()
+     */
+    protected function beforeTestHelper()
     {
         return;
         include "vendor/autoload.php";
@@ -31,5 +36,4 @@ trait TestHelper
     {
         return include "vendor/pckg/framework/src/bootstrap.php";
     }
-
 }

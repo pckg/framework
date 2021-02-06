@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Queue\Service\RabbitMQ;
 use Pckg\Framework\Console\Command;
@@ -43,5 +45,4 @@ class Sleep extends Command
     {
         return resolve(RabbitMQ::class);
     }
-
 }

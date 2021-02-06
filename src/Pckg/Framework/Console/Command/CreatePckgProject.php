@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,29 +12,25 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class CreatePckgProject extends Command
 {
-
     use AddDatabaseConnection;
 
-    /**
+/**
      * @var string
      */
-    protected $app;
 
+
+    protected $app;
     protected function configure()
     {
         $this->setName('app:create')
              ->setDescription('Create new application')
-             ->addArguments(
-                 [
+             ->addArguments([
                      'app'      => 'App name',
                      'hosts'    => 'List of hostnames, separated by ,',
                      'database' => 'Default database config',
                      'composer' => 'List of composer dependencies, separated by ,',
-                 ],
-                 InputArgument::OPTIONAL
-             )
-             ->addOptions(
-                 [
+                 ], InputArgument::OPTIONAL)
+             ->addOptions([
                      'skip-existance-check' => 'Disable check if directories already exists',
                      'skip-dir-creation'    => 'Disable app directory creation',
                      'skip-app-creation'    => 'Disable creation of app class',
@@ -40,9 +38,7 @@ class CreatePckgProject extends Command
                      'skip-database'        => 'Disable database configuration',
                      'skip-composer'        => 'Disable composer requirements',
                      'skip-commit'          => 'Disable commit after creation',
-                 ],
-                 InputOption::VALUE_OPTIONAL | InputOption::VALUE_NONE
-             );
+                 ], InputOption::VALUE_OPTIONAL | InputOption::VALUE_NONE);
     }
 
     public function handle()
@@ -77,7 +73,6 @@ class CreatePckgProject extends Command
         }
 
         $path = path('apps') . $this->app;
-
         if (is_dir($path)) {
             $this->quit('Path ' . $path . ' already exists');
         }
@@ -90,8 +85,7 @@ class CreatePckgProject extends Command
         }
 
         $this->output('Creating directories.');
-
-        /**
+/**
          * Create paths.
          */
         $path = path('apps') . $this->app . path('ds');
@@ -99,7 +93,6 @@ class CreatePckgProject extends Command
         mkdir($path . 'config', 0777);
         mkdir($path . 'src', 0777);
         mkdir($path . 'public', 0777);
-
         $this->output('Directories created.');
     }
 
@@ -114,8 +107,7 @@ class CreatePckgProject extends Command
         }
 
         $this->output('Creating app file.');
-
-        /**
+/**
          * Build path and content.
          */
         $path = path('apps') . $this->app . path('ds') . 'src' . path('ds') . ucfirst($this->app) . '.php';
@@ -128,11 +120,10 @@ class ' . ucfirst($this->app) . ' extends Provider
 
 }
 ';
-        /**
+/**
          * Create file.
          */
         file_put_contents($path, $content);
-
         $this->output('App file created.');
     }
 
@@ -157,8 +148,7 @@ class ' . ucfirst($this->app) . ' extends Provider
         }
 
         $this->output('Updating global router');
-
-        /**
+/**
          * First we build array.
          */
         $append = '    \'' . $this->app . '\' => [
@@ -174,23 +164,19 @@ class ' . ucfirst($this->app) . ' extends Provider
         $append .= '],
         ],
     ';
-
-        /**
+/**
          * Read current router content.
          */
         $routerPath = BASE_PATH . 'config' . path('ds') . 'router.php';
         $router = file_get_contents($routerPath);
-
-        /**
+/**
          * Build new router.
          */
         $newRouter = str_lreplace('],', $append . '],', $router);
-
-        /**
+/**
          * Write new router.
          */
         file_put_contents($routerPath, $newRouter);
-
         $this->output('Global router has been updated.');
     }
 
@@ -214,19 +200,13 @@ class ' . ucfirst($this->app) . ' extends Provider
         }
 
         $this->output('Requiring dependencies.');
-
-        /**
+/**
          * Simply require each dependency separately.
          */
-        $this->exec(
-            array_map(
-                function($dependency) {
-                    return 'composer require ' . $dependency;
-                },
-                $dependencies
-            )
-        );
+        $this->exec(array_map(function ($dependency) {
 
+                    return 'composer require ' . $dependency;
+        }, $dependencies));
         $this->output('Dependencies required.');
     }
 
@@ -241,21 +221,17 @@ class ' . ucfirst($this->app) . ' extends Provider
         }
 
         $this->output('Committing changes.');
-
-        /**
+/**
          * We'll simply execute few git commands.
          */
-        $this->exec(
-            [
+        $this->exec([
                 'git add app/' . $this->app . ' --all',
                 'git add config/router.php',
                 'git add composer.json',
                 'git add composer.lock',
                 'git commit -m "Created app \'' . $this->app . '\'"',
                 'git push --all',
-            ]
-        );
-
+            ]);
         $this->output('Changes commited.');
     }
 
@@ -263,5 +239,4 @@ class ' . ucfirst($this->app) . ' extends Provider
     {
         return $this->output("App " . $this->app . ' created');
     }
-
 }

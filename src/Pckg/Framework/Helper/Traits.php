@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Helper;
+<?php
+
+namespace Pckg\Framework\Helper;
 
 use Pckg\Auth\Service\Auth;
 use Pckg\Framework\Request;
@@ -17,7 +19,7 @@ use Pckg\Manager\Vue;
 /**
  * Trait Traits
  * @package Pckg\Framework\Helper
- * @deprecated 
+ * @deprecated
  */
 trait Traits
 {
@@ -26,63 +28,51 @@ trait Traits
      * @var Response
      */
     private $response;
-
-    /**
+/**
      * @var Request
      */
     private $request;
-
-    /**
+/**
      * @var Auth
      */
     private $auth;
-
-    /**
+/**
      * @var Post
      */
     private $post;
-
-    /**
+/**
      * @var Get
      */
     private $get;
-
-    /**
+/**
      * @var Cookie
      */
     private $cookie;
-
-    /**
+/**
      * @var Server
      */
     private $server;
-
-    /**
+/**
      * @var Router
      */
     private $router;
-
-    /**
+/**
      * @var Asset
      */
     private $assetManager;
-
-    /**
+/**
      * @var Seo
      */
     private $seoManager;
-
-    /**
+/**
      * @var Vue
      */
     private $vueManager;
-
-    /**
+/**
      * @var Locale
      */
     private $localeManager;
-
-    /**
+/**
      * @return Response
      */
     public function response()
@@ -230,5 +220,4 @@ trait Traits
 
         return $this->localeManager;
     }
-
 }

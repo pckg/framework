@@ -123,5 +123,4 @@ class URL
     {
         return $this->url . http_build_query($this->params);
     }
-
 }

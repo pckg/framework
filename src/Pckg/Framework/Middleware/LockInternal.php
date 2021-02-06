@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Middleware;
+<?php
+
+namespace Pckg\Framework\Middleware;
 
 use Pckg\Auth\Controller\Auth;
 
@@ -58,5 +60,4 @@ class LockInternal
 
         return auth()->isValidInternalGetParameter($internal);
     }
-
 }

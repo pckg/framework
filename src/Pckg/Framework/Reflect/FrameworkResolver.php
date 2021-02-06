@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Reflect;
+<?php
+
+namespace Pckg\Framework\Reflect;
 
 use Pckg\Auth\Entity\Adapter\Auth;
 use Pckg\Concept\Context;

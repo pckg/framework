@@ -25,5 +25,4 @@ class InitResponse extends AbstractChainOfReponsibility
 
         return $next();
     }
-
 }

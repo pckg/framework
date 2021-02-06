@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework;
+<?php
+
+namespace Pckg\Framework;
 
 class Stack
 {
@@ -28,5 +30,4 @@ class Stack
     {
         return $this->stacks;
     }
-
 }

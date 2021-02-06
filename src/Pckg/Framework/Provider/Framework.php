@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Provider;
+<?php
+
+namespace Pckg\Framework\Provider;
 
 use Pckg\Framework\Command\Forked;
 use Pckg\Framework\Config;
@@ -70,5 +72,4 @@ class Framework extends Provider
             ],
         ];
     }
-
 }

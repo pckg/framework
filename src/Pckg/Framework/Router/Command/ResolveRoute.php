@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Router\Command;
+<?php
+
+namespace Pckg\Framework\Router\Command;
 
 use Exception;
 use Pckg\Framework\Router;
@@ -7,11 +9,8 @@ class ResolveRoute
 {
 
     protected $router;
-
     protected $url;
-
     protected $domain;
-
     public function __construct(Router $router, $url, $domain = null)
     {
         $this->router = $router;
@@ -23,21 +22,19 @@ class ResolveRoute
     {
         $url = $this->url;
         $routes = $this->router->getRoutes();
-
         // exact match
         $found = false;
         $match = false;
 
-        foreach ($routes AS $routeArr) {
-            foreach ($routeArr AS $route) {
-                if (($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[")
+        foreach ($routes as $routeArr) {
+            foreach ($routeArr as $route) {
+                if (
+                    ($route["url"] == $url || $route["url"] == $url . '/') && !(strpos($url, "[")
                         || strpos($url, "]"))
                 ) {
                     // validate method
-                    if (isset($route['method']) && !empty($route['method']) && !in_array(
-                            strtoupper($_SERVER['REQUEST_METHOD']),
-                            explode("|", strtoupper($route['method']))
-                        )
+                    if (
+                        isset($route['method']) && !empty($route['method']) && !in_array(strtoupper($_SERVER['REQUEST_METHOD']), explode("|", strtoupper($route['method'])))
                     ) {
                         /**
                          * Check next resolved route.
@@ -71,11 +68,9 @@ class ResolveRoute
 
         if (!$found) {
             $arrUrl = explode("/", substr($url, 1));
-            foreach ($routes AS $routeArr) {
-                foreach ($routeArr AS $conf) {
-
+            foreach ($routes as $routeArr) {
+                foreach ($routeArr as $conf) {
                     $arrRoutes = explode("/", substr($conf["url"], 1));
-
                     // check only urls longer than routes
                     if (count($arrRoutes) > count($arrUrl)) {
                         continue;
@@ -111,7 +106,6 @@ class ResolveRoute
                             continue;
                         } else if (substr($arrRoutes[$i], 0, 1) == "[" && substr($arrRoutes[$i], -1) == "]") {
                             $var = substr($arrRoutes[$i], 1, -1);
-
                             // validate url parts
                             if (isset($conf["validate"][$var])) {
                                 if (is_only_callable($conf["validate"][$var])) {
@@ -146,17 +140,13 @@ class ResolveRoute
                                         $error = true;
                                         break;
                                     }
-                                } else if (is_array($conf["validate"][$var]) && in_array(
-                                        $arrUrl[$i],
-                                        $conf["validate"][$var]
-                                    )
+                                } else if (
+                                    is_array($conf["validate"][$var]) && in_array($arrUrl[$i], $conf["validate"][$var])
                                 ) {
                                     $regexData[$var] = $arrUrl[$i];
                                     // ok
-                                } else if (is_string($conf["validate"][$var]) && preg_match(
-                                        $conf["validate"][$var],
-                                        $arrUrl[$i]
-                                    )
+                                } else if (
+                                    is_string($conf["validate"][$var]) && preg_match($conf["validate"][$var], $arrUrl[$i])
                                 ) {
                                     $regexData[$var] = $arrUrl[$i];
                                     // ok
@@ -208,12 +198,10 @@ class ResolveRoute
         }
 
         $match['method'] = $match['method'] ?? 'GET|POST';
-
         if (!isset($match["view"])) {
             throw new Exception("View not set.");
         }
 
         return $match;
     }
-
 }

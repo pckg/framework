@@ -1,8 +1,9 @@
-<?php namespace Pckg\Framework\Router\Route;
+<?php
+
+namespace Pckg\Framework\Router\Route;
 
 class Route
 {
-
     use Merger;
 
     protected $url;
@@ -156,5 +157,4 @@ class Route
 
         return $this;
     }
-
 }

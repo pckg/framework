@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -50,5 +52,4 @@ class PullProject extends Command
                  InputOption::VALUE_NONE
              );
     }
-
 }

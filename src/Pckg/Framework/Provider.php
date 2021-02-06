@@ -7,14 +7,11 @@ use ReflectionClass;
 
 class Provider
 {
-
     use Registrator;
 
     protected $registered = false;
 
     protected $translations = false;
-
-    protected $routePrefix = null;
 
     public function shouldRegister()
     {
@@ -36,7 +33,7 @@ class Provider
             context()->bind(Stack::class, new Stack());
         }
 
-        measure('Registering provider ' . static::class, function() use (&$start) {
+        measure('Registering provider ' . static::class, function () {
             $this->registerAutoloaders($this->autoload());
             $this->registerClassMaps($this->classMaps());
             $this->registerApps($this->apps());
@@ -81,13 +78,6 @@ class Provider
         return $this;
     }
 
-    public function setRoutePrefix($prefix)
-    {
-        $this->routePrefix = $prefix;
-
-        return $this;
-    }
-
     protected function getViewPaths()
     {
         $db = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -107,15 +97,6 @@ class Provider
         }
 
         return $paths;
-    }
-
-    public function getTranslationPath()
-    {
-        $class = static::class;
-        $reflector = new ReflectionClass($class);
-        $file = $reflector->getFileName();
-
-        return realpath(substr($file, 0, strrpos($file, path('ds'))) . path('ds') . '..' . path('ds') . 'lang');
     }
 
     public function apps()
@@ -192,5 +173,4 @@ class Provider
     {
         return [];
     }
-
 }

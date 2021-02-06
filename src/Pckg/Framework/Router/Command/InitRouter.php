@@ -32,5 +32,4 @@ class InitRouter extends AbstractChainOfReponsibility
 
         return $next();
     }
-
 }

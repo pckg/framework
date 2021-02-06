@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Environment;
+<?php
+
+namespace Pckg\Framework\Environment;
 
 use Pckg\Concept\Context;
 use Pckg\Framework\Environment;
@@ -26,7 +28,7 @@ class Console extends Environment
 
     public function registerExceptionHandler()
     {
-        $whoops = new Run;
+        $whoops = new Run();
         $whoops->pushHandler(new PlainTextHandler());
         $whoops->register();
     }
@@ -85,5 +87,4 @@ class Console extends Environment
 
         return $application;
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Response\Command;
+<?php
+
+namespace Pckg\Framework\Response\Command;
 
 use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
@@ -52,5 +54,4 @@ class LoadView extends AbstractChainOfReponsibility
 
         return $result;
     }
-
 }

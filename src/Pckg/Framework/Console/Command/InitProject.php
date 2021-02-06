@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -129,5 +131,4 @@ class InitProject extends Command
              ->addOption('app', 'app', InputArgument::OPTIONAL, 'Init app structure and configs')
              ->addOption('env', 'env', InputArgument::OPTIONAL, 'Default = docker');
     }
-
 }

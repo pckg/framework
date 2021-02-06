@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Router\Command;
+<?php
+
+namespace Pckg\Framework\Router\Command;
 
 use Pckg\Framework\Router;
 
@@ -92,5 +94,4 @@ class ResolveDependencies
 
         return $data;
     }
-
 }

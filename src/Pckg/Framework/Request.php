@@ -36,7 +36,9 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
 
     const HEAD = 'HEAD';
 
-    protected $router, $response;
+    protected $router;
+
+    protected $response;
 
     protected $match;
 
@@ -51,7 +53,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     protected $uri;
 
-    function __construct($input = [])
+    public function __construct($input = [])
     {
         Reflect::method($this, 'initDependencies');
 
@@ -168,7 +170,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      * @param array $default
      * @return Post|mixed|array|string|null
      */
-    function post($key = null, $default = [])
+    public function post($key = null, $default = [])
     {
         if (is_array($key)) {
             $return = [];
@@ -184,49 +186,49 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this->post->get($key, $default);
     }
 
-    function get($key = null, $default = [])
+    public function get($key = null, $default = [])
     {
         return is_null($key)
             ? $this->get
             : $this->get->get($key, $default);
     }
 
-    function server($key = null, $default = [])
+    public function server($key = null, $default = [])
     {
         return is_null($key)
             ? $this->server
             : $this->server->get($key, $default);
     }
 
-    function cookie($key = null, $default = [])
+    public function cookie($key = null, $default = [])
     {
         return is_null($key)
             ? $this->cookie
             : $this->cookie->get($key, $default);
     }
 
-    function session($key = null, $default = [])
+    public function session($key = null, $default = [])
     {
         return is_null($key)
             ? $this->session
             : $this->session->get($key, $default);
     }
 
-    function request($key = null, $default = [])
+    public function request($key = null, $default = [])
     {
         return is_null($key)
             ? $this->request
             : $this->request->get($key, $default);
     }
 
-    function files($key = null)
+    public function files($key = null)
     {
         return is_null($key)
             ? $this->files
             : $this->files->get($key);
     }
 
-    function isMethod($method)
+    public function isMethod($method)
     {
         return $this->method() == strtoupper($method);
     }
@@ -265,67 +267,67 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return first(server('HTTP_X_FORWARDED_PORT'), server('SERVER_PORT'));
     }
 
-    function isAjax()
+    public function isAjax()
     {
         return strtolower($this->server('HTTP_X_REQUESTED_WITH', null)) === 'xmlhttprequest' || isset($_POST['ajax']);
     }
 
-    function isOptions()
+    public function isOptions()
     {
         return $this->isMethod(self::OPTIONS);
     }
 
-    function isGet()
+    public function isGet()
     {
         return $this->isMethod(self::GET);
     }
 
-    function isPost()
+    public function isPost()
     {
         return $this->isMethod(self::POST);
     }
 
-    function isPut()
+    public function isPut()
     {
         return $this->isMethod(self::PUT);
     }
 
-    function isPatch()
+    public function isPatch()
     {
         return $this->isMethod(self::PATCH);
     }
 
-    function isSearch()
+    public function isSearch()
     {
         return $this->isMethod(self::SEARCH);
     }
 
-    function isDelete()
+    public function isDelete()
     {
         return $this->isMethod(self::DELETE);
     }
 
-    function isHead()
+    public function isHead()
     {
         return $this->isMethod(self::HEAD);
     }
 
-    function host()
+    public function host()
     {
         return $_SERVER['HTTP_HOST'];
     }
 
-    function scheme()
+    public function scheme()
     {
         return $_SERVER['REQUEST_SCHEME'];
     }
 
-    function url()
+    public function url()
     {
         return $this->url;
     }
 
-    function getUrl($stripParams = false)
+    public function getUrl($stripParams = false)
     {
         $url = $this->url;
 
@@ -353,8 +355,12 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         /**
          * Return true for bots madched by user agent.
          */
-        if (preg_match('/apple|baidu|bingbot|facebookexternalhit|googlebot|-google|ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo|teoma|contaxe|yandex|libwww-perl|facebookexternalhit/i',
-                       $_SERVER['HTTP_USER_AGENT'])) {
+        if (
+            preg_match(
+                '/apple|baidu|bingbot|facebookexternalhit|googlebot|-google|ia_archiver|msnbot|naverbot|pingdom|seznambot|slurp|teoma|twitter|yandex|yeti\/bot|crawl|curl|dataprovider|search|get|spider|find|java|majesticsEO|google|yahoo|teoma|contaxe|yandex|libwww-perl/i',
+                $_SERVER['HTTP_USER_AGENT']
+            )
+        ) {
             return true;
         }
 
@@ -411,7 +417,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     public function withMethod($method)
     {
         $this->server->set('REQUEST_METHOD', $method);
-        
+
         return $this;
     }
 
@@ -564,6 +570,4 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     {
         return context()->mock(new Request(), $task);
     }
-
-
 }

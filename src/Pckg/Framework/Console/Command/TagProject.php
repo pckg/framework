@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Console\Command;
+<?php
+
+namespace Pckg\Framework\Console\Command;
 
 use Pckg\Framework\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -43,5 +45,4 @@ class TagProject extends Command
                               'tag' => 'Enter tag name',
                           ], InputOption::VALUE_REQUIRED);
     }
-
 }

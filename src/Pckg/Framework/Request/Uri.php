@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Request;
+<?php
+
+namespace Pckg\Framework\Request;
 
 use Psr\Http\Message\UriInterface;
 
@@ -56,7 +58,7 @@ class Uri implements UriInterface
      */
     public function __construct($uri)
     {
-        $parsed = parse_url($url);
+        $parsed = parse_url($uri);
         $keys = [
             'host', 'port', 'user', /*'pass', */
             'path', 'query', 'fragment',
@@ -155,7 +157,7 @@ class Uri implements UriInterface
     public function withUserInfo($user, $password = null)
     {
         $this->user = $user;
-        $this->pass = $password:
+        $this->pass = $password;
 
         return $this;
     }
@@ -222,7 +224,6 @@ class Uri implements UriInterface
     {
         return $this->scheme . '://' . appendIf($this->user . prependIf(':', $this->pass), '@')
             . $this->host . prependIf(':', $this->port) . $this->path
-            . prependIf('?' . $this->query) . prependIf('#', $this->fragment);
+            . prependIf('?', $this->query) . prependIf('#', $this->fragment);
     }
-
 }

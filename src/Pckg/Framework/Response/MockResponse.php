@@ -1,16 +1,20 @@
-<?php namespace Pckg\Framework\Response;
+<?php
+
+namespace Pckg\Framework\Response;
 
 use Pckg\Framework\Response;
 
 class MockResponse extends Response
 {
 
-    public function stop()
+    protected $redirected = null;
+
+    public function stop($code = null)
     {
         trigger(Response::class . '.responded');
 
         $this->responded = true;
-        
+
         throw new MockStop('Response STOP');
 
         return $this;
@@ -43,5 +47,4 @@ class MockResponse extends Response
 
         return $this;
     }
-
 }

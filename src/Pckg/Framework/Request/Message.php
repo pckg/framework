@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Request;
+<?php
+
+namespace Pckg\Framework\Request;
 
 use GuzzleHttp\Psr7\BufferStream;
 use GuzzleHttp\Psr7\Stream;
@@ -23,9 +25,15 @@ class Message extends Lazy implements MessageInterface
     protected $url;
 
     /**
-     * @var Lazy|Cookie
+     * @var Lazy
      */
-    protected $post, $get, $server, $session, $cookie, $files;
+    protected $post;
+    protected $get;
+    protected $server;
+    protected $session;
+    protected $cookie;
+    protected $files;
+    protected $request;
 
     /**
      * @var array
@@ -37,7 +45,7 @@ class Message extends Lazy implements MessageInterface
      */
     protected $body;
 
-    function __construct($input = [])
+    public function __construct()
     {
         $this->post = new Lazy([]);
         $this->get = new Lazy([]);
@@ -155,7 +163,7 @@ class Message extends Lazy implements MessageInterface
         })->all();
 
         $headers[$name] = $value;
-        $this->header = $headers;
+        $this->headers = $headers;
 
         return $this;
     }
@@ -167,12 +175,12 @@ class Message extends Lazy implements MessageInterface
      */
     public function withAddedHeader($name, $value)
     {
-        if (!array_key_exists($key, $this->headers)) {
-            $this->headers[$key] = [];
+        if (!array_key_exists($name, $this->headers)) {
+            $this->headers[$name] = [];
         }
 
-        $this->headers[$key][] = $value;
-        return $this->headers[$key];
+        $this->headers[$name][] = $value;
+        return $this->headers[$name];
     }
 
     /**
@@ -206,5 +214,4 @@ class Message extends Lazy implements MessageInterface
 
         return $this;
     }
-
 }

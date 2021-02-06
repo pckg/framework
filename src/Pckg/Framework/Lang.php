@@ -41,7 +41,7 @@ class Lang
 
     public function setArray($lang, $arr)
     {
-        foreach ($arr AS $key => $val) {
+        foreach ($arr as $key => $val) {
             $this->set($lang, $key, $val);
         }
     }
@@ -93,5 +93,3 @@ class Lang
         return $this->default;
     }
 }
-
-?>

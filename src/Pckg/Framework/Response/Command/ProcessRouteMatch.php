@@ -20,7 +20,9 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
     protected $match;
 
-    protected $view, $controller;
+    protected $view;
+
+    protected $controller;
 
     protected $response;
 
@@ -205,5 +207,4 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
 
         throw new Exception("View is unknown type " . (is_object($viewData) ? get_class($viewData) : ''));
     }
-
 }

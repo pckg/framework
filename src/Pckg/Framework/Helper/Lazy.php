@@ -56,7 +56,7 @@ class Lazy implements ArrayAccess
         }
 
         $arr = [];
-        foreach ($this->data AS $key => $val) {
+        foreach ($this->data as $key => $val) {
             $arr[$key] = is_object($val) ? $val->__toArray() : $val;
         }
 
@@ -194,7 +194,7 @@ class Lazy implements ArrayAccess
 
     public function offsetUnset($offset)
     {
-        return $this->__unset($offset);
+        $this->__unset($offset);
     }
 
     public function __unset($name)
@@ -213,5 +213,4 @@ class Lazy implements ArrayAccess
     {
         return $this->toArray();
     }
-
 }

@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Helper;
+<?php
+
+namespace Pckg\Framework\Helper;
 
 /**
  * Class Retry
@@ -188,5 +190,4 @@ class Retry
 
         return false;
     }
-
 }
