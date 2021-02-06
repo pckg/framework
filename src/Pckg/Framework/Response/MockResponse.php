@@ -52,5 +52,4 @@ class MockResponse extends Response
     {
         return $this->redirected;
     }
-
 }

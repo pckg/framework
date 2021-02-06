@@ -1,4 +1,6 @@
-<?php namespace Pckg\Framework\Test;
+<?php
+
+namespace Pckg\Framework\Test;
 
 use Pckg\Concept\Context;
 use Pckg\Framework\Config;
@@ -10,7 +12,7 @@ use Pckg\Framework\Stack;
 
 trait MockFramework
 {
-    
+
     /**
      * @return mixed
      */
@@ -72,5 +74,4 @@ trait MockFramework
 
         return $context;
     }
-
 }

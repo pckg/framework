@@ -14,7 +14,6 @@ use Pckg\Framework\Stack;
 
 class MockRequest
 {
-
     use MockFramework;
 
     /**
@@ -266,5 +265,4 @@ class MockRequest
     {
         return json_decode($this->getOutput(), true);
     }
-
 }
