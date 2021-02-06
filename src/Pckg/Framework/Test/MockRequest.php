@@ -15,6 +15,8 @@ use Pckg\Framework\Stack;
 class MockRequest
 {
 
+    use MockFramework;
+
     /**
      *
      */
@@ -189,54 +191,7 @@ class MockRequest
      */
     public function fullHttpRequest($url, callable $configurator = null, $method = 'GET')
     {
-        /**
-         * Make sure that App is fully loaded?
-         * We would like to mock the environment, application and request.
-         */
-        $bootstrap = $this->getPckgBootstrap();
-
-        /**
-         * Only bootstrap and create context. Do not create environment or init the application.
-         * @var $context \Pckg\Concept\Context|\Pckg\Framework\Helper\Context
-         */
-        $originalContext = context();
-        Stack::$providers = [];
-        $this->context = $context = $bootstrap(null, null);
-
-        $originalContext->bind(Context::class, $context);
-        $originalContext->bind(\Pckg\Framework\Helper\Context::class, $context);
-
-        /**
-         * Create, bind and register the environment.
-         */
-        $config = new Config();
-        $environment = new Environment\Production($config, $context);
-        $context->bind(Environment::class, $environment);
-        $environment->register();
-
-        /**
-         * Init request
-         */
-        $server = [
-            'argv' => '',
-            'HTTP_HOST' => 'localhost',
-            'REQUEST_URI' => $url,
-            'HTTP_X_REQUESTED_WITH' => '',
-            'REQUEST_SCHEME' => 'HTTPS',
-            'HTTP_USER_AGENT' => 'X-Test',
-            'HTTP_REFERER' => '',
-            'REQUEST_METHOD' => $method,
-        ];
-
-        $router = new Router($config);
-        $context->bind(Router::class, $router);
-
-        $request = new Request();
-        $request->setConstructs([], [], $server, [], [], [], []);
-        $context->bind(Request::class, $request);
-
-        $response = new Response\MockResponse();
-        $context->bind(Response::class, $response);
+        $context = $this->mockFramework();
 
         /**
          * Now we can boot the Context and init the Application.
@@ -257,14 +212,14 @@ class MockRequest
             $this->exception = null;
             $this->application->init();
             $this->application->run();
-/*
-            (new Request\Command\RunRequest($request))->execute(function () {
-                //ddd('ran request');
-            });
-            (new Response\Command\RunResponse($response, $request))->execute(function () {
-                //ddd('ran response');
-            });
-*/
+            /*
+                        (new Request\Command\RunRequest($request))->execute(function () {
+                            //ddd('ran request');
+                        });
+                        (new Response\Command\RunResponse($response, $request))->execute(function () {
+                            //ddd('ran response');
+                        });
+            */
         } catch (Response\MockStop $e) {
             ddd('caught stop');
         } catch (\Throwable $e) {
@@ -311,11 +266,4 @@ class MockRequest
         return json_decode($this->getOutput(), true);
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getPckgBootstrap()
-    {
-        return include "vendor/pckg/framework/src/bootstrap.php";
-    }
 }
