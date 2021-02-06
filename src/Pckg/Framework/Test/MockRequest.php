@@ -192,6 +192,7 @@ class MockRequest
     public function fullHttpRequest($url, callable $configurator = null, $method = 'GET')
     {
         $context = $this->mockFramework();
+        $environment = $context->get(Environment::class);
 
         /**
          * Now we can boot the Context and init the Application.
