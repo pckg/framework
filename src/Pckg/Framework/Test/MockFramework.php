@@ -19,7 +19,7 @@ trait MockFramework
         return include "vendor/pckg/framework/src/bootstrap.php";
     }
 
-    public function mockFramework()
+    public function mockFramework($url = '/', $method = 'GET')
     {
         /**
          * Make sure that App is fully loaded?
