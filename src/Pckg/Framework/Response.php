@@ -533,8 +533,12 @@ class Response extends Message implements ResponseInterface
         $this->readFile($file, $then);
     }
 
-    public function printFile($file, $filename)
+    public function printFile($file, $filename = null)
     {
+        if (!$filename) {
+            $filename = substr($file, strrpos($file, '/') + 1);
+        }
+        
         $this->sendFileContentTypeHeaders($filename);
         $this->sendContentLengthHeader($file);
         $this->readFile($file);
