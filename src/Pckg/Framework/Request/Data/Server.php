@@ -9,12 +9,10 @@ use Psr\Http\Message\ServerRequestInterface;
 class Server extends Lazy /*extends Message implements ServerRequestInterface*/
 {
 
-    public function __construct($arr = [])
+    public function setFromGlobals()
     {
-        parent::__construct($_SERVER ?? $arr);
-    }
+        $this->setData($_SERVER);
 
-    public function __destruct()
-    {
+        return $this;
     }
 }

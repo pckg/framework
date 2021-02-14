@@ -7,13 +7,10 @@ use Pckg\Framework\Helper\Lazy;
 class Post extends Lazy
 {
 
-    public function __construct($arr = [])
+    public function setFromGlobals()
     {
-        parent::__construct($arr ?? $_POST);
-    }
+        $this->setData($_POST);
 
-    public function __destruct()
-    {
-        //$_POST = $this->data;
+        return $this;
     }
 }

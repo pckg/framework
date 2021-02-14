@@ -5,8 +5,10 @@ namespace Pckg\Framework;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\Cookie;
+use Pckg\Framework\Request\Data\Get;
 use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Server;
+use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Request\Message;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -75,33 +77,17 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
             $input = $_POST;
         }
 
-        $this->setPost($input);
-        $this->get = new Lazy($_GET);
+        $this->post = new Post($input);
+        $this->get = new Get($_GET);
         $this->server = new Server($_SERVER);
         $this->files = new Lazy($_FILES);
         $this->cookie = new Cookie($_COOKIE);
-        $this->request = new Lazy($_REQUEST);
-
-        $this->fetchUrl();
-
+        $this->request = new \Pckg\Htmlbuilder\Datasource\Method\Request($_REQUEST);
         $this->headers = collect(getallheaders())->groupBy(function ($value, $key) {
             return $key;
         })->all();
-    }
-
-    public function setConstructs($post, $get, $server, $files, $cookie, $request, $headers = [])
-    {
-        $this->setPost($post);
-        $this->get = new Lazy($get);
-        $this->server = new Lazy($server);
-        $this->files = new Lazy($files);
-        $this->cookie = new Cookie($cookie);
-        $this->request = new Lazy($request);
-        $this->headers = $headers;
 
         $this->fetchUrl();
-
-        return $this;
     }
 
     /**
@@ -186,46 +172,77 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this->post->get($key, $default);
     }
 
+    /**
+     * @param $object
+     * @param null $key
+     * @param array $default
+     * @return Lazy|mixed
+     */
+    private function getOrFull($object, $key = null, $default = [])
+    {
+        return is_null($key)
+            ? $object
+            : $object->get($key, $default);
+    }
+
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Get|mixed
+     */
     public function get($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->get
-            : $this->get->get($key, $default);
+        return $this->getOrFull($this->get, $key, $default);
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Server|mixed
+     */
     public function server($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->server
-            : $this->server->get($key, $default);
+        return $this->getOrFull($this->server, $key, $default);
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Cookie|mixed
+     */
     public function cookie($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->cookie
-            : $this->cookie->get($key, $default);
+        return $this->getOrFull($this->cookie, $key, $default);
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Session|mixed
+     */
     public function session($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->session
-            : $this->session->get($key, $default);
+        return $this->getOrFull($this->session, $key, $default);
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return \Pckg\Htmlbuilder\Datasource\Method\Request|mixed
+     */
     public function request($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->request
-            : $this->request->get($key, $default);
+        return $this->getOrFull($this->request, $key, $default);
     }
 
-    public function files($key = null)
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Lazy|mixed
+     */
+    public function files($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->files
-            : $this->files->get($key);
+        return $this->getOrFull($this->files, $key, $default);
     }
 
     public function isMethod($method)

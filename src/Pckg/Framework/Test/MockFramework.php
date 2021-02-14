@@ -14,6 +14,16 @@ trait MockFramework
 {
 
     /**
+     * @var \UnitTester
+     */
+    protected $tester;
+
+    /**
+     * @var Context
+     */
+    protected $context;
+
+    /**
      * @return mixed
      */
     protected function getPckgBootstrap()
@@ -49,6 +59,16 @@ trait MockFramework
         $environment->register();
 
         /**
+         * Configure for mocking.
+         */
+        $singletones = $config->get('pckg.reflect.singletones', []);
+        $mockSingletones = [
+            Response::class => Response\MockResponse::class,
+            Request::class => Request\MockRequest::class,
+        ];
+        $config->set('pckg.reflect.singletones', $mockSingletones + $singletones);
+
+        /**
          * Init request
          */
         $server = [
@@ -61,17 +81,41 @@ trait MockFramework
             'HTTP_REFERER' => '',
             'REQUEST_METHOD' => $method,
         ];
-
         $router = new Router($config);
         $context->bind(Router::class, $router);
 
-        $request = new Request();
-        $request->setConstructs([], [], $server, [], [], [], []);
+        /**
+         * @var $request Request\MockRequest
+         */
+        $request = resolve(Request::class);
+        resolve(Response::class);
+
+        $currentServer = $request->server()->all();
+        $request->server()->setData($server + $currentServer);
+
+        $request->fetchUrl();
+
+        /*$request = new Request();
         $context->bind(Request::class, $request);
+        $request->setConstructs([], [], $server, [], [], [], []);
 
         $response = new Response\MockResponse();
-        $context->bind(Response::class, $response);
+        $context->bind(Response::class, $response);*/
+
+        /**
+         * Can we set all "singletones" this way?
+         *  - Request (Post, Get, Server, Cookie, Session), Response (+Cookie? +Session?)
+         */
+        $config->set('pckg.session.driver', Request\Data\SessionDriver\MockDriver::class);
 
         return $context;
+    }
+
+    public function mergeRequestHeaders(Context $context, array $headers)
+    {
+        $request = $context->get(Request::class);
+        $request->setHeaders($headers + $request->getHeaders());
+
+        return $this;
     }
 }

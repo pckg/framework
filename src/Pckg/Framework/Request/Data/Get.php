@@ -7,13 +7,10 @@ use Pckg\Framework\Helper\Lazy;
 class Get extends Lazy
 {
 
-    public function __construct($arr = [])
+    public function setFromGlobals()
     {
-        parent::__construct($_GET ?? $arr);
-    }
+        $this->setData($_GET);
 
-    public function __destruct()
-    {
-        $_GET = $this->data;
+        return $this;
     }
 }

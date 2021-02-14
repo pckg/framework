@@ -22,6 +22,13 @@ class Session
         $this->driver = new $driver($arr);
     }
 
+    public function setFromGlobals()
+    {
+        $this->setData($_SESSION);
+
+        return $this;
+    }
+
     public function get($key, $default = null)
     {
         return $_SESSION[$key] ?? $default;

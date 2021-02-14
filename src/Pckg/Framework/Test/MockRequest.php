@@ -83,9 +83,11 @@ class MockRequest
      */
     public function assertResponseHas($key)
     {
-        $response = $this->context->get(Response::class)->getOutput();
+        $responseObject = $this->context->get(Response::class);
+        $response = $responseObject->getOutput();
 
-        $this->test->assertEquals(true, !!(is_array($response) ? ($response[$key] ?? null) : (json_decode($response, true)[$key] ?? null)), 'Response does not have a ' . $key);
+        $true = !!(is_array($response) ? ($response[$key] ?? null) : (json_decode($response, true)[$key] ?? null));
+        $this->test->assertEquals(true, $true, 'Response does not have a/an ' . $key);
 
         return $this;
     }
@@ -128,7 +130,7 @@ class MockRequest
             $request->server()->set('HTTP_X_PCKG_CSRF', metaManager()->getCsrfValue());
             $request->server()->set('HTTP_REFERER', 'https://localhost');
             $request->server()->set('HTTP_ORIGIN', 'localhost:99999');
-            $request->setHeaders([
+            $this->mergeRequestHeaders($context, [
                 'Accept' => 'application/json',
                 'X-Pckg-CSRF' => metaManager()->getCsrfValue(),
             ]);
@@ -190,7 +192,7 @@ class MockRequest
      */
     public function fullHttpRequest($url, callable $configurator = null, $method = 'GET')
     {
-        $context = $this->mockFramework();
+        $context = $this->mockFramework($url, $method);
         $environment = $context->get(Environment::class);
 
         /**
@@ -221,11 +223,11 @@ class MockRequest
                         });
             */
         } catch (Response\MockStop $e) {
-            ddd('caught stop');
+            //d('caught stop');
         } catch (\Throwable $e) {
-            ddd('not caught', get_class($e));
+            //d('not caught', exception($e));
             $this->exception = $e;
-            error_log('EXCEPTION: ' . exception($e));
+            //error_log('MockRequest: EXCEPTION: ' . exception($e));
         }
 
         return $this;

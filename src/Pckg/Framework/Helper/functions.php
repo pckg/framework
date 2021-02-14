@@ -454,7 +454,7 @@ if (!function_exists('config')) {
      */
     function config($key = null, $default = null)
     {
-        $config = context()->get(Config::class);
+        $config = context()->getOrCreate(Config::class);
 
         if ($key) {
             return $config->get($key) ?? $default;
