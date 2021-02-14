@@ -28,7 +28,11 @@ trait MockFramework
      */
     protected function getPckgBootstrap()
     {
-        return include "vendor/pckg/framework/src/bootstrap.php";
+        $file = 'vendor/pckg/framework/src/bootstrap.php';
+        if (!is_file($file)) {
+            $file = 'src/bootstrap.php';
+        }
+        return include $file;
     }
 
     public function mockFramework($url = '/', $method = 'GET')
@@ -111,7 +115,7 @@ trait MockFramework
         return $context;
     }
 
-    public function mergeRequestHeaders(Context $context, array $headers)
+    protected function mergeRequestHeaders(Context $context, array $headers)
     {
         $request = $context->get(Request::class);
         $request->setHeaders($headers + $request->getHeaders());

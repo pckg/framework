@@ -10,19 +10,11 @@ class MockDriver extends SessionHandler
 
     protected $state = null;
 
-    protected $sid = null;
-
     protected $sessions = [];
 
     public function close()
     {
         $this->state = 'closed';
-        return $this;
-    }
-
-    public function create_sid()
-    {
-        $this->sid = uuid4();
         return $this;
     }
 

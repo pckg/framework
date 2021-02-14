@@ -19,7 +19,7 @@ use Psr\Http\Message\StreamInterface;
  * @package pckg\Framework\Request
  * PSR7 implementation of Message.
  */
-class Message extends Lazy implements MessageInterface
+class Message implements MessageInterface
 {
 
     /**
@@ -30,13 +30,13 @@ class Message extends Lazy implements MessageInterface
     /**
      * @var Lazy
      */
+    protected $server;
+    protected $request;
     protected $post;
     protected $get;
-    protected $server;
     protected $session;
     protected $cookie;
     protected $files;
-    protected $request;
 
     /**
      * @var array
@@ -50,12 +50,12 @@ class Message extends Lazy implements MessageInterface
 
     public function __construct()
     {
-        $this->post = new Post([]);
-        $this->get = new Get([]);
-        $this->server = new Server([]);
-        $this->files = new Lazy([]);
-        $this->cookie = new Cookie([]);
-        $this->request = new Request([]);
+        $this->post = new Post();
+        $this->get = new Get();
+        $this->server = new Server();
+        $this->files = new Lazy();
+        $this->cookie = new Cookie();
+        $this->request = new \Pckg\Framework\Request\Data\Request();
 
         $this->fetchUrl();
         $this->body = new BufferStream();

@@ -693,12 +693,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/collection.git",
-                "reference": "ac7a8e1f445449a16a88b9adc523c3f538a6743b"
+                "reference": "f363854132cfd29b62490e0f794d18e4cbf43a0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/collection/zipball/ac7a8e1f445449a16a88b9adc523c3f538a6743b",
-                "reference": "ac7a8e1f445449a16a88b9adc523c3f538a6743b",
+                "url": "https://api.github.com/repos/pckg/collection/zipball/f363854132cfd29b62490e0f794d18e4cbf43a0c",
+                "reference": "f363854132cfd29b62490e0f794d18e4cbf43a0c",
                 "shasum": ""
             },
             "require": {
@@ -735,7 +735,7 @@
                 "issues": "https://github.com/pckg/collection/issues",
                 "source": "https://github.com/pckg/collection/tree/master"
             },
-            "time": "2021-02-05T20:19:21+00:00"
+            "time": "2021-02-05T21:19:20+00:00"
         },
         {
             "name": "pckg/concept",
@@ -789,12 +789,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/database.git",
-                "reference": "1983e2ed894a132df8c46f97dc103e67e32f68f1"
+                "reference": "93f65eefcb9de0d06b7e48203d2574f38b98f28a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/database/zipball/1983e2ed894a132df8c46f97dc103e67e32f68f1",
-                "reference": "1983e2ed894a132df8c46f97dc103e67e32f68f1",
+                "url": "https://api.github.com/repos/pckg/database/zipball/93f65eefcb9de0d06b7e48203d2574f38b98f28a",
+                "reference": "93f65eefcb9de0d06b7e48203d2574f38b98f28a",
                 "shasum": ""
             },
             "require": {
@@ -810,7 +810,8 @@
                 "pckg-app/frontend-dev": "dev-master",
                 "pckg/framework": "dev-master",
                 "pckg/htmlbuilder": "dev-master",
-                "pckg/manager": "dev-master"
+                "pckg/manager": "dev-master",
+                "pckg/migrator": "dev-master"
             },
             "suggest": {
                 "fzaninotto/faker": "Use faker to mock data*",
@@ -840,7 +841,7 @@
                 "issues": "https://github.com/pckg/database/issues",
                 "source": "https://github.com/pckg/database/tree/master"
             },
-            "time": "2021-02-05T19:39:07+00:00"
+            "time": "2021-02-11T15:30:24+00:00"
         },
         {
             "name": "pckg/locale",
@@ -848,16 +849,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/locale.git",
-                "reference": "93da7511899e07bc82c4b0c411012f81e9cd83bb"
+                "reference": "6e13abf62f6d4dc1557427154859c76e4c5c73e6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/locale/zipball/93da7511899e07bc82c4b0c411012f81e9cd83bb",
-                "reference": "93da7511899e07bc82c4b0c411012f81e9cd83bb",
+                "url": "https://api.github.com/repos/pckg/locale/zipball/6e13abf62f6d4dc1557427154859c76e4c5c73e6",
+                "reference": "6e13abf62f6d4dc1557427154859c76e4c5c73e6",
                 "shasum": ""
             },
             "require-dev": {
-                "pckg-app/frontend-dev": "dev-master"
+                "pckg-app/frontend-dev": "dev-master",
+                "pckg/database": "dev-master",
+                "pckg/framework": "dev-master",
+                "pckg/manager": "dev-master"
             },
             "default-branch": true,
             "type": "library",
@@ -882,7 +886,7 @@
                 "issues": "https://github.com/pckg/locale/issues",
                 "source": "https://github.com/pckg/locale/tree/master"
             },
-            "time": "2021-01-27T11:47:33+00:00"
+            "time": "2021-02-06T11:47:33+00:00"
         },
         {
             "name": "psr/log",
@@ -2602,16 +2606,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.44.0",
+            "version": "2.45.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd"
+                "reference": "528783b188bdb853eb21239b1722831e0f000a8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd",
-                "reference": "e6ef33cb1f67a4bed831ed6d0f7e156739a5d8cd",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/528783b188bdb853eb21239b1722831e0f000a8d",
+                "reference": "528783b188bdb853eb21239b1722831e0f000a8d",
                 "shasum": ""
             },
             "require": {
@@ -2691,7 +2695,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-26T20:46:41+00:00"
+            "time": "2021-02-11T18:30:17+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -2750,6 +2754,73 @@
             "time": "2020-12-20T10:01:03+00:00"
         },
         {
+            "name": "paragonie/constant_time_encoding",
+            "version": "v2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paragonie/constant_time_encoding.git",
+                "reference": "f34c2b11eb9d2c9318e13540a1dbc2a3afbd939c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/f34c2b11eb9d2c9318e13540a1dbc2a3afbd939c",
+                "reference": "f34c2b11eb9d2c9318e13540a1dbc2a3afbd939c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7|^8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6|^7|^8|^9",
+                "vimeo/psalm": "^1|^2|^3|^4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ParagonIE\\ConstantTime\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Paragon Initiative Enterprises",
+                    "email": "security@paragonie.com",
+                    "homepage": "https://paragonie.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Steve 'Sc00bz' Thomas",
+                    "email": "steve@tobtu.com",
+                    "homepage": "https://www.tobtu.com",
+                    "role": "Original Developer"
+                }
+            ],
+            "description": "Constant-time Implementations of RFC 4648 Encoding (Base-64, Base-32, Base-16)",
+            "keywords": [
+                "base16",
+                "base32",
+                "base32_decode",
+                "base32_encode",
+                "base64",
+                "base64_decode",
+                "base64_encode",
+                "bin2hex",
+                "encoding",
+                "hex",
+                "hex2bin",
+                "rfc4648"
+            ],
+            "support": {
+                "email": "info@paragonie.com",
+                "issues": "https://github.com/paragonie/constant_time_encoding/issues",
+                "source": "https://github.com/paragonie/constant_time_encoding"
+            },
+            "time": "2020-12-06T15:14:20+00:00"
+        },
+        {
             "name": "paragonie/random_compat",
             "version": "v9.99.100",
             "source": {
@@ -2805,12 +2876,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg-app/frontend-dev.git",
-                "reference": "ca79231db124a87fa02808114a0b2143dd408b93"
+                "reference": "0d4ff7eb2677b39e00f25afa9ae1b3f7c7d37130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg-app/frontend-dev/zipball/ca79231db124a87fa02808114a0b2143dd408b93",
-                "reference": "ca79231db124a87fa02808114a0b2143dd408b93",
+                "url": "https://api.github.com/repos/pckg-app/frontend-dev/zipball/0d4ff7eb2677b39e00f25afa9ae1b3f7c7d37130",
+                "reference": "0d4ff7eb2677b39e00f25afa9ae1b3f7c7d37130",
                 "shasum": ""
             },
             "require": {
@@ -2843,7 +2914,7 @@
                 "issues": "https://github.com/pckg-app/frontend-dev/issues",
                 "source": "https://github.com/pckg-app/frontend-dev/tree/master"
             },
-            "time": "2021-01-27T00:15:21+00:00"
+            "time": "2021-02-08T10:09:10+00:00"
         },
         {
             "name": "pckg/auth",
@@ -2851,12 +2922,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/auth.git",
-                "reference": "deb18d9453ce3e40b4366f5f9a74762d9190e660"
+                "reference": "2743d3a706770122e6160bb70c02f12f82eeadef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/auth/zipball/deb18d9453ce3e40b4366f5f9a74762d9190e660",
-                "reference": "deb18d9453ce3e40b4366f5f9a74762d9190e660",
+                "url": "https://api.github.com/repos/pckg/auth/zipball/2743d3a706770122e6160bb70c02f12f82eeadef",
+                "reference": "2743d3a706770122e6160bb70c02f12f82eeadef",
                 "shasum": ""
             },
             "require": {
@@ -2898,7 +2969,7 @@
                 "issues": "https://github.com/pckg/auth/issues",
                 "source": "https://github.com/pckg/auth/tree/master"
             },
-            "time": "2021-02-05T20:18:29+00:00"
+            "time": "2021-02-13T23:35:15+00:00"
         },
         {
             "name": "pckg/htmlbuilder",
@@ -2906,12 +2977,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/htmlbuilder.git",
-                "reference": "ef0357e187c4f0d68715c371cf44d9ed88f370a2"
+                "reference": "ca4153a52f8438c44073cba43bc7324acaf116de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/ef0357e187c4f0d68715c371cf44d9ed88f370a2",
-                "reference": "ef0357e187c4f0d68715c371cf44d9ed88f370a2",
+                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/ca4153a52f8438c44073cba43bc7324acaf116de",
+                "reference": "ca4153a52f8438c44073cba43bc7324acaf116de",
                 "shasum": ""
             },
             "require": {
@@ -2949,7 +3020,7 @@
                 "issues": "https://github.com/pckg/htmlbuilder/issues",
                 "source": "https://github.com/pckg/htmlbuilder/tree/master"
             },
-            "time": "2021-01-27T10:46:30+00:00"
+            "time": "2021-02-06T17:41:35+00:00"
         },
         {
             "name": "pckg/mail",
@@ -2957,19 +3028,24 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/mail.git",
-                "reference": "d274f3f12fb11448c5c3c057e8fb648b1dba80ef"
+                "reference": "a68661a168979021234a9028c85de40986f179b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/mail/zipball/d274f3f12fb11448c5c3c057e8fb648b1dba80ef",
-                "reference": "d274f3f12fb11448c5c3c057e8fb648b1dba80ef",
+                "url": "https://api.github.com/repos/pckg/mail/zipball/a68661a168979021234a9028c85de40986f179b0",
+                "reference": "a68661a168979021234a9028c85de40986f179b0",
                 "shasum": ""
             },
             "require": {
                 "swiftmailer/swiftmailer": "5.*"
             },
             "require-dev": {
-                "pckg-app/frontend-dev": "dev-master"
+                "pckg-app/frontend-dev": "dev-master",
+                "pckg-app/mailo-api": "dev-master",
+                "pckg/auth": "dev-master",
+                "pckg/framework": "dev-master",
+                "pckg/htmlbuilder": "dev-master",
+                "pckg/queue": "dev-master"
             },
             "default-branch": true,
             "type": "library",
@@ -2996,7 +3072,7 @@
                 "issues": "https://github.com/pckg/mail/issues",
                 "source": "https://github.com/pckg/mail/tree/master"
             },
-            "time": "2021-02-02T13:25:05+00:00"
+            "time": "2021-02-06T17:51:07+00:00"
         },
         {
             "name": "pckg/manager",
@@ -3004,19 +3080,22 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/manager.git",
-                "reference": "f0d90575cca64a48ee22d6c7aeadd60f08ef3821"
+                "reference": "82949dcb2702081e30db6f68e7f57ab94b9c63cb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/manager/zipball/f0d90575cca64a48ee22d6c7aeadd60f08ef3821",
-                "reference": "f0d90575cca64a48ee22d6c7aeadd60f08ef3821",
+                "url": "https://api.github.com/repos/pckg/manager/zipball/82949dcb2702081e30db6f68e7f57ab94b9c63cb",
+                "reference": "82949dcb2702081e30db6f68e7f57ab94b9c63cb",
                 "shasum": ""
             },
             "require": {
                 "kriswallsmith/assetic": "1.4.*"
             },
             "require-dev": {
-                "pckg-app/frontend-dev": "dev-master"
+                "pckg-app/frontend-dev": "dev-master",
+                "pckg/database": "dev-master",
+                "pckg/framework": "dev-master",
+                "pckg/queue": "dev-master"
             },
             "default-branch": true,
             "type": "library",
@@ -3041,7 +3120,7 @@
                 "issues": "https://github.com/pckg/manager/issues",
                 "source": "https://github.com/pckg/manager/tree/master"
             },
-            "time": "2021-01-27T09:39:46+00:00"
+            "time": "2021-02-06T11:41:49+00:00"
         },
         {
             "name": "pckg/migrator",
@@ -3049,12 +3128,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/migrator.git",
-                "reference": "dc28db88e5d9c60909b9a1299820efe9b7b3c81f"
+                "reference": "85dba60102dca0cd0dc91fbbfbc435335ce5bd53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/migrator/zipball/dc28db88e5d9c60909b9a1299820efe9b7b3c81f",
-                "reference": "dc28db88e5d9c60909b9a1299820efe9b7b3c81f",
+                "url": "https://api.github.com/repos/pckg/migrator/zipball/85dba60102dca0cd0dc91fbbfbc435335ce5bd53",
+                "reference": "85dba60102dca0cd0dc91fbbfbc435335ce5bd53",
                 "shasum": ""
             },
             "require": {
@@ -3062,7 +3141,10 @@
                 "symfony/console": ">=3"
             },
             "require-dev": {
-                "pckg-app/frontend-dev": "dev-master"
+                "pckg-app/frontend-dev": "dev-master",
+                "pckg/framework": "dev-master",
+                "pckg/htmlbuilder": "dev-master",
+                "pckg/manager": "dev-master"
             },
             "default-branch": true,
             "type": "library",
@@ -3087,7 +3169,7 @@
                 "issues": "https://github.com/pckg/migrator/issues",
                 "source": "https://github.com/pckg/migrator/tree/master"
             },
-            "time": "2021-01-27T11:03:59+00:00"
+            "time": "2021-02-11T15:37:58+00:00"
         },
         {
             "name": "pckg/queue",
@@ -3095,19 +3177,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/queue.git",
-                "reference": "c478ff1535c0ab34b44f8a58fae1d10b5e43caf8"
+                "reference": "2ce09e946a3e18d00579b02c3e708dd6420a82c0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/queue/zipball/c478ff1535c0ab34b44f8a58fae1d10b5e43caf8",
-                "reference": "c478ff1535c0ab34b44f8a58fae1d10b5e43caf8",
+                "url": "https://api.github.com/repos/pckg/queue/zipball/2ce09e946a3e18d00579b02c3e708dd6420a82c0",
+                "reference": "2ce09e946a3e18d00579b02c3e708dd6420a82c0",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php-amqplib/php-amqplib": "2.*"
             },
             "require-dev": {
-                "pckg-app/frontend-dev": "dev-master"
+                "nesbot/carbon": "2.*",
+                "pckg-app/frontend-dev": "dev-master",
+                "pckg/database": "dev-master",
+                "pckg/framework": "dev-master",
+                "pckg/manager": "dev-master",
+                "pckg/migrator": "dev-master",
+                "pda/pheanstalk": "^4.0"
             },
             "default-branch": true,
             "type": "library",
@@ -3134,7 +3223,7 @@
                 "issues": "https://github.com/pckg/queue/issues",
                 "source": "https://github.com/pckg/queue/tree/master"
             },
-            "time": "2021-01-27T11:28:26+00:00"
+            "time": "2021-02-06T18:18:17+00:00"
         },
         {
             "name": "pckg/translator",
@@ -3142,16 +3231,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/translator.git",
-                "reference": "753c6227c2b093b70ff0faff160498eb0fd529aa"
+                "reference": "b230c08d891cec6fd5d8f8368970cb6e3dc038d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/translator/zipball/753c6227c2b093b70ff0faff160498eb0fd529aa",
-                "reference": "753c6227c2b093b70ff0faff160498eb0fd529aa",
+                "url": "https://api.github.com/repos/pckg/translator/zipball/b230c08d891cec6fd5d8f8368970cb6e3dc038d8",
+                "reference": "b230c08d891cec6fd5d8f8368970cb6e3dc038d8",
                 "shasum": ""
             },
             "require-dev": {
-                "pckg-app/frontend-dev": "dev-master"
+                "pckg-app/frontend-dev": "dev-master",
+                "pckg/collection": "dev-master",
+                "pckg/framework": "dev-master"
             },
             "default-branch": true,
             "type": "library",
@@ -3178,7 +3269,7 @@
                 "issues": "https://github.com/pckg/translator/issues",
                 "source": "https://github.com/pckg/translator/tree/master"
             },
-            "time": "2021-01-27T11:44:56+00:00"
+            "time": "2021-02-06T18:25:01+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -3293,23 +3384,23 @@
         },
         {
             "name": "php-amqplib/php-amqplib",
-            "version": "v2.12.1",
+            "version": "2.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-amqplib/php-amqplib.git",
-                "reference": "0eaaa9d5d45335f4342f69603288883388c2fe21"
+                "reference": "199f89c377df6e7a52d127af63b7c52b4e677c6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/0eaaa9d5d45335f4342f69603288883388c2fe21",
-                "reference": "0eaaa9d5d45335f4342f69603288883388c2fe21",
+                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/199f89c377df6e7a52d127af63b7c52b4e677c6c",
+                "reference": "199f89c377df6e7a52d127af63b7c52b4e677c6c",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-sockets": "*",
-                "php": ">=5.6.3",
-                "phpseclib/phpseclib": "^2.0.0"
+                "php": ">=5.6.3,<8.0",
+                "phpseclib/phpseclib": "^2.0|^3.0"
             },
             "conflict": {
                 "php": "7.4.0 - 7.4.1"
@@ -3321,7 +3412,7 @@
                 "ext-curl": "*",
                 "nategood/httpful": "^0.2.20",
                 "phpunit/phpunit": "^5.7|^6.5|^7.0",
-                "squizlabs/php_codesniffer": "^2.5"
+                "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
             "extra": {
@@ -3368,9 +3459,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-amqplib/php-amqplib/issues",
-                "source": "https://github.com/php-amqplib/php-amqplib/tree/v2.12.1"
+                "source": "https://github.com/php-amqplib/php-amqplib/tree/2.12.2"
             },
-            "time": "2020-09-25T18:34:58+00:00"
+            "time": "2021-02-12T17:50:22+00:00"
         },
         {
             "name": "php-webdriver/webdriver",
@@ -3603,24 +3694,26 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.30",
+            "version": "3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "136b9ca7eebef78be14abf90d65c5e57b6bc5d36"
+                "reference": "7c751ea006577e4c2e83326d90c8b1e8c11b8ede"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/136b9ca7eebef78be14abf90d65c5e57b6bc5d36",
-                "reference": "136b9ca7eebef78be14abf90d65c5e57b6bc5d36",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/7c751ea006577e4c2e83326d90c8b1e8c11b8ede",
+                "reference": "7c751ea006577e4c2e83326d90c8b1e8c11b8ede",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "paragonie/constant_time_encoding": "^1|^2",
+                "paragonie/random_compat": "^1.4|^2.0|^9.99.99",
+                "php": ">=5.6.1"
             },
             "require-dev": {
                 "phing/phing": "~2.7",
-                "phpunit/phpunit": "^4.8.35|^5.7|^6.0|^9.4",
+                "phpunit/phpunit": "^5.7|^6.0|^9.4",
                 "squizlabs/php_codesniffer": "~2.0"
             },
             "suggest": {
@@ -3635,7 +3728,7 @@
                     "phpseclib/bootstrap.php"
                 ],
                 "psr-4": {
-                    "phpseclib\\": "phpseclib/"
+                    "phpseclib3\\": "phpseclib/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -3692,7 +3785,7 @@
             ],
             "support": {
                 "issues": "https://github.com/phpseclib/phpseclib/issues",
-                "source": "https://github.com/phpseclib/phpseclib/tree/2.0.30"
+                "source": "https://github.com/phpseclib/phpseclib/tree/3.0.5"
             },
             "funding": [
                 {
@@ -3708,7 +3801,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-17T05:42:04+00:00"
+            "time": "2021-02-12T16:18:16+00:00"
         },
         {
             "name": "phpspec/prophecy",
@@ -3779,16 +3872,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.71",
+            "version": "0.12.76",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5"
+                "reference": "7aaaf9a759a29795e8f46d48041af1c1f1b23d38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5",
-                "reference": "d508fa3b0ecc5fc91ac70c6c7ac2862f968ba2b5",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/7aaaf9a759a29795e8f46d48041af1c1f1b23d38",
+                "reference": "7aaaf9a759a29795e8f46d48041af1c1f1b23d38",
                 "shasum": ""
             },
             "require": {
@@ -3819,7 +3912,7 @@
             "description": "PHPStan - PHP Static Analysis Tool",
             "support": {
                 "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.71"
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.76"
             },
             "funding": [
                 {
@@ -3835,7 +3928,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-02-01T18:24:00+00:00"
+            "time": "2021-02-13T11:47:44+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",

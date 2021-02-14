@@ -2,10 +2,11 @@
 
 namespace Pckg\Framework\Request\Data;
 
+use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\SessionDriver\Db;
 use Pckg\Framework\Request\Data\SessionDriver\FileDriver;
 
-class Session
+class Session extends Lazy
 {
 
     /**

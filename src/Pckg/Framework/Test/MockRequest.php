@@ -5,12 +5,9 @@ namespace Pckg\Framework\Test;
 use Codeception\Test\Unit;
 use Pckg\Concept\Context;
 use Pckg\Framework\Application;
-use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
-use Pckg\Framework\Router;
-use Pckg\Framework\Stack;
 
 class MockRequest
 {

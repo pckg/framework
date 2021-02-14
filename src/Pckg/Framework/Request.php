@@ -9,6 +9,7 @@ use Pckg\Framework\Request\Data\Get;
 use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Server;
 use Pckg\Framework\Request\Data\Session;
+use Pckg\Framework\Request\Data\Request as DataRequest;
 use Pckg\Framework\Request\Message;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -55,34 +56,16 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     protected $uri;
 
-    public function __construct($input = [])
+    public function __construct()
     {
         Reflect::method($this, 'initDependencies');
 
-        if (!$input) {
-            $input = file_get_contents('php://input');
-            if ($input && (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
-                $input = json_decode($input, true);
-            } elseif ($input) {
-                parse_str($input, $input);
-            } else {
-                $input = [];
-            }
-        }
-
-        if (!$input && $_POST) {
-            /**
-             * Why is php input sometimes empty?
-             */
-            $input = $_POST;
-        }
-
-        $this->post = new Post($input);
-        $this->get = new Get($_GET);
-        $this->server = new Server($_SERVER);
-        $this->files = new Lazy($_FILES);
-        $this->cookie = new Cookie($_COOKIE);
-        $this->request = new \Pckg\Htmlbuilder\Datasource\Method\Request($_REQUEST);
+        $this->server = (new Server())->setFromGlobals();
+        $this->request = (new DataRequest())->setFromGlobals();
+        $this->post = (new Post())->setFromGlobals();
+        $this->get = (new Get())->setFromGlobals();
+        $this->cookie = (new Cookie())->setFromGlobals();
+        $this->files = (new Lazy());
         $this->headers = collect(getallheaders())->groupBy(function ($value, $key) {
             return $key;
         })->all();

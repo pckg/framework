@@ -19,7 +19,7 @@ class MockRequest extends Request
         $this->server = new Server($_SERVER);
         $this->files = new Lazy([]);
         $this->cookie = new Cookie([]);
-        $this->request = new \Pckg\Htmlbuilder\Datasource\Method\Request([]);
+        $this->request = new Request\Data\Request([]);
         $this->headers = [];
 
         $this->fetchUrl();

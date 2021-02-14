@@ -20,7 +20,8 @@
     "fzaninotto/faker": "1.*",
     "filp/whoops": "2.*",
     "tgalopin/html-sanitizer": "dev-master",
-    "ezyang/htmlpurifier": "dev-master"
+    "ezyang/htmlpurifier": "dev-master",
+    "ext-json": "*"
   },
   "require-dev": {
     "maximebf/debugbar": "1.*",
@@ -52,11 +53,14 @@
       "vendor/bin/phpcs --extensions=php --warning-severity=8 --error-severity=1 --standard=PSR12 --parallel=2 -p src/",
       "vendor/bin/codecept run"
     ],
+    "applycsandpatch": [
+      "composer autofix && composer autopatch"
+    ],
     "autofix": [
       "vendor/bin/phpcs --extensions=php --report-diff=phpcs.diff --warning-severity=8 --error-severity=1 --standard=PSR12 --parallel=2 -p src/"
     ],
     "autopatch": [
-      "patch -p0 -ui phpcs.diff && rm phpcs.diff"
+      "patch -p0 -ui phpcs.diff ; rm phpcs.diff"
     ]
   },
   "scripts-descriptions": {
