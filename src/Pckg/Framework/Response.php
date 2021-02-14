@@ -538,7 +538,7 @@ class Response extends Message implements ResponseInterface
         if (!$filename) {
             $filename = substr($file, strrpos($file, '/') + 1);
         }
-        
+
         $this->sendFileContentTypeHeaders($filename);
         $this->sendContentLengthHeader($file);
         $this->readFile($file);
