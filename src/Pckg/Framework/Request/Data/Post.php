@@ -25,7 +25,7 @@ class Post extends Lazy
             $input = $_POST;
         }
 
-        $this->setData($_POST);
+        $this->setData($input);
 
         return $this;
     }
