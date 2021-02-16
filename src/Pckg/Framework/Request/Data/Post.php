@@ -3,29 +3,33 @@
 namespace Pckg\Framework\Request\Data;
 
 use Pckg\Framework\Helper\Lazy;
+use Pckg\Framework\Request\Data\PostResolver\Globals;
+use Pckg\Framework\Request\Data\PostResolver\PostSource;
 
 class Post extends Lazy
 {
 
+    protected $source = Globals::class;
+
+    public function setSource(PostSource $postSource)
+    {
+        $this->source = $postSource;
+
+        return $this;
+    }
+
+    public function getSource()
+    {
+        if (is_string($this->source)) {
+            $this->source = resolve($this->source);
+        }
+
+        return $this->source;
+    }
+
     public function setFromGlobals()
     {
-        $input = file_get_contents('php://input');
-        if ($input && (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
-            $input = json_decode($input, true);
-        } elseif ($input) {
-            parse_str($input, $input);
-        } else {
-            $input = [];
-        }
-
-        if (!$input && $_POST) {
-            /**
-             * Why is php input sometimes empty?
-             */
-            $input = $_POST;
-        }
-
-        $this->setData($_POST);
+        $this->setData($this->getSource()->readFromSource());
 
         return $this;
     }
