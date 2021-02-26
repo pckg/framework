@@ -530,7 +530,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     public function getAttributes()
     {
-        return [];
+        return $this->post()->all();
     }
 
     /**
@@ -540,6 +540,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     public function getAttribute($name, $default = null)
     {
+        return $this->post()->get($name, $default);
         return $this->attributes[$name] ?? $default;
     }
 
@@ -550,7 +551,8 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     public function withAttribute($name, $value)
     {
-        $this->attributes[$name] = $value;
+        $this->post()->set($name, $value);
+        // $this->attributes[$name] = $value;
 
         return $this;
     }
@@ -561,7 +563,8 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     public function withoutAttribute($name)
     {
-        unset($this->attributes[$name]);
+        unset($this->post()[$name]);
+        //unset($this->attributes[$name]);
 
         return $this;
     }
