@@ -3,18 +3,14 @@
 namespace Pckg\Framework\Request\Data;
 
 use Pckg\Framework\Helper\Lazy;
-use Pckg\Framework\Request\Message;
-use Psr\Http\Message\ServerRequestInterface;
 
-class Server extends Lazy /*extends Message implements ServerRequestInterface*/
+class Server extends Lazy
 {
 
-    public function __construct($arr = [])
+    public function setFromGlobals()
     {
-        parent::__construct($_SERVER ?? $arr);
-    }
+        $this->setData($_SERVER);
 
-    public function __destruct()
-    {
+        return $this;
     }
 }

@@ -47,4 +47,9 @@ class MockResponse extends Response
 
         return $this;
     }
+
+    public function getRedirected()
+    {
+        return $this->redirected;
+    }
 }

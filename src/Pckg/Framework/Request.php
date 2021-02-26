@@ -5,8 +5,11 @@ namespace Pckg\Framework;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\Cookie;
+use Pckg\Framework\Request\Data\Get;
 use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Server;
+use Pckg\Framework\Request\Data\Session;
+use Pckg\Framework\Request\Data\Request as DataRequest;
 use Pckg\Framework\Request\Message;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -53,55 +56,21 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     protected $uri;
 
-    public function __construct($input = [])
+    public function __construct()
     {
         Reflect::method($this, 'initDependencies');
 
-        if (!$input) {
-            $input = file_get_contents('php://input');
-            if ($input && (strpos($input, '{') === 0 && strrpos($input, '}') === strlen($input) - 1)) {
-                $input = json_decode($input, true);
-            } elseif ($input) {
-                parse_str($input, $input);
-            } else {
-                $input = [];
-            }
-        }
-
-        if (!$input && $_POST) {
-            /**
-             * Why is php input sometimes empty?
-             */
-            $input = $_POST;
-        }
-
-        $this->setPost($input);
-        $this->get = new Lazy($_GET);
-        $this->server = new Server($_SERVER);
-        $this->files = new Lazy($_FILES);
-        $this->cookie = new Cookie($_COOKIE);
-        $this->request = new Lazy($_REQUEST);
-
-        $this->fetchUrl();
-
+        $this->server = (new Server())->setFromGlobals();
+        $this->request = (new DataRequest())->setFromGlobals();
+        $this->post = (new Post())->setFromGlobals();
+        $this->get = (new Get())->setFromGlobals();
+        $this->cookie = (new Cookie())->setFromGlobals();
+        $this->files = (new Lazy());
         $this->headers = collect(getallheaders())->groupBy(function ($value, $key) {
             return $key;
         })->all();
-    }
-
-    public function setConstructs($post, $get, $server, $files, $cookie, $request, $headers = [])
-    {
-        $this->setPost($post);
-        $this->get = new Lazy($get);
-        $this->server = new Lazy($server);
-        $this->files = new Lazy($files);
-        $this->cookie = new Cookie($cookie);
-        $this->request = new Lazy($request);
-        $this->headers = $headers;
 
         $this->fetchUrl();
-
-        return $this;
     }
 
     /**
@@ -186,46 +155,77 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         return $this->post->get($key, $default);
     }
 
+    /**
+     * @param $object
+     * @param null $key
+     * @param array $default
+     * @return Lazy|mixed
+     */
+    private function getOrFull($object, $key = null, $default = [])
+    {
+        return is_null($key)
+            ? $object
+            : $object->get($key, $default);
+    }
+
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Get|mixed
+     */
     public function get($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->get
-            : $this->get->get($key, $default);
+        return $this->getOrFull($this->get, $key, $default);
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Server|mixed
+     */
     public function server($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->server
-            : $this->server->get($key, $default);
+        return $this->getOrFull($this->server, $key, $default);
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Cookie|mixed
+     */
     public function cookie($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->cookie
-            : $this->cookie->get($key, $default);
+        return $this->getOrFull($this->cookie, $key, $default);
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Session|mixed
+     */
     public function session($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->session
-            : $this->session->get($key, $default);
+        return $this->getOrFull($this->session, $key, $default);
     }
 
+    /**
+     * @param null $key
+     * @param array $default
+     * @return \Pckg\Htmlbuilder\Datasource\Method\Request|mixed
+     */
     public function request($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->request
-            : $this->request->get($key, $default);
+        return $this->getOrFull($this->request, $key, $default);
     }
 
-    public function files($key = null)
+    /**
+     * @param null $key
+     * @param array $default
+     * @return Lazy|mixed
+     */
+    public function files($key = null, $default = [])
     {
-        return is_null($key)
-            ? $this->files
-            : $this->files->get($key);
+        return $this->getOrFull($this->files, $key, $default);
     }
 
     public function isMethod($method)
@@ -530,7 +530,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     public function getAttributes()
     {
-        return [];
+        return $this->post()->all();
     }
 
     /**
@@ -540,6 +540,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     public function getAttribute($name, $default = null)
     {
+        return $this->post()->get($name, $default);
         return $this->attributes[$name] ?? $default;
     }
 
@@ -550,7 +551,8 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     public function withAttribute($name, $value)
     {
-        $this->attributes[$name] = $value;
+        $this->post()->set($name, $value);
+        // $this->attributes[$name] = $value;
 
         return $this;
     }
@@ -561,7 +563,8 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
      */
     public function withoutAttribute($name)
     {
-        unset($this->attributes[$name]);
+        unset($this->post()[$name]);
+        //unset($this->attributes[$name]);
 
         return $this;
     }

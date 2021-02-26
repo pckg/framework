@@ -13,9 +13,11 @@ class Cookie extends Lazy
     const DURATION_MONTH = 2592000;
 // 30 days
 
-    public function __construct(array $arr = [])
+    public function setFromGlobals()
     {
-        parent::__construct($_COOKIE ?? $arr);
+        $this->setData($_COOKIE);
+
+        return $this;
     }
 
     public function set($name, $value = '', $expiration = self::DURATION_MONTH, $path = '/', $domain = '')

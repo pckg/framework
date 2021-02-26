@@ -4,12 +4,12 @@ namespace Pckg\Framework\Request\Data;
 
 use Pckg\Framework\Helper\Lazy;
 
-class Get extends Lazy
+class Request extends Lazy
 {
 
     public function setFromGlobals()
     {
-        $this->setData($_GET);
+        $this->setData($_REQUEST);
 
         return $this;
     }

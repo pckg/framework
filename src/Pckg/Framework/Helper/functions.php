@@ -75,15 +75,15 @@ if (!function_exists('app')) {
 }
 
 if (!function_exists('getDotted')) {
-    function getDotted($data, $keys, $i = 0)
+    function getDotted($data, $keys, $i = 0, $default = null)
     {
         if (!isset($keys[$i])) {
             return $data;
         } elseif (isset($data[$keys[$i]])) {
-            return getDotted($data[$keys[$i]], $keys, $i + 1);
+            return getDotted($data[$keys[$i]], $keys, $i + 1, $default);
         }
 
-        return null;
+        return $default;
     }
 }
 
@@ -455,7 +455,7 @@ if (!function_exists('config')) {
      */
     function config($key = null, $default = null)
     {
-        $config = context()->get(Config::class);
+        $config = context()->getOrCreate(Config::class);
 
         if ($key) {
             return $config->get($key) ?? $default;

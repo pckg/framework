@@ -3,17 +3,34 @@
 namespace Pckg\Framework\Request\Data;
 
 use Pckg\Framework\Helper\Lazy;
+use Pckg\Framework\Request\Data\PostResolver\Globals;
+use Pckg\Framework\Request\Data\PostResolver\PostSource;
 
 class Post extends Lazy
 {
 
-    public function __construct($arr = [])
+    protected $source = Globals::class;
+
+    public function setSource(PostSource $postSource)
     {
-        parent::__construct($arr ?? $_POST);
+        $this->source = $postSource;
+
+        return $this;
     }
 
-    public function __destruct()
+    public function getSource()
     {
-        //$_POST = $this->data;
+        if (is_string($this->source)) {
+            $this->source = resolve($this->source);
+        }
+
+        return $this->source;
+    }
+
+    public function setFromGlobals()
+    {
+        $this->setData($this->getSource()->readFromSource());
+
+        return $this;
     }
 }

@@ -148,14 +148,12 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
              */
             $code = $this->response->getCode();
             $this->response->code(404);
-            error_log('CODE 404: ' . exception($e));
         } catch (Bad $e) {
             /**
              * Set response code to 400.
              */
             $code = $this->response->getCode();
             $this->response->code(400);
-            error_log('CODE 400: ' . exception($e));
         } catch (Throwable $e) {
             /**
              * Set response code to 500.
@@ -165,8 +163,15 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 $code = 500;
                 $this->response->code($code);
             }
-            error_log('CODE ' . $code . ': ' . exception($e));
         } finally {
+            if (!response()->getOutput()) {
+                response()->setOutput([
+                    'error' => true,
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                ]);
+            }
+            //error_log('ERROR, response code ' . $this->response->getCode() . ': ' . exception($e));
             /**
              * Yeeey, no exception, return with execution
              */
@@ -177,6 +182,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             /**
              * Finally, throw exception.
              */
+            //db(10);die();
             throw $e;
         }
     }

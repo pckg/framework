@@ -7,7 +7,10 @@ use GuzzleHttp\Psr7\Stream;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\Cookie;
+use Pckg\Framework\Request\Data\Get;
+use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Server;
+use Pckg\Htmlbuilder\Datasource\Method\Request;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -16,7 +19,7 @@ use Psr\Http\Message\StreamInterface;
  * @package pckg\Framework\Request
  * PSR7 implementation of Message.
  */
-class Message extends Lazy implements MessageInterface
+class Message implements MessageInterface
 {
 
     /**
@@ -27,13 +30,13 @@ class Message extends Lazy implements MessageInterface
     /**
      * @var Lazy
      */
+    protected $server;
+    protected $request;
     protected $post;
     protected $get;
-    protected $server;
     protected $session;
     protected $cookie;
     protected $files;
-    protected $request;
 
     /**
      * @var array
@@ -47,14 +50,12 @@ class Message extends Lazy implements MessageInterface
 
     public function __construct()
     {
-        $this->post = new Lazy([]);
-        $this->get = new Lazy([]);
-        $this->server = new Server([]);
-        $this->files = new Lazy([]);
-        $this->cookie = new Cookie([]);
-        $this->request = new Lazy([]);
-
-        $this->url = '/';
+        $this->post = new Post();
+        $this->get = new Get();
+        $this->server = new Server();
+        $this->files = new Lazy();
+        $this->cookie = new Cookie();
+        $this->request = new \Pckg\Framework\Request\Data\Request();
 
         $this->fetchUrl();
         $this->body = new BufferStream();

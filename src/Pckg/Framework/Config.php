@@ -34,7 +34,7 @@ class Config
         if (strpos($key, '.')) {
             $keys = explode('.', $key);
 
-            return getDotted($this->data, $keys);
+            return getDotted($this->data, $keys, 0, $default);
         }
 
         return $default;

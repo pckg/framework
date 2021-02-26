@@ -80,7 +80,8 @@ class FrameworkResolver implements Resolver
 
         if (class_exists($class)) {
             if (in_array($class, static::$singletones)) {
-                $newInstance = Reflect::create($class);
+                $mockedClass = config('pckg.reflect.singletones.' . $class, $class);
+                $newInstance = Reflect::create($mockedClass);
 
                 context()->bind($class, $newInstance);
 
