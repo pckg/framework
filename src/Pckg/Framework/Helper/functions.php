@@ -1221,7 +1221,7 @@ if (!function_exists('vueRoute')) {
      * @param array $tags
      * @return Router\Route\Route|Router\Route\VueRoute
      */
-    function vueRoute(string $route = '', string $component = null, array $tags = [])
+    function vueRoute(string $route = '', string $component = null, array $tags = [], array $children = [])
     {
         $defaultTags = [
             'vue:route',
@@ -1269,7 +1269,7 @@ if (!function_exists('vueRoute')) {
         }))->data([
             'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
             'method' => 'GET',
-        ]);
+        ])->children($children);
     }
 }
 
