@@ -1219,6 +1219,7 @@ if (!function_exists('vueRoute')) {
      * @param string $route
      * @param string|null $component
      * @param array $tags
+     * @param array $children
      * @return Router\Route\Route|Router\Route\VueRoute
      */
     function vueRoute(string $route = '', string $component = null, array $tags = [], array $children = [])
