@@ -100,6 +100,7 @@ class FileDriver extends SessionHandler
     protected function startSession($SID = null, $PHPSESSID = null)
     {
         $readAndClose = ($SID || $PHPSESSID) && (in_array('session:close', router()->get('tags')) || (!get('lang') && !post()->all()) || request()->isSearch());
+        $readAndClose = false;
 
         /**
          * Start a new session.
