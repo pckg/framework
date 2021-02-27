@@ -435,9 +435,9 @@ class Router
             }
             if (strpos($v, 'layout:') === 0) {
                 if ($v === 'layout:frontend') {
-                    $component = '<pb-route-layout></pb-route-layout>';
+                    //$component = '<pb-route-layout></pb-route-layout>';
                 } else if ($v === 'layout:backend') {
-                } else {
+                } else { // focused? blank?
                     $component = substr($v, strlen('layout:'));
                     $component = '<' . $component . '></' . $component . '>';
                 }
@@ -543,7 +543,7 @@ class Router
         }
         return $vueRoutes;
     }
-    
+
     public function mock(callable $task)
     {
         return context()->mock(new Router(config()), $task);
