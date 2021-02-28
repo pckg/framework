@@ -114,7 +114,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             if (!$this->response->hasResponded()) {
                 $dispatcher->trigger(ProcessRouteMatch::class . '.ran');
                 $output = $this->parseView($response);
-
+                
                 $this->response->setOutput($output);
             }
 

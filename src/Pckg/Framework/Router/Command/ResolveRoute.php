@@ -43,7 +43,7 @@ class ResolveRoute
                     }
 
                     /**
-                     * @deprecated 
+                     * @deprecated
                      */
                     if (isset($route['secure']) && is_only_callable($route['secure']) && !$route['secure']()) {
                         break;

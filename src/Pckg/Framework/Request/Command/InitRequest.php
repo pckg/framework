@@ -72,8 +72,8 @@ class InitRequest extends AbstractChainOfReponsibility
                     return (new ShowNiceErrorPage())->handlePartial();
                 },
                 'tags'      => ['layout:frontend'],
-                'name'      => null,
-                'url'       => null,
+                'name'      => 'error',
+                'url'       => '/#error',
                 'method'    => 'GET',
                 'resolvers' => [],
             ];

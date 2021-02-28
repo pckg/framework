@@ -1251,15 +1251,22 @@ if (!function_exists('vueRoute')) {
                 }
             }
 
+            // safe already?
+            $isVue = true;
 
             if ($isVue) {
                 /**
                  * We will parse Vue routes into the frontend layout.
                  * It is currently hardcoded to print <frontend-app></frontend-app> which prints header, body and others.
                  */
-                if (request()->isAjax()) {
+                if (true || request()->isAjax()) {
+                    // why is ajax different?
                     return '<pckg-app data-frontend></pckg-app>';
                 }
+                /**
+                 * What about other layouts?
+                 * Shouldn't we leave this to Afterware?
+                 */
                 return view('Pckg/Generic/View/frontend', ['content' => '<pckg-app data-frontend></pckg-app>']);
             }
 
