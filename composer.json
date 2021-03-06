@@ -14,7 +14,7 @@
     "pckg/database": "dev-master",
     "pckg/cache": "dev-master",
     "pckg/locale": "dev-master",
-    "twig/twig": ">=1 <3",
+    "twig/twig": ">=1 <2",
     "josegonzalez/dotenv": "dev-master",
     "rollbar/rollbar": "2.*",
     "fzaninotto/faker": "1.*",
