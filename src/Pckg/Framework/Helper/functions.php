@@ -1208,7 +1208,7 @@ if (!function_exists('between')) {
 }
 
 if (!function_exists('route')) {
-    function route($route, $view, $controller = null)
+    function route($route = '', $view = 'index', $controller = null)
     {
         return new Pckg\Framework\Router\Route\Route($route, $view, $controller);
     }
