@@ -82,7 +82,13 @@ class Command extends SymfonyConsoleCommand
 
     public function execute(InputInterface $input, OutputInterface $output)
     {
-        Reflect::method($this, 'handle');
+        try {
+            Reflect::method($this, 'handle');
+            return 0;
+        } catch (\Throwable $e) {
+            error_log(exception($e));
+            return 1;
+        }
     }
 
     protected function quit($msg = null)

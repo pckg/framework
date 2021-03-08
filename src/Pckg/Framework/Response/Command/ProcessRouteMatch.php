@@ -167,7 +167,7 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 response()->setOutput([
                     'error' => true,
                     'success' => false,
-                    'message' => $e->getMessage(),
+                    'message' => $e ? $e->getMessage() : 'No output',
                 ]);
             }
             //error_log('ERROR, response code ' . $this->response->getCode() . ': ' . exception($e));
