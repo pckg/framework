@@ -1214,7 +1214,13 @@ if (!function_exists('route')) {
 }
 
 if (!function_exists('vueRoute')) {
-    function vueRoute($route, $component, array $tags = [], array $children = [])
+    /**
+     * @param string $route
+     * @param string|null $component
+     * @param array $tags
+     * @return Router\Route\Route|Router\Route\VueRoute
+     */
+    function vueRoute(string $route = '', string $component = null, array $tags = [], array $children = [])
     {
         return (new Router\Route\VueRoute($route, function () use ($tags) {
             $config = config();
