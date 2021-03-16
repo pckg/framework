@@ -65,7 +65,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         $this->post = (new Post())->setFromGlobals();
         $this->get = (new Get())->setFromGlobals();
         $this->cookie = (new Cookie())->setFromGlobals();
-        $this->files = (new Lazy());
+        $this->files = (new Lazy($_FILES));
         $this->headers = collect(getallheaders())->groupBy(function ($value, $key) {
             return $key;
         })->all();
