@@ -182,12 +182,7 @@ class MockRequest
         }, 'POST');
     }
 
-    /**
-     * @param $url
-     * @param callable|null $configurator
-     * @param string $method
-     */
-    public function fullHttpRequest($url, callable $configurator = null, $method = 'GET')
+    public function initApp($url = '/', callable $configurator = null, $method = 'GET')
     {
         $context = $this->mockFramework($url, $method);
         $environment = $context->get(Environment::class);
@@ -204,12 +199,31 @@ class MockRequest
             $configurator($this->context);
         }
 
+        try {
+            $this->exception = null;
+            $this->application->init();
+            return $this;
+        } catch (\Throwable $e) {
+            $this->exception = $e;
+        }
+    }
+
+    /**
+     * @param $url
+     * @param callable|null $configurator
+     * @param string $method
+     */
+    public function fullHttpRequest($url, callable $configurator = null, $method = 'GET')
+    {
+        $initialized = $this->initApp($url, $configurator, $method);
+        if (!$initialized) {
+            throw new \Exception('Cannot initialize app ' . ($this->exception ? exception($e) : 'Unknown exception'));
+        }
+
         /**
          * Init the Application.
          */
         try {
-            $this->exception = null;
-            $this->application->init();
             $this->application->run();
             /*
                         (new Request\Command\RunRequest($request))->execute(function () {
