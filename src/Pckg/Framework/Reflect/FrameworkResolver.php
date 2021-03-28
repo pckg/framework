@@ -42,6 +42,10 @@ class FrameworkResolver implements Resolver
 
     public function canResolve($class)
     {
+        if (!class_exists($class) && !interface_exists($class)) {
+            return false;
+        }
+
         if (in_array($class, static::$singletones)) {
             return true;
         }
@@ -57,6 +61,10 @@ class FrameworkResolver implements Resolver
 
     public function resolve($class)
     {
+        if (!class_exists($class) && !interface_exists($class)) {
+            return false;
+        }
+
         if (in_array($class, static::$singletones)) {
             if (context()->exists($class)) {
                 return context()->get($class);

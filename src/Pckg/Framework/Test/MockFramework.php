@@ -9,6 +9,7 @@ use Pckg\Framework\Request;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
 use Pckg\Framework\Stack;
+use Pckg\Queue\Service\Driver\Mock;
 
 trait MockFramework
 {
@@ -35,7 +36,7 @@ trait MockFramework
         return include $file;
     }
 
-    public function mockFramework($url = '/', $method = 'GET')
+    public function mockEnvironment()
     {
         /**
          * Make sure that App is fully loaded?
@@ -71,6 +72,19 @@ trait MockFramework
             Request::class => Request\MockRequest::class,
         ];
         $config->set('pckg.reflect.singletones', $mockSingletones + $singletones);
+        $config->set('pckg.session.driver', Request\Data\SessionDriver\MockDriver::class);
+
+        return [$context, $config];
+    }
+
+    public function mockFramework($url = '/', $method = 'GET')
+    {
+        if (isset($this->context)) {
+            $context = $this->context;
+            $config = $context->get(Config::class);
+        } else {
+            [$context, $config] = $this->mockEnvironment();
+        }
 
         /**
          * Init request
@@ -106,12 +120,6 @@ trait MockFramework
         $response = new Response\MockResponse();
         $context->bind(Response::class, $response);*/
 
-        /**
-         * Can we set all "singletones" this way?
-         *  - Request (Post, Get, Server, Cookie, Session), Response (+Cookie? +Session?)
-         */
-        $config->set('pckg.session.driver', Request\Data\SessionDriver\MockDriver::class);
-
         return $context;
     }
 
@@ -119,6 +127,35 @@ trait MockFramework
     {
         $request = $context->get(Request::class);
         $request->setHeaders($headers + $request->getHeaders());
+
+        return $this;
+    }
+
+    public function mock()
+    {
+        return (new MockRequest($this, $this->app));
+    }
+
+    public function runExtensionDecorations(string $decoration)
+    {
+        foreach (get_class_methods($this) as $method) {
+            if (strpos($method, $decoration) !== 0 || strpos($method, 'Extension') === false) {
+                continue;
+            }
+            $this->{$method}();
+        }
+    }
+
+    public function _before()
+    {
+        $this->runExtensionDecorations('_before');
+
+        return $this;
+    }
+
+    public function _after()
+    {
+        $this->runExtensionDecorations('_after');
 
         return $this;
     }
