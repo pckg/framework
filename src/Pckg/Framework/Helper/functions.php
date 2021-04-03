@@ -855,7 +855,7 @@ if (!function_exists('prod')) {
 if (!function_exists('implicitDev')) {
     function implicitDev()
     {
-        $remote = server('REMOTE_ADDR');
+        $remote = request()->clientIp();
         if (!$remote) {
             return false;
         }
