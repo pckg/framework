@@ -18,6 +18,12 @@ use Pckg\Locale\Command\Localize;
 class Website extends Application
 {
 
+    /**
+     * @return string[]
+     * Session should be initialized on demand.
+     * It should not be initialized for:
+     *  - API requests (Bearer-Token, X-Api-Key, ...)
+     */
     public function inits()
     {
         return [
