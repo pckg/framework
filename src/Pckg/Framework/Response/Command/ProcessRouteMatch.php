@@ -9,6 +9,7 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Exception\Bad;
 use Pckg\Framework\Exception\NotFound;
 use Pckg\Framework\Exception\Unauthorized;
+use Pckg\Framework\Request;
 use Pckg\Framework\Response;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Router\Command\ResolveDependencies;
@@ -18,19 +19,15 @@ use Throwable;
 class ProcessRouteMatch extends AbstractChainOfReponsibility
 {
 
-    protected $match;
-
-    protected $view;
-
     protected $controller;
 
     protected $response;
 
     protected $loadView;
 
-    public function __construct($match, Response $response, LoadView $loadView)
+    public function __construct(LoadView $loadView, Request $request, Response $response)
     {
-        $this->match = $match;
+        $this->request = $request;
         $this->response = $response;
         $this->loadView = $loadView;
     }
@@ -39,6 +36,11 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
     {
         $e = null;
         try {
+            /**
+             * Get defaults.
+             */
+            $match = $this->request->getMatch();
+
             /**
              * Apply global middlewares.
              */
@@ -51,8 +53,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             /**
              * Apply route middlewares.
              */
-            if (isset($this->match['middlewares'])) {
-                chain($this->match['middlewares'], 'execute');
+            if (isset($match['middlewares'])) {
+                chain($match['middlewares'], 'execute');
             }
 
             /**
@@ -73,22 +75,23 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                 $this->response->code(204)->respond();
             };
 
-            if (is_only_callable($this->match['view'])) {
+            if (is_only_callable($match['view'])) {
                 /**
                  * Simple action will take all requests - GET, POST, DELETE, ...
                  */
                 $processOptions();
-                $response = Reflect::call($this->match['view'], $resolved);
-            } elseif (array_key_exists('controller', $this->match)) {
+                $response = Reflect::call($match['view'], $resolved);
+                $this->response->setOutput($response);
+            } elseif (array_key_exists('controller', $match)) {
                 /**
                  * Create controller object.
                  */
-                $this->controller = Reflect::create($this->match['controller']);
+                $this->controller = Reflect::create($match['controller']);
 
                 /**
                  * Check for OPTIONS.
                  */
-                $method = strtolower(request()->header('Access-Control-Request-Method')) . ucfirst($this->match['view']) . 'Action';
+                $method = strtolower(request()->header('Access-Control-Request-Method')) . ucfirst($match['view']) . 'Action';
                 if (method_exists($this->controller, $method)) {
                     $processOptions();
                 } elseif ($isOptionsRequest) {
@@ -99,23 +102,24 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                  * Get main action response.
                  * This is where Resolvers may already Respond with final response.
                  */
-                $response = $this->loadView->set($this->match['view'], $resolved, $this->controller)->execute();
+                $response = $this->loadView->set($match['view'], $resolved, $this->controller)->execute();
+                $this->response->setOutput($response);
             } else {
                 /**
                  * Vue route or similar?
                  */
                 $processOptions();
-                $response = $this->match['view'];
+                $response = $match['view'];
+                $this->response->setOutput($response);
             }
 
             /**
              * Trigger an event on successful response.
+             * Transform output to string or array.
              */
             if (!$this->response->hasResponded()) {
                 $dispatcher->trigger(ProcessRouteMatch::class . '.ran');
-                $output = $this->parseView($response);
-                
-                $this->response->setOutput($output);
+                $this->response->reparseOutput();
             }
 
             /**
@@ -129,8 +133,8 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             /**
              * Apply route afterwares/decorators.
              */
-            if (isset($this->match['afterwares'])) {
-                chain($this->match['afterwares'], 'execute', [$this->response]);
+            if (isset($match['afterwares'])) {
+                chain($match['afterwares'], 'execute', [$this->response]);
             }
         } catch (TheEnd $e) {
             /**
@@ -185,32 +189,5 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
             //db(10);die();
             throw $e;
         }
-    }
-
-    public function parseView($viewData)
-    {
-        if (is_object($viewData)) {
-            if ($viewData instanceof ViewInterface) {
-                // parse layout into view
-                return $viewData->autoparse();
-            } else if ($viewData instanceof Collection) {
-                // convert to array
-                return $viewData->toArray();
-            } else if (method_exists($viewData, '__toString')) {
-                return (string)$viewData;
-            } else if ($viewData instanceof \stdClass) {
-                return json_encode($viewData);
-            } else if ($viewData instanceof Response) {
-                return $this->parseView($viewData->getOutput());
-            }
-        } else if (is_string($viewData) || is_array($viewData)) {
-            // print view as content
-            return $viewData;
-        } else if (is_null($viewData) || is_int($viewData) || is_bool($viewData)) {
-            // without view
-            return null;
-        }
-
-        throw new Exception("View is unknown type " . (is_object($viewData) ? get_class($viewData) : ''));
     }
 }

@@ -1226,57 +1226,22 @@ if (!function_exists('vueRoute')) {
     {
         $defaultTags = [
             'vue:route',
-            'vue:route:template' => substr($component, 0, 1) !== '<'
-                ? '<' . $component . '></' . $component . '>'
-                : $component,
         ];
 
-        return (new Router\Route\VueRoute($route, function() use ($tags) {
-            $config = config();
+        /**
+         * Build the component.
+         */
+        if ($component) {
+            $defaultTags['vue:route:template'] = substr($component, 0, 1) !== '<'
+                ? '<' . $component . '></' . $component . '>'
+                : $component;
+        }
 
-            $layout = null;
-            $isVue = false;
-            foreach ($tags as $key => $tag) {
-                if (strpos($tag, 'layout:') === 0) {
-                    if (strpos($tag, '-') === false) {
-                        $layout = 'Pckg/Generic:' . substr($tag, strlen('layout:'));
-                    } else {
-                        $layout = substr($tag, strlen('layout:'));
-                        $isVue = true;
-                    }
-                    break;
-                } elseif ($key === 'layout') {
-                    $layout = $tag;
-                    $isVue = true;
-                }
-            }
-
-            // safe already?
-            $isVue = true;
-
-            if ($isVue) {
-                /**
-                 * We will parse Vue routes into the frontend layout.
-                 * It is currently hardcoded to print <frontend-app></frontend-app> which prints header, body and others.
-                 */
-                if (true || request()->isAjax()) {
-                    // why is ajax different?
-                    return '<pckg-app data-frontend></pckg-app>';
-                }
-                /**
-                 * What about other layouts?
-                 * Shouldn't we leave this to Afterware?
-                 */
-                return view('Pckg/Generic/View/frontend', ['content' => '<pckg-app data-frontend></pckg-app>']);
-            }
-
-            if (request()->isAjax()) {
-                return Vue::getLayout();
-            }
-            return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
+        return (new Router\Route\VueRoute($route, function () use ($tags, $defaultTags) {
+            return $defaultTags['vue:route:template'] ?? Vue::getLayout();
         }))->data([
             'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
-            'method' => 'GET',
+            'method' => 'GET', // what happens on other methods?
         ])->children($children);
     }
 }
@@ -1305,7 +1270,12 @@ if (!function_exists('component')) {
                     $generic = resolve(Generic::class);
                 }
 
-                $key = $generic->pushMetadata('router', substr($k, 1), $v);
+                $store = true;
+                if (is_string($v) && substr($v, 0, 1) === '$') {
+                    $key = '$store.state.generic.metadata.router[' . json_encode(substr($k, 1)) . ']';
+                } else {
+                    $key = $generic->pushMetadata('router', substr($k, 1), $v, $store);
+                }
                 $build .= ' ' . $k . '="' . $key . '"';
             } else {
                 $build .= ' ' . $k . '="' . $v . '"';

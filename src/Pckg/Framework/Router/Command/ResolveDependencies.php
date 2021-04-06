@@ -2,6 +2,7 @@
 
 namespace Pckg\Framework\Router\Command;
 
+use Pckg\Framework\Provider\ResolvesMultiple;
 use Pckg\Framework\Router;
 
 class ResolveDependencies
@@ -64,7 +65,7 @@ class ResolveDependencies
                 /**
                  * Create resolver.
                  */
-                $realResolver = resolve($resolver);
+                $realResolver = resolve($resolver, $data);
             }
 
             $k = $data[$urlKey] ?? null;
@@ -73,22 +74,17 @@ class ResolveDependencies
             /**
              * Validate resolved value for access?
              */
-
+            $resolvesMultiple = object_implements($realResolver, ResolvesMultiple::class);
             if (is_string($urlKey)) {
                 $data[$urlKey] = $resolved;
+                router()->resolve($urlKey, $resolved);
+            } elseif ($resolvesMultiple) {
+                foreach ($resolved as $resolvedKey => $resolvedValue) {
+                    $data[$resolvedKey] = $resolvedValue;
+                    router()->resolve($resolvedKey, $resolvedValue);
+                }
             } else {
                 $data[] = $resolved;
-            }
-
-            if (!is_int($urlKey)) {
-                router()->resolve($urlKey, $resolved);
-                /**
-                 * Remove resolved key.
-                 * Why? Can we delete it?
-                 */
-                if (isset($data[$urlKey])) {
-                    //unset($data[$urlKey]);
-                }
             }
         }
 
