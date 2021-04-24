@@ -659,7 +659,7 @@ class Response extends Message implements ResponseInterface
 
     public function sendNoIndexHeader()
     {
-        header('X-Robots-Tax', 'noindex');
+        header('X-Robots-Tag: noindex');
 
         return $this;
     }

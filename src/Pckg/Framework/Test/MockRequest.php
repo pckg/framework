@@ -64,11 +64,11 @@ class MockRequest
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function assertResponseCode($code)
+    public function assertResponseCode($code, $message = null)
     {
         $response = $this->context->get(Response::class);
 
-        $this->test->assertEquals($code, $response->getCode(), 'Response code not ' . $code);
+        $this->test->assertEquals($code, $response->getCode(), $message ?? ('Response code not ' . $code));
 
         return $this;
     }
@@ -98,7 +98,7 @@ class MockRequest
     {
         $response = $this->context->get(Response::class)->getOutput();
 
-        $this->test->assertEquals(true, strpos($response, $value) >= 0, 'Response does not contain ' . $value);
+        $this->test->assertEquals(true, str_contains($response, $value), 'Response does not contain ' . $value);
 
         return $this;
     }
@@ -127,6 +127,7 @@ class MockRequest
             $request->server()->set('HTTP_X_PCKG_CSRF', metaManager()->getCsrfValue());
             $request->server()->set('HTTP_REFERER', 'https://localhost');
             $request->server()->set('HTTP_ORIGIN', 'localhost:99999');
+            $request->server()->set('HTTP_HOST', 'localhost');
             $this->mergeRequestHeaders($context, [
                 'Accept' => 'application/json',
                 'X-Pckg-CSRF' => metaManager()->getCsrfValue(),
