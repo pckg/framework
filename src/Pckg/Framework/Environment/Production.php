@@ -104,11 +104,11 @@ class Production extends Environment
             /**
              * Handle JSON request.
              */
-            if ($request->isJson() || $request->isAjax()) {
+            if ($request->isJson() || $request->isAjax() || $request->isCORS()) {
                 $response = [
                     'success' => false,
                     'error' => true,
-                    'message' => $e->getMessage(),
+                    'message' => $message,
                     'statusCode' => $response->getCode(),
                     'exception' => implicitDev() ? exception($e) : null,
                 ];

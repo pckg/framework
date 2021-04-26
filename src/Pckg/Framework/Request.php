@@ -388,7 +388,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         /**
          * Leave OPTIONS and GET?
          */
-        return $this->isPost() || $this->isSearch() || $this->isDelete() || $this->isPut() || $this->isPatch() || $this->isHead();
+        return !($this->isGet() || $this->isOptions());
     }
 
     /**
