@@ -17,7 +17,6 @@
     "twig/twig": ">=1 <2",
     "josegonzalez/dotenv": "dev-master",
     "rollbar/rollbar": "2.*",
-    "fzaninotto/faker": "1.*",
     "filp/whoops": "2.*",
     "tgalopin/html-sanitizer": "dev-master",
     "ezyang/htmlpurifier": "dev-master",

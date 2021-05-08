@@ -99,7 +99,7 @@ class Production extends Environment
             $message = $e->getMessage();
             $response->sendCodeHeader();
 
-            @error_log($message . ' (' . $code . ')');
+            @error_log(exception($e) . ' (' . $code . ')');
 
             /**
              * Handle JSON request.
