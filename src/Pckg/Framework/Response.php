@@ -75,7 +75,12 @@ class Response extends Message implements ResponseInterface
 
     protected $responded = false;
 
-    protected $type = 'text/html';
+    const TYPE_PLAIN = 'text/plain';
+    const TYPE_HTML = 'text/html';
+    const TYPE_XML = 'text/xml';
+    const TYPE_JSON = 'application/json';
+
+    protected $type = self::TYPE_HTML;
 
     public function addMiddleware($middleware)
     {
@@ -618,7 +623,7 @@ class Response extends Message implements ResponseInterface
 
     public function setTextHeader()
     {
-        $this->setType('text/plain');
+        $this->setType(static::TYPE_PLAIN);
 
         return $this;
     }
@@ -634,7 +639,7 @@ class Response extends Message implements ResponseInterface
 
     public function sendCacheHeaders($seconds = 60)
     {
-        if (is_string($seconds) && (int)$seconds != $seconds) {
+        if (is_string($seconds)/* && (int)$seconds != $seconds*/) {
             $seconds = strtotime('+' . $seconds) - time();
         }
 
