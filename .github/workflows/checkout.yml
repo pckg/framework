@@ -2,9 +2,9 @@ name: Pckg Framework CI
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, master-yoda ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, master-yoda ]
 
 jobs:
 
