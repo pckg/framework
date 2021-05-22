@@ -7,13 +7,20 @@ class RequestDataCest
 
     public function _before(UnitTester $I)
     {
-        define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
+        if (!defined('__ROOT__')) {
+            define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
+        }
         $this->mockFramework();
     }
 
     // tests
     public function defaultRequestDataTest(UnitTester $I)
     {
+        $_POST = [];
+        $_GET = [];
+        $_COOKIE = [];
+        $_REQUEST = [];
+
         $request = new Pckg\Framework\Request();
         $I->assertEquals([], $request->get()->all());
         $I->assertEquals([], $request->post()->all());

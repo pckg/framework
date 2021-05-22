@@ -7,7 +7,9 @@ class ConfigCest
 
     public function _before(UnitTester $I)
     {
-        define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
+        if (!defined('__ROOT__')) {
+            define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
+        }
         $this->mockFramework();
     }
 
