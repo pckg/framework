@@ -2984,20 +2984,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/htmlbuilder.git",
-                "reference": "8ce9602d4fc38de92f1702e3381e498aa0e9b1dc"
+                "reference": "618286089d9f6740c80f15bed899a4b9cba0fe19"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/8ce9602d4fc38de92f1702e3381e498aa0e9b1dc",
-                "reference": "8ce9602d4fc38de92f1702e3381e498aa0e9b1dc",
+                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/618286089d9f6740c80f15bed899a4b9cba0fe19",
+                "reference": "618286089d9f6740c80f15bed899a4b9cba0fe19",
                 "shasum": ""
             },
             "require": {
-                "pckg/concept": "dev-master",
-                "pckg/framework": "dev-master"
+                "pckg/concept": "dev-master"
             },
             "require-dev": {
-                "pckg-app/frontend-dev": "dev-master"
+                "pckg-app/frontend-dev": "dev-master",
+                "pckg/framework": "dev-master || dev-master-yoda"
             },
             "default-branch": true,
             "type": "library",
@@ -3027,7 +3027,7 @@
                 "issues": "https://github.com/pckg/htmlbuilder/issues",
                 "source": "https://github.com/pckg/htmlbuilder/tree/master"
             },
-            "time": "2021-05-08T15:29:28+00:00"
+            "time": "2021-05-22T09:48:19+00:00"
         },
         {
             "name": "pckg/mail",
