@@ -1,8 +1,10 @@
-<?php namespace Pckg\Framework\Provider\Helper;
+<?php
+
+namespace Pckg\Framework\Provider\Helper;
 
 trait PostValidationResolver
 {
-    
+
     protected $validator;
 
     public function validator(callable $validator)
@@ -20,5 +22,4 @@ trait PostValidationResolver
 
         return $resolved;
     }
-
 }

@@ -158,7 +158,7 @@ class FileDriver extends SessionHandler
 
         return $PHPSESSIDSECURE;
     }
-    
+
     public function regenerate()
     {
         /**

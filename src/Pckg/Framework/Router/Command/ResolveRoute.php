@@ -70,7 +70,6 @@ class ResolveRoute
             $arrUrl = explode("/", substr($url, 1));
             foreach ($routes as $routeArr) {
                 foreach ($routeArr as $conf) {
-
                     // validate language
                     if ($conf['language'] ?? false) {
                         if ($this->domain) {

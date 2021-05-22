@@ -299,7 +299,7 @@ class Router
                             }
                         }
                     }
-                    $filteredArgs = (new Collection($args))->reduce(function($item) {
+                    $filteredArgs = (new Collection($args))->reduce(function ($item) {
                         return !is_object($item);
                     }, true)->all();
                     $route['url'] = str_replace(array_keys($filteredArgs), $filteredArgs, $route['url']);

@@ -30,9 +30,9 @@ class DeployProject extends Command
             $this->output('Happy FRIDAY deploy!');
         }
 
-        $this->output('Estamblishing SSH connection to ' . $remote['host'] . '.');
+        $this->output('Establishing SSH connection to ' . $remote['host'] . '.');
         $sshConnection = ssh2_connect($remote['host'], $remote['port']);
-        $this->output('SSH connection estamblished.');
+        $this->output('SSH connection established.');
 
         /**
          * Authenticate with username and password or username and key.
@@ -41,12 +41,12 @@ class DeployProject extends Command
             if (
                 !ssh2_auth_password($sshConnection, $remote['username'], $remote['password'])
             ) {
-                throw new Exception('Cannot estamblish SSH connection to remote with username and password');
+                throw new Exception('Cannot establish SSH connection to remote with username and password');
             }
         } elseif (
             !ssh2_auth_pubkey_file($sshConnection, $remote['username'], $remote['key'] . '.pub', $remote['key'], '')
         ) {
-            throw new Exception('Cannot estamblish SSH connection to remote with username and key');
+            throw new Exception('Cannot establish SSH connection to remote with username and key');
         }
 
         $paths = $remote['root'];

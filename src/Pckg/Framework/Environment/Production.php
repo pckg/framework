@@ -165,9 +165,10 @@ class Production extends Environment
     public function getApplicationNameFromGlobalRouter()
     {
         $apps = config('router.apps', []);
+        $hostname = $_SERVER['HTTP_HOST'] ?? null;
 
         foreach ($apps as $app => $config) {
-            if (in_array($_SERVER['HTTP_HOST'], $config['host'])) {
+            if (in_array($hostname, $config['host'])) {
                 return $app;
             }
 
@@ -176,7 +177,7 @@ class Production extends Environment
             }
 
             foreach ($config['host'] as $host) {
-                if (strpos($host, '(') !== false && preg_match('/' . $host . '/', $_SERVER['HTTP_HOST'])) {
+                if (strpos($host, '(') !== false && preg_match('/' . $host . '/', $hostname)) {
                     return $app;
                 }
             }

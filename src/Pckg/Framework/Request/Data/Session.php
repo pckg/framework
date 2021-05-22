@@ -53,7 +53,7 @@ class Session extends Lazy
     {
         // TODO: Implement __destruct() method.
     }
-    
+
     public function getDriver()
     {
         return $this->driver;

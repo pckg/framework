@@ -7,6 +7,8 @@ class Config
 
     protected $data = [];
 
+    const EVENT_DIR_PARSED = self::class . '.dirParsed';
+
     public function __construct(array $data = [])
     {
         $this->overwrite($data);
@@ -113,6 +115,10 @@ class Config
 
         $this->data = merge_arrays($this->data, $settings);
 
+        /**
+         * @T00D00 - move this to the event handler
+         */
+        trigger(static::EVENT_DIR_PARSED, [$this]);
         $this->set('url', "https://" . config('domain'));
     }
 

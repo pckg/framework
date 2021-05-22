@@ -43,6 +43,7 @@ class RunResponse extends AbstractChainOfReponsibility
                                                               'html' => $output,
                                                               'vue'  => $vue,
                                                               'resolved' => router()->resolved(),
+                                                               // @phpstan-ignore-next-line
                                                               'metadata' => resolve(Generic::class)->getMetadata(),
                                                           ]));
         } else if (is_bool($output)) {
