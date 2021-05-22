@@ -24,6 +24,15 @@ trait MockFramework
      */
     protected $context;
 
+    protected $recreateContext = true;
+
+    protected function setRecreateContext($recreate = false)
+    {
+        $this->recreateContext = $recreate;
+
+        return $this;
+    }
+
     /**
      * @return mixed
      */
@@ -79,7 +88,7 @@ trait MockFramework
 
     public function mockFramework($url = '/', $method = 'GET')
     {
-        if (isset($this->context)) {
+        if (!$this->recreateContext && isset($this->context)) {
             $context = $this->context;
             $config = $context->get(Config::class);
         } else {
@@ -136,8 +145,12 @@ trait MockFramework
         return (new MockRequest($this, $this->app));
     }
 
-    public function runExtensionDecorations(string $decoration)
+    public function runExtensionDecorations($decoration)
     {
+        if (!is_string($decoration)) {
+            return;
+        }
+
         foreach (get_class_methods($this) as $method) {
             if (strpos($method, $decoration) !== 0 || strpos($method, 'Extension') === false) {
                 continue;

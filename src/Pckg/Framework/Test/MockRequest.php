@@ -218,7 +218,7 @@ class MockRequest
     {
         $initialized = $this->initApp($url, $configurator, $method);
         if (!$initialized) {
-            throw new \Exception('Cannot initialize app ' . ($this->exception ? exception($e) : 'Unknown exception'));
+            throw new \Exception('Cannot initialize app ' . ($this->exception ? exception($this->exception) : 'Unknown exception'));
         }
 
         /**

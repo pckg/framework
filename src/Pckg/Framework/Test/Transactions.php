@@ -51,5 +51,4 @@ trait Transactions
             $repository->getConnection()->rollBack();
         }
     }
-
 }
