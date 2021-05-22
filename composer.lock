@@ -2929,18 +2929,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/auth.git",
-                "reference": "85490fd383a007e4f38fa1177b1ce8b79383ee3f"
+                "reference": "148b47cdcf97e9b10834871c93dbe9361bbb7879"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/auth/zipball/85490fd383a007e4f38fa1177b1ce8b79383ee3f",
-                "reference": "85490fd383a007e4f38fa1177b1ce8b79383ee3f",
+                "url": "https://api.github.com/repos/pckg/auth/zipball/148b47cdcf97e9b10834871c93dbe9361bbb7879",
+                "reference": "148b47cdcf97e9b10834871c93dbe9361bbb7879",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "facebook/graph-sdk": "5.*",
-                "pckg/framework": "dev-master"
+                "pckg/framework": "dev-master || dev-master-yoda"
             },
             "require-dev": {
                 "facebook/facebook-instant-articles-sdk-php": "dev-master",
@@ -2976,7 +2976,7 @@
                 "issues": "https://github.com/pckg/auth/issues",
                 "source": "https://github.com/pckg/auth/tree/master"
             },
-            "time": "2021-05-02T10:47:29+00:00"
+            "time": "2021-05-22T09:45:11+00:00"
         },
         {
             "name": "pckg/htmlbuilder",
