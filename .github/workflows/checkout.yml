@@ -25,10 +25,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: vendor
-          key: composer-${{ hashFiles('composer.lock') }}
+          key: composer-v1-${{ hashFiles('composer.lock') }}
 
       - name: Install Composer dependencies
-        run: composer update --ignore-platform-reqs && composer install --dev --prefer-dist --no-progress --no-suggest --optimize-autoloader --ignore-platform-reqs
+        run: composer install --prefer-dist --no-progress --optimize-autoloader --ignore-platform-reqs
 
       - name: Copy Codeception config
         run: cp codeception.sample.travis.yml codeception.yml
