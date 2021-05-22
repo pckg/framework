@@ -1,35 +1,21 @@
 <?php
 
+namespace Test\Framework\Config\Command;
+
 use Pckg\Framework\Config\Command\InitConfig;
+use Pckg\Framework\Test\Codeception\Cest;
 use Pckg\Framework\Test\ContextDiff;
 use Pckg\Framework\Test\ListenForEvents;
 use Pckg\Framework\Test\MockConfig;
-use Pckg\Framework\Test\MockFramework;
 use Pckg\Framework\Test\MockInContext;
 
-class FrameworkConfigCommandInitConfigCest
+class InitConfigCest extends Cest
 {
 
-    use MockFramework;
     use ContextDiff;
     use ListenForEvents;
     use MockConfig;
     use MockInContext;
-
-    protected UnitTester $unitTester;
-
-    public function _before(UnitTester $I)
-    {
-        if (!defined('__ROOT__')) {
-            define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
-        }
-        $this->unitTester = $I;
-        $this->mockFramework();
-    }
-
-    protected function _after()
-    {
-    }
 
     public function testConfig()
     {

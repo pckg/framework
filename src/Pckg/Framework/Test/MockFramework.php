@@ -142,6 +142,7 @@ trait MockFramework
 
     public function mock()
     {
+        // @phpstan-ignore-next-line
         return (new MockRequest($this, $this->app));
     }
 

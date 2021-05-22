@@ -1,29 +1,17 @@
 <?php
 
-use Pckg\Framework\Application\Command\InitDatabase;
-use Pckg\Framework\Test\ContextDiff;
-use Pckg\Framework\Test\MockFramework;
+namespace Test\Framework\Application\Command;
 
-class FrameworkApplicationCommandInitDatabaseCest
+use Pckg\Framework\Application\Command\InitDatabase;
+use Pckg\Framework\Test\Codeception\Cest;
+use Pckg\Framework\Test\ContextDiff;
+
+class InitDatabaseCest extends Cest
 {
 
-    use MockFramework;
     use ContextDiff;
 
-    protected UnitTester $unitTester;
-
-    public function _before(UnitTester $I)
-    {
-        if (!defined('__ROOT__')) {
-            define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
-        }
-        $this->unitTester = $I;
-        $this->mockFramework();
-    }
-
-    protected function _after()
-    {
-    }
+    protected \UnitTester $unitTester;
 
     protected function createInitDatabaseObject(array $config = []): InitDatabase
     {

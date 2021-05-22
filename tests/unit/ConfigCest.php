@@ -1,17 +1,7 @@
 <?php
 
-class ConfigCest
+class ConfigCest extends \Pckg\Framework\Test\Codeception\Cest
 {
-
-    use \Pckg\Framework\Test\MockFramework;
-
-    public function _before(UnitTester $I)
-    {
-        if (!defined('__ROOT__')) {
-            define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
-        }
-        $this->mockFramework();
-    }
 
     // tests
     public function defaultConfigTest(UnitTester $I)

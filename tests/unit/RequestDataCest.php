@@ -1,17 +1,7 @@
 <?php
 
-class RequestDataCest
+class RequestDataCest extends \Pckg\Framework\Test\Codeception\Cest
 {
-
-    use \Pckg\Framework\Test\MockFramework;
-
-    public function _before(UnitTester $I)
-    {
-        if (!defined('__ROOT__')) {
-            define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
-        }
-        $this->mockFramework();
-    }
 
     // tests
     public function defaultRequestDataTest(UnitTester $I)
