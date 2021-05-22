@@ -68,10 +68,5 @@
     "test": "Run all tests and quality checks"
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
-  "config": {
-    "platform": {
-      "php": "7.4"
-    }
-  }
+  "prefer-stable": true
 }
