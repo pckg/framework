@@ -24,7 +24,7 @@ class WebsiteCest extends Cest
         $provider = new \Pckg\Framework\Provider();
         $website = new \Pckg\Framework\Application\Queue($provider);
 
-        $this->unitTester->assertNotEmpty($website->inits());
-        $this->unitTester->assertNotEmpty($website->runs());
+        $this->tester->assertNotEmpty($website->inits());
+        $this->tester->assertNotEmpty($website->runs());
     }
 }

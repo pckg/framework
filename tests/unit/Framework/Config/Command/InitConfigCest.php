@@ -24,7 +24,7 @@ class InitConfigCest extends Cest
         path('app', __ROOT__ . 'tests/_data/FrameworkConfigCommandInitConfigCest/');
         (new InitConfig($config))->execute(fn() => null);
         $final = $config->get();
-        $this->unitTester->assertNotSame($initial, $final);
-        $this->unitTester->assertSame(['foo' => 'barconfig', 'url' => 'https://'], $final);
+        $this->tester->assertNotSame($initial, $final);
+        $this->tester->assertSame(['foo' => 'barconfig', 'url' => 'https://'], $final);
     }
 }

@@ -48,8 +48,8 @@ class RunCommandCest extends Cest
 
         (new RunCommand($response, $dispatcher, $symfonyConsole, $server))->execute(fn() => null);
 
-        $this->unitTester->assertEquals(1, $this->getNumberOfTriggers(RunCommand::EVENT_RUNNING));
-        $this->unitTester->assertEquals(1, $this->getNumberOfTriggers(static::EVENT_MIDDLEWARE));
-        $this->unitTester->assertEquals(1, $this->getNumberOfTriggers(static::EVENT_AFTERWARE));
+        $this->tester->assertEquals(1, $this->getNumberOfTriggers(RunCommand::EVENT_RUNNING));
+        $this->tester->assertEquals(1, $this->getNumberOfTriggers(static::EVENT_MIDDLEWARE));
+        $this->tester->assertEquals(1, $this->getNumberOfTriggers(static::EVENT_AFTERWARE));
     }
 }

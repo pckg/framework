@@ -7,6 +7,8 @@ class Config
 
     protected $data = [];
 
+    protected $registeredDirs = [];
+
     const EVENT_DIR_PARSED = self::class . '.dirParsed';
 
     public function __construct(array $data = [])
@@ -97,6 +99,11 @@ class Config
         return $data;
     }
 
+    public function hasRegisteredDir($dir): bool
+    {
+        return in_array($dir, $this->registeredDirs);
+    }
+
     public function parseDir($dir)
     {
         if (!$dir) {
@@ -118,6 +125,7 @@ class Config
         /**
          * @T00D00 - move this to the event handler
          */
+        $this->registeredDirs[] = $dir;
         trigger(static::EVENT_DIR_PARSED, [$this]);
         $this->set('url', "https://" . config('domain'));
     }

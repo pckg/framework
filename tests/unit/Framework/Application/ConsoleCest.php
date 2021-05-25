@@ -24,7 +24,7 @@ class ConsoleCest extends Cest
         $provider = new \Pckg\Framework\Provider();
         $console = new \Pckg\Framework\Application\Console($provider);
 
-        $this->unitTester->assertNotEmpty($console->inits());
-        $this->unitTester->assertNotEmpty($console->runs());
+        $this->tester->assertNotEmpty($console->inits());
+        $this->tester->assertNotEmpty($console->runs());
     }
 }

@@ -52,7 +52,7 @@
       "true || vendor/bin/phpcloc cloc src/",
       "vendor/bin/phpstan analyse src/ --level=1",
       "vendor/bin/phpcs -s --standard=ruleset.xml --extensions=php --warning-severity=8 --error-severity=1 --parallel=2 -p src/",
-      "vendor/bin/codecept run -o \"settings: shuffle: true\""
+      "vendor/bin/codecept run"
     ],
     "applycsandpatch": [
       "composer autofix && composer autopatch"

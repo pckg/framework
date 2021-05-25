@@ -29,9 +29,9 @@ class RegisterApplicationCest extends \Pckg\Framework\Test\Codeception\Cest
         $registerApplication = new \Pckg\Framework\Application\Command\RegisterApplication($application, $config);
         $registerApplication->execute(fn() => null);
 
-        $this->unitTester->assertTrue($provider->isRegistered());
-        $this->unitTester->assertEquals([], $config->get());
-        $this->unitTester->assertEquals('en_GB', $localeManager->getCurrent());
-        $this->unitTester->assertEquals(1, $this->getNumberOfTriggers(\Pckg\Framework\Application::EVENT_REGISTERED));
+        $this->tester->assertTrue($provider->isRegistered());
+        $this->tester->assertEquals([], $config->get());
+        $this->tester->assertEquals('en_GB', $localeManager->getCurrent());
+        $this->tester->assertEquals(1, $this->getNumberOfTriggers(\Pckg\Framework\Application::EVENT_REGISTERED));
     }
 }

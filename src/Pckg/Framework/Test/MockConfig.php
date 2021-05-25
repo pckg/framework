@@ -17,4 +17,9 @@ trait MockConfig
 
         return $config;
     }
+
+    protected function getConfig(): Config
+    {
+        return $this->context->get(Config::class);
+    }
 }

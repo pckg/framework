@@ -454,6 +454,10 @@ namespace Pckg\Framework\Helper {
         [$realKey] = explode('/', $key);
         $path = config('path.' . $realKey);
 
+        if (!$path) {
+            throw new Exception('Path ' . $key . ' is not defined');
+        }
+
         if (strpos($key, '/')) {
             $path .= rtrim(substr($key, strlen($realKey) + 1), '/') . '/';
         }
@@ -463,6 +467,10 @@ namespace Pckg\Framework\Helper {
          */
         if ($val === true) {
             $path = str_replace(path('root'), path('ds'), $path);
+        }
+
+        if ($key !== 'ds' && $val === '/') {
+            throw new Exception('Root path (/) is not allowed');
         }
 
         return $path;

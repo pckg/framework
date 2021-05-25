@@ -24,7 +24,7 @@ class QueueCest extends Cest
         $provider = new \Pckg\Framework\Provider();
         $queue = new \Pckg\Framework\Application\Queue($provider);
 
-        $this->unitTester->assertNotEmpty($queue->inits());
-        $this->unitTester->assertNotEmpty($queue->runs());
+        $this->tester->assertNotEmpty($queue->inits());
+        $this->tester->assertNotEmpty($queue->runs());
     }
 }

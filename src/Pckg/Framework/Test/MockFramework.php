@@ -13,6 +13,7 @@ use Pckg\Queue\Service\Driver\Mock;
 
 trait MockFramework
 {
+    use MockContext;
 
     /**
      * @var \UnitTester
@@ -20,7 +21,7 @@ trait MockFramework
     protected $tester;
 
     /**
-     * @var Context
+     * @var \Pckg\Framework\Helper\Context
      */
     protected $context;
 
@@ -33,36 +34,9 @@ trait MockFramework
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getPckgBootstrap()
-    {
-        $file = 'vendor/pckg/framework/src/bootstrap.php';
-        if (!is_file($file)) {
-            $file = 'src/bootstrap.php';
-        }
-        return include $file;
-    }
-
     public function mockEnvironment()
     {
-        /**
-         * Make sure that App is fully loaded?
-         * We would like to mock the environment, application and request.
-         */
-        $bootstrap = $this->getPckgBootstrap();
-
-        /**
-         * Only bootstrap and create context. Do not create environment or init the application.
-         * @var $context \Pckg\Concept\Context|\Pckg\Framework\Helper\Context
-         */
-        $originalContext = context();
-        Stack::$providers = [];
-        $this->context = $context = $bootstrap(null, null);
-
-        $originalContext->bind(Context::class, $context);
-        $originalContext->bind(\Pckg\Framework\Helper\Context::class, $context);
+        $context = $this->mockContext();
 
         /**
          * Create, bind and register the environment.

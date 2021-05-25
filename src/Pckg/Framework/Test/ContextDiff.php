@@ -14,7 +14,7 @@ trait ContextDiff
         $starting = $this->context->getData();
         $response = $task();
         $ending = $this->context->getData();
-        $this->unitTester->assertEquals($diff, count($ending) - count($starting));
+        $this->tester->assertEquals($diff, count($ending) - count($starting));
 
         return $response;
     }
