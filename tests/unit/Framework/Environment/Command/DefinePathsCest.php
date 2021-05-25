@@ -11,20 +11,21 @@ class DefinePathsCest extends Cest
 
     public function testConfig()
     {
+        $path = codecept_root_dir();
         $paths = [
             'ds' => '/',
-            'root' => '/var/www/html/',
-            'apps' => '/var/www/html/app/',
-            'src' => '/var/www/html/src/',
-            'storage' => '/var/www/html/storage/',
-            'private' => '/var/www/html/storage/private/',
-            'public' => '/var/www/html/storage/public/',
-            'www' => '/var/www/html/www/',
-            'cache' => '/var/www/html/storage/cache/',
-            'tmp' => '/var/www/html/storage/tmp/',
-            'uploads' => '/var/www/html/storage/uploads/',
-            'vendor' => '/var/www/html/vendor/',
-            'build' => '/var/www/html/build/',
+            'root' => $path,
+            'apps' => $path . 'app/',
+            'src' => $path . 'src/',
+            'storage' => $path . 'storage/',
+            'private' => $path . 'storage/private/',
+            'public' => $path . 'storage/public/',
+            'www' => $path . 'www/',
+            'cache' => $path . 'storage/cache/',
+            'tmp' => $path . 'storage/tmp/',
+            'uploads' => $path . 'storage/uploads/',
+            'vendor' => $path . 'vendor/',
+            'build' => $path . 'build/',
         ];
 
         $preRegistered = true;
