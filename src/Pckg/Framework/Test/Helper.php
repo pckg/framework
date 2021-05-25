@@ -9,6 +9,11 @@ use Pckg\Database\Repository;
 use Pckg\Database\Repository\PDO as PDORepository;
 use PDO;
 
+/**
+ * Class Helper
+ * @package Pckg\Framework\Test
+ * @deprecated ?
+ */
 class Helper extends Module
 {
 

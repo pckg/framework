@@ -53,7 +53,7 @@ class MockRequest
      * @param Unit $test
      * @param $app
      */
-    public function __construct($test, $app)
+    protected function __construct($test, $app)
     {
         $this->test = $test;
         $this->app = $app;
@@ -64,7 +64,7 @@ class MockRequest
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function assertResponseCode($code, $message = null)
+    protected function assertResponseCode($code, $message = null)
     {
         $response = $this->context->get(Response::class);
 
@@ -78,7 +78,7 @@ class MockRequest
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function assertResponseHas($key)
+    protected function assertResponseHas($key)
     {
         $responseObject = $this->context->get(Response::class);
         $response = $responseObject->getOutput();
@@ -94,7 +94,7 @@ class MockRequest
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function assertResponseContains($value)
+    protected function assertResponseContains($value)
     {
         $response = $this->context->get(Response::class)->getOutput();
 
@@ -110,7 +110,7 @@ class MockRequest
      * @param null $mode
      * @return callable|\Closure|null
      */
-    public function modifyConfigurator(callable $configurator = null, $mode = null)
+    protected function modifyConfigurator(callable $configurator = null, $mode = null)
     {
         if (!$mode && !$configurator) {
             return null;
@@ -143,7 +143,7 @@ class MockRequest
      * @param callable|null $configurator
      * @return $this
      */
-    public function httpGet($url, callable $configurator = null, $mode = null)
+    protected function httpGet($url, callable $configurator = null, $mode = null)
     {
         return $this->fullHttpRequest($url, $this->modifyConfigurator($configurator, $mode), 'GET');
     }
@@ -153,7 +153,7 @@ class MockRequest
      * @param callable|null $configurator
      * @return $this
      */
-    public function httpGetJson($url, callable $configurator = null)
+    protected function httpGetJson($url, callable $configurator = null)
     {
         return $this->fullHttpRequest($url, $this->modifyConfigurator($configurator, static::MODE_JSON), 'GET');
     }
@@ -163,7 +163,7 @@ class MockRequest
      * @param callable|null $configurator
      * @return $this
      */
-    public function httpDelete($url, callable $configurator = null)
+    protected function httpDelete($url, callable $configurator = null)
     {
         return $this->fullHttpRequest($url, $this->modifyConfigurator($configurator), 'DELETE');
     }
@@ -174,7 +174,7 @@ class MockRequest
      * @param callable|null $configurator
      * @return $this
      */
-    public function httpPost($url, array $post = [], callable $configurator = null)
+    protected function httpPost($url, array $post = [], callable $configurator = null)
     {
         return $this->fullHttpRequest($url, function (Context $context) use ($post, $configurator) {
             $configurator = $this->modifyConfigurator($configurator, static::MODE_JSON);
@@ -183,7 +183,7 @@ class MockRequest
         }, 'POST');
     }
 
-    public function initApp($url = '/', callable $configurator = null, $method = 'GET')
+    protected function initApp($url = '/', callable $configurator = null, $method = 'GET')
     {
         $context = $this->mockFramework($url, $method);
         $environment = $context->get(Environment::class);
@@ -214,7 +214,7 @@ class MockRequest
      * @param callable|null $configurator
      * @param string $method
      */
-    public function fullHttpRequest($url, callable $configurator = null, $method = 'GET')
+    protected function fullHttpRequest($url, callable $configurator = null, $method = 'GET')
     {
         $initialized = $this->initApp($url, $configurator, $method);
         if (!$initialized) {
@@ -248,7 +248,7 @@ class MockRequest
     /**
      * @return Context
      */
-    public function getContext()
+    protected function getContext()
     {
         return $this->context;
     }
@@ -257,7 +257,7 @@ class MockRequest
      * @return Response
      * @throws \Exception
      */
-    public function getResponse()
+    protected function getResponse()
     {
         return $this->getContext()->get(Response::class);
     }
@@ -266,7 +266,7 @@ class MockRequest
      * @return mixed|string|array|null
      * @throws \Exception
      */
-    public function getOutput()
+    protected function getOutput()
     {
         return $this->getResponse()->getOutput();
     }
@@ -275,7 +275,7 @@ class MockRequest
      * @return mixed|string|array|null
      * @throws \Exception
      */
-    public function getDecodedOutput()
+    protected function getDecodedOutput()
     {
         return json_decode($this->getOutput(), true);
     }

@@ -34,7 +34,7 @@ trait MockFramework
         return $this;
     }
 
-    public function mockEnvironment()
+    protected function mockEnvironment()
     {
         $context = $this->mockContext();
 
@@ -60,7 +60,7 @@ trait MockFramework
         return [$context, $config];
     }
 
-    public function mockFramework($url = '/', $method = 'GET')
+    protected function mockFramework($url = '/', $method = 'GET')
     {
         if (!$this->recreateContext && isset($this->context)) {
             $context = $this->context;
@@ -114,13 +114,13 @@ trait MockFramework
         return $this;
     }
 
-    public function mock()
+    protected function mock()
     {
         // @phpstan-ignore-next-line
         return (new MockRequest($this, $this->app));
     }
 
-    public function runExtensionDecorations($decoration)
+    protected function runExtensionDecorations($decoration)
     {
         if (!is_string($decoration)) {
             return;
