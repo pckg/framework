@@ -4,14 +4,17 @@ namespace Test\Framework;
 
 use Pckg\Framework\Config;
 use Pckg\Framework\Environment;
+use Pckg\Framework\Test\Codeception\Cest;
 use Pckg\Framework\Test\ListenForEvents;
 use Pckg\Framework\Test\MockContext;
 
 class EnvironmentCest
 {
-
+    use Cest;
     use MockContext;
     use ListenForEvents;
+
+    protected $disableFramework = true;
 
     public function testEnvironment(\UnitTester $I)
     {
