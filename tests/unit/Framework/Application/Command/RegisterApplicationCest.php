@@ -2,14 +2,15 @@
 
 namespace Test\Framework\Application\Command;
 
+use Pckg\Framework\Test\Codeception\Cest;
 use Pckg\Framework\Test\ContextDiff;
 use Pckg\Framework\Test\ListenForEvents;
 use Pckg\Framework\Test\MockConfig;
 use Pckg\Framework\Test\MockInContext;
 
-class RegisterApplicationCest extends \Pckg\Framework\Test\Codeception\Cest
+class RegisterApplicationCest
 {
-
+    use Cest;
     use ContextDiff;
     use ListenForEvents;
     use MockConfig;

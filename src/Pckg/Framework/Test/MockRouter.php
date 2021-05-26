@@ -13,24 +13,16 @@ use Pckg\Framework\Router;
  */
 trait MockRouter
 {
-    protected Router $mockedRouter;
-
     protected function mockRouter(): Router
     {
-        if (!isset($this->mockedRouter)) {
-            $this->mockedRouter = new Router($this->context->get(Config::class));
-            $this->context->bind(Router::class, $this->mockedRouter);
-            //$this->mockInContext($this->mockedRouter);
-        }
+        $router = new Router($this->context->get(Config::class));
+        $this->context->bind(Router::class, $router);
 
-        return $this->mockedRouter;
+        return $router;
     }
 
     protected function fetchRouter(): Router
     {
-        if (isset($this->mockedRouter)) {
-            return $this->mockedRouter;
-        }
         if ($this->context->exists(Router::class)) {
             return $this->context->get(Router::class);
         }

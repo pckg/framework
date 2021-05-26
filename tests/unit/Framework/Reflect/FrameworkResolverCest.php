@@ -18,8 +18,9 @@ use Pckg\Manager\Locale;
 use Pckg\Manager\Meta;
 use Pckg\Manager\Seo;
 
-class FrameworkResolverCest extends Cest
+class FrameworkResolverCest
 {
+    use Cest;
 
     protected function createFrameworkResolver(): FrameworkResolver
     {

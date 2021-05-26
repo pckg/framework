@@ -9,9 +9,9 @@ use Pckg\Framework\Test\ListenForEvents;
 use Pckg\Framework\Test\MockConfig;
 use Pckg\Framework\Test\MockInContext;
 
-class InitConfigCest extends Cest
+class InitConfigCest
 {
-
+    use Cest;
     use ContextDiff;
     use ListenForEvents;
     use MockConfig;

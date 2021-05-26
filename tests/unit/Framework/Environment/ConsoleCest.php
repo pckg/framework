@@ -9,8 +9,9 @@ use Pckg\Framework\Test\Codeception\Cest;
 use Pckg\Framework\Test\ListenForEvents;
 use Pckg\Framework\Test\MockConfig;
 
-class ConsoleCest extends Cest
+class ConsoleCest
 {
+    use Cest;
     use MockConfig;
     use ListenForEvents;
 

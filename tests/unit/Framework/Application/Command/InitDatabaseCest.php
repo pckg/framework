@@ -6,9 +6,9 @@ use Pckg\Framework\Application\Command\InitDatabase;
 use Pckg\Framework\Test\Codeception\Cest;
 use Pckg\Framework\Test\ContextDiff;
 
-class InitDatabaseCest extends Cest
+class InitDatabaseCest
 {
-
+    use Cest;
     use ContextDiff;
 
     protected \UnitTester $unitTester;

@@ -1,7 +1,10 @@
 <?php
 
-class RequestDataCest extends \Pckg\Framework\Test\Codeception\Cest
+use Pckg\Framework\Test\Codeception\Cest;
+
+class RequestDataCest
 {
+    use Cest;
 
     // tests
     public function defaultRequestDataTest(UnitTester $I)

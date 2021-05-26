@@ -6,8 +6,9 @@ use Pckg\Framework\Environment\Command\DefinePaths;
 use Pckg\Framework\Test\Codeception\Cest;
 use Pckg\Framework\Test\MockConfig;
 
-class DefinePathsCest extends Cest
+class DefinePathsCest
 {
+    use Cest;
 
     public function testConfig()
     {

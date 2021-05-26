@@ -2,16 +2,15 @@
 
 namespace Test\Framework\Router\Command;
 
-use Pckg\Framework\Router;
 use Pckg\Framework\Router\Command\ResolveRoute;
 use Pckg\Framework\Test\Codeception\Cest;
 use Pckg\Framework\Test\MockConfig;
 use Pckg\Framework\Test\MockExceptions;
 use Pckg\Framework\Test\MockRouter;
 
-class ResolveRouteCest extends Cest
+class ResolveRouteCest
 {
-
+    use Cest;
     use MockConfig;
     use MockExceptions;
     use MockRouter;

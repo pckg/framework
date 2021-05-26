@@ -14,9 +14,9 @@ use Pckg\Framework\Test\MockInContext;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\NullOutput;
 
-class RunCommandCest extends Cest
+class RunCommandCest
 {
-
+    use Cest;
     use ContextDiff;
     use ListenForEvents;
     use MockConfig;

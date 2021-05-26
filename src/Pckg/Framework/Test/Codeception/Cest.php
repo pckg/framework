@@ -6,7 +6,7 @@ use Codeception\Specify;
 use Pckg\Framework\Test\MockFramework;
 use UnitTester;
 
-class Cest
+trait Cest
 {
     //use Specify;
     use MockFramework;

@@ -8,9 +8,9 @@ use Pckg\Framework\Test\ListenForEvents;
 use Pckg\Framework\Test\MockConfig;
 use Pckg\Framework\Test\MockInContext;
 
-class WebsiteCest extends Cest
+class WebsiteCest
 {
-
+    use Cest;
     use ContextDiff;
     use ListenForEvents;
     use MockConfig;

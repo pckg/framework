@@ -1,7 +1,11 @@
 <?php
 
-class ConfigCest extends \Pckg\Framework\Test\Codeception\Cest
+use Pckg\Framework\Test\Codeception\Cest;
+
+class ConfigCest
 {
+
+    use Cest;
 
     // tests
     public function defaultConfigTest(UnitTester $I)
