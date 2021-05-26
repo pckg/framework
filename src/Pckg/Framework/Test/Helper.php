@@ -121,7 +121,7 @@ class Helper extends Module
         }
     }
 
-    public function listenToQueries($type = null, $sort = true)
+    public function listenToQueries($type = null, $sort = false)
     {
         $this->sqls = [];
 
