@@ -34,9 +34,13 @@ class RegisterApplication
         // 0.44 -> 0.97 / 1.03 = 0.53s = 50%
 
         /**
-         * Parse application config.
+         * (Re)Parse application config? Becaaaaause?
+         * @deprecated
+         * If this needs to be reactivated, hook this to EVENT_REGISTERED ?
+         * Do we always want to re-read config and re-localize when providers are registered?
+         * Okay for Localize? No for InitConfig? Shouldn't they be able to change config in runtime?
          */
-        $this->config->parseDir(path('app'));
+        resolve(Config\Command\InitConfig::class)->execute(function() {});
 
         /**
          * Localize any config changes.

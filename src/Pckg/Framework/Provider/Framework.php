@@ -33,6 +33,7 @@ class Framework extends Provider
             CreatePckgProject::class,
             ClearCache::class,
             ListRoutes::class,
+            Router\Console\MatchRoute::class,
         ];
     }
 

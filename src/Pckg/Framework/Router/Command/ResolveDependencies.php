@@ -2,7 +2,9 @@
 
 namespace Pckg\Framework\Router\Command;
 
+use Pckg\Concept\Resolver;
 use Pckg\Framework\Provider\ResolvesMultiple;
+use Pckg\Framework\Provider\RouteResolver;
 use Pckg\Framework\Router;
 
 class ResolveDependencies
@@ -69,7 +71,9 @@ class ResolveDependencies
             }
 
             $k = $data[$urlKey] ?? null;
-            $resolved = $realResolver->resolve(urldecode($k));
+            $resolved = is_object($realResolver) && \Pckg\Concept\Helper\object_implements($realResolver, RouteResolver::class)
+                ? $realResolver->resolve(urldecode($k))
+                : $realResolver;
 
             /**
              * Validate resolved value for access?
