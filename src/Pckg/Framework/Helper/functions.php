@@ -1422,4 +1422,14 @@ namespace Pckg\Framework\Helper {
         return $is ? $prepend . $is : '';
     }
 
+    function forward($input, callable $task)
+    {
+        $task($input);
+
+        return $input;
+    }
+
+    function tryout() {
+
+    }
 }

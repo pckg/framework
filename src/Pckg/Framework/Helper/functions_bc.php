@@ -965,3 +965,10 @@ if (!function_exists('prependIf')) {
         return Framework\Helper\prependIf($prepend, $is);
     }
 }
+
+if (!function_exists('forward')) {
+    function forward($input, callable $task)
+    {
+        return Framework\Helper\forward($input, $task);
+    }
+}
