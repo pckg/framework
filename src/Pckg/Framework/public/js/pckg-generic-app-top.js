@@ -1,7 +1,3 @@
-export const pckgDelimiters = {
-    delimiters: ['${', '}']
-};
-
 export const pckgSpannify = {
     methods: {
         spannify: function (text) {
