@@ -42,8 +42,8 @@
       "Pckg": "src\\"
     },
     "files": [
-      "src/Pckg/Framework/Helper/functions.php",
-      "src/Pckg/Framework/Helper/functions_bc.php"
+      "src/Pckg/Framework/Helper/functions_bc.php",
+      "src/Pckg/Framework/Helper/functions.php"
     ]
   },
   "scripts": {
