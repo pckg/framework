@@ -117,7 +117,11 @@ class Twig extends AbstractView implements ViewInterface
         trigger(View::class . '.loading', ['view' => $this->file, 'twig' => $this]);
 
         if ($this->file) {
-            $this->twig = $this->twig->loadTemplate($this->file . ".twig");
+            if (strpos($this->file, '<') === false) {
+                $this->twig = $this->twig->loadTemplate($this->file . ".twig");
+            } else {
+                $this->twig = $this->twig->createTemplate($this->file);
+            }
         } else {
             $this->twig = $this->twig->createTemplate($this->template);
         }

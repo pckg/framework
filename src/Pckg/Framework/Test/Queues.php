@@ -14,7 +14,5 @@ trait Queues
 
     public function _afterQueuesExtension()
     {
-
     }
-
 }

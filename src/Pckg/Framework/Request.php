@@ -5,6 +5,7 @@ namespace Pckg\Framework;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\Cookie;
+use Pckg\Framework\Request\Data\Files;
 use Pckg\Framework\Request\Data\Get;
 use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Server;
@@ -65,7 +66,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         $this->post = (new Post())->setFromGlobals();
         $this->get = (new Get())->setFromGlobals();
         $this->cookie = (new Cookie())->setFromGlobals();
-        $this->files = (new Lazy($_FILES));
+        $this->files = (new Files())->setFromGlobals();
         $this->headers = collect(getallheaders())->groupBy(function ($value, $key) {
             return $key;
         })->all();
@@ -388,7 +389,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
         /**
          * Leave OPTIONS and GET?
          */
-        return $this->isPost() || $this->isSearch() || $this->isDelete() || $this->isPut() || $this->isPatch() || $this->isHead();
+        return !($this->isGet() || $this->isOptions());
     }
 
     /**

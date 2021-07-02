@@ -45,6 +45,8 @@ class Cookie extends Lazy
     public function delete($name)
     {
         $this->set($name, null, -1 * static::EXPIRATION);
+        unset($this->data[$name]);
+
         return $this;
     }
 }

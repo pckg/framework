@@ -3,24 +3,32 @@
 namespace Pckg\Framework\Application\Console\Command;
 
 use Pckg\Concept\AbstractChainOfReponsibility;
+use Pckg\Concept\Event\Dispatcher;
+use Pckg\Framework\Request\Data\Server;
 use Pckg\Framework\Response;
-use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Application as SymfonyConsole;
-use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
 class RunCommand extends AbstractChainOfReponsibility
 {
 
-    protected $response;
+    protected Response $response;
 
-    public function __construct(Response $response)
+    protected Dispatcher $dispatcher;
+
+    protected SymfonyConsole $symfonyConsole;
+
+    protected Server $server;
+
+    const EVENT_RUNNING = self::class . '.running';
+
+    public function __construct(Response $response, Dispatcher $dispatcher, SymfonyConsole $symfonyConsole, Server $server)
     {
         $this->response = $response;
+        $this->dispatcher = $dispatcher;
+        $this->symfonyConsole = $symfonyConsole;
+        $this->server = $server;
     }
 
     public function execute(callable $next)
@@ -32,7 +40,7 @@ class RunCommand extends AbstractChainOfReponsibility
              * If it's command, we leave things as they are.
              * Id it's app, we unset it.
              */
-            $argv = $_SERVER['argv'];
+            $argv = $this->server->get('argv', []);
 
             /**
              * Remove application name.
@@ -44,13 +52,11 @@ class RunCommand extends AbstractChainOfReponsibility
             /**
              * Trigger event
              */
-            trigger(RunCommand::class . '.running', []);
+            $this->dispatcher->trigger(static::EVENT_RUNNING, []);
 
             /**
              * Get Symfony Console Application, find available commands and run app.
-             * @var SymfonyConsole $application
              */
-            $application = context()->get(SymfonyConsole::class);
             try {
                 /**
                  * Apply global middlewares.
@@ -59,7 +65,7 @@ class RunCommand extends AbstractChainOfReponsibility
                     chain($middlewares, 'execute');
                 }
 
-                $application->run(new ArgvInput(array_values($argv)));
+                $this->symfonyConsole->run(new ArgvInput(array_values($argv)), context()->getOrDefault(RunCommand::class . '.output'));
 
                 /**
                  * Apply global afterwares/decorators.
@@ -68,14 +74,10 @@ class RunCommand extends AbstractChainOfReponsibility
                     chain($afterwares, 'execute', [$this->response]);
                 }
             } catch (Throwable $e) {
-                die("EXCEPTION: " . exception($e));
+                die("EXCEPTION: " . \Pckg\Framework\Helper\exception($e));
             }
-
-            /**
-             * This is here just for better readability. =)
-             */
-            echo "\n";
         } catch (Throwable $e) {
+            error_log(\Pckg\Framework\Helper\exception($e));
         }
 
         return $next();

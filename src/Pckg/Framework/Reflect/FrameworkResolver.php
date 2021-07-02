@@ -59,7 +59,7 @@ class FrameworkResolver implements Resolver
         return false;
     }
 
-    public function resolve($class)
+    public function resolve($class, $data = [])
     {
         if (!class_exists($class) && !interface_exists($class)) {
             return false;
@@ -89,7 +89,7 @@ class FrameworkResolver implements Resolver
         if (class_exists($class)) {
             if (in_array($class, static::$singletones)) {
                 $mockedClass = config('pckg.reflect.singletones.' . $class, $class);
-                $newInstance = Reflect::create($mockedClass);
+                $newInstance = Reflect::create($mockedClass, $data);
 
                 context()->bind($class, $newInstance);
 
@@ -98,7 +98,7 @@ class FrameworkResolver implements Resolver
 
             foreach (static::$parents as $parent) {
                 if (in_array($parent, class_parents($class))) {
-                    $newInstance = Reflect::create($class);
+                    $newInstance = Reflect::create($class, $data);
                     context()->bind($class, $newInstance);
 
                     return $newInstance;
@@ -109,7 +109,7 @@ class FrameworkResolver implements Resolver
         if (interface_exists($class)) {
             foreach (static::$singletones as $s) {
                 if (object_implements($s, $class)) {
-                    $newInstance = Reflect::create($s);
+                    $newInstance = Reflect::create($s, $data);
                     context()->bind($class, $newInstance);
 
                     return $newInstance;

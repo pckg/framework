@@ -4,6 +4,7 @@ namespace Pckg\Framework\Environment;
 
 use Pckg\Concept\Context;
 use Pckg\Framework\Environment;
+use Pckg\Framework\Request\Data\Server;
 use Whoops\Handler\PlainTextHandler;
 use Whoops\Run;
 use Symfony\Component\Console\Application as SymfonyConsole;
@@ -20,6 +21,7 @@ class Console extends Environment
         ini_set("display_errors", "1");
 
         $this->config->parseDir(BASE_PATH);
+        $this->context->bind(Server::class, (new Server())->setFromGlobals());
 
         $this->registerExceptionHandler();
 
@@ -42,7 +44,7 @@ class Console extends Environment
          *  - php console derive
          *  - php console derive migrator:install
          */
-        $argv = $_SERVER['argv'];
+        $argv = server('argv');
         $commandIndex = null;
         foreach ($argv as $key => $arg) {
             if (strpos($arg, ':')) {

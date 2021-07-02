@@ -58,4 +58,9 @@ class MockDriver extends SessionHandler
     {
         return $this;
     }
+
+    public function regenerate()
+    {
+        return $this;
+    }
 }

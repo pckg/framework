@@ -9,6 +9,11 @@ use Pckg\Database\Repository;
 use Pckg\Database\Repository\PDO as PDORepository;
 use PDO;
 
+/**
+ * Class Helper
+ * @package Pckg\Framework\Test
+ * @deprecated ?
+ */
 class Helper extends Module
 {
 
@@ -116,7 +121,7 @@ class Helper extends Module
         }
     }
 
-    public function listenToQueries($type = null, $sort = true)
+    public function listenToQueries($type = null, $sort = false)
     {
         $this->sqls = [];
 

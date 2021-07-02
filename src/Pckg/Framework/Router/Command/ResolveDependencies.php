@@ -2,6 +2,9 @@
 
 namespace Pckg\Framework\Router\Command;
 
+use Pckg\Concept\Resolver;
+use Pckg\Framework\Provider\ResolvesMultiple;
+use Pckg\Framework\Provider\RouteResolver;
 use Pckg\Framework\Router;
 
 class ResolveDependencies
@@ -44,7 +47,12 @@ class ResolveDependencies
         }
 
         foreach ($resolvers as $urlKey => $resolver) {
-            if (is_object($resolver)) {
+            if (is_only_callable($resolver)) {
+                /**
+                 * Callable was passed to optimize things.
+                 */
+                $realResolver = $resolver();
+            } else if (is_object($resolver)) {
                 /**
                  * Resolver was passed.
                  */
@@ -59,27 +67,28 @@ class ResolveDependencies
                 /**
                  * Create resolver.
                  */
-                $realResolver = resolve($resolver);
+                $realResolver = resolve($resolver, $data);
             }
 
             $k = $data[$urlKey] ?? null;
-            $resolved = $realResolver->resolve(urldecode($k));
+            $resolved = is_object($realResolver) && \Pckg\Concept\Helper\object_implements($realResolver, RouteResolver::class)
+                ? $realResolver->resolve(urldecode($k))
+                : $realResolver;
 
+            /**
+             * Validate resolved value for access?
+             */
+            $resolvesMultiple = object_implements($realResolver, ResolvesMultiple::class);
             if (is_string($urlKey)) {
                 $data[$urlKey] = $resolved;
+                router()->resolve($urlKey, $resolved);
+            } elseif ($resolvesMultiple) {
+                foreach ($resolved as $resolvedKey => $resolvedValue) {
+                    $data[$resolvedKey] = $resolvedValue;
+                    router()->resolve($resolvedKey, $resolvedValue);
+                }
             } else {
                 $data[] = $resolved;
-            }
-
-            if (!is_int($urlKey)) {
-                router()->resolve($urlKey, $resolved);
-                /**
-                 * Remove resolved key.
-                 * Why? Can we delete it?
-                 */
-                if (isset($data[$urlKey])) {
-                    //unset($data[$urlKey]);
-                }
             }
         }
 

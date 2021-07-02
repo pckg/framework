@@ -84,8 +84,8 @@ class FileDriver extends SessionHandler
             $this->destroyCookieSession('Missing session signature! ' . $PHPSESSID);
         } else if (static::SECURE && !$PHPSESSIDSECURE && !auth()->hashedPasswordMatches($_SESSION[static::PHPSESSID . static::SIGNATURE], $PHPSESSID)) {
             /**
-             * Cookie defined session should have valid signature.
-             */
+         * Cookie defined session should have valid signature.
+         */
             $this->destroyCookieSession('Invalid session signature!');
         }
 
@@ -99,12 +99,15 @@ class FileDriver extends SessionHandler
 
     protected function startSession($SID = null, $PHPSESSID = null)
     {
+        $readAndClose = ($SID || $PHPSESSID) && (in_array('session:close', router()->get('tags')) || (!get('lang') && !post()->all()) || request()->isSearch());
+        $readAndClose = false;
+
         /**
          * Start a new session.
          */
         $started = session_start([
             'cookie_lifetime' => static::DURATION,
-            'read_and_close' => false,
+            'read_and_close' => $readAndClose,
         ]);
 
         if (!$started) {
@@ -140,7 +143,11 @@ class FileDriver extends SessionHandler
      */
     public function destroyCookieSession($message = null)
     {
-        session_destroy();
+        try {
+            session_destroy();
+        } catch (\Throwable $e) {
+            error_log(exception($e));
+        }
         $_SESSION = [];
         $PHPSESSIDSECURE = $this->startSession();
         //cookie()->set(static::PHPSESSID, null);
@@ -150,5 +157,38 @@ class FileDriver extends SessionHandler
         }
 
         return $PHPSESSIDSECURE;
+    }
+
+    public function regenerate()
+    {
+        /**
+         * Deactivate current session.
+         */
+        $_SESSION['deactivated'] = time();
+
+        /**
+         * Regenerate session and sign it.
+         */
+        try {
+            //error_log('regenerating session ' . session_id());
+            $regenerated = session_regenerate_id(true);
+            if (!$regenerated) {
+                error_log('Error regenerating session ' . session_id());
+            } else {
+                //error_log('Session regenerated to ' . session_id());
+            }
+        } catch (\Throwable $e) {
+            error_log('Cannot regenerate session, destroying session ' . session_id());
+            session_start();
+            $_SESSION = [];
+            //throw $e;
+        }
+
+        /**
+         * Sign session and set it active.
+         */
+        $sid = session_id();
+        $_SESSION[FileDriver::PHPSESSID . FileDriver::SIGNATURE] = auth()->hashPassword($sid);
+        unset($_SESSION['deactivated']);
     }
 }

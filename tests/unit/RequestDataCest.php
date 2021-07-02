@@ -1,19 +1,19 @@
 <?php
 
+use Pckg\Framework\Test\Codeception\Cest;
+
 class RequestDataCest
 {
-
-    use \Pckg\Framework\Test\MockFramework;
-
-    public function _before(UnitTester $I)
-    {
-        define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
-        $this->mockFramework();
-    }
+    use Cest;
 
     // tests
     public function defaultRequestDataTest(UnitTester $I)
     {
+        $_POST = [];
+        $_GET = [];
+        $_COOKIE = [];
+        $_REQUEST = [];
+
         $request = new Pckg\Framework\Request();
         $I->assertEquals([], $request->get()->all());
         $I->assertEquals([], $request->post()->all());

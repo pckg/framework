@@ -46,4 +46,9 @@ class Db extends FileDriver
     {
         return true;
     }
+
+    public function regenerate()
+    {
+        return $this;
+    }
 }
