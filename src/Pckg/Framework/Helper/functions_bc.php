@@ -889,6 +889,13 @@ if (!function_exists('sha1random')) {
     }
 }
 
+if (!function_exists('randomKey')) {
+    function randomKey()
+    {
+        return Framework\Helper\randomKey();
+    }
+}
+
 if (!function_exists('filename')) {
     function filename($file)
     {

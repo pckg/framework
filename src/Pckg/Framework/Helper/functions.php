@@ -1287,7 +1287,12 @@ namespace Pckg\Framework\Helper {
 
     function sha1random()
     {
-        return sha1(\Defuse\Crypto\Key::createNewRandomKey()->saveToAsciiSafeString());
+        return sha1(randomKey());
+    }
+
+    function randomKey()
+    {
+        return \Defuse\Crypto\Key::createNewRandomKey()->saveToAsciiSafeString();
     }
 
     function filename($file)
