@@ -771,7 +771,7 @@ if (!function_exists('vueRoute')) {
 }
 
 if (!function_exists('routeGroup')) {
-    function routeGroup($data = [], $routes = [])
+    function routeGroup(array $data, array $routes)
     {
         return Framework\Helper\routeGroup($data, $routes);
     }

@@ -11,9 +11,10 @@ class Group
 
     protected $groups = [];
 
-    public function __construct($data = [])
+    public function __construct($data = [], array $routes = [])
     {
         $this->data = $data;
+        $this->routes = $routes;
     }
 
     public function routes($routes = [])

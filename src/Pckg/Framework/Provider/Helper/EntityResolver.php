@@ -25,7 +25,7 @@ trait EntityResolver
 
     public function getBy()
     {
-        return $this->by ?? 'id';
+        return $this->by ?? ($this->e->getAliased() . '.id');
     }
 
     public function parametrize($record)
