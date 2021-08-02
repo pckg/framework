@@ -46,4 +46,13 @@ class VueRoute extends Route
 
         return [$url, $mergedData, $name];
     }
+    
+    public function seo(array $array = [])
+    {
+        foreach ($array as $key => $val) {
+            $this->data['tags']['seo:' . $key] = $val;
+        }
+
+        return $this;
+    }
 }

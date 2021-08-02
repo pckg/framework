@@ -4,6 +4,8 @@ namespace Pckg\Framework\Helper {
 
     use Carbon\Carbon;
     use Exception;
+    use Hub\Controller\VendorsApi;
+    use Hub\Resolver\Vendor;
     use Pckg\Auth\Service\Auth;
     use Pckg\Concept\ChainOfResponsibility;
     use Pckg\Concept\Event\AbstractEvent;
@@ -1100,15 +1102,9 @@ namespace Pckg\Framework\Helper {
         ])->children($children);
     }
 
-    function routeGroup($data = [], $routes = [])
+    function routeGroup(array $data, array $routes)
     {
-        $routeGroup = new Group($data);
-
-        if ($routes) {
-            $routeGroup->routes($routes);
-        }
-
-        return $routeGroup;
+        return new Group($data, $routes);
     }
 
     function component($component, array $params = [])
