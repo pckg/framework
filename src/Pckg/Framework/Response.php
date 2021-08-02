@@ -576,6 +576,26 @@ class Response extends Message implements ResponseInterface
         $this->readFile($file, $then);
     }
 
+    public function downloadStream($stream, $filename, $length, $close = true, callable $then = null)
+    {
+        $this->sendFileContentTypeHeaders($filename);
+        $this->sendFileDispositionHeader($filename);
+        
+        if ($length) {
+            header('Content-Length: ' . $length);
+        }
+        
+        $limit = 1024 * 1024 * 10;
+        while (!feof($stream)) {
+            echo fread($stream, $limit);
+            flush();
+        }
+
+        $then && $then();
+        fclose($stream);
+        exit;
+    }
+
     public function printFile($file, $filename = null)
     {
         if (!$filename) {
