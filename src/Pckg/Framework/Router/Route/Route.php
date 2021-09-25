@@ -110,6 +110,24 @@ class Route
         return $this;
     }
 
+    public function getResolvers()
+    {
+        return $this->resolvers;
+    }
+    
+    public function inheritResolvers(Route $route)
+    {
+        foreach ($route->getResolvers() as $key => $resolver) {
+            if (isset($this->resolvers[$key])) {
+                continue;
+            }
+
+            $this->resolvers[$key] = $resolver;
+        }
+
+        return $this;
+    }
+
     public function afterwares($afterwares = [])
     {
         $this->afterwares = $afterwares;

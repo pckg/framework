@@ -41,12 +41,13 @@ class VueRoute extends Route
             $childRoute->data['tags'][] = 'vue:route:child';
             $parentData['urlPrefix'] = $url;
             $parentData['namePrefix'] = $name . '.' . $key;
+            $childRoute->inheritResolvers($this);
             $childRoute->register($parentData);
         }
 
         return [$url, $mergedData, $name];
     }
-    
+
     public function seo(array $array = [])
     {
         foreach ($array as $key => $val) {
