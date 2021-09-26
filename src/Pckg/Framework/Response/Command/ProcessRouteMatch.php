@@ -105,7 +105,9 @@ class ProcessRouteMatch extends AbstractChainOfReponsibility
                  * This is where Resolvers may already Respond with final response.
                  */
                 $response = $this->loadView->set($match['view'], $resolved, $this->controller)->execute();
-                $this->response->setOutput($response);
+                if ($response !== $this->response) {
+                    $this->response->setOutput($response);
+                }
             } else {
                 /**
                  * Vue route or similar?
