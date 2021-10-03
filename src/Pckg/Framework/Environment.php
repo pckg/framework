@@ -7,9 +7,8 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Environment\Command\DefinePaths;
 use Pckg\Framework\Environment\Development;
 use Pckg\Framework\Environment\Production;
-use Pckg\Manager\Asset\AssetManager;
 
-class Environment implements AssetManager
+class Environment
 {
 
     protected $urlPrefix = '/index.php';
@@ -100,11 +99,6 @@ class Environment implements AssetManager
 
     public function isUnix()
     {
-    }
-
-    public function assets()
-    {
-        return [];
     }
 
     /**

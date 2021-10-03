@@ -235,6 +235,10 @@ trait Registrator
 
     public function registerJobs($jobs)
     {
+        if (!$jobs) {
+            return;
+        }
+
         $jobManager = context()->getOrCreate(Job::class);
 
         foreach ($jobs as $job) {
@@ -245,6 +249,10 @@ trait Registrator
     public function registerTranslations()
     {
         if (!isset($this->translations)) {
+            return;
+        }
+
+        if (!class_exists(Translator::class)) {
             return;
         }
 

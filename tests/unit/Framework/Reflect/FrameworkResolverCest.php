@@ -13,7 +13,6 @@ use Pckg\Framework\Router;
 use Pckg\Framework\Test\Codeception\Cest;
 use Pckg\Locale\Lang;
 use Pckg\Manager\Asset;
-use Pckg\Manager\Asset\AssetManager;
 use Pckg\Manager\Locale;
 use Pckg\Manager\Meta;
 use Pckg\Manager\Seo;

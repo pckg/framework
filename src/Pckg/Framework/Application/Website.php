@@ -44,7 +44,6 @@ class Website extends Application
     {
         return [
             RunRequest::class,
-            InitLastAssets::class,
             RunResponse::class,
         ];
     }
