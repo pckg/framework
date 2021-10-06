@@ -40,10 +40,6 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
 
     const HEAD = 'HEAD';
 
-    protected $router;
-
-    protected $response;
-
     protected $match;
 
     protected $internal = 0;
@@ -59,8 +55,6 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
 
     public function __construct()
     {
-        Reflect::method($this, 'initDependencies');
-
         $this->server = (new Server())->setFromGlobals();
         $this->request = (new DataRequest())->setFromGlobals();
         $this->post = (new Post())->setFromGlobals();
@@ -95,12 +89,6 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     public function getHeaders()
     {
         return $this->headers;
-    }
-
-    public function initDependencies(Router $router, Response $response)
-    {
-        $this->router = $router;
-        $this->response = $response;
     }
 
     public function setInternal()
