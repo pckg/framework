@@ -5,6 +5,7 @@ namespace Pckg\Framework\Provider\Helper;
 use Composer\Autoload\ClassLoader;
 use Pckg\Concept\Event\Dispatcher;
 use Pckg\Concept\Reflect;
+use Pckg\Framework\Provider;
 use Pckg\Framework\Response;
 use Pckg\Framework\Stack;
 use Pckg\Framework\View\Twig;
@@ -50,6 +51,7 @@ trait Registrator
                 $arrProviders->register(
                     [
                         'provider' => get_class($this),
+                        'urlPrefix' => $this->routePrefix,
                     ]
                 );
                 continue;
@@ -57,6 +59,7 @@ trait Registrator
 
             foreach ($arrProviders as $provider => $providerConfig) {
                 if (isset($providerConfig['prefix'])) {
+                    // why reset?
                     $providerConfig['prefix'] = '';
                 }
                 if (is_array($providerConfig)) {
@@ -156,6 +159,11 @@ trait Registrator
 
         if ($stack->getStacks() && !config('app_parent')) {
             config()->set('app_parent', $stack->getStacks() ? $apps[0] : config('app', null));
+        }
+
+        // reparse config
+        if ($apps) {
+            $stack->push(fn() => config()->parseDir(path('app')));
         }
     }
 
