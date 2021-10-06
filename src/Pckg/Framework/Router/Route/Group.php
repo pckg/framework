@@ -37,6 +37,9 @@ class Group
          * Merge parent data with current group data.
          */
         $mergedData = array_merge($parentData, $this->data);
+        if (isset($parentData['urlPrefix']) && isset($this->data['urlPrefix'])) {
+            $mergedData['urlPrefix'] = $parentData['urlPrefix'] . $this->data['urlPrefix'];
+        }
 
         /**
          * Register groups.
