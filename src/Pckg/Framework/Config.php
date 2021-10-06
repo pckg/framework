@@ -59,6 +59,31 @@ class Config
         $this->data = $this->setRecursive($keys, $val, $this->data, 0, $merge);
     }
 
+    public function apply(array $config)
+    {
+        $dotted = $this->toDotted($config);
+        foreach ($dotted as $key => $val) {
+            $this->set($key, $val);
+        }
+
+        return $dotted;
+    }
+
+    public function toDotted($config, string $parentKey = null, &$dotted = [])
+    {
+        if (!is_array($config)) {
+            $dotted[$parentKey] = $config;
+            return;
+        }
+
+        foreach ($config as $key => $val) {
+            $newKey = $parentKey ? $parentKey . '.' . $key : $key;
+            $this->toDotted($val, $newKey, $dotted);
+        }
+
+        return $dotted;
+    }
+
     private function setRecursive($keys, $val, $data, $i, $merge = true)
     {
         if (!is_array($data)) {
@@ -136,17 +161,17 @@ class Config
 
         foreach (
             [
-                        function ($file) {
-                            return strpos($file, '/defaults.php');
-                        },
-                        function ($file) {
-                            return !strpos($file, '/defaults.php') && !strpos($file, '/env.php') &&
-                                !strpos($file, '/migrations.php');
-                        },
-                        function ($file) {
-                            return strpos($file, '/env.php');
-                        },
-                 ] as $callback
+                function ($file) {
+                    return strpos($file, '/defaults.php');
+                },
+                function ($file) {
+                    return !strpos($file, '/defaults.php') && !strpos($file, '/env.php') &&
+                        !strpos($file, '/migrations.php');
+                },
+                function ($file) {
+                    return strpos($file, '/env.php');
+                },
+            ] as $callback
         ) {
             foreach ($files as $key => $file) {
                 if (!$callback($file)) {
