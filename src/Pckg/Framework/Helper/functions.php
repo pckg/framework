@@ -1102,7 +1102,7 @@ namespace Pckg\Framework\Helper {
         ])->children($children);
     }
 
-    function routeGroup(array $data, array $routes)
+    function routeGroup(array $data = [], array $routes = [])
     {
         return new Group($data, $routes);
     }
