@@ -67,7 +67,7 @@ trait EntityResolver
         }
 
         if ($filter = $this->filter) {
-            $filter($this->e, $value);
+            $filter($this->e, $value, $this);
         }
 
         return $this->e->oneOrFail();
