@@ -10,6 +10,9 @@
     }
   ],
   "require": {
+    "php": ">=8.0",
+    "ext-json": "*",
+    "ext-pcntl": "*",
     "pckg/concept": "dev-master",
     "pckg/database": "dev-master",
     "pckg/cache": "dev-master",
@@ -19,9 +22,7 @@
     "rollbar/rollbar": "2.*",
     "filp/whoops": "2.*",
     "tgalopin/html-sanitizer": "dev-master",
-    "ezyang/htmlpurifier": "dev-master",
-    "ext-json": "*",
-    "ext-pcntl": "*"
+    "ezyang/htmlpurifier": "dev-master"
   },
   "require-dev": {
     "maximebf/debugbar": "1.*",
