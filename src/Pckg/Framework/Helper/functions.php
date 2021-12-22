@@ -878,7 +878,7 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param Exception $e
+     * @param Throwable $e
      *
      * @return string
      */

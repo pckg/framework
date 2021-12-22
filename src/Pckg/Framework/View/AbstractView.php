@@ -134,7 +134,7 @@ abstract class AbstractView implements ViewInterface, \JsonSerializable
         return $this;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->__toString();
     }

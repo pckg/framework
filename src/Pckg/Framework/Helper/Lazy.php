@@ -182,17 +182,17 @@ class Lazy implements ArrayAccess
         return !empty($this->data);
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
-        return $this->__set($offset, $value);
+        $this->__set($offset, $value);
     }
 
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return $this->__isset($offset);
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         $this->__unset($offset);
     }
@@ -204,12 +204,12 @@ class Lazy implements ArrayAccess
         return $this;
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->__get($offset);
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }

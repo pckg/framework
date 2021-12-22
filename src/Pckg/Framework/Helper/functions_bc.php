@@ -653,7 +653,7 @@ if (!function_exists('str_lreplace')) {
 
 if (!function_exists('exception')) {
     /**
-     * @param Exception $e
+     * @param Throwable $e
      *
      * @return string
      */
@@ -762,7 +762,7 @@ if (!function_exists('vueRoute')) {
      * @param string|null $component
      * @param array $tags
      * @param array $children
-     * @return Router\Route\Route|Router\Route\VueRoute
+     * @return Router\Route\VueRoute
      */
     function vueRoute(string $route = '', string $component = null, array $tags = [], array $children = [])
     {
