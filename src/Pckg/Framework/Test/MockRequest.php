@@ -53,7 +53,7 @@ class MockRequest
      * @param Unit $test
      * @param $app
      */
-    protected function __construct($test, $app)
+    public function __construct($test, $app)
     {
         $this->test = $test;
         $this->app = $app;
@@ -64,7 +64,7 @@ class MockRequest
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    protected function assertResponseCode($code, $message = null)
+    public function assertResponseCode($code, $message = null)
     {
         $response = $this->context->get(Response::class);
 
@@ -78,7 +78,7 @@ class MockRequest
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    protected function assertResponseHas($key)
+    public function assertResponseHas($key)
     {
         $responseObject = $this->context->get(Response::class);
         $response = $responseObject->getOutput();
@@ -94,7 +94,7 @@ class MockRequest
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    protected function assertResponseContains($value)
+    public function assertResponseContains($value)
     {
         $response = $this->context->get(Response::class)->getOutput();
 
@@ -110,7 +110,7 @@ class MockRequest
      * @param null $mode
      * @return callable|\Closure|null
      */
-    protected function modifyConfigurator(callable $configurator = null, $mode = null)
+    public function modifyConfigurator(callable $configurator = null, $mode = null)
     {
         if (!$mode && !$configurator) {
             return null;
@@ -143,7 +143,7 @@ class MockRequest
      * @param callable|null $configurator
      * @return $this
      */
-    protected function httpGet($url, callable $configurator = null, $mode = null)
+    public function httpGet($url, callable $configurator = null, $mode = null)
     {
         return $this->fullHttpRequest($url, $this->modifyConfigurator($configurator, $mode), 'GET');
     }

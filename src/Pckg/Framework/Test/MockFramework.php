@@ -114,7 +114,7 @@ trait MockFramework
         return $this;
     }
 
-    protected function mock()
+    protected function mock(): MockRequest
     {
         // @phpstan-ignore-next-line
         return (new MockRequest($this, $this->app));
