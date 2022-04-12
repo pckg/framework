@@ -168,6 +168,11 @@ class Production extends Environment
         $hostname = $_SERVER['HTTP_HOST'] ?? null;
 
         foreach ($apps as $app => $config) {
+            if (isset($config['path'])) {
+                if (!in_array($_SERVER['SCRIPT_URL'], $config['path'])) {
+                    continue;
+                }
+            }
             if (in_array($hostname, $config['host'])) {
                 return $app;
             }

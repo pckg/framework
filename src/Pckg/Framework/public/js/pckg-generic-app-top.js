@@ -77,7 +77,7 @@ export const pckgTranslations = {
                 let locale = Pckg.config.locale.current.toLowerCase();
                 translation = key[locale] || Object.values(key)[0];
             } else {
-                translation = $store.state.translations[key] || key;
+                translation = typeof $store.state.translations[key] !== 'undefined' ? $store.state.translations[key] : key;
 
                 if (false && Object.keys($store.state.translations).indexOf(key) === -1) {
                     if ($store && $store.getters.isAdmin) {
