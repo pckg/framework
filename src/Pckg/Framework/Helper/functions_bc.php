@@ -276,6 +276,11 @@ if (!function_exists('email')) {
 }
 
 if (!function_exists('resolve')) {
+    /**
+     * @template T
+     * @param class-string<T> $class
+     * @return ?T
+     */
     function resolve($class, $data = [])
     {
         return Framework\Helper\resolve($class, $data);

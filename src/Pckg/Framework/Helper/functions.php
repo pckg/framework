@@ -333,6 +333,11 @@ namespace Pckg\Framework\Helper {
         return Reflect::create($handler)->send($template, $receiver, $data);
     }
 
+    /**
+     * @template T
+     * @param class-string<T> $class
+     * @return ?T
+     */
     function resolve($class, $data = [])
     {
         return Reflect::resolve($class, $data);
