@@ -8,11 +8,12 @@ use Pckg\Framework\Request\Data\Session;
 
 class InitSession extends AbstractChainOfReponsibility
 {
-
     public function execute(callable $next)
     {
-        context()->getOrCreate(Session::class);
-        context()->getOrCreate(Flash::class);
+        if (!config('pckg.session.disabled')) {
+            context()->getOrCreate(Session::class);
+            context()->getOrCreate(Flash::class);
+        }
 
         return $next();
     }

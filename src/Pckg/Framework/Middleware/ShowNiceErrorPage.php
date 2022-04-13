@@ -10,7 +10,8 @@ class ShowNiceErrorPage
     public function handle()
     {
         try {
-            $output = view('Pckg/Framework:error/default');
+            $layout = config('pckg.framework.error.layout', 'Pckg/Framework:error/default');
+            $output = view($layout);
         } catch (Throwable $e) {
             if (dev()) {
                 throw $e;
@@ -27,8 +28,10 @@ class ShowNiceErrorPage
     public function handlePartial()
     {
         try {
-            $output = view('Pckg/Framework:error/default', [
-                'extends' => 'Pckg/Generic/View/error.twig',
+            $layout = config('pckg.framework.error.layout', 'Pckg/Framework:error/default');
+            $extends = config('pckg.framework.error.extends', 'Pckg/Generic/View/error.twig');
+            $output = view($layout, [
+                'extends' => $extends,
             ]);
         } catch (Throwable $e) {
             if (dev()) {
