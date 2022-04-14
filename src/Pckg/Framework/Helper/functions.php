@@ -900,7 +900,7 @@ namespace Pckg\Framework\Helper {
         }
 
         if (!$base) {
-            $base = path('app_uploads');
+            $base = path('uploads');
         }
 
         if ($dir) {

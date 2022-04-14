@@ -112,7 +112,6 @@ class Environment
 
     public function registerAndBindApplication(\Pckg\Framework\Helper\Context $context, $appName)
     {
-
         /**
          * Register active paths.
          */
@@ -133,9 +132,5 @@ class Environment
     {
         path('app', path('root') . "app" . path('ds') . strtolower($appName) . path('ds'));
         path('app_src', path('app') . "src" . path('ds'));
-        path('app_public', path('app') . "public" . path('ds'));
-        path('app_uploads', path('uploads'));
-        path('app_storage', path('storage'));
-        path('app_private', path('private'));
     }
 }

@@ -273,7 +273,7 @@ class Router
                         continue;
                     }
 
-                    if (isset($route['resolvers'][$key])) {
+                    if (isset($args['[' . $key . ']'])) {
                         continue;
                     }
 
