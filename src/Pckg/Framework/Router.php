@@ -262,6 +262,25 @@ class Router
                     $args["[" . $key . "]"] = $val;
                 }
 
+                // what about global resolver support?
+                $globalResolvers = config('pckg.router.resolvers', []);
+                foreach ($globalResolvers as $key => $resolver) {
+                    if (!str_contains($route['url'], '[' . $key . ']')) {
+                        continue;
+                    }
+
+                    if (isset($route['resolvers'][$key])) {
+                        continue;
+                    }
+
+                    if (isset($route['resolvers'][$key])) {
+                        continue;
+                    }
+
+                    $route['resolvers'][$key] = $resolver;
+                    $args['[' . $key . ']'] = (new $resolver)->resolve(null);
+                }
+
                 foreach ($route['resolvers'] ?? [] as $key => $resolver) {
                     /**
                      * If index is not set, argument should be resolved by post/get data or similar.
