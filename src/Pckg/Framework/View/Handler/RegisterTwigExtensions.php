@@ -146,7 +146,10 @@ class RegisterTwigExtensions
             return base64_encode($string);
         }));
 
-        $twig->getExtension('core')->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
+        // @codingStandardsIgnoreStart
+        $twig->getExtension('core')
+            ->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
+        // @codingStandardsIgnoreEnd
 
         Twig::addDir(path('vendor') . 'pckg/framework/src/');
     }

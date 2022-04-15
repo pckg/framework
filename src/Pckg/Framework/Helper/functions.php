@@ -108,7 +108,7 @@ namespace Pckg\Framework\Helper {
         $retry = new \Pckg\Framework\Helper\Retry();
 
         if ($times) {
-            $retry->times($times);
+            $retry->retry($times);
         }
 
         if ($interval) {
@@ -233,45 +233,6 @@ namespace Pckg\Framework\Helper {
         return response()->internal($url);
     }
 
-    /**
-     * @param null $entity
-     *
-     * @return \Pckg\Database\Entity
-     */
-    function entity($entity = null)
-    {
-        return context()->getEntity($entity);
-    }
-
-    /**
-     * @param null $form
-     *
-     * @return \Htmlbuilder\Element\Form
-     */
-    function form($form = null)
-    {
-        return context()->getForm($form);
-    }
-
-    /**
-     * @param $factory
-     *
-     * @return \Pckg\Concept\Factory
-     */
-    function factory($factory)
-    {
-        return context()->getFactory($factory);
-    }
-
-    /**
-     * @param \Event $event
-     * @param        $strtotime
-     */
-    function schedule(AbstractEvent $event, $strtotime)
-    {
-        // Event::schedule($event, $strtotime);
-    }
-
     function isValidEmail($email, $dns = false)
     {
         if (!$email) {
@@ -306,9 +267,6 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param       $url
-     * @param array $params
-     *
      * @return string
      */
     function url($url, $params = [], $absolute = false, $envPrefix = true)
@@ -357,11 +315,6 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param       $chains
-     * @param null $method
-     * @param array $args
-     * @param null $firstChain
-     *
      * @return mixed|null|object
      * @throws Exception
      */
@@ -387,9 +340,6 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param      $key
-     * @param null $val
-     *
      * @return mixed|Flash
      */
     function flash($key, $val)
@@ -400,8 +350,6 @@ namespace Pckg\Framework\Helper {
     /* config */
 
     /**
-     * @param $text
-     *
      * @return mixed|Config|array|callable
      */
     function config($key = null, $default = null)
@@ -447,9 +395,6 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param      $key
-     * @param null $val
-     *
      * @return string
      */
     function path($key = null, $val = null)
@@ -484,9 +429,6 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param      $key
-     * @param null $val
-     *
      * @return array|null
      */
     function relativePath($key = null)
@@ -495,9 +437,6 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param $filename
-     * @param $dir
-     *
      * @return string
      */
     function uniqueFile($filename, $folder)
@@ -545,8 +484,6 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param $text
-     *
      * @return string
      */
     function toCamel($text)
@@ -585,9 +522,6 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param       $view
-     * @param array $data
-     *
      * @return Twig
      */
     function view($view = null, $data = [], $assets = [])
@@ -1119,7 +1053,6 @@ namespace Pckg\Framework\Helper {
         foreach ($params as $k => $v) {
             if (substr($k, 0, 1) === ':') {
                 if (!$generic) {
-                    // @phpstan-ignore-next-line
                     $generic = resolve(Generic::class);
                 }
 

@@ -38,7 +38,7 @@ class Context extends ConceptContext
          * Initialize and run application.
          */
         if ($run) {
-            $application->initAndRun($run);
+            $application->initAndRun();
         } else {
             $application->init();
         }
@@ -47,8 +47,6 @@ class Context extends ConceptContext
     }
 
     /**
-     * @param $environment
-     *
      * @return Environment
      */
     public function createEnvironment($environment)

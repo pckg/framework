@@ -51,7 +51,6 @@ class MockRequest
     /**
      * MockRequest constructor.
      * @param Unit $test
-     * @param $app
      */
     public function __construct($test, $app)
     {
@@ -60,7 +59,6 @@ class MockRequest
     }
 
     /**
-     * @param $code
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
@@ -74,7 +72,6 @@ class MockRequest
     }
 
     /**
-     * @param $code
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
@@ -90,7 +87,6 @@ class MockRequest
     }
 
     /**
-     * @param $code
      * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
@@ -120,7 +116,7 @@ class MockRequest
 
         return function (Context $context) use ($configurator) {
             /**
-             * @var $request Request
+             * @var Request $request
              */
             $request = $context->get(Request::class);
             $request->server()->set('HTTP_X_REQUESTED_WITH', 'xmlhttprequest');
@@ -139,7 +135,6 @@ class MockRequest
     }
 
     /**
-     * @param $url
      * @param callable|null $configurator
      * @return $this
      */
@@ -149,7 +144,6 @@ class MockRequest
     }
 
     /**
-     * @param $url
      * @param callable|null $configurator
      * @return $this
      */
@@ -159,7 +153,6 @@ class MockRequest
     }
 
     /**
-     * @param $url
      * @param callable|null $configurator
      * @return $this
      */
@@ -169,7 +162,6 @@ class MockRequest
     }
 
     /**
-     * @param $url
      * @param array $post
      * @param callable|null $configurator
      * @return $this
@@ -210,7 +202,6 @@ class MockRequest
     }
 
     /**
-     * @param $url
      * @param callable|null $configurator
      * @param string $method
      */

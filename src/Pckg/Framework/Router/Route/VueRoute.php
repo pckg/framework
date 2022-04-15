@@ -35,7 +35,7 @@ class VueRoute extends Route
 
         foreach ($this->children as $key => $childRoute) {
             /**
-             * @var $childRoute VueRoute
+             * @var VueRoute $childRoute
              */
             $childRoute->data['tags'][] = 'vue:route:child';
             $parentData['urlPrefix'] = $url;

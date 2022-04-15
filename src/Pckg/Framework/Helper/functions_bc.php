@@ -189,53 +189,6 @@ if (!function_exists('internal')) {
     }
 }
 
-if (!function_exists('entity')) {
-    /**
-     * @param null $entity
-     *
-     * @return \Pckg\Database\Entity
-     */
-    function entity($entity = null)
-    {
-        return Framework\Helper\entity($entity);
-    }
-}
-
-if (!function_exists('form')) {
-    /**
-     * @param null $form
-     *
-     * @return \Htmlbuilder\Element\Form
-     */
-    function form($form = null)
-    {
-        return Framework\Helper\form($form);
-    }
-}
-
-if (!function_exists('factory')) {
-    /**
-     * @param $factory
-     *
-     * @return \Pckg\Concept\Factory
-     */
-    function factory($factory)
-    {
-        return Framework\Helper\factory($factory);
-    }
-}
-
-if (!function_exists('schedule')) {
-    /**
-     * @param \Event $event
-     * @param        $strtotime
-     */
-    function schedule(AbstractEvent $event, $strtotime)
-    {
-        return Framework\Helper\schedule($event, $strtotime);
-    }
-}
-
 if (!function_exists('isValidEmail')) {
     function isValidEmail($email, $dns = false)
     {
@@ -257,9 +210,6 @@ if (!function_exists('router')) {
 
 if (!function_exists('url')) {
     /**
-     * @param       $url
-     * @param array $params
-     *
      * @return string
      */
     function url($url, $params = [], $absolute = false, $envPrefix = true)
@@ -299,11 +249,6 @@ if (!function_exists('queue')) {
 
 if (!function_exists('chain')) {
     /**
-     * @param       $chains
-     * @param null $method
-     * @param array $args
-     * @param null $firstChain
-     *
      * @return mixed|null|object
      * @throws Exception
      */
@@ -327,9 +272,6 @@ if (!function_exists('session')) {
 
 if (!function_exists('flash')) {
     /**
-     * @param      $key
-     * @param null $val
-     *
      * @return mixed|Flash
      */
     function flash($key, $val)
@@ -342,8 +284,6 @@ if (!function_exists('flash')) {
 
 if (!function_exists('config')) {
     /**
-     * @param $text
-     *
      * @return mixed|Config|array|callable
      */
     function config($key = null, $default = null)
@@ -375,9 +315,6 @@ if (!function_exists('firstWithZero')) {
 
 if (!function_exists('path')) {
     /**
-     * @param      $key
-     * @param null $val
-     *
      * @return string
      */
     function path($key = null, $val = null)
@@ -388,9 +325,6 @@ if (!function_exists('path')) {
 
 if (!function_exists('relativePath')) {
     /**
-     * @param      $key
-     * @param null $val
-     *
      * @return array|null
      */
     function relativePath($key = null)
@@ -401,9 +335,6 @@ if (!function_exists('relativePath')) {
 
 if (!function_exists('uniqueFile')) {
     /**
-     * @param $filename
-     * @param $dir
-     *
      * @return string
      */
     function uniqueFile($filename, $folder)
@@ -430,8 +361,6 @@ if (!function_exists('__')) {
 
 if (!function_exists('toCamel')) {
     /**
-     * @param $text
-     *
      * @return string
      */
     function toCamel($text)
@@ -452,9 +381,6 @@ if (!function_exists('kaorealpath')) {
 
 if (!function_exists('view')) {
     /**
-     * @param       $view
-     * @param array $data
-     *
      * @return Twig
      */
     function view($view = null, $data = [], $assets = [])

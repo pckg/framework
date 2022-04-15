@@ -144,7 +144,6 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param $object
      * @param null $key
      * @param array $default
      * @return Lazy|mixed

@@ -9,7 +9,6 @@ use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 class Sanitizer
 {
     /**
-     * @param $untrustedHtml
      * @return string
      */
     public function sanitizeContent($untrustedHtml)
@@ -174,7 +173,6 @@ class Sanitizer
     }
 
     /**
-     * @param $untrustedHtml
      * @return string
      * @throws \InvalidArgumentException
      */

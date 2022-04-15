@@ -27,7 +27,7 @@ class Uri implements UriInterface
     protected $pass = '';
 
     /**
-     * @var
+     * @var string
      */
     protected $host = '';
 
@@ -53,7 +53,6 @@ class Uri implements UriInterface
 
     /**
      * Uri constructor.
-     * @param $uri
      */
     public function __construct($uri)
     {

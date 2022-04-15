@@ -9,19 +9,12 @@ class TryCatch
      */
     protected $object;
 
-    /**
-     * @var
-     */
     protected $caught;
 
-    /**
-     * @var
-     */
     protected $result;
 
     /**
      * TryCatch constructor.
-     * @param $object
      */
     public function __construct($object)
     {
@@ -29,8 +22,6 @@ class TryCatch
     }
 
     /**
-     * @param $method
-     * @param $args
      * @return TryCatch
      */
     public function __call($method, $args)

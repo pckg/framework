@@ -36,8 +36,6 @@ trait Registrator
     }
 
     /**
-     * @param $routes
-     *
      * @throws \Exception
      */
     public function registerRoutes($routes)
@@ -168,8 +166,6 @@ trait Registrator
 
     /**
      * Double: provider
-     *
-     * @param $consoles
      */
     public function registerConsoles($consoles)
     {

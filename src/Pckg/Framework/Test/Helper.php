@@ -72,6 +72,7 @@ class Helper extends Module
             $config['pass']
         );
 
+        // @codingStandardsIgnoreLine
         $pdo->uniqueName = $config['host'] . "-" . $config['db'];
 
         return $pdo;

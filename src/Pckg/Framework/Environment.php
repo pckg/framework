@@ -42,7 +42,6 @@ abstract class Environment
     }
 
     /**
-     * @param $url
      * @return false|mixed|string
      * @deprecated
      */
@@ -102,7 +101,7 @@ abstract class Environment
 
     /**
      * @param Helper\Context $context
-     * @param                $appName
+     * @param string $appName
      * @return Application
      */
     abstract public function createApplication(\Pckg\Framework\Helper\Context $context, $appName);

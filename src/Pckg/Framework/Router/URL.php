@@ -51,7 +51,7 @@ class URL
     }
 
     /**
-     * @return mixed
+     * @return array
      */
     public function getParams()
     {
@@ -59,7 +59,7 @@ class URL
     }
 
     /**
-     * @param mixed $params
+     * @param array $params
      */
     public function setParams(array $params = [])
     {
@@ -97,7 +97,7 @@ class URL
     }
 
     /**
-     * @param mixed $absolute
+     * @param mixed $relative
      */
     public function setRelative($relative = true)
     {

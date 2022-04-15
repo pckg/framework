@@ -86,7 +86,7 @@ trait MockFramework
         $context->bind(Router::class, $router);
 
         /**
-         * @var $request Request\MockRequest
+         * @var Request\MockRequest $request
          */
         $request = resolve(Request::class);
         resolve(Response::class);

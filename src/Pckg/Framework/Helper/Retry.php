@@ -28,9 +28,6 @@ class Retry
      */
     protected $check;
 
-    /**
-     * @var
-     */
     protected $heartbeat;
 
     /**
@@ -171,7 +168,6 @@ class Retry
     }
 
     /**
-     * @param $tries
      * @return bool
      */
     protected function shouldRepeat($tries)

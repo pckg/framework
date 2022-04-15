@@ -131,8 +131,6 @@ class Response extends Message implements ResponseInterface
     }
 
     /**
-     * @param $output
-     *
      * @return $this
      */
     public function setOutput($output)
@@ -421,7 +419,7 @@ class Response extends Message implements ResponseInterface
     }
 
     /**
-     * @param $array array
+     * @param array $array
      *
      * @return string
      */
@@ -523,8 +521,6 @@ class Response extends Message implements ResponseInterface
     }
 
     /**
-     * @param $file
-     *
      * @return $this
      */
     public function sendContentLengthHeader($file)
@@ -536,8 +532,6 @@ class Response extends Message implements ResponseInterface
 
     /**
      * Read file with file_get_contents or handle (> 10MB) and print contents.
-     *
-     * @param $file
      */
     public function readFile($file, callable $then = null)
     {

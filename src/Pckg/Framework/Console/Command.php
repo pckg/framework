@@ -38,8 +38,6 @@ class Command extends SymfonyConsoleCommand
     }
 
     /**
-     * @param $data
-     *
      * @return $this
      */
     public function executeManually($data = [])

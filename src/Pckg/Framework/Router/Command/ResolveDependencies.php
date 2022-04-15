@@ -17,8 +17,7 @@ class ResolveDependencies
     /**
      * ResolveDependencies constructor.
      *
-     * @param Router $router
-     * @param        $resolvers
+     * @param array $resolvers
      */
     public function __construct(array $resolvers = [])
     {
