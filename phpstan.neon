@@ -1,9 +1,13 @@
 parameters:
 	paths:
 		- src
+		- tests
 	scanFiles:
 		- src/bootstrap.php
 		- src/console.php
 		- src/development.php
 		- src/production.php
 		- src/queue.php
+	scanDirectories:
+	    - tests
+	treatPhpDocTypesAsCertain: false

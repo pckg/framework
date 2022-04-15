@@ -1047,6 +1047,7 @@ namespace Pckg\Framework\Helper {
         foreach ($params as $k => $v) {
             if (substr($k, 0, 1) === ':') {
                 if (!$generic) {
+                    // @phpstan-ignore-next-line
                     $generic = resolve(Generic::class);
                 }
 
