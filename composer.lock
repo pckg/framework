@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42a81451b5f3b9f1ac7d1fb337d6583b",
+    "content-hash": "ba0b3f11bd69493816392f4088d1a1c6",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -733,16 +733,16 @@
         },
         {
             "name": "pckg/database",
-            "version": "dev-master",
+            "version": "dev-next-8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/database.git",
-                "reference": "516517b77d47f815321b250f93437ddd761ca0c8"
+                "reference": "98c01dcc8edcc18047ace3e3ca633ec0ca5b7a83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/database/zipball/516517b77d47f815321b250f93437ddd761ca0c8",
-                "reference": "516517b77d47f815321b250f93437ddd761ca0c8",
+                "url": "https://api.github.com/repos/pckg/database/zipball/98c01dcc8edcc18047ace3e3ca633ec0ca5b7a83",
+                "reference": "98c01dcc8edcc18047ace3e3ca633ec0ca5b7a83",
                 "shasum": ""
             },
             "require": {
@@ -755,7 +755,7 @@
             },
             "require-dev": {
                 "aws/aws-sdk-php-resources": "^0.3.0",
-                "fzaninotto/faker": "dev-master",
+                "fakerphp/faker": "1.*",
                 "pckg-app/frontend-dev": "dev-master",
                 "pckg/auth": "dev-master",
                 "pckg/framework": "dev-master-yoda",
@@ -764,10 +764,9 @@
                 "pckg/migrator": "dev-master"
             },
             "suggest": {
-                "fzaninotto/faker": "Use faker to mock data*",
+                "fakerphp/faker": "Use faker to mock data*",
                 "maximebf/debugbar": "Push queries and events to debugbar"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -789,9 +788,9 @@
             "homepage": "https://github.com/pckg/database",
             "support": {
                 "issues": "https://github.com/pckg/database/issues",
-                "source": "https://github.com/pckg/database/tree/master"
+                "source": "https://github.com/pckg/database/tree/next-8.0"
             },
-            "time": "2022-04-10T14:07:52+00:00"
+            "time": "2022-04-15T13:06:07+00:00"
         },
         {
             "name": "pckg/locale",
@@ -2146,69 +2145,6 @@
             "time": "2022-03-03T08:28:38+00:00"
         },
         {
-            "name": "facebook/graph-sdk",
-            "version": "5.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/facebook/php-graph-sdk.git",
-                "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/2d8250638b33d73e7a87add65f47fabf91f8ad9b",
-                "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.4|^7.0"
-            },
-            "require-dev": {
-                "guzzlehttp/guzzle": "~5.0",
-                "mockery/mockery": "~0.8",
-                "phpunit/phpunit": "~4.0"
-            },
-            "suggest": {
-                "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client",
-                "paragonie/random_compat": "Provides a better CSPRNG option in PHP 5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "5.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Facebook\\": "src/Facebook/"
-                },
-                "files": [
-                    "src/Facebook/polyfills.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Facebook Platform"
-            ],
-            "authors": [
-                {
-                    "name": "Facebook",
-                    "homepage": "https://github.com/facebook/php-graph-sdk/contributors"
-                }
-            ],
-            "description": "Facebook SDK for PHP",
-            "homepage": "https://github.com/facebook/php-graph-sdk",
-            "keywords": [
-                "facebook",
-                "sdk"
-            ],
-            "support": {
-                "issues": "https://github.com/facebook/php-graph-sdk/issues",
-                "source": "https://github.com/facebook/php-graph-sdk/tree/5.7.0"
-            },
-            "abandoned": true,
-            "time": "2018-12-11T22:56:31+00:00"
-        },
-        {
             "name": "guzzlehttp/guzzle",
             "version": "7.4.2",
             "source": {
@@ -2997,16 +2933,16 @@
         },
         {
             "name": "pckg-app/frontend-dev",
-            "version": "dev-master",
+            "version": "dev-next-8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg-app/frontend-dev.git",
-                "reference": "13d61e838815bc7bc7cc90bdbd26448b8fcbbd79"
+                "reference": "3c16a170e562a817e8a230cfa38d90937f5384ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg-app/frontend-dev/zipball/13d61e838815bc7bc7cc90bdbd26448b8fcbbd79",
-                "reference": "13d61e838815bc7bc7cc90bdbd26448b8fcbbd79",
+                "url": "https://api.github.com/repos/pckg-app/frontend-dev/zipball/3c16a170e562a817e8a230cfa38d90937f5384ff",
+                "reference": "3c16a170e562a817e8a230cfa38d90937f5384ff",
                 "shasum": ""
             },
             "require": {
@@ -3019,11 +2955,11 @@
                 "codeception/module-webdriver": "1.*",
                 "codeception/specify": "^1.4",
                 "maximebf/debugbar": "^1.16",
+                "php": ">=8.0",
                 "phpstan/phpstan": "^0.12.82",
                 "phpstan/phpstan-strict-rules": "^0.12.9",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -3039,41 +2975,38 @@
             "homepage": "https://github.com/pckg-app/frontend-dev",
             "support": {
                 "issues": "https://github.com/pckg-app/frontend-dev/issues",
-                "source": "https://github.com/pckg-app/frontend-dev/tree/master"
+                "source": "https://github.com/pckg-app/frontend-dev/tree/next-8.0"
             },
-            "time": "2021-06-19T19:21:00+00:00"
+            "time": "2022-04-03T19:07:11+00:00"
         },
         {
             "name": "pckg/auth",
-            "version": "dev-master",
+            "version": "dev-next-8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/auth.git",
-                "reference": "9a7b6c78f11d49536af03276a4057a18c4249052"
+                "reference": "9656e77d8ded5b94ff37834e992a5a8ef4c3242d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/auth/zipball/9a7b6c78f11d49536af03276a4057a18c4249052",
-                "reference": "9a7b6c78f11d49536af03276a4057a18c4249052",
+                "url": "https://api.github.com/repos/pckg/auth/zipball/9656e77d8ded5b94ff37834e992a5a8ef4c3242d",
+                "reference": "9656e77d8ded5b94ff37834e992a5a8ef4c3242d",
                 "shasum": ""
             },
             "require": {
-                "ext-json": "*",
-                "facebook/graph-sdk": "5.*",
-                "pckg/framework": "dev-master || dev-master-yoda"
+                "ext-json": "*"
             },
             "require-dev": {
-                "facebook/facebook-instant-articles-sdk-php": "dev-master",
                 "league/oauth2-client": "^2.6",
                 "pckg-app/api": "dev-master",
                 "pckg-app/frontend-dev": "dev-master",
                 "pckg/concept": "dev-master",
+                "pckg/framework": "dev-next-8.0 as dev-master",
                 "pckg/htmlbuilder": "dev-master",
                 "pckg/mail": "dev-master",
                 "pckg/manager": "dev-master",
                 "pckg/migrator": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -3094,32 +3027,32 @@
             "homepage": "https://github.com/pckg/auth",
             "support": {
                 "issues": "https://github.com/pckg/auth/issues",
-                "source": "https://github.com/pckg/auth/tree/master"
+                "source": "https://github.com/pckg/auth/tree/next-8.0"
             },
-            "time": "2021-10-01T19:07:12+00:00"
+            "time": "2022-04-15T15:45:01+00:00"
         },
         {
             "name": "pckg/htmlbuilder",
-            "version": "dev-master",
+            "version": "dev-next-8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/htmlbuilder.git",
-                "reference": "32a0e88508cff81bdb7d040abe00a3c46cebd08f"
+                "reference": "932d4a0f3feccc72a4ff8553beb5761413ec9026"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/32a0e88508cff81bdb7d040abe00a3c46cebd08f",
-                "reference": "32a0e88508cff81bdb7d040abe00a3c46cebd08f",
+                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/932d4a0f3feccc72a4ff8553beb5761413ec9026",
+                "reference": "932d4a0f3feccc72a4ff8553beb5761413ec9026",
                 "shasum": ""
             },
             "require": {
-                "pckg/concept": "dev-master"
+                "pckg/concept": "dev-master",
+                "php": ">=8.0"
             },
             "require-dev": {
                 "pckg-app/frontend-dev": "dev-master",
                 "pckg/framework": "dev-master || dev-master-yoda"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -3145,9 +3078,9 @@
             "homepage": "https://bitbucket.org/lfw/htmlbuilder",
             "support": {
                 "issues": "https://github.com/pckg/htmlbuilder/issues",
-                "source": "https://github.com/pckg/htmlbuilder/tree/master"
+                "source": "https://github.com/pckg/htmlbuilder/tree/next-8.0"
             },
-            "time": "2022-04-15T14:22:27+00:00"
+            "time": "2022-01-02T19:22:00+00:00"
         },
         {
             "name": "pckg/mail",
@@ -3203,16 +3136,16 @@
         },
         {
             "name": "pckg/manager",
-            "version": "dev-master",
+            "version": "dev-next-8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/manager.git",
-                "reference": "f82e3f54d7c51227fdf968846a4abe0c90e783fd"
+                "reference": "d61892831ce6947208089e36286874a068553334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/manager/zipball/f82e3f54d7c51227fdf968846a4abe0c90e783fd",
-                "reference": "f82e3f54d7c51227fdf968846a4abe0c90e783fd",
+                "url": "https://api.github.com/repos/pckg/manager/zipball/d61892831ce6947208089e36286874a068553334",
+                "reference": "d61892831ce6947208089e36286874a068553334",
                 "shasum": ""
             },
             "require": {
@@ -3224,7 +3157,6 @@
                 "pckg/framework": "dev-master",
                 "pckg/queue": "dev-master"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -3245,9 +3177,9 @@
             "homepage": "https://github.com/pckg/manager",
             "support": {
                 "issues": "https://github.com/pckg/manager/issues",
-                "source": "https://github.com/pckg/manager/tree/master"
+                "source": "https://github.com/pckg/manager/tree/next-8.0"
             },
-            "time": "2022-01-15T15:55:15+00:00"
+            "time": "2022-04-15T06:50:31+00:00"
         },
         {
             "name": "pckg/migrator",
@@ -3300,21 +3232,21 @@
         },
         {
             "name": "pckg/queue",
-            "version": "dev-master",
+            "version": "dev-next-8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/queue.git",
-                "reference": "4d67c3a12899f0b26ffc82a901c952574598869c"
+                "reference": "d733f0005d9e095bc32425e9dc4be32b97f703b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/queue/zipball/4d67c3a12899f0b26ffc82a901c952574598869c",
-                "reference": "4d67c3a12899f0b26ffc82a901c952574598869c",
+                "url": "https://api.github.com/repos/pckg/queue/zipball/d733f0005d9e095bc32425e9dc4be32b97f703b5",
+                "reference": "d733f0005d9e095bc32425e9dc4be32b97f703b5",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "php-amqplib/php-amqplib": "2.*"
+                "php-amqplib/php-amqplib": "3.*"
             },
             "require-dev": {
                 "nesbot/carbon": "2.*",
@@ -3325,7 +3257,6 @@
                 "pckg/migrator": "dev-master",
                 "pda/pheanstalk": "^4.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -3348,9 +3279,9 @@
             "homepage": "https://github.com/pckg/queue",
             "support": {
                 "issues": "https://github.com/pckg/queue/issues",
-                "source": "https://github.com/pckg/queue/tree/master"
+                "source": "https://github.com/pckg/queue/tree/next-8.0"
             },
-            "time": "2021-12-12T11:29:58+00:00"
+            "time": "2021-12-22T08:54:13+00:00"
         },
         {
             "name": "pckg/translator",
@@ -3511,22 +3442,22 @@
         },
         {
             "name": "php-amqplib/php-amqplib",
-            "version": "v2.12.3",
+            "version": "v3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-amqplib/php-amqplib.git",
-                "reference": "f746eb44df6d8f838173729867dd1d20b0265faa"
+                "reference": "0bec5b392428e0ac3b3f34fbc4e02d706995833e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/f746eb44df6d8f838173729867dd1d20b0265faa",
-                "reference": "f746eb44df6d8f838173729867dd1d20b0265faa",
+                "url": "https://api.github.com/repos/php-amqplib/php-amqplib/zipball/0bec5b392428e0ac3b3f34fbc4e02d706995833e",
+                "reference": "0bec5b392428e0ac3b3f34fbc4e02d706995833e",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
                 "ext-sockets": "*",
-                "php": ">=5.6.3,<8.0",
+                "php": "^7.1||^8.0",
                 "phpseclib/phpseclib": "^2.0|^3.0"
             },
             "conflict": {
@@ -3538,13 +3469,13 @@
             "require-dev": {
                 "ext-curl": "*",
                 "nategood/httpful": "^0.2.20",
-                "phpunit/phpunit": "^5.7|^6.5|^7.0",
-                "squizlabs/php_codesniffer": "^3.5"
+                "phpunit/phpunit": "^7.5|^9.5",
+                "squizlabs/php_codesniffer": "^3.6"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.12-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -3586,9 +3517,9 @@
             ],
             "support": {
                 "issues": "https://github.com/php-amqplib/php-amqplib/issues",
-                "source": "https://github.com/php-amqplib/php-amqplib/tree/v2.12.3"
+                "source": "https://github.com/php-amqplib/php-amqplib/tree/v3.2.0"
             },
-            "time": "2021-03-01T12:21:31+00:00"
+            "time": "2022-03-10T19:16:00+00:00"
         },
         {
             "name": "php-webdriver/webdriver",
@@ -7984,7 +7915,44 @@
             "time": "2021-03-09T10:59:23+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "pckg-app/frontend-dev",
+            "version": "dev-next-8.0",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
+            "package": "pckg/auth",
+            "version": "dev-next-8.0",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
+            "package": "pckg/database",
+            "version": "dev-next-8.0",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
+            "package": "pckg/htmlbuilder",
+            "version": "dev-next-8.0",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
+            "package": "pckg/manager",
+            "version": "dev-next-8.0",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
+            "package": "pckg/queue",
+            "version": "dev-next-8.0",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "pckg/concept": 20,
@@ -8006,7 +7974,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=8.0",
+        "php": "8.0.*",
         "ext-json": "*",
         "ext-pcntl": "*"
     },
