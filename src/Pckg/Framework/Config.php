@@ -4,7 +4,6 @@ namespace Pckg\Framework;
 
 class Config
 {
-
     protected $data = [];
 
     protected $registeredDirs = [];

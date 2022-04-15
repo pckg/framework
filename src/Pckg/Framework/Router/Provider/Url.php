@@ -6,7 +6,6 @@ use Pckg\Framework\Router\RouteProviderInterface;
 
 class Url implements RouteProviderInterface
 {
-
     protected $url;
 
     protected $config;

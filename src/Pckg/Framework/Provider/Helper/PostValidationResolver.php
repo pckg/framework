@@ -4,7 +4,6 @@ namespace Pckg\Framework\Provider\Helper;
 
 trait PostValidationResolver
 {
-
     protected $validator;
 
     public function validator(callable $validator)

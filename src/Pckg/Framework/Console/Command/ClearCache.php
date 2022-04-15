@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputArgument;
  */
 class ClearCache extends Command
 {
-
     public function handle()
     {
         $path = path('cache') . 'framework' . path('ds');

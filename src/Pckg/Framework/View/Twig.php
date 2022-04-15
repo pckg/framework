@@ -11,7 +11,6 @@ use Twig_Loader_Filesystem;
 
 class Twig extends AbstractView implements ViewInterface
 {
-
     /**
      * @var TwigEnv
      */

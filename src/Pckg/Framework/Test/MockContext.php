@@ -7,7 +7,6 @@ use Pckg\Framework\Stack;
 
 trait MockContext
 {
-
     /**
      * @return mixed
      */

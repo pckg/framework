@@ -25,8 +25,6 @@ use Pckg\Migration\Provider\Migration as MigrationProvider;
 
 class Framework extends Provider
 {
-
-
     public function consoles()
     {
         return [

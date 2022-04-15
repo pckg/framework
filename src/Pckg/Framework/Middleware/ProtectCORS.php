@@ -4,7 +4,6 @@ namespace Pckg\Framework\Middleware;
 
 class ProtectCORS
 {
-
     public function execute(callable $next)
     {
         /**

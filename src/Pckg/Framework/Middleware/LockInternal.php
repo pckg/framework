@@ -6,7 +6,6 @@ use Pckg\Auth\Controller\Auth;
 
 class LockInternal
 {
-
     public function execute(callable $next)
     {
         /**

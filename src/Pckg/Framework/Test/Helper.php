@@ -16,7 +16,6 @@ use PDO;
  */
 class Helper extends Module
 {
-
     public $sqls = [];
 
     public $queryPreparedListener;

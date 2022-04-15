@@ -8,7 +8,6 @@ use Pckg\Framework\Response;
 
 class InitResponse extends AbstractChainOfReponsibility
 {
-
     protected $response;
 
     protected $context;

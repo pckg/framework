@@ -7,7 +7,6 @@ use Pckg\Framework\Router;
 
 class ResolveRoute
 {
-
     protected $router;
     protected $url;
     protected $domain;

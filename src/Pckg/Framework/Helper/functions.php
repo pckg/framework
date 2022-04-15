@@ -1435,7 +1435,7 @@ namespace Pckg\Framework\Helper {
         return $input;
     }
 
-    function tryout() {
-
+    function tryout()
+    {
     }
 }

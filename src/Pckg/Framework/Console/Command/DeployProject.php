@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class DeployProject extends Command
 {
-
     public function handle()
     {
         $remote = config('pckg.framework.' . DeployProject::class . '.remotes.' . $this->option('remote'));

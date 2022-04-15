@@ -8,7 +8,6 @@ namespace Pckg\Framework\Test;
  */
 trait ContextDiff
 {
-
     protected function checkContextDiff(callable $task, int $diff)
     {
         $starting = $this->context->getData();

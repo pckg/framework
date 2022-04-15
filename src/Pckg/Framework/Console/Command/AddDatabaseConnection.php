@@ -6,7 +6,6 @@ use Pckg\Framework\Console\Command;
 
 trait AddDatabaseConnection
 {
-
     /**
      * Ask user if he wants to add database config.
      * Ask for credentials.

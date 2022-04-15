@@ -580,11 +580,11 @@ class Response extends Message implements ResponseInterface
     {
         $this->sendFileContentTypeHeaders($filename);
         $this->sendFileDispositionHeader($filename);
-        
+
         if ($length) {
             header('Content-Length: ' . $length);
         }
-        
+
         $limit = 1024 * 1024 * 10;
         while (!feof($stream)) {
             echo fread($stream, $limit);

@@ -11,7 +11,6 @@ use Pckg\Framework\Request\Data\Server;
 
 class MockRequest extends Request
 {
-
     public function __construct()
     {
         $this->post = new Post([]);

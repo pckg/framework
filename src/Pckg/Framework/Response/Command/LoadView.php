@@ -11,7 +11,6 @@ use Pckg\Framework\Router;
 
 class LoadView extends AbstractChainOfReponsibility
 {
-
     protected $view;
 
     protected $data;

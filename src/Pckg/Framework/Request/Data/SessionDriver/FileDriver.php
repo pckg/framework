@@ -7,7 +7,6 @@ use Exception;
 
 class FileDriver extends SessionHandler
 {
-
     const PHPSESSID = 'SID'; // PHPSESSID
 
     const SIGNATURE = 'SIGNATURE';

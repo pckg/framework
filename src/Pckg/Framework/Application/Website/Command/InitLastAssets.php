@@ -13,7 +13,6 @@ use Pckg\Manager\Asset as AssetManager;
  */
 class InitLastAssets extends AbstractChainOfReponsibility
 {
-
     protected $assetManager;
 
     protected $environment;

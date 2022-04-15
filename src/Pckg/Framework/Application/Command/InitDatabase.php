@@ -7,7 +7,6 @@ use Pckg\Framework\Config;
 
 class InitDatabase
 {
-
     protected Config $config;
 
     public function __construct(Config $config)

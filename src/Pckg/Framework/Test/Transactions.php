@@ -7,7 +7,6 @@ use Pckg\Framework\Application\Command\InitDatabase;
 
 trait Transactions
 {
-
     protected $transactions = [];
 
     /**

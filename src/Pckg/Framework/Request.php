@@ -23,7 +23,6 @@ use Psr\Http\Message\UriInterface;
  */
 class Request extends Message implements RequestInterface, ServerRequestInterface
 {
-
     const OPTIONS = 'OPTIONS';
 
     const GET = 'GET';

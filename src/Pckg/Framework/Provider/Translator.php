@@ -7,7 +7,6 @@ use Pckg\Translator\Service\Translator as TranslatorService;
 
 class Translator extends Provider
 {
-
     public function viewObjects()
     {
         return [

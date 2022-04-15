@@ -13,7 +13,6 @@ Looks for speciffic package and its route configuration
 
 class NamespaceProvider implements RouteProviderInterface
 {
-
     protected $namespace;
 
     protected $config;

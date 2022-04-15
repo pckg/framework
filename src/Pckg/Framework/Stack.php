@@ -4,7 +4,6 @@ namespace Pckg\Framework;
 
 class Stack
 {
-
     protected $stacks = [];
 
     public static $providers = [];

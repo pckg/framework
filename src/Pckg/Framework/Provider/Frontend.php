@@ -6,7 +6,6 @@ use Pckg\Framework\Provider;
 
 class Frontend extends Provider
 {
-
     public function assets()
     {
         return [

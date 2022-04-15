@@ -8,7 +8,6 @@ use Pckg\Framework\Request\Data\SessionDriver\FileDriver;
 
 class Session extends Lazy
 {
-
     /**
      * @var Db
      */

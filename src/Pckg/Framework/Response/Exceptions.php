@@ -9,7 +9,6 @@ use Throwable;
 
 trait Exceptions
 {
-
     public function none($message = 'Empty response')
     {
         $this->exception($message, 400);

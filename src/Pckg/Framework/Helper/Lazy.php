@@ -7,7 +7,6 @@ use Pckg\Collection;
 
 class Lazy implements ArrayAccess
 {
-
     protected $data = [];
 
     protected $original = [];

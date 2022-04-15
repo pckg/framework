@@ -6,5 +6,4 @@ use Pckg\Framework\Response;
 
 class HTML extends Response
 {
-
 }

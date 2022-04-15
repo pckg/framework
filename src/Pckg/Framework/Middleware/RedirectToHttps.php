@@ -9,7 +9,6 @@ namespace Pckg\Framework\Middleware;
  */
 class RedirectToHttps
 {
-
     public function execute()
     {
         if (!isHttp() || request()->isSecure()) {

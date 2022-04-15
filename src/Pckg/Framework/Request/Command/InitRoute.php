@@ -12,7 +12,6 @@ use Pckg\Framework\View\Twig;
 
 class InitRoute extends AbstractChainOfReponsibility
 {
-
     protected $request;
 
     protected $context;

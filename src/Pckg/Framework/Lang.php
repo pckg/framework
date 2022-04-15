@@ -6,7 +6,6 @@ use Exception;
 
 class Lang
 {
-
     const EN = 'en';
 
     const SI = 'si';

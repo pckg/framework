@@ -7,7 +7,6 @@ use Exception;
 
 class MockDriver extends SessionHandler
 {
-
     protected $state = null;
 
     protected $sessions = [];

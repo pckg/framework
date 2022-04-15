@@ -13,7 +13,6 @@ use Pckg\Queue\Command\RunRabbitMQ;
 
 class Queue extends Application
 {
-
     public function inits()
     {
         return [

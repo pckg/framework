@@ -14,7 +14,6 @@ use Pckg\Framework\View\Twig;
  */
 class App implements RouteProviderInterface
 {
-
     protected $app;
 
     protected $config;

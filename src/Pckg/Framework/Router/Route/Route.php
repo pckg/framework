@@ -114,7 +114,7 @@ class Route
     {
         return $this->resolvers;
     }
-    
+
     public function inheritResolvers(Route $route)
     {
         foreach ($route->getResolvers() as $key => $resolver) {

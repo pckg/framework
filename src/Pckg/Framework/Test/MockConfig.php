@@ -6,7 +6,6 @@ use Pckg\Framework\Config;
 
 trait MockConfig
 {
-
     protected function mockConfig(array $default = [], &$reset = null)
     {
         $original = $this->context->get(Config::class);

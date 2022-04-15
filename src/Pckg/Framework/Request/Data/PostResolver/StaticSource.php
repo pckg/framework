@@ -4,7 +4,6 @@ namespace Pckg\Framework\Request\Data\PostResolver;
 
 class StaticSource implements PostSource
 {
-
     protected $data = [];
 
     public function readFromSource(): array

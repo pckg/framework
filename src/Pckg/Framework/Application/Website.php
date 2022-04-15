@@ -19,7 +19,6 @@ use Pckg\Locale\Command\Localize;
 
 class Website extends Application
 {
-
     /**
      * @return string[]
      * Session should be initialized on demand.

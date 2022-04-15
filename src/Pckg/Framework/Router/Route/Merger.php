@@ -4,7 +4,6 @@ namespace Pckg\Framework\Router\Route;
 
 trait Merger
 {
-
     protected function mergeData($to, $from)
     {
         /**

@@ -40,7 +40,8 @@ class RegisterApplication
          * Do we always want to re-read config and re-localize when providers are registered?
          * Okay for Localize? No for InitConfig? Shouldn't they be able to change config in runtime?
          */
-        resolve(Config\Command\InitConfig::class)->execute(function() {});
+        resolve(Config\Command\InitConfig::class)->execute(function () {
+        });
 
         /**
          * Localize any config changes.

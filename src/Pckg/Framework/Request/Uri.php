@@ -11,7 +11,6 @@ use Psr\Http\Message\UriInterface;
  */
 class Uri implements UriInterface
 {
-
     /**
      * @var string
      */

@@ -6,7 +6,6 @@ use Pckg\Database\Repository;
 
 class Forked
 {
-
     public function handle()
     {
         foreach (config('database') as $name => $config) {

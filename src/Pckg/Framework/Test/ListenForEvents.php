@@ -10,7 +10,6 @@ use Pckg\Concept\Event\Dispatcher;
  */
 trait ListenForEvents
 {
-
     protected array $triggeredEvents = [];
 
     protected function listenForEvents(array $events, $reset = true): self

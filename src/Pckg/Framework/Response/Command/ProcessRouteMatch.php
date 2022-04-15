@@ -18,7 +18,6 @@ use Throwable;
 
 class ProcessRouteMatch extends AbstractChainOfReponsibility
 {
-
     protected $controller;
 
     protected $request;

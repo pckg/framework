@@ -11,7 +11,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class MatchRoute extends Command
 {
-
     protected function configure()
     {
         $this->setName('router:match')

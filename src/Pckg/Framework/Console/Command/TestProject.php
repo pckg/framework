@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class TestProject extends Command
 {
-
     public function handle()
     {
         $compact = $this->option('compact')

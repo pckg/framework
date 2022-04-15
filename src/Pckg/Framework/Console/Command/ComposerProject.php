@@ -6,7 +6,6 @@ use Pckg\Framework\Console\Command;
 
 class ComposerProject extends Command
 {
-
     public function handle()
     {
         $packets = [

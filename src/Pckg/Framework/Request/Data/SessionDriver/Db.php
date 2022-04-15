@@ -6,7 +6,6 @@ use Pckg\Framework\Request\Session\Record\Session;
 
 class Db extends FileDriver
 {
-
     protected $record;
 
     public function open($savePath, $name)

@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class ProdProject extends Command
 {
-
     public function handle()
     {
         $branch = $this->argument('branch');

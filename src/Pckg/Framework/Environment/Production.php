@@ -16,7 +16,6 @@ use Whoops\Run;
 
 class Production extends Environment
 {
-
     public $env = 'pro';
 
     public function register()

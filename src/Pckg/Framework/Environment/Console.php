@@ -14,7 +14,6 @@ use Pckg\Framework\Application;
 
 class Console extends Environment
 {
-
     public function register()
     {
         error_reporting(E_ALL);

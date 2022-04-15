@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class InitProject extends Command
 {
-
     public function symlinks()
     {
         /**

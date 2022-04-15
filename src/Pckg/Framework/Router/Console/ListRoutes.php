@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ListRoutes extends Command
 {
-
     protected function configure()
     {
         $this->setName('router:list')

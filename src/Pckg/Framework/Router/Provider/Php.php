@@ -7,7 +7,6 @@ use Pckg\Framework\Router\RouteProviderInterface;
 
 class Php implements RouteProviderInterface
 {
-
     protected $config;
 
     public function __construct($config)

@@ -9,7 +9,6 @@ use Pckg\Framework\Router\RouteProviderInterface;
 
 class Src implements RouteProviderInterface
 {
-
     protected $config;
 
     protected $src;

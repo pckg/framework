@@ -12,7 +12,6 @@ use Pckg\Locale\Command\Localize;
 
 class Console extends Application
 {
-
     public function inits()
     {
         return [

@@ -15,7 +15,6 @@ use Twig_SimpleFunction;
 
 class RegisterTwigExtensions
 {
-
     public function handle(TwigEnv $twig)
     {
         $twig->addExtension(new Twig_Extension_StringLoader());

@@ -6,5 +6,4 @@ use Pckg\Framework\Exception;
 
 class Database extends Exception
 {
-
 }

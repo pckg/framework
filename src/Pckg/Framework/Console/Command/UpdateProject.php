@@ -6,7 +6,6 @@ use Pckg\Framework\Console\Command;
 
 class UpdateProject extends Command
 {
-
     public function handle()
     {
         $this->exec(

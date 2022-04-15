@@ -7,7 +7,7 @@ use Pckg\Concept\Context;
 trait TestHelper
 {
     use MockFramework;
-    
+
 
     /**
      * Migrated from _before()

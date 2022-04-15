@@ -4,7 +4,6 @@ namespace Pckg\Framework\Request\Session;
 
 class SessionUser
 {
-
     protected $user;
 
     protected $attributes = [];

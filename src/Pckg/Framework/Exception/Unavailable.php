@@ -6,5 +6,4 @@ use Pckg\Framework\Exception;
 
 class Unavailable extends Exception
 {
-
 }

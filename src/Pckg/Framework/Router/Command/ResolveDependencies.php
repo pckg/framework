@@ -9,7 +9,6 @@ use Pckg\Framework\Router;
 
 class ResolveDependencies
 {
-
     /**
      * @var array
      */

@@ -11,7 +11,6 @@ use Whoops\Run;
 
 class Development extends Production
 {
-
     public $env = 'dev';
 
     protected $urlPrefix = '/dev.php';

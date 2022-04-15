@@ -20,7 +20,6 @@ use Pckg\Manager\Seo as SeoManager;
 
 class FrameworkResolver implements Resolver
 {
-
     protected static $singletones = [
         Router::class,
         Context::class,

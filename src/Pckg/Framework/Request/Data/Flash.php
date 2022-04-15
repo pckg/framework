@@ -6,7 +6,6 @@ use Pckg\Framework\Helper\Lazy;
 
 class Flash extends Lazy
 {
-
     public function __construct()
     {
         parent::__construct(isset($_SESSION) && isset($_SESSION['Flash'])

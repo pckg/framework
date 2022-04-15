@@ -4,7 +4,6 @@ namespace Pckg\Framework\Router;
 
 class URL
 {
-
     public $domain;
 
     public $url;

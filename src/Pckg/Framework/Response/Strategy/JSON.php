@@ -6,5 +6,4 @@ use Pckg\Framework\Response;
 
 class JSON extends Response
 {
-
 }

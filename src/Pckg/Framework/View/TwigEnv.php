@@ -6,7 +6,6 @@ use Twig_Environment;
 
 class TwigEnv extends Twig_Environment
 {
-
     /**
      * This exists so template cache files use the same
      * group between apache and cli

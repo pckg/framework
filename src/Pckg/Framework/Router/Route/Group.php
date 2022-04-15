@@ -4,7 +4,6 @@ namespace Pckg\Framework\Router\Route;
 
 class Group
 {
-
     protected $data = [];
 
     protected $routes = [];

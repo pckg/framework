@@ -18,7 +18,6 @@ use Symfony\Component\Console\Question\Question;
 
 class Command extends SymfonyConsoleCommand
 {
-
     /**
      * @var InputInterface
      */

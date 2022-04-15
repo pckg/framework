@@ -6,7 +6,6 @@ use Pckg\Framework\Console\Command;
 
 class LockProject extends Command
 {
-
     public function handle()
     {
         if ($this->option('checkout')) {

@@ -7,7 +7,6 @@ use Throwable;
 
 class Plugin
 {
-
     public function make($controller, $method, $params = [], $byRequest = true, $toString = true, $headToGet = true)
     {
         /**

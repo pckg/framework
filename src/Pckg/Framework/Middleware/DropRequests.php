@@ -9,7 +9,6 @@ namespace Pckg\Framework\Middleware;
  */
 class DropRequests
 {
-
     public function handle()
     {
         $extensions = [

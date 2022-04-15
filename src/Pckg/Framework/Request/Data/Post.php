@@ -8,7 +8,6 @@ use Pckg\Framework\Request\Data\PostResolver\PostSource;
 
 class Post extends Lazy
 {
-
     protected $source = Globals::class;
 
     public function setSource(PostSource $postSource)

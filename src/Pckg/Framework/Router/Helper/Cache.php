@@ -6,7 +6,6 @@ use Pckg\Cache\Cache as PckgCache;
 
 class Cache extends PckgCache
 {
-
     protected function getCachePath()
     {
         return path('cache') . 'framework/router_' . str_replace(

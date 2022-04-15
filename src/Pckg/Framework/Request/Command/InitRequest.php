@@ -8,7 +8,6 @@ use Pckg\Framework\Request;
 
 class InitRequest extends AbstractChainOfReponsibility
 {
-
     protected $request;
 
     protected $context;

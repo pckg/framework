@@ -4,7 +4,6 @@ namespace Pckg\Framework\Test;
 
 trait MockExceptions
 {
-
     protected function throwException($message = 'Miss-match exception')
     {
         throw new \Exception($message);

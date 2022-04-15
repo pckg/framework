@@ -8,7 +8,6 @@ use Pckg\Framework\Config;
 
 class InitEvents
 {
-
     protected Config $config;
 
     public function __construct(Config $config)

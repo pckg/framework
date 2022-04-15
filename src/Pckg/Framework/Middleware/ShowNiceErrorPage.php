@@ -6,7 +6,6 @@ use Throwable;
 
 class ShowNiceErrorPage
 {
-
     public function handle()
     {
         try {

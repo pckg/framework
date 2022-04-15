@@ -9,7 +9,6 @@ use Pckg\Framework\Response\Command\ProcessRouteMatch;
 
 class RunRequest extends AbstractChainOfReponsibility
 {
-
     protected $request;
 
     public function __construct(Request $request)

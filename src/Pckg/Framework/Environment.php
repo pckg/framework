@@ -8,9 +8,8 @@ use Pckg\Framework\Environment\Command\DefinePaths;
 use Pckg\Framework\Environment\Development;
 use Pckg\Framework\Environment\Production;
 
-class Environment
+abstract class Environment
 {
-
     protected $urlPrefix = '/index.php';
 
     protected $env;
@@ -106,9 +105,7 @@ class Environment
      * @param                $appName
      * @return Application
      */
-    public function createApplication(\Pckg\Framework\Helper\Context $context, $appName)
-    {
-    }
+    abstract public function createApplication(\Pckg\Framework\Helper\Context $context, $appName);
 
     public function registerAndBindApplication(\Pckg\Framework\Helper\Context $context, $appName)
     {

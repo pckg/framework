@@ -10,7 +10,6 @@ use Pckg\Generic\Service\Generic;
 
 class RunResponse extends AbstractChainOfReponsibility
 {
-
     protected $response;
 
     protected $request;

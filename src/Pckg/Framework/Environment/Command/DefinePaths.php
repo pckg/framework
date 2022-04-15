@@ -6,7 +6,6 @@ use Pckg\Concept\AbstractChainOfReponsibility;
 
 class DefinePaths extends AbstractChainOfReponsibility
 {
-
     public function execute(callable $next)
     {
         path('ds', substr(BASE_PATH, 0, 1) == '/' ? '/' : '\\');

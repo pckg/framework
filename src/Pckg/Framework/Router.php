@@ -9,7 +9,6 @@ use Pckg\Framework\View\Twig;
 
 class Router
 {
-
     protected $cache;
 
     protected $resolved = [];
@@ -278,7 +277,7 @@ class Router
                     }
 
                     $route['resolvers'][$key] = $resolver;
-                    $args['[' . $key . ']'] = (new $resolver)->resolve(null);
+                    $args['[' . $key . ']'] = (new $resolver())->resolve(null);
                 }
 
                 foreach ($route['resolvers'] ?? [] as $key => $resolver) {

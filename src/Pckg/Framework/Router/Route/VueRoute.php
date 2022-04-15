@@ -4,7 +4,6 @@ namespace Pckg\Framework\Router\Route;
 
 class VueRoute extends Route
 {
-
     protected $children = [];
 
     public function children(array $children = [])

@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class FeatureProject extends Command
 {
-
     public function handle()
     {
         $this->exec(

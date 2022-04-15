@@ -17,7 +17,6 @@ use Symfony\Component\Console\Application as SymfonyConsole;
 
 trait Registrator
 {
-
     protected $routePrefix = null;
 
     public function setRoutePrefix($prefix)

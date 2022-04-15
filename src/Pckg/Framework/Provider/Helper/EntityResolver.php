@@ -6,7 +6,6 @@ use Pckg\Database\Entity;
 
 trait EntityResolver
 {
-
     /**
      * @var Entity
      */

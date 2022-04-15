@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class TagProject extends Command
 {
-
     public function handle()
     {
         $packets = [

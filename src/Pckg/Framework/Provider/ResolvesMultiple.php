@@ -4,5 +4,4 @@ namespace Pckg\Framework\Provider;
 
 interface ResolvesMultiple
 {
-
 }

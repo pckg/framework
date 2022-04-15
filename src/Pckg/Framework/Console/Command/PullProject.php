@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class PullProject extends Command
 {
-
     public function handle()
     {
         $execs = [

@@ -7,7 +7,6 @@ use Pckg\Framework\Router\RouteProviderInterface;
 
 class Method implements RouteProviderInterface
 {
-
     protected $namespace;
 
     protected $config;

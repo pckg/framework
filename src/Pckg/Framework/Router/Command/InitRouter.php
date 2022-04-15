@@ -11,7 +11,6 @@ use Pckg\Framework\Router;
 
 class InitRouter extends AbstractChainOfReponsibility
 {
-
     protected $router;
 
     protected $context;

@@ -4,7 +4,6 @@ namespace Pckg\Framework\Helper;
 
 class TryCatch
 {
-
     /**
      * @var mixed
      */

@@ -6,7 +6,6 @@ use Pckg\Framework\Helper\Lazy;
 
 class Cookie extends Lazy
 {
-
     const EXPIRATION = 2592000;
 // 30 days
 

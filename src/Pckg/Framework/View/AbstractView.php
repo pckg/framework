@@ -6,7 +6,6 @@ use Throwable;
 
 abstract class AbstractView implements ViewInterface, \JsonSerializable
 {
-
     const PRIORITY_APP = 100;
 
     const PRIORITY_VENDOR = 200;

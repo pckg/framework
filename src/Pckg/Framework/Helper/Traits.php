@@ -23,7 +23,6 @@ use Pckg\Manager\Vue;
  */
 trait Traits
 {
-
     /**
      * @var Response
      */

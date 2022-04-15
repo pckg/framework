@@ -8,7 +8,6 @@ use HtmlSanitizer\Visitor\AbstractNodeVisitor;
 
 class Sanitizer
 {
-
     /**
      * @param $untrustedHtml
      * @return string

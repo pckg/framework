@@ -7,6 +7,5 @@ use Pckg\Framework\Request\Session\Entity\Sessions;
 
 class Session extends Record
 {
-
     protected $entity = Sessions::class;
 }

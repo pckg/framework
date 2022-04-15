@@ -6,7 +6,6 @@ use Pckg\Framework\View\Twig;
 
 class View
 {
-
     protected static $dirs = [];
 
     protected $view;

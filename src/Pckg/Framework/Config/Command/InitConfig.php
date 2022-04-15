@@ -7,7 +7,6 @@ use Pckg\Framework\Config;
 
 class InitConfig extends AbstractChainOfReponsibility
 {
-
     /**
      * @var Config
      */

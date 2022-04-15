@@ -6,7 +6,6 @@ use Pckg\Framework\Response;
 
 class MockResponse extends Response
 {
-
     protected $redirected = null;
 
     public function stop($code = null)

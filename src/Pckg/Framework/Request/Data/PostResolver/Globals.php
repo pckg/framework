@@ -4,7 +4,6 @@ namespace Pckg\Framework\Request\Data\PostResolver;
 
 class Globals implements PostSource
 {
-
     public function readFromSource(): array
     {
         $input = file_get_contents('php://input');

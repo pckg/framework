@@ -21,7 +21,6 @@ use Pckg\Migration\Provider\Migration as MigrationProvider;
 
 class Console extends Provider
 {
-
     public function consoles()
     {
         return [

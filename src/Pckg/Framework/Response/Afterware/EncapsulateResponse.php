@@ -4,7 +4,6 @@ namespace Pckg\Framework\Response\Afterware;
 
 class EncapsulateResponse
 {
-
     public function execute(callable $next)
     {
         if (!isHttp()) {

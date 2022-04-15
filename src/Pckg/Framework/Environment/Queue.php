@@ -9,7 +9,6 @@ use Whoops\Run;
 
 class Queue extends Environment
 {
-
     protected $appClass = Application\Queue::class;
 
     public function register()

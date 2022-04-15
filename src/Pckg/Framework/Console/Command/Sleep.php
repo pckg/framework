@@ -10,7 +10,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class Sleep extends Command
 {
-
     public function handle()
     {
         $sleep = $this->option('sleep', 1);

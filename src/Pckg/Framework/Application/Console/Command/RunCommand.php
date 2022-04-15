@@ -12,7 +12,6 @@ use Throwable;
 
 class RunCommand extends AbstractChainOfReponsibility
 {
-
     protected Response $response;
 
     protected Dispatcher $dispatcher;
