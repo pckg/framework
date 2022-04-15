@@ -28,7 +28,7 @@ jobs:
           key: composer-v1-${{ hashFiles('composer.lock') }}
 
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --optimize-autoloader
+        run: composer install --prefer-dist --no-progress --optimize-autoloader --ignore-platform-reqs
 
       - name: Copy Codeception config
         run: cp codeception.sample.travis.yml codeception.yml
