@@ -237,6 +237,10 @@ class Router
         return $host . $env;
     }
 
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function make($routeName = null, $arguments = [], $absolute = false, $envPrefix = true)
     {
         if (!$routeName) {

@@ -29,7 +29,6 @@ trait MockContext
 
         /**
          * Only bootstrap and create context. Do not create environment or init the application.
-         * @var \Pckg\Concept\Context|\Pckg\Framework\Helper\Context $context
          */
         $originalContext = context();
         Stack::$providers = [];

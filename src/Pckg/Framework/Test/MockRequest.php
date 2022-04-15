@@ -8,6 +8,7 @@ use Pckg\Framework\Application;
 use Pckg\Framework\Environment;
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
+use Throwable as Throwable;
 
 class MockRequest
 {
@@ -39,9 +40,9 @@ class MockRequest
     protected $request;
 
     /**
-     * @var \Throwable
+     * @var Throwable
      */
-    protected $exception;
+    protected ?Throwable $exception = null;
 
     /**
      * @var string
@@ -196,7 +197,7 @@ class MockRequest
             $this->exception = null;
             $this->application->init();
             return $this;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->exception = $e;
         }
     }
@@ -227,7 +228,7 @@ class MockRequest
             */
         } catch (Response\MockStop $e) {
             //d('caught stop');
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             //d('not caught', exception($e));
             $this->exception = $e;
             //error_log('MockRequest: EXCEPTION: ' . exception($e));

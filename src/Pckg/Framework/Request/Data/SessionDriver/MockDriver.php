@@ -14,7 +14,7 @@ class MockDriver extends SessionHandler
     public function close()
     {
         $this->state = 'closed';
-        return $this;
+        return true;
     }
 
     public function destroy($id)
@@ -23,17 +23,17 @@ class MockDriver extends SessionHandler
             unset($this->sessions[$id]);
         }
 
-        return $this;
+        return true;
     }
 
     public function gc($max_lifetime)
     {
-        return $this;
+        return true;
     }
 
     public function open($path, $name)
     {
-        return $this;
+        return true;
     }
 
     public function read($id)
@@ -45,7 +45,7 @@ class MockDriver extends SessionHandler
     {
         $this->sessions[$id] = $data;
 
-        return $this;
+        return true;
     }
 
     public function validateId($session_id)
@@ -55,7 +55,7 @@ class MockDriver extends SessionHandler
 
     public function updateTimestamp($session_id, $session_data)
     {
-        return $this;
+        return true;
     }
 
     public function regenerate()

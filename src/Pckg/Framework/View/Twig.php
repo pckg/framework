@@ -6,13 +6,14 @@ use Pckg\Auth\Form\Register;
 use Pckg\Framework\Router;
 use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
+use Twig\TemplateWrapper;
 use Twig_Loader_Chain;
 use Twig_Loader_Filesystem;
 
 class Twig extends AbstractView implements ViewInterface
 {
     /**
-     * @var TwigEnv
+     * @var TwigEnv|\Twig_TemplateInterface|TemplateWrapper
      */
     protected $twig;
 

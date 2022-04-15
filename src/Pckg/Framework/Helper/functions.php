@@ -272,12 +272,10 @@ namespace Pckg\Framework\Helper {
     function url($url, $params = [], $absolute = false, $envPrefix = true)
     {
         try {
-            $url = router()->make($url, $params, $absolute, $envPrefix);
-
-            return $url;
+            return router()->make($url, $params, $absolute, $envPrefix);
         } catch (Throwable $e) {
             if (prod()) {
-                return null;
+                return '/';
             }
 
             return exception($e);
@@ -1011,11 +1009,7 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param string $route
-     * @param string|null $component
-     * @param array $tags
-     * @param array $children
-     * @return Route|VueRoute
+     * @return VueRoute
      */
     function vueRoute(string $route = '', string $component = null, array $tags = [], array $children = [])
     {

@@ -38,7 +38,7 @@ class Command extends SymfonyConsoleCommand
     }
 
     /**
-     * @return $this
+     * @return $this|bool
      */
     public function executeManually($data = [])
     {
