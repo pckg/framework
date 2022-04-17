@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ba0b3f11bd69493816392f4088d1a1c6",
+    "content-hash": "7c77462de3d66557dd36a70dd54cc023",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -632,57 +632,6 @@
             "time": "2021-03-05T18:25:17+00:00"
         },
         {
-            "name": "pckg/collection",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pckg/collection.git",
-                "reference": "66274555af9f26f0e079021fe333b6ffc6c0b589"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pckg/collection/zipball/66274555af9f26f0e079021fe333b6ffc6c0b589",
-                "reference": "66274555af9f26f0e079021fe333b6ffc6c0b589",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "pckg/concept": "dev-master"
-            },
-            "require-dev": {
-                "pckg-app/frontend-dev": "dev-master",
-                "pckg/database": "dev-master",
-                "pckg/framework": "dev-master"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/Pckg/Collection/Helper/functions.php"
-                ],
-                "psr-0": {
-                    "Pckg": "src\\"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bojan Rajh",
-                    "email": "schtr4jh@schtr4jh.net"
-                }
-            ],
-            "description": "Implementation for more human-like dealing with collections",
-            "homepage": "https://github.com/pckg/collection",
-            "support": {
-                "issues": "https://github.com/pckg/collection/issues",
-                "source": "https://github.com/pckg/collection/tree/master"
-            },
-            "time": "2021-11-10T17:25:49+00:00"
-        },
-        {
             "name": "pckg/concept",
             "version": "dev-master",
             "source": {
@@ -730,67 +679,6 @@
                 "source": "https://github.com/pckg/concept/tree/master"
             },
             "time": "2021-11-09T11:25:31+00:00"
-        },
-        {
-            "name": "pckg/database",
-            "version": "dev-next-8.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pckg/database.git",
-                "reference": "98c01dcc8edcc18047ace3e3ca633ec0ca5b7a83"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pckg/database/zipball/98c01dcc8edcc18047ace3e3ca633ec0ca5b7a83",
-                "reference": "98c01dcc8edcc18047ace3e3ca633ec0ca5b7a83",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-pdo": "*",
-                "pckg/cache": "dev-master",
-                "pckg/collection": "dev-master",
-                "pckg/concept": "dev-master",
-                "pckg/locale": "dev-master"
-            },
-            "require-dev": {
-                "aws/aws-sdk-php-resources": "^0.3.0",
-                "fakerphp/faker": "1.*",
-                "pckg-app/frontend-dev": "dev-master",
-                "pckg/auth": "dev-master",
-                "pckg/framework": "dev-master-yoda",
-                "pckg/htmlbuilder": "dev-master",
-                "pckg/manager": "dev-master",
-                "pckg/migrator": "dev-master"
-            },
-            "suggest": {
-                "fakerphp/faker": "Use faker to mock data*",
-                "maximebf/debugbar": "Push queries and events to debugbar"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Pckg": "src\\",
-                    "Test": "tests\\src\\"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bojan Rajh",
-                    "email": "schtr4jh@schtr4jh.net"
-                }
-            ],
-            "description": "Just another php / orm / pdo implementation for simple and advanced data management",
-            "homepage": "https://github.com/pckg/database",
-            "support": {
-                "issues": "https://github.com/pckg/database/issues",
-                "source": "https://github.com/pckg/database/tree/next-8.0"
-            },
-            "time": "2022-04-15T13:06:07+00:00"
         },
         {
             "name": "pckg/locale",
@@ -2985,27 +2873,28 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/auth.git",
-                "reference": "9656e77d8ded5b94ff37834e992a5a8ef4c3242d"
+                "reference": "b33e45bce8cde3d7a307b9858c94e6e0348daa64"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/auth/zipball/9656e77d8ded5b94ff37834e992a5a8ef4c3242d",
-                "reference": "9656e77d8ded5b94ff37834e992a5a8ef4c3242d",
+                "url": "https://api.github.com/repos/pckg/auth/zipball/b33e45bce8cde3d7a307b9858c94e6e0348daa64",
+                "reference": "b33e45bce8cde3d7a307b9858c94e6e0348daa64",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*"
             },
             "require-dev": {
+                "defuse/php-encryption": "^2.0",
                 "league/oauth2-client": "^2.6",
-                "pckg-app/api": "dev-master",
-                "pckg-app/frontend-dev": "dev-master",
+                "pckg-app/api": "dev-next-8.0 as dev-master",
+                "pckg-app/frontend-dev": "dev-next-8.0 as dev-master",
                 "pckg/concept": "dev-master",
                 "pckg/framework": "dev-next-8.0 as dev-master",
-                "pckg/htmlbuilder": "dev-master",
+                "pckg/htmlbuilder": "dev-next-8.0 as dev-master",
                 "pckg/mail": "dev-master",
-                "pckg/manager": "dev-master",
-                "pckg/migrator": "dev-master"
+                "pckg/manager": "dev-next-8.0 as dev-master",
+                "pckg/migrator": "dev-next-8.0 as dev-master"
             },
             "type": "library",
             "autoload": {
@@ -3029,7 +2918,69 @@
                 "issues": "https://github.com/pckg/auth/issues",
                 "source": "https://github.com/pckg/auth/tree/next-8.0"
             },
-            "time": "2022-04-15T15:45:01+00:00"
+            "time": "2022-04-17T10:21:58+00:00"
+        },
+        {
+            "name": "pckg/database",
+            "version": "dev-next-8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pckg/database.git",
+                "reference": "9875163b3dfa5e69c20bd5db33c513bcbfe6da14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pckg/database/zipball/9875163b3dfa5e69c20bd5db33c513bcbfe6da14",
+                "reference": "9875163b3dfa5e69c20bd5db33c513bcbfe6da14",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "pckg/cache": "dev-master",
+                "pckg/concept": "dev-master",
+                "pckg/locale": "dev-master"
+            },
+            "require-dev": {
+                "aws/aws-sdk-php-resources": "^0.3.0",
+                "fakerphp/faker": "1.*",
+                "pckg-app/frontend-dev": "dev-next-8.0 as dev-master",
+                "pckg/auth": "dev-next-8.0 as dev-master",
+                "pckg/collection": "dev-next-8.0 as dev-master",
+                "pckg/framework": "dev-next-8.0 as dev-master",
+                "pckg/htmlbuilder": "dev-next-8.0 as dev-master",
+                "pckg/manager": "dev-next-8.0 as dev-master",
+                "pckg/migrator": "dev-next-8.0 as dev-master"
+            },
+            "suggest": {
+                "fakerphp/faker": "Use faker to mock data*",
+                "maximebf/debugbar": "Push queries and events to debugbar"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Pckg": "src\\",
+                    "Test": "tests\\src\\"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bojan Rajh",
+                    "email": "schtr4jh@schtr4jh.net"
+                }
+            ],
+            "description": "Just another php / orm / pdo implementation for simple and advanced data management",
+            "homepage": "https://github.com/pckg/database",
+            "support": {
+                "issues": "https://github.com/pckg/database/issues",
+                "source": "https://github.com/pckg/database/tree/next-8.0"
+            },
+            "time": "2022-04-17T11:13:05+00:00"
         },
         {
             "name": "pckg/htmlbuilder",
@@ -7956,12 +7907,12 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "pckg/concept": 20,
-        "pckg/database": 20,
         "pckg/cache": 20,
         "pckg/locale": 20,
         "josegonzalez/dotenv": 20,
         "tgalopin/html-sanitizer": 20,
         "ezyang/htmlpurifier": 20,
+        "pckg/database": 20,
         "pckg-app/frontend-dev": 20,
         "pckg/queue": 20,
         "pckg/manager": 20,
