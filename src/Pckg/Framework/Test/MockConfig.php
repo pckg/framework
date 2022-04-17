@@ -13,6 +13,7 @@ trait MockConfig
             $this->context->bind(Config::class, $original);
         };
         $config = new Config($default);
+        $this->context->bind(Config::class, $config);
 
         return $config;
     }

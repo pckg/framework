@@ -23,7 +23,7 @@ class EnvironmentCest
 
         $I->assertFalse($context->exists(Config::class));
 
-        $environment = new Environment($config, $context);
+        $environment = new Environment\Production($config, $context);
 
         $I->assertTrue($context->exists(Config::class));
 

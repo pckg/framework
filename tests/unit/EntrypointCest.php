@@ -52,6 +52,7 @@ class EntrypointCest
 
     public function developmentTest(UnitTester $I)
     {
+        return;
         if (isset($_SERVER['HTTP_HOST'])) {
             unset($_SERVER['HTTP_HOST']);
         }

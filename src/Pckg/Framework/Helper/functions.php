@@ -398,7 +398,7 @@ namespace Pckg\Framework\Helper {
     function path($key = null, $val = null)
     {
         if ($val && $val !== true) {
-            context()->getOrCreate(Config::class)->set('path.' . $key, $val);
+            return config()->set('path.' . $key, $val);
         }
 
         [$realKey] = explode('/', $key);

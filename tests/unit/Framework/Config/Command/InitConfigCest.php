@@ -21,10 +21,15 @@ class InitConfigCest
     {
         $config = $this->mockConfig();
         $initial = $config->get();
+        $this->tester->assertSame($initial, []);
+
         path('app', __ROOT__ . 'tests/_data/FrameworkConfigCommandInitConfigCest/');
         (new InitConfig($config))->execute(fn() => null);
         $final = $config->get();
         $this->tester->assertNotSame($initial, $final);
-        $this->tester->assertSame(['foo' => 'barconfig', 'url' => 'https://'], $final);
+
+        $this->tester->assertSame(["path" => [
+            "app" => "/var/www/html/tests/_data/FrameworkConfigCommandInitConfigCest/"
+        ], 'foo' => 'barconfig', 'url' => 'https://'], $final);
     }
 }
