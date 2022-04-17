@@ -28,8 +28,7 @@ class InitConfigCest
         $final = $config->get();
         $this->tester->assertNotSame($initial, $final);
 
-        $this->tester->assertSame(["path" => [
-            "app" => "/var/www/html/tests/_data/FrameworkConfigCommandInitConfigCest/"
-        ], 'foo' => 'barconfig', 'url' => 'https://'], $final);
+        unset($final['path']);
+        $this->tester->assertSame(['foo' => 'barconfig', 'url' => 'https://'], $final);
     }
 }
