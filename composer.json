@@ -27,6 +27,7 @@
     "ext-pdo": "*",
     "maximebf/debugbar": "1.*",
     "pckg/database": "dev-next-8.0 as dev-master",
+    "pckg/collection": "dev-next-8.0 as dev-master",
     "pckg-app/frontend-dev": "dev-next-8.0 as dev-master",
     "pckg/queue": "dev-next-8.0 as dev-master",
     "pckg/manager": "dev-next-8.0 as dev-master",

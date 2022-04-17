@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7c77462de3d66557dd36a70dd54cc023",
+    "content-hash": "bc03d4423a1e3c4bcfeb69398a28d8f9",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -2919,6 +2919,57 @@
                 "source": "https://github.com/pckg/auth/tree/next-8.0"
             },
             "time": "2022-04-17T10:21:58+00:00"
+        },
+        {
+            "name": "pckg/collection",
+            "version": "dev-next-8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pckg/collection.git",
+                "reference": "ae14b89573e33e09dbd1560365452b719eef09d2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pckg/collection/zipball/ae14b89573e33e09dbd1560365452b719eef09d2",
+                "reference": "ae14b89573e33e09dbd1560365452b719eef09d2",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "pckg/concept": "dev-master"
+            },
+            "require-dev": {
+                "pckg-app/frontend-dev": "dev-next-8.0 as dev-master",
+                "pckg/database": "dev-next-8.0 as dev-master",
+                "pckg/framework": "dev-next-8.0 as dev-master"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Pckg/Collection/Helper/functions.php"
+                ],
+                "psr-0": {
+                    "Pckg": "src\\"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bojan Rajh",
+                    "email": "schtr4jh@schtr4jh.net"
+                }
+            ],
+            "description": "Implementation for more human-like dealing with collections",
+            "homepage": "https://github.com/pckg/collection",
+            "support": {
+                "issues": "https://github.com/pckg/collection/issues",
+                "source": "https://github.com/pckg/collection/tree/next-8.0"
+            },
+            "time": "2022-04-17T11:33:50+00:00"
         },
         {
             "name": "pckg/database",
@@ -7880,6 +7931,12 @@
             "alias_normalized": "dev-master"
         },
         {
+            "package": "pckg/collection",
+            "version": "dev-next-8.0",
+            "alias": "dev-master",
+            "alias_normalized": "dev-master"
+        },
+        {
             "package": "pckg/database",
             "version": "dev-next-8.0",
             "alias": "dev-master",
@@ -7913,6 +7970,7 @@
         "tgalopin/html-sanitizer": 20,
         "ezyang/htmlpurifier": 20,
         "pckg/database": 20,
+        "pckg/collection": 20,
         "pckg-app/frontend-dev": 20,
         "pckg/queue": 20,
         "pckg/manager": 20,
