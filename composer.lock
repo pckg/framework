@@ -2873,12 +2873,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/auth.git",
-                "reference": "b33e45bce8cde3d7a307b9858c94e6e0348daa64"
+                "reference": "be09f496c81bd6160fc05d3d8654121b2208e33a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/auth/zipball/b33e45bce8cde3d7a307b9858c94e6e0348daa64",
-                "reference": "b33e45bce8cde3d7a307b9858c94e6e0348daa64",
+                "url": "https://api.github.com/repos/pckg/auth/zipball/be09f496c81bd6160fc05d3d8654121b2208e33a",
+                "reference": "be09f496c81bd6160fc05d3d8654121b2208e33a",
                 "shasum": ""
             },
             "require": {
@@ -2896,6 +2896,7 @@
                 "pckg/manager": "dev-next-8.0 as dev-master",
                 "pckg/migrator": "dev-next-8.0 as dev-master"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -2918,7 +2919,7 @@
                 "issues": "https://github.com/pckg/auth/issues",
                 "source": "https://github.com/pckg/auth/tree/next-8.0"
             },
-            "time": "2022-04-17T10:21:58+00:00"
+            "time": "2022-04-18T09:48:24+00:00"
         },
         {
             "name": "pckg/collection",
@@ -3039,12 +3040,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/htmlbuilder.git",
-                "reference": "efac69a624b51e1b35d49bd2fa27326f64017f25"
+                "reference": "fe6ac15fd98aa2155804c3c223664cd042b69131"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/efac69a624b51e1b35d49bd2fa27326f64017f25",
-                "reference": "efac69a624b51e1b35d49bd2fa27326f64017f25",
+                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/fe6ac15fd98aa2155804c3c223664cd042b69131",
+                "reference": "fe6ac15fd98aa2155804c3c223664cd042b69131",
                 "shasum": ""
             },
             "require": {
@@ -3055,6 +3056,7 @@
                 "pckg-app/frontend-dev": "dev-master",
                 "pckg/framework": "dev-master || dev-master-yoda"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -3082,7 +3084,7 @@
                 "issues": "https://github.com/pckg/htmlbuilder/issues",
                 "source": "https://github.com/pckg/htmlbuilder/tree/next-8.0"
             },
-            "time": "2022-04-17T16:13:36+00:00"
+            "time": "2022-04-18T11:56:07+00:00"
         },
         {
             "name": "pckg/mail",
@@ -3142,23 +3144,26 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/manager.git",
-                "reference": "d61892831ce6947208089e36286874a068553334"
+                "reference": "a5a012df240495e35f850b6eefc0c9b1cd8a8485"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/manager/zipball/d61892831ce6947208089e36286874a068553334",
-                "reference": "d61892831ce6947208089e36286874a068553334",
+                "url": "https://api.github.com/repos/pckg/manager/zipball/a5a012df240495e35f850b6eefc0c9b1cd8a8485",
+                "reference": "a5a012df240495e35f850b6eefc0c9b1cd8a8485",
                 "shasum": ""
             },
             "require": {
                 "assetic/framework": "1.*"
             },
             "require-dev": {
-                "pckg-app/frontend-dev": "dev-master",
-                "pckg/database": "dev-master",
-                "pckg/framework": "dev-master",
-                "pckg/queue": "dev-master"
+                "pckg-app/frontend-dev": "dev-next-8.0 as master",
+                "pckg/collection": "dev-next-8.0 as master",
+                "pckg/database": "dev-next-8.0 as master",
+                "pckg/framework": "dev-next-8.0 as master",
+                "pckg/queue": "dev-master",
+                "pckg/storage": "dev-master"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -3181,7 +3186,7 @@
                 "issues": "https://github.com/pckg/manager/issues",
                 "source": "https://github.com/pckg/manager/tree/next-8.0"
             },
-            "time": "2022-04-15T06:50:31+00:00"
+            "time": "2022-04-18T10:11:26+00:00"
         },
         {
             "name": "pckg/migrator",
