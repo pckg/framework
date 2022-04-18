@@ -17,7 +17,7 @@ class EncapsulateResponse
         $router = router();
         $tags = $router->get('tags');
 
-        if (!in_array('response:raw', $tags)) {
+        if (in_array('response:raw', $tags)) {
             return $next();
         }
 
