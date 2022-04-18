@@ -16,9 +16,9 @@
     "pckg/concept": "dev-master",
     "pckg/cache": "dev-master",
     "pckg/locale": "dev-master",
-    "twig/twig": ">=1 <2",
+    "twig/twig": "1.*",
     "josegonzalez/dotenv": "dev-master",
-    "rollbar/rollbar": "2.*",
+    "rollbar/rollbar": "3.*",
     "filp/whoops": "2.*",
     "tgalopin/html-sanitizer": "dev-master",
     "ezyang/htmlpurifier": "dev-master"
@@ -36,7 +36,7 @@
     "pckg/translator": "dev-master",
     "pckg/htmlbuilder": "dev-next-8.0 as dev-master",
     "pckg/auth": "dev-next-8.0 as dev-master",
-    "ramsey/uuid": ">=4.1",
+    "ramsey/uuid": "4.*",
     "nesbot/carbon": "2.*",
     "defuse/php-encryption": "2.*"
   },

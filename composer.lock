@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc03d4423a1e3c4bcfeb69398a28d8f9",
+    "content-hash": "c188d815ecebd0435aca465c02de7dc6",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -727,30 +727,30 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.4",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11"
+                "reference": "ef29f6d262798707a9edd554e2b82517ef3a9376"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/d49695b909c3b7628b6289db5479a1c204601f11",
-                "reference": "d49695b909c3b7628b6289db5479a1c204601f11",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/ef29f6d262798707a9edd554e2b82517ef3a9376",
+                "reference": "ef29f6d262798707a9edd554e2b82517ef3a9376",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=8.0.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.1.x-dev"
+                    "dev-master": "2.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Log\\": "Psr/Log/"
+                    "Psr\\Log\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -771,40 +771,39 @@
                 "psr-3"
             ],
             "support": {
-                "source": "https://github.com/php-fig/log/tree/1.1.4"
+                "source": "https://github.com/php-fig/log/tree/2.0.0"
             },
-            "time": "2021-05-03T11:20:27+00:00"
+            "time": "2021-07-14T16:41:46+00:00"
         },
         {
             "name": "rollbar/rollbar",
-            "version": "v2.1.0",
+            "version": "v3.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rollbar/rollbar-php.git",
-                "reference": "ff3db5739dd635740caed02ddad43e671b5a37e5"
+                "reference": "0d114753f47222ef32f5799b59a2a276acdf3cfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/ff3db5739dd635740caed02ddad43e671b5a37e5",
-                "reference": "ff3db5739dd635740caed02ddad43e671b5a37e5",
+                "url": "https://api.github.com/repos/rollbar/rollbar-php/zipball/0d114753f47222ef32f5799b59a2a276acdf3cfa",
+                "reference": "0d114753f47222ef32f5799b59a2a276acdf3cfa",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
-                "monolog/monolog": "^1 || ^2",
-                "psr/log": "^1"
+                "monolog/monolog": "^2",
+                "php": ">=8.0.0 <9.0",
+                "psr/log": "^1 || ^2"
             },
             "require-dev": {
-                "codeclimate/php-test-reporter": "dev-master",
-                "mockery/mockery": "1.*",
-                "packfire/php5.3-compat": "*",
-                "phpmd/phpmd": "@stable",
-                "phpunit/phpunit": "4.8.* || 5.7.* || ^8",
-                "squizlabs/php_codesniffer": "2.*"
+                "mockery/mockery": "^1",
+                "phpmd/phpmd": "^2",
+                "phpunit/phpunit": "^9",
+                "squizlabs/php_codesniffer": "^3.6 || 3.x-dev",
+                "vimeo/psalm": "^4.13"
             },
             "suggest": {
-                "fluent/logger": "Needed to use the 'fluent' handler for fluentd support",
-                "packfire/php5.3-compat": "for backward compatibility with PHP 5.3"
+                "fluent/logger": "Needed to use the 'fluent' handler for fluentd support"
             },
             "type": "library",
             "autoload": {
@@ -824,7 +823,7 @@
                 }
             ],
             "description": "Monitors errors and exceptions and reports them to Rollbar",
-            "homepage": "http://github.com/rollbar/rollbar-php",
+            "homepage": "https://github.com/rollbar/rollbar-php",
             "keywords": [
                 "debugging",
                 "errors",
@@ -835,9 +834,9 @@
             "support": {
                 "email": "support@rollbar.com",
                 "issues": "https://github.com/rollbar/rollbar-php/issues",
-                "source": "https://github.com/rollbar/rollbar-php/tree/v2.1.0"
+                "source": "https://github.com/rollbar/rollbar-php/tree/v3.1.2"
             },
-            "time": "2020-07-01T23:21:01+00:00"
+            "time": "2022-03-30T21:22:36+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2873,12 +2872,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/auth.git",
-                "reference": "be09f496c81bd6160fc05d3d8654121b2208e33a"
+                "reference": "71b6d34b7c2b4cff9d43de00e219610fbaff833f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/auth/zipball/be09f496c81bd6160fc05d3d8654121b2208e33a",
-                "reference": "be09f496c81bd6160fc05d3d8654121b2208e33a",
+                "url": "https://api.github.com/repos/pckg/auth/zipball/71b6d34b7c2b4cff9d43de00e219610fbaff833f",
+                "reference": "71b6d34b7c2b4cff9d43de00e219610fbaff833f",
                 "shasum": ""
             },
             "require": {
@@ -2919,7 +2918,7 @@
                 "issues": "https://github.com/pckg/auth/issues",
                 "source": "https://github.com/pckg/auth/tree/next-8.0"
             },
-            "time": "2022-04-18T09:48:24+00:00"
+            "time": "2022-04-18T12:02:33+00:00"
         },
         {
             "name": "pckg/collection",
@@ -2927,12 +2926,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/collection.git",
-                "reference": "ae14b89573e33e09dbd1560365452b719eef09d2"
+                "reference": "9d76eeefc92969c470989e623f4f94b847594b63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/collection/zipball/ae14b89573e33e09dbd1560365452b719eef09d2",
-                "reference": "ae14b89573e33e09dbd1560365452b719eef09d2",
+                "url": "https://api.github.com/repos/pckg/collection/zipball/9d76eeefc92969c470989e623f4f94b847594b63",
+                "reference": "9d76eeefc92969c470989e623f4f94b847594b63",
                 "shasum": ""
             },
             "require": {
@@ -2970,7 +2969,7 @@
                 "issues": "https://github.com/pckg/collection/issues",
                 "source": "https://github.com/pckg/collection/tree/next-8.0"
             },
-            "time": "2022-04-17T11:33:50+00:00"
+            "time": "2022-04-18T12:03:09+00:00"
         },
         {
             "name": "pckg/database",
@@ -2978,12 +2977,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/database.git",
-                "reference": "b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04"
+                "reference": "4d366db27426a8c30285c8ab0286bf4a644e19a6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/database/zipball/b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04",
-                "reference": "b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04",
+                "url": "https://api.github.com/repos/pckg/database/zipball/4d366db27426a8c30285c8ab0286bf4a644e19a6",
+                "reference": "4d366db27426a8c30285c8ab0286bf4a644e19a6",
                 "shasum": ""
             },
             "require": {
@@ -3032,7 +3031,7 @@
                 "issues": "https://github.com/pckg/database/issues",
                 "source": "https://github.com/pckg/database/tree/next-8.0"
             },
-            "time": "2022-04-17T15:59:41+00:00"
+            "time": "2022-04-18T12:02:52+00:00"
         },
         {
             "name": "pckg/htmlbuilder",
@@ -3144,12 +3143,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/manager.git",
-                "reference": "a5a012df240495e35f850b6eefc0c9b1cd8a8485"
+                "reference": "dafbf29d979416a37a40d9f86ec113ba093646f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/manager/zipball/a5a012df240495e35f850b6eefc0c9b1cd8a8485",
-                "reference": "a5a012df240495e35f850b6eefc0c9b1cd8a8485",
+                "url": "https://api.github.com/repos/pckg/manager/zipball/dafbf29d979416a37a40d9f86ec113ba093646f9",
+                "reference": "dafbf29d979416a37a40d9f86ec113ba093646f9",
                 "shasum": ""
             },
             "require": {
@@ -3186,7 +3185,7 @@
                 "issues": "https://github.com/pckg/manager/issues",
                 "source": "https://github.com/pckg/manager/tree/next-8.0"
             },
-            "time": "2022-04-18T10:11:26+00:00"
+            "time": "2022-04-18T12:52:36+00:00"
         },
         {
             "name": "pckg/migrator",
