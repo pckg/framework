@@ -123,7 +123,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param null $key
+     * @param string|null $key
      * @param array $default
      * @return Post|mixed|array|string|null
      */
@@ -144,8 +144,8 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param null $key
-     * @param array $default
+     * @param string|null $key
+     * @param mixed $default
      * @return Lazy|mixed
      */
     private function getOrFull($object, $key = null, $default = [])
@@ -156,8 +156,8 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param null $key
-     * @param array $default
+     * @param string|null $key
+     * @param mixed $default
      * @return Get|mixed
      */
     public function get($key = null, $default = [])
@@ -166,8 +166,8 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param null $key
-     * @param array $default
+     * @param string|null $key
+     * @param mixed $default
      * @return Server|mixed
      */
     public function server($key = null, $default = [])
@@ -176,7 +176,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param null $key
+     * @param string|null $key
      * @param array $default
      * @return Cookie|mixed
      */
@@ -186,7 +186,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param null $key
+     * @param null|string $key
      * @param array $default
      * @return Session|mixed
      */
@@ -196,7 +196,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param null $key
+     * @param null|string $key
      * @param array $default
      * @return \Pckg\Htmlbuilder\Datasource\Method\Request|mixed
      */
@@ -206,7 +206,7 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
     }
 
     /**
-     * @param null $key
+     * @param null|string $key
      * @param array $default
      * @return Lazy|mixed
      */
@@ -522,13 +522,13 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
 
     /**
      * @param string $name
-     * @param null $default
+     * @param mixed $default
      * @return $this|mixed
      */
     public function getAttribute($name, $default = null)
     {
         return $this->post()->get($name, $default);
-        return $this->attributes[$name] ?? $default;
+        // return $this->attributes[$name] ?? $default;
     }
 
     /**

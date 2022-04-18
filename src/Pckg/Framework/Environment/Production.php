@@ -21,7 +21,7 @@ class Production extends Environment
     public function register()
     {
         error_reporting(0);
-        ini_set("display_errors", 0);
+        ini_set("display_errors", '0');
 
         $this->config->parseDir(BASE_PATH);
 
@@ -150,10 +150,6 @@ class Production extends Environment
             $output = '<html><head><title>Service is temporarily unavailable</title></head><body><p>Service is temporarily unavailable</p></body></html>';
 
             echo $output;
-
-            if (!$handled && implicitDev()) {
-                echo '<p>' . exception($e) . '</p>';
-            }
         } catch (Throwable $e) {
             @error_log('Error handling exception: ' . $e->getMessage());
         }

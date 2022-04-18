@@ -104,7 +104,7 @@ class MockRequest
      * Add JSON support.
      *
      * @param callable|null $configurator
-     * @param null $mode
+     * @param string $mode
      * @return callable|\Closure|null
      */
     public function modifyConfigurator(callable $configurator = null, $mode = null)

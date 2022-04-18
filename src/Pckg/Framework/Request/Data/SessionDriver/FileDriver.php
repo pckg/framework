@@ -137,7 +137,7 @@ class FileDriver extends SessionHandler
     }
 
     /**
-     * @param null $message
+     * @param null|string $message
      * @throws Exception
      */
     public function destroyCookieSession($message = null)

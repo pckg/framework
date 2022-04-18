@@ -19,9 +19,7 @@ class ShowNiceErrorPage
             $output = '<p>No page found.</p>';
         }
 
-        if ($output) {
-            return response()->setOutput($output);
-        }
+        return response()->setOutput($output);
     }
 
     public function handlePartial()

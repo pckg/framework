@@ -2977,12 +2977,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/database.git",
-                "reference": "9875163b3dfa5e69c20bd5db33c513bcbfe6da14"
+                "reference": "b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/database/zipball/9875163b3dfa5e69c20bd5db33c513bcbfe6da14",
-                "reference": "9875163b3dfa5e69c20bd5db33c513bcbfe6da14",
+                "url": "https://api.github.com/repos/pckg/database/zipball/b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04",
+                "reference": "b04632d0fc1aa3d0e070c00d64ddc76e5f9dce04",
                 "shasum": ""
             },
             "require": {
@@ -3031,7 +3031,7 @@
                 "issues": "https://github.com/pckg/database/issues",
                 "source": "https://github.com/pckg/database/tree/next-8.0"
             },
-            "time": "2022-04-17T11:13:05+00:00"
+            "time": "2022-04-17T15:59:41+00:00"
         },
         {
             "name": "pckg/htmlbuilder",
@@ -3039,12 +3039,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pckg/htmlbuilder.git",
-                "reference": "932d4a0f3feccc72a4ff8553beb5761413ec9026"
+                "reference": "efac69a624b51e1b35d49bd2fa27326f64017f25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/932d4a0f3feccc72a4ff8553beb5761413ec9026",
-                "reference": "932d4a0f3feccc72a4ff8553beb5761413ec9026",
+                "url": "https://api.github.com/repos/pckg/htmlbuilder/zipball/efac69a624b51e1b35d49bd2fa27326f64017f25",
+                "reference": "efac69a624b51e1b35d49bd2fa27326f64017f25",
                 "shasum": ""
             },
             "require": {
@@ -3082,7 +3082,7 @@
                 "issues": "https://github.com/pckg/htmlbuilder/issues",
                 "source": "https://github.com/pckg/htmlbuilder/tree/next-8.0"
             },
-            "time": "2022-01-02T19:22:00+00:00"
+            "time": "2022-04-17T16:13:36+00:00"
         },
         {
             "name": "pckg/mail",

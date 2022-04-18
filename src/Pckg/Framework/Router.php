@@ -39,7 +39,8 @@ class Router
     {
         $cache = $this->getCache();
 
-        if (false && !dev() && $cache->isBuilt()) {
+        // tmp removed
+        if (dev() && prod() && $cache->isBuilt()) {
             $this->initDev();
         } else {
             $this->initProd();
@@ -537,28 +538,26 @@ class Router
             if (!in_array('vue:route', $tags)) {
                 continue;
             }
-            /**
-             * Why skip child routes?
-             */
-            if (false && in_array('vue:route:child', $tags)) {
-                continue;
-            }
+
             /**
              * Skip auth routes for non-auth users.
              */
             if (!$isLoggedIn && in_array('auth:in', $tags)) {
                 continue;
             }
+
             /**
              * Skip admin routes for non-admin users.
              */
             if (!$isAdmin && in_array('group:admin', $tags)) {
                 continue;
             }
+
             /**
              * Build vue route.
              */
             $vueRoutes[] = $this->transformVueRoute($firstRoute);
+
             if (dev()) {
                 $vueRoutes[] = $this->transformVueRoute($firstRoute, '/dev.php');
             }

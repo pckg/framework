@@ -29,7 +29,6 @@ class Development extends Production
 
         if (isHttp() && !implicitDev()) {
             die('Unauthorized for dev!');
-            exit;
         }
 
         $this->registerExceptionHandler();
@@ -53,8 +52,7 @@ class Development extends Production
     public function assets()
     {
         return [];
-
-        return [
+        /*return [
             function () {
                 $renderer = $this->debugBar->getJavascriptRenderer();
 
@@ -63,6 +61,6 @@ class Development extends Production
 
                 return $renderer->renderHead() . $renderer->render();
             },
-        ];
+        ];*/
     }
 }

@@ -427,7 +427,7 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @return array|null
+     * @return string
      */
     function relativePath($key = null)
     {
@@ -616,13 +616,11 @@ namespace Pckg\Framework\Helper {
     function isConsole()
     {
         return !request()->server('HTTP_HOST');
-        return !isset($_SERVER['HTTP_HOST']);
     }
 
     function isHttp()
     {
         return !!request()->server('HTTP_HOST');
-        return isset($_SERVER['HTTP_HOST']);
     }
 
     /**
@@ -725,13 +723,16 @@ namespace Pckg\Framework\Helper {
 
     function message($message, $collector = 'messages')
     {
-        if ($debugBar = debugBar()) {
-            if (!$debugBar->hasCollector($collector)) {
-                $debugBar->addCollector(new \DebugBar\DataCollector\MessagesCollector($collector));
-            }
-
-            $debugBar->getCollector($collector)->addMessage($message);
+        $debugBar = debugBar();
+        if (!$debugBar) {
+            return;
         }
+
+        if (!$debugBar->hasCollector($collector)) {
+            $debugBar->addCollector(new \DebugBar\DataCollector\MessagesCollector($collector));
+        }
+
+        $debugBar->getCollector($collector)->addMessage($message);
     }
 
     function array_merge_array($merge, $to)
@@ -974,7 +975,7 @@ namespace Pckg\Framework\Helper {
     }
 
     /**
-     * @param null $key
+     * @param null|string $key
      * @param callable|null $value
      * @param string $type
      * @param int $time

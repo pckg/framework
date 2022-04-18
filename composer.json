@@ -53,7 +53,7 @@
     "test": [
       "true || vendor/bin/phpunit --help --stop-on-defect",
       "true || vendor/bin/phpcloc cloc src/",
-      "vendor/bin/phpstan analyse src/ --level=3 || vendor/bin/phpstan analyse src/ --level=2 || vendor/bin/phpstan analyse src/ --level=1",
+      "vendor/bin/phpstan analyse src/ --level=5 || vendor/bin/phpstan analyse src/ --level=2 || vendor/bin/phpstan analyse src/ --level=1",
       "vendor/bin/phpcs -s --standard=ruleset.xml --extensions=php --warning-severity=8 --error-severity=1 --parallel=2 -p src/",
       "vendor/bin/codecept run"
     ],

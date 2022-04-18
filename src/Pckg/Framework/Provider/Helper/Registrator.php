@@ -124,7 +124,7 @@ trait Registrator
             try {
                 $provider->register();
             } catch (\Throwable $e) {
-                throw new \Exception('Error registering provider ' . get_class($provider) . ':' . exception($e), null);
+                throw new \Exception('Error registering provider ' . get_class($provider) . ':' . exception($e), 0, $e);
             }
         }
     }

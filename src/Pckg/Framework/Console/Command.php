@@ -65,16 +65,10 @@ class Command extends SymfonyConsoleCommand
         }
 
         return $ok == 0;
-/**
-         * Prepare args.
-         */
-        $args = escapeshellargs($data);
+        /*$args = escapeshellargs($data);
         array_unshift($args, $this->getName());
-/**
-         * Run command.
-         */
         $application->run(new StringInput(implode(' ', $args)), new NullOutput());
-        return $this;
+        return $this;*/
     }
 
     public function execute(InputInterface $input, OutputInterface $output)

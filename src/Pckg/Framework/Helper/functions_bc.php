@@ -325,7 +325,7 @@ if (!function_exists('path')) {
 
 if (!function_exists('relativePath')) {
     /**
-     * @return array|null
+     * @return string
      */
     function relativePath($key = null)
     {
@@ -659,7 +659,7 @@ if (!function_exists('transform')) {
 
 if (!function_exists('cache')) {
     /**
-     * @param null $key
+     * @param null|string $key
      * @param callable|null $value
      * @param string $type
      * @param int $time

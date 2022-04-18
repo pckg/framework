@@ -15,8 +15,6 @@ class MockResponse extends Response
         $this->responded = true;
 
         throw new MockStop('Response STOP');
-
-        return $this;
     }
 
     public function respond($string = null)

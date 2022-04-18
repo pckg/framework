@@ -17,11 +17,7 @@ class EncapsulateResponse
         $router = router();
         $tags = $router->get('tags');
 
-        /**
-         * Why only encapsulate frontend?
-         * Disabled.
-         */
-        if (false && !in_array('layout:frontend', $tags)) {
+        if (!in_array('response:raw', $tags)) {
             return $next();
         }
 

@@ -149,7 +149,7 @@ class Uri implements UriInterface
 
     /**
      * @param string $user
-     * @param null $password
+     * @param string $password
      * @return $this|Uri
      */
     public function withUserInfo($user, $password = null)

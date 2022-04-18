@@ -8,6 +8,7 @@ use Pckg\Framework\View\Twig;
 use Pckg\Framework\View\TwigEnv;
 use Pckg\Htmlbuilder\Element\Select;
 use Pckg\Manager\Locale;
+use Twig\Extension\CoreExtension;
 use Twig_Extension_Debug;
 use Twig_Extension_StringLoader;
 use Twig_SimpleFilter;
@@ -146,10 +147,11 @@ class RegisterTwigExtensions
             return base64_encode($string);
         }));
 
-        // @codingStandardsIgnoreStart
-        $twig->getExtension('core')
-            ->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
-        // @codingStandardsIgnoreEnd
+        /**
+         * @var CoreExtension $core
+         */
+        $core = $twig->getExtension('core');
+        $core->setDateFormat(resolve(Locale::class)->getDateFormat(), '%d days');
 
         Twig::addDir(path('vendor') . 'pckg/framework/src/');
     }

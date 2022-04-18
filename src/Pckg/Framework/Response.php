@@ -230,8 +230,6 @@ class Response extends Message implements ResponseInterface
         }
 
         exit;
-
-        return $this;
     }
 
     public function redirect($url = null, $routerParams = [], $httpParams = [])
@@ -282,8 +280,6 @@ class Response extends Message implements ResponseInterface
         $this->respond($output);
 
         exit;
-
-        return $this;
     }
 
     /**

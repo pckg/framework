@@ -4,7 +4,6 @@ namespace Pckg\Framework\Console\Provider;
 
 use Pckg\Framework\Console\Command\ClearCache;
 use Pckg\Framework\Console\Command\ComposerProject;
-use Pckg\Framework\Console\Command\CreatePckgProject;
 use Pckg\Framework\Console\Command\DeployProject;
 use Pckg\Framework\Console\Command\FeatureProject;
 use Pckg\Framework\Console\Command\InitProject;
@@ -25,7 +24,6 @@ class Console extends Provider
     {
         return [
             DeployProject::class,
-            CreatePckgProject::class,
             InitProject::class,
             TestProject::class,
             UpdateProject::class,

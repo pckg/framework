@@ -58,8 +58,7 @@ class Context extends ConceptContext
             return $env;
         } catch (\Throwable $e) {
             error_log('Error registering environment: ' . $e->getMessage());
-            die();
-            exit;
+            die('Error registering environment');
         }
     }
 
