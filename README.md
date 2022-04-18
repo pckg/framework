@@ -2,7 +2,7 @@
 
 ![Build status](https://github.com/pckg/framework/workflows/Pckg%20Framework%20CI/badge.svg)
 
-PHP 7.4+ framework for building web applications and APIs. See [pckg/skeleton](https://github.com/pckg/skeleton).
+PHP 8.0+ framework for building web applications and APIs. See [pckg/skeleton](https://github.com/pckg/skeleton).
 
 # Concepts
 Read more about:
