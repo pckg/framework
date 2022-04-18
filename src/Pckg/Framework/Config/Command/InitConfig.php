@@ -20,7 +20,11 @@ class InitConfig extends AbstractChainOfReponsibility
 
     public function execute(callable $next)
     {
-        $this->config->parseDir(path('app'));
+        if ($this->config->get('path.app')) {
+            $this->config->parseDir(path('app'));
+        }
+
+        trigger(InitConfig::class . '.executed');
 
         return $next();
     }

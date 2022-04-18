@@ -40,7 +40,7 @@ class InitProject extends Command
     public function files()
     {
         return [
-            'pckg.json' => '[]',
+            // 'pckg.json' => '[]',
         ];
     }
 
@@ -82,9 +82,18 @@ class InitProject extends Command
 
     public function copyConfigs()
     {
+        $env = $this->option('env', 'docker');
         $files = [
-            'codeception.sample.yml'                 => 'codeception.yml',
+            'codeception.sample.yml' => 'codeception.yml',
+            '.env.' . $env => '.env',
             '.env.example' => '.env',
+            '.env.database.' . $env => '.env.database',
+            '.env.redis.' . $env => '.env.redis',
+            '.env.queue.' . $env => '.env.queue',
+            '.env.rabbit.' . $env => '.env.rabbit',
+            '.env.cache.' . $env => '.env.cache',
+            '.env.web.' . $env => '.env.web',
+            '.env.www.' . $env => '.env.www',
         ];
 
         if ($app = $this->option('app')) {
@@ -119,6 +128,7 @@ class InitProject extends Command
     {
         $this->setName('project:init')
              ->setDescription('Initialize project (create required directories and configs)')
-             ->addOption('app', 'app', InputArgument::OPTIONAL, 'Init app structure and configs');
+             ->addOption('app', 'app', InputArgument::OPTIONAL, 'Init app structure and configs')
+             ->addOption('env', 'env', InputArgument::OPTIONAL, 'Default = docker');
     }
 }

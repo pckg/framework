@@ -1,31 +1,40 @@
 <?php
 
-use Carbon\Carbon;
-use Pckg\Auth\Service\Auth;
-use Pckg\Concept\ChainOfResponsibility;
-use Pckg\Concept\Event\AbstractEvent;
-use Pckg\Concept\Reflect;
-use Pckg\Framework\Application;
-use Pckg\Framework\Config;
-use Pckg\Framework\Environment;
-use Pckg\Framework\Request;
-use Pckg\Framework\Request\Data\Flash;
-use Pckg\Framework\Request\Data\Session;
-use Pckg\Framework\Response;
-use Pckg\Framework\Router;
-use Pckg\Framework\View\Twig;
-use Pckg\Mail\Service\Mail\Handler\Queue as QueueMailHandler;
-use Pckg\Manager\Asset;
-use Pckg\Manager\Cache;
-use Pckg\Manager\Gtm;
-use Pckg\Manager\Locale;
-use Pckg\Manager\Meta;
-use Pckg\Manager\Seo;
-use Pckg\Manager\Vue;
-use Pckg\Queue\Service\Queue;
-use Pckg\Translator\Service\Translator;
+namespace Pckg\Framework\Helper {
 
-if (!function_exists('env')) {
+    use Carbon\Carbon;
+    use Exception;
+    use Hub\Controller\VendorsApi;
+    use Hub\Resolver\Vendor;
+    use Pckg\Auth\Service\Auth;
+    use Pckg\Concept\ChainOfResponsibility;
+    use Pckg\Concept\Event\AbstractEvent;
+    use Pckg\Concept\Reflect;
+    use Pckg\Framework\Application;
+    use Pckg\Framework\Config;
+    use Pckg\Framework\Environment;
+    use Pckg\Framework\Request;
+    use Pckg\Framework\Request\Data\Flash;
+    use Pckg\Framework\Request\Data\Session;
+    use Pckg\Framework\Response;
+    use Pckg\Framework\Router;
+    use Pckg\Framework\Router\Route\Group;
+    use Pckg\Framework\Router\Route\Route;
+    use Pckg\Framework\Router\Route\VueRoute;
+    use Pckg\Framework\View\Twig;
+    use Pckg\Generic\Service\Generic;
+    use Pckg\Mail\Service\Mail\Handler\Queue as QueueMailHandler;
+    use Pckg\Manager\Asset;
+    use Pckg\Manager\Cache;
+    use Pckg\Manager\Gtm;
+    use Pckg\Manager\Locale;
+    use Pckg\Manager\Meta;
+    use Pckg\Manager\Seo;
+    use Pckg\Manager\Vue;
+    use Pckg\Queue\Service\Queue;
+    use Pckg\Translator\Service\Translator;
+    use Throwable;
+
     /**
      * @return Environment
      */
@@ -33,12 +42,10 @@ if (!function_exists('env')) {
     {
         return context()->get(Environment::class);
     }
-}
 
-/**
- * @return mixed|string|array
- */
-if (!function_exists('dotenv')) {
+    /**
+     * @return mixed|string|array
+     */
     function dotenv($key, $default = null)
     {
         $dotenv = context()->getOrCreate(\josegonzalez\Dotenv\Loader::class, [], null, function () {
@@ -61,19 +68,15 @@ if (!function_exists('dotenv')) {
 
         return $var[$key] ?? $default;
     }
-}
 
-/**
- * @return Application
- */
-if (!function_exists('app')) {
+    /**
+     * @return Application
+     */
     function app()
     {
         return context()->get(Application::class);
     }
-}
 
-if (!function_exists('getDotted')) {
     function getDotted($data, $keys, $i = 0, $default = null)
     {
         if (!isset($keys[$i])) {
@@ -84,9 +87,7 @@ if (!function_exists('getDotted')) {
 
         return $default;
     }
-}
 
-if (!function_exists('hasDotted')) {
     function hasDotted($data, $keys, $i = 0)
     {
         if (!isset($keys[$i])) {
@@ -101,9 +102,7 @@ if (!function_exists('hasDotted')) {
 
         return false;
     }
-}
 
-if (!function_exists('retry')) {
     function retry(callable $task, int $times = null, callable $onError = null, $interval = null)
     {
         $retry = new \Pckg\Framework\Helper\Retry();
@@ -122,9 +121,7 @@ if (!function_exists('retry')) {
 
         return $retry->make($task);
     }
-}
 
-if (!function_exists('request')) {
     /**
      * @return Request
      */
@@ -132,62 +129,50 @@ if (!function_exists('request')) {
     {
         return context()->getOrCreate(Request::class);
     }
-}
 
-/**
- * @return Post|mixed|string|null|array
- */
-if (!function_exists('post')) {
+    /**
+     * @return Post|mixed|string|null|array
+     */
     function post($key = null, $default = [])
     {
         return request()->post($key, $default);
     }
-}
 
-/**
- * @return Request|mixed
- */
-if (!function_exists('get')) {
+    /**
+     * @return Request|mixed
+     */
     function get($key = null, $default = [])
     {
         return request()->get($key, $default);
     }
-}
 
-/**
- * @return Request|mixed
- */
-if (!function_exists('server')) {
+    /**
+     * @return Request|mixed
+     */
     function server($key = null, $default = [])
     {
         return request()->server($key, $default);
     }
-}
 
-/**
- * @return Request|mixed
- */
-if (!function_exists('cookie')) {
+    /**
+     * @return Request|mixed
+     */
     function cookie($key = null, $default = [])
     {
         return request()->cookie($key, $default);
     }
-}
 
-/**
- * @return Request
- */
-if (!function_exists('files')) {
+    /**
+     * @return Request
+     */
     function files($key = null, $default = [])
     {
         return request()->files($key, $default);
     }
-}
 
-/**
- * @return mixed
- */
-if (!function_exists('required')) {
+    /**
+     * @return mixed
+     */
     function required($value, $type = null, $key = null)
     {
         if (!$value) {
@@ -204,9 +189,7 @@ if (!function_exists('required')) {
 
         return $value;
     }
-}
 
-if (!function_exists('auth')) {
     /**
      * @return Auth
      */
@@ -220,9 +203,7 @@ if (!function_exists('auth')) {
 
         return $auth;
     }
-}
 
-if (!function_exists('uuid4')) {
     function uuid4($toString = true)
     {
         $uuid = \Ramsey\Uuid\Uuid::uuid4();
@@ -233,9 +214,7 @@ if (!function_exists('uuid4')) {
 
         return $uuid;
     }
-}
 
-if (!function_exists('response')) {
     /**
      * @return Response
      */
@@ -243,23 +222,17 @@ if (!function_exists('response')) {
     {
         return context()->getOrCreate(Response::class);
     }
-}
 
-if (!function_exists('redirect')) {
     function redirect($url = null)
     {
         return response()->redirect($url);
     }
-}
 
-if (!function_exists('internal')) {
     function internal($url = null)
     {
         return response()->internal($url);
     }
-}
 
-if (!function_exists('entity')) {
     /**
      * @param null $entity
      *
@@ -269,9 +242,7 @@ if (!function_exists('entity')) {
     {
         return context()->getEntity($entity);
     }
-}
 
-if (!function_exists('form')) {
     /**
      * @param null $form
      *
@@ -281,9 +252,7 @@ if (!function_exists('form')) {
     {
         return context()->getForm($form);
     }
-}
 
-if (!function_exists('factory')) {
     /**
      * @param $factory
      *
@@ -293,9 +262,7 @@ if (!function_exists('factory')) {
     {
         return context()->getFactory($factory);
     }
-}
 
-if (!function_exists('schedule')) {
     /**
      * @param \Event $event
      * @param        $strtotime
@@ -304,9 +271,7 @@ if (!function_exists('schedule')) {
     {
         // Event::schedule($event, $strtotime);
     }
-}
 
-if (!function_exists('isValidEmail')) {
     function isValidEmail($email, $dns = false)
     {
         if (!$email) {
@@ -329,11 +294,9 @@ if (!function_exists('isValidEmail')) {
 
         return true;
     }
-}
 
-/* router */
+    /* router */
 
-if (!function_exists('router')) {
     /**
      * @return \Pckg\Framework\Router
      */
@@ -341,9 +304,7 @@ if (!function_exists('router')) {
     {
         return context()->get(Router::class);
     }
-}
 
-if (!function_exists('url')) {
     /**
      * @param       $url
      * @param array $params
@@ -364,25 +325,19 @@ if (!function_exists('url')) {
             return exception($e);
         }
     }
-}
 
-if (!function_exists('email')) {
     function email($template, $receiver, $data = [])
     {
         $handler = config('pckg.mail.handler', QueueMailHandler::class);
 
         return Reflect::create($handler)->send($template, $receiver, $data);
     }
-}
 
-if (!function_exists('resolve')) {
     function resolve($class, $data = [])
     {
         return Reflect::resolve($class, $data);
     }
-}
 
-if (!function_exists('queue')) {
     /**
      * @return Queue
      */
@@ -395,14 +350,12 @@ if (!function_exists('queue')) {
 
         return $queue->queue($channel, $command, $data);
     }
-}
 
-if (!function_exists('chain')) {
     /**
      * @param       $chains
-     * @param null  $method
+     * @param null $method
      * @param array $args
-     * @param null  $firstChain
+     * @param null $firstChain
      *
      * @return mixed|null|object
      * @throws Exception
@@ -411,11 +364,9 @@ if (!function_exists('chain')) {
     {
         return (new ChainOfResponsibility($chains, $method, $args, $firstChain))->runChains();
     }
-}
 
-/* session */
+    /* session */
 
-if (!function_exists('session')) {
     /**
      * @return mixed|Session
      */
@@ -429,9 +380,7 @@ if (!function_exists('session')) {
 
         return $session->get($key, $default);
     }
-}
 
-if (!function_exists('flash')) {
     /**
      * @param      $key
      * @param null $val
@@ -442,11 +391,9 @@ if (!function_exists('flash')) {
     {
         return context()->getOrCreate(Flash::class)->set($key, $val);
     }
-}
 
-/* config */
+    /* config */
 
-if (!function_exists('config')) {
     /**
      * @param $text
      *
@@ -462,9 +409,7 @@ if (!function_exists('config')) {
 
         return $config;
     }
-}
 
-if (!function_exists('first')) {
     function first(...$args)
     {
         foreach ($args as $arg) {
@@ -475,9 +420,7 @@ if (!function_exists('first')) {
 
         return null;
     }
-}
 
-if (!function_exists('oneFrom')) {
     function oneFrom($needle, $haystack, $default)
     {
         if (in_array($needle, $haystack)) {
@@ -486,9 +429,7 @@ if (!function_exists('oneFrom')) {
 
         return $default;
     }
-}
 
-if (!function_exists('firstWithZero')) {
     function firstWithZero(...$args)
     {
         foreach ($args as $arg) {
@@ -499,9 +440,7 @@ if (!function_exists('firstWithZero')) {
 
         return null;
     }
-}
 
-if (!function_exists('path')) {
     /**
      * @param      $key
      * @param null $val
@@ -517,6 +456,10 @@ if (!function_exists('path')) {
         [$realKey] = explode('/', $key);
         $path = config('path.' . $realKey);
 
+        if (!$path) {
+            throw new Exception('Path ' . $key . ' is not defined');
+        }
+
         if (strpos($key, '/')) {
             $path .= rtrim(substr($key, strlen($realKey) + 1), '/') . '/';
         }
@@ -528,11 +471,13 @@ if (!function_exists('path')) {
             $path = str_replace(path('root'), path('ds'), $path);
         }
 
+        if ($key !== 'ds' && $val === '/') {
+            throw new Exception('Root path (/) is not allowed');
+        }
+
         return $path;
     }
-}
 
-if (!function_exists('relativePath')) {
     /**
      * @param      $key
      * @param null $val
@@ -543,9 +488,7 @@ if (!function_exists('relativePath')) {
     {
         return str_replace(path('root'), '/', config('path.' . $key));
     }
-}
 
-if (!function_exists('uniqueFile')) {
     /**
      * @param $filename
      * @param $dir
@@ -563,11 +506,9 @@ if (!function_exists('uniqueFile')) {
 
         return $newPath;
     }
-}
 
-/* quick helpers */
+    /* quick helpers */
 
-if (!function_exists('__i18n')) {
     function __i18n($key, $data = [], $lang = null)
     {
         try {
@@ -592,16 +533,12 @@ if (!function_exists('__i18n')) {
             throw $e;
         }
     }
-}
 
-if (!function_exists('__')) {
     function __($key, $data = [], $lang = null)
     {
         return __i18n($key, $data, $lang);
     }
-}
 
-if (!function_exists('toCamel')) {
     /**
      * @param $text
      *
@@ -622,9 +559,7 @@ if (!function_exists('toCamel')) {
 
         return ucfirst(str_replace("_", "", implode($text)));
     }
-}
 
-if (!function_exists('kaorealpath')) {
     /**
      *
      */
@@ -643,9 +578,7 @@ if (!function_exists('kaorealpath')) {
 
         return implode('/', $new);
     }
-}
 
-if (!function_exists('view')) {
     /**
      * @param       $view
      * @param array $data
@@ -681,9 +614,7 @@ if (!function_exists('view')) {
 
         return $view;
     }
-}
 
-if (!function_exists('assetManager')) {
     /**
      * @return Asset
      */
@@ -691,9 +622,7 @@ if (!function_exists('assetManager')) {
     {
         return context()->getOrCreate(Asset::class);
     }
-}
 
-if (!function_exists('vueManager')) {
     /**
      * @return Vue
      */
@@ -701,9 +630,7 @@ if (!function_exists('vueManager')) {
     {
         return context()->getOrCreate(Vue::class);
     }
-}
 
-if (!function_exists('seoManager')) {
     /**
      * @return Seo
      */
@@ -711,9 +638,7 @@ if (!function_exists('seoManager')) {
     {
         return context()->getOrCreate(Seo::class);
     }
-}
 
-if (!function_exists('localeManager')) {
     /**
      * @return Locale
      */
@@ -721,9 +646,7 @@ if (!function_exists('localeManager')) {
     {
         return context()->getOrCreate(Locale::class);
     }
-}
 
-if (!function_exists('metaManager')) {
     /**
      * @return Meta
      */
@@ -731,9 +654,7 @@ if (!function_exists('metaManager')) {
     {
         return context()->getOrCreate(Meta::class);
     }
-}
 
-if (!function_exists('gtmManager')) {
     /**
      * @return Gtm
      */
@@ -741,16 +662,12 @@ if (!function_exists('gtmManager')) {
     {
         return context()->getOrCreate(Gtm::class);
     }
-}
 
-if (!function_exists('assets')) {
     function assets($assets)
     {
         assetManager()->addAssets($assets);
     }
-}
 
-if (!function_exists('autoloader')) {
     /**
      * @return mixed
      */
@@ -758,25 +675,19 @@ if (!function_exists('autoloader')) {
     {
         return require BASE_PATH . "vendor/autoload.php";
     }
-}
 
-if (!function_exists('isConsole')) {
     function isConsole()
     {
         return !request()->server('HTTP_HOST');
         return !isset($_SERVER['HTTP_HOST']);
     }
-}
 
-if (!function_exists('isHttp')) {
     function isHttp()
     {
         return !!request()->server('HTTP_HOST');
         return isset($_SERVER['HTTP_HOST']);
     }
-}
 
-if (!function_exists('dd')) {
     /**
      * @param mixed ...$mixed
      * @deprecated
@@ -788,9 +699,7 @@ if (!function_exists('dd')) {
         }
         die();
     }
-}
 
-if (!function_exists('ddd')) {
     function ddd(...$mixed)
     {
         foreach ($mixed as $m) {
@@ -798,9 +707,7 @@ if (!function_exists('ddd')) {
         }
         die();
     }
-}
 
-if (!function_exists('d')) {
     function d(...$mixed)
     {
         try {
@@ -819,9 +726,7 @@ if (!function_exists('d')) {
 
         return true;
     }
-}
 
-if (!function_exists('db')) {
     function db($depth = 3, $start = 0, $debug = true)
     {
         $db = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -836,23 +741,17 @@ if (!function_exists('db')) {
 
         return $d;
     }
-}
 
-if (!function_exists('dev')) {
     function dev()
     {
         return env()->isDev();
     }
-}
 
-if (!function_exists('prod')) {
     function prod()
     {
         return env()->isPro();
     }
-}
 
-if (!function_exists('implicitDev')) {
     function implicitDev()
     {
         $remote = request()->clientIp();
@@ -876,23 +775,17 @@ if (!function_exists('implicitDev')) {
 
         return false;
     }
-}
 
-if (!function_exists('win')) {
     function win()
     {
         return env()->isWin();
     }
-}
 
-if (!function_exists('unix')) {
     function unix()
     {
         return env()->isUnix();
     }
-}
 
-if (!function_exists('message')) {
     function message($message, $collector = 'messages')
     {
         if ($debugBar = debugBar()) {
@@ -903,9 +796,7 @@ if (!function_exists('message')) {
             $debugBar->getCollector($collector)->addMessage($message);
         }
     }
-}
 
-if (!function_exists('array_merge_array')) {
     function array_merge_array($merge, $to)
     {
         foreach ($to as $key => &$val) {
@@ -914,9 +805,7 @@ if (!function_exists('array_merge_array')) {
 
         return $to;
     }
-}
 
-if (!function_exists('merge_arrays')) {
     function merge_arrays($to, $merge, $k = null)
     {
         $replace = config('pckg.config.parse.replace', []);
@@ -965,9 +854,7 @@ if (!function_exists('merge_arrays')) {
 
         return $to;
     }
-}
 
-if (!function_exists('array_preg_match')) {
     function array_preg_match($patterns, $subject)
     {
         foreach ($patterns as $pattern) {
@@ -978,9 +865,7 @@ if (!function_exists('array_preg_match')) {
 
         return false;
     }
-}
 
-if (!function_exists('str_lreplace')) {
     function str_lreplace($search, $replace, $subject)
     {
         $pos = strrpos($subject, $search);
@@ -991,9 +876,7 @@ if (!function_exists('str_lreplace')) {
 
         return $subject;
     }
-}
 
-if (!function_exists('exception')) {
     /**
      * @param Exception $e
      *
@@ -1004,9 +887,7 @@ if (!function_exists('exception')) {
         return $e->getMessage() . ' @ ' . $e->getFile() . ':' . $e->getLine()
             . ($parent && $e->getPrevious() ? ('(' . exception($e->getPrevious()) . ')') : '');
     }
-}
 
-if (!function_exists('img')) {
     function img($name, $dir = null, $relative = true, $base = null)
     {
         if (!$name) {
@@ -1025,16 +906,12 @@ if (!function_exists('img')) {
             ? str_replace(path('root'), path('ds'), $base) . $name
             : $base . $name;
     }
-}
 
-if (!function_exists('media')) {
     function media($name, $dir = null, $relative = true, $base = null)
     {
         return img($name, $dir, $relative, $base);
     }
-}
 
-if (!function_exists('runInLocale')) {
     function runInLocale($call, $locale)
     {
         $prevLocale = localeManager()->getCurrent();
@@ -1047,16 +924,12 @@ if (!function_exists('runInLocale')) {
 
         return $response;
     }
-}
 
-if (!function_exists('isArrayList')) {
     function isArrayList($array)
     {
         return array_keys($array) === range(0, count($array) - 1);
     }
-}
 
-if (!function_exists('sluggify')) {
     function sluggify($str, $separator = '-', $special = null, $limit = 64)
     {
         /**
@@ -1086,9 +959,7 @@ if (!function_exists('sluggify')) {
 
         return $str;
     }
-}
 
-if (!function_exists('get_date_diff')) {
     function get_date_diff($time1, $time2, $precision = 2)
     {
         // If not numeric then convert timestamps
@@ -1142,9 +1013,7 @@ if (!function_exists('get_date_diff')) {
         // Return string with times
         return implode(", ", $times);
     }
-}
 
-if (!function_exists('br2nl')) {
     function br2nl($string)
     {
         $string = str_replace(['<br />', '<br/>', '<br>'], "\n", $string);
@@ -1152,9 +1021,7 @@ if (!function_exists('br2nl')) {
 
         return '"' . $string . '"';
     }
-}
 
-if (!function_exists('array_union')) {
     function array_union($one, $two)
     {
         return array_merge(
@@ -1163,21 +1030,17 @@ if (!function_exists('array_union')) {
             array_diff($two, $one)
         );
     }
-}
 
-if (!function_exists('transform')) {
     function transform($collection, $rules)
     {
         return collect($collection)->map($rules)->all();
     }
-}
 
-if (!function_exists('cache')) {
     /**
-     * @param null          $key
+     * @param null $key
      * @param callable|null $value
-     * @param string        $type
-     * @param int           $time
+     * @param string $type
+     * @param int $time
      *
      * @return mixed|Cache|array|string
      * @throws Exception
@@ -1190,9 +1053,7 @@ if (!function_exists('cache')) {
             ? $cache->cache($key, $value, $type, $time)
             : $cache;
     }
-}
 
-if (!function_exists('between')) {
     function between($value, $min, $max)
     {
         $value = (int)$value;
@@ -1204,74 +1065,80 @@ if (!function_exists('between')) {
 
         return $value;
     }
-}
 
-if (!function_exists('route')) {
     function route($route = '', $view = 'index', $controller = null)
     {
-        return new Pckg\Framework\Router\Route\Route($route, $view, $controller);
+        return new Route($route, $view, $controller);
     }
-}
 
-if (!function_exists('vueRoute')) {
     /**
      * @param string $route
      * @param string|null $component
      * @param array $tags
-     * @return Router\Route\Route|Router\Route\VueRoute
+     * @param array $children
+     * @return Route|VueRoute
      */
     function vueRoute(string $route = '', string $component = null, array $tags = [], array $children = [])
     {
-        return (new Router\Route\VueRoute($route, function () use ($tags) {
-            $config = config();
+        $defaultTags = [
+            'vue:route',
+        ];
 
-            $layout = null;
-            foreach ($tags as $tag) {
-                if (strpos($tag, 'layout:') === 0) {
-                    $layout = 'Pckg/Generic:' . substr($tag, strlen('layout:'));
-                    break;
-                }
-            }
-
-            return view($layout ?? $config->get('pckg.router.layout', 'layout'), ['content' => Vue::getLayout()]);
-        }))->data([
-                     'tags' => $tags ? array_merge($tags, [
-                         'vue:route',
-                         'vue:route:template' => substr($component, 0, 1) !== '<'
-                             ? '<' . $component . '></' . $component . '>'
-                             : $component,
-                     ]) : [
-                         'vue:route',
-                         'vue:route:template' => substr($component, 0, 1) !== '<'
-                             ? '<' . $component . '></' . $component . '>'
-                             : $component,
-                     ],
-                     'method' => 'GET',
-                 ])->children($children);
-    }
-}
-
-if (!function_exists('routeGroup')) {
-    function routeGroup($data = [], $routes = [])
-    {
-        $routeGroup = new Pckg\Framework\Router\Route\Group($data);
-
-        if ($routes) {
-            $routeGroup->routes($routes);
+        /**
+         * Build the component.
+         */
+        if ($component) {
+            $defaultTags['vue:route:template'] = substr($component, 0, 1) !== '<'
+                ? '<' . $component . '></' . $component . '>'
+                : $component;
         }
 
-        return $routeGroup;
+        // @phpstan-ignore-next-line
+        return (new VueRoute($route, function () use ($tags, $defaultTags) {
+            return $defaultTags['vue:route:template'] ?? Vue::getLayout();
+        }))->data([
+            'tags' => $tags ? array_merge($defaultTags, $tags) : $defaultTags,
+            'method' => 'GET', // what happens on other methods?
+        ])->children($children);
     }
-}
 
-if (!function_exists('price')) {
+    function routeGroup(array $data = [], array $routes = [])
+    {
+        return new Group($data, $routes);
+    }
+
+    function component($component, array $params = [])
+    {
+        $build = '<' . $component . '';
+        $generic = null;
+        foreach ($params as $k => $v) {
+            if (substr($k, 0, 1) === ':') {
+                if (!$generic) {
+                    // @phpstan-ignore-next-line
+                    $generic = resolve(Generic::class);
+                }
+
+                $store = true;
+                if (is_string($v) && substr($v, 0, 1) === '$') {
+                    $key = '$store.state.generic.metadata.router[' . json_encode(substr($k, 1)) . ']';
+                } else {
+                    $key = $generic->pushMetadata('router', substr($k, 1), $v, $store);
+                }
+                $build .= ' ' . $k . '="' . $key . '"';
+            } else {
+                $build .= ' ' . $k . '="' . $v . '"';
+            }
+        }
+        $build .= '></' . $component . '>';
+
+        return $build;
+    }
+
     function price($price, $currency = null)
     {
         return number($price) . ' ' . ($currency ?? config('pckg.payment.currencySign'));
     }
-}
 
-if (!function_exists('number')) {
     function number($price)
     {
         if (is_null($price)) {
@@ -1287,16 +1154,12 @@ if (!function_exists('number')) {
             $localeManager->getThousandSeparator()
         );
     }
-}
 
-if (!function_exists('is_associative_array')) {
     function is_associative_array($array)
     {
         return is_array($array) && (!$array || range(0, count($array) - 1) == array_keys($array));
     }
-}
 
-if (!function_exists('strbetween')) {
     function strbetween($text, $from, $to)
     {
         $start = strpos($text, $from) + strlen($from);
@@ -1304,9 +1167,7 @@ if (!function_exists('strbetween')) {
 
         return substr($text, $start, $end - $start);
     }
-}
 
-if (!function_exists('cdn')) {
     function cdn($file)
     {
         $file = trim($file);
@@ -1326,18 +1187,14 @@ if (!function_exists('cdn')) {
 
         return 'https://' . $host . $file;
     }
-}
 
-if (!function_exists('isRemoteUrl')) {
     function isRemoteUrl($url)
     {
         $url = trim($url);
 
         return strpos($url, '//') === 0 || strpos($url, 'https://') === 0 || strpos($url, 'http://') === 0;
     }
-}
 
-if (!function_exists('only')) {
     function only($array, $keys, $keepUndefined = true)
     {
         $final = [];
@@ -1354,16 +1211,12 @@ if (!function_exists('only')) {
 
         return $final;
     }
-}
 
-if (!function_exists('onlyFromRequest')) {
     function onlyFromRequest(array $data, string $key = null)
     {
         return only($data, array_keys($key ? post($key) : post()->all()), false);
     }
-}
 
-if (!function_exists('onlyWhen')) {
     function onlyWhen($array, $keys)
     {
         if (!is_array($array) && !is_object($array)) {
@@ -1388,25 +1241,19 @@ if (!function_exists('onlyWhen')) {
 
         return $final;
     }
-}
 
-if (!function_exists('throwLogOrContinue')) {
     function throwLogOrContinue(Throwable $e)
     {
         if (dev() || isConsole()) {
             throw $e;
         }
     }
-}
 
-if (!function_exists('toSafeFilename')) {
     function toSafeFilename($filename, $special = ' ()\[\]#')
     {
         return substr(preg_replace("/[^A-Za-z0-9\-." . $special . "]/", '', $filename), -200);
     }
-}
 
-if (!function_exists('datetime')) {
     function datetime($date, $format = null)
     {
         if (!$format) {
@@ -1415,9 +1262,7 @@ if (!function_exists('datetime')) {
 
         return (new Carbon($date))->format($format);
     }
-}
 
-if (!function_exists('datef')) {
     function datef($date, $format = null)
     {
         if (!$format) {
@@ -1426,9 +1271,7 @@ if (!function_exists('datef')) {
 
         return (new Carbon($date))->format($format);
     }
-}
 
-if (!function_exists('timef')) {
     function timef($date, $format = null)
     {
         if (!$format) {
@@ -1437,24 +1280,23 @@ if (!function_exists('timef')) {
 
         return (new Carbon($date))->format($format);
     }
-}
 
-if (!function_exists('sha1random')) {
     function sha1random()
     {
-        return sha1(\Defuse\Crypto\Key::createNewRandomKey()->saveToAsciiSafeString());
+        return sha1(randomKey());
     }
-}
 
-if (!function_exists('filename')) {
+    function randomKey()
+    {
+        return \Defuse\Crypto\Key::createNewRandomKey()->saveToAsciiSafeString();
+    }
+
     function filename($file)
     {
         $exploded = explode('/', $file);
         return end($exploded);
     }
-}
 
-if (!function_exists('escapeshellargs')) {
     function escapeshellargs($data)
     {
         $parameters = [];
@@ -1490,9 +1332,7 @@ if (!function_exists('escapeshellargs')) {
 
         return $parameters;
     }
-}
 
-if (!function_exists('seededShuffle')) {
     function seededShuffle($seed = null, $chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ')
     {
         $items = str_split($chars, 1);
@@ -1504,9 +1344,7 @@ if (!function_exists('seededShuffle')) {
 
         return implode($items);
     }
-}
 
-if (!function_exists('seededHash')) {
     function seededHash(int $seed, $length)
     {
         $shuffled = seededShuffle($seed);
@@ -1521,9 +1359,7 @@ if (!function_exists('seededHash')) {
 
         return implode($hash);
     }
-}
 
-if (!function_exists('str2int')) {
     function str2int($string, $max = PHP_INT_MAX)
     {
         $array = str_split($string, 1);
@@ -1538,9 +1374,7 @@ if (!function_exists('str2int')) {
 
         return (int)floor($range * $max);
     }
-}
 
-if (!function_exists('int2str')) {
     function int2str(int $int, $length = 8)
     {
         $chars = 'abcdefghijklmnopqrstuvwxyz';
@@ -1555,16 +1389,12 @@ if (!function_exists('int2str')) {
 
         return str_pad($str, $length, 'a', STR_PAD_LEFT);
     }
-}
 
-if (!function_exists('numequals')) {
     function numequals($a, $b)
     {
         return abs((float)$a - (float)$b) < PHP_FLOAT_EPSILON;
     }
-}
 
-if (!function_exists('encryptBlob')) {
     function encryptBlob($plaintext, $password = null)
     {
         if (!$password) {
@@ -1573,9 +1403,7 @@ if (!function_exists('encryptBlob')) {
 
         return \Defuse\Crypto\Crypto::encryptWithPassword($plaintext, $password);
     }
-}
 
-if (!function_exists('decryptBlob')) {
     function decryptBlob($ciphertext, $password = null)
     {
         if (!$password) {
@@ -1584,18 +1412,25 @@ if (!function_exists('decryptBlob')) {
 
         return \Defuse\Crypto\Crypto::decryptWithPassword($ciphertext, $password);
     }
-}
 
-if (!function_exists('appendIf')) {
     function appendIf($is, $append)
     {
         return $is ? $is . $append : '';
     }
-}
 
-if (!function_exists('prependIf')) {
     function prependIf($prepend, $is)
     {
         return $is ? $prepend . $is : '';
+    }
+
+    function forward($input, callable $task)
+    {
+        $task($input);
+
+        return $input;
+    }
+
+    function tryout() {
+
     }
 }

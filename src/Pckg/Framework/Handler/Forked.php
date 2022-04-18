@@ -1,6 +1,6 @@
 <?php
 
-namespace Pckg\Framework\Command;
+namespace Pckg\Framework\Handler;
 
 use Pckg\Database\Repository;
 

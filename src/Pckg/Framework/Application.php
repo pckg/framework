@@ -2,7 +2,7 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Framework\Application\ApplicationInterface;
+use Pckg\Framework\Config\Command\InitConfig;
 use Pckg\Framework\Provider\Helper\Registrator;
 
 class Application
@@ -10,6 +10,8 @@ class Application
     use Registrator;
 
     protected $provider;
+
+    const EVENT_REGISTERED = self::class . '.registered';
 
     public function __construct(Provider $provider)
     {
@@ -25,7 +27,7 @@ class Application
     {
         /**
          * Initialize application.
-         * This will parse config, set localization 'things', estamblish connection to database, initialize and register
+         * This will parse config, set localization 'things', establish connection to database, initialize and register
          * routes, set application autoloaders and providers, session, response, request and assets.
          */
         measure('Initializing ' . static::class, function () {

@@ -7,9 +7,8 @@ use Pckg\Concept\Reflect;
 use Pckg\Framework\Environment\Command\DefinePaths;
 use Pckg\Framework\Environment\Development;
 use Pckg\Framework\Environment\Production;
-use Pckg\Manager\Asset\AssetManager;
 
-class Environment implements AssetManager
+class Environment
 {
 
     protected $urlPrefix = '/index.php';
@@ -26,6 +25,10 @@ class Environment implements AssetManager
      */
     protected $config;
 
+    const EVENT_INITIALIZING = self::class . '.initializing';
+
+    const EVENT_INITIALIZED = self::class . '.initialized';
+
     public function __construct(Config $config, Context $context)
     {
         $this->config = $config;
@@ -39,6 +42,11 @@ class Environment implements AssetManager
         return $this->urlPrefix;
     }
 
+    /**
+     * @param $url
+     * @return false|mixed|string
+     * @deprecated
+     */
     public function replaceUrlPrefix($url)
     {
         if (strpos($url, $this->urlPrefix . '/') === 0) {
@@ -50,11 +58,11 @@ class Environment implements AssetManager
 
     public function init()
     {
-        trigger(Environment::class . '.initializing', [$this]);
+        trigger(static::EVENT_INITIALIZING, [$this]);
 
         chain($this->initArray());
 
-        trigger(Environment::class . '.initialized', [$this]);
+        trigger(static::EVENT_INITIALIZED, [$this]);
 
         return $this;
     }
@@ -91,11 +99,6 @@ class Environment implements AssetManager
 
     public function isUnix()
     {
-    }
-
-    public function assets()
-    {
-        return [];
     }
 
     /**

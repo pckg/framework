@@ -7,6 +7,7 @@ use GuzzleHttp\Psr7\Stream;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Helper\Lazy;
 use Pckg\Framework\Request\Data\Cookie;
+use Pckg\Framework\Request\Data\Files;
 use Pckg\Framework\Request\Data\Get;
 use Pckg\Framework\Request\Data\Post;
 use Pckg\Framework\Request\Data\Server;
@@ -53,7 +54,7 @@ class Message implements MessageInterface
         $this->post = new Post();
         $this->get = new Get();
         $this->server = new Server();
-        $this->files = new Lazy();
+        $this->files = new Files();
         $this->cookie = new Cookie();
         $this->request = new \Pckg\Framework\Request\Data\Request();
 

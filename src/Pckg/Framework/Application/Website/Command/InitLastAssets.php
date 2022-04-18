@@ -6,6 +6,11 @@ use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Environment;
 use Pckg\Manager\Asset as AssetManager;
 
+/**
+ * Class InitLastAssets
+ * @package Pckg\Framework\Application\Website\Command
+ * @deprecated
+ */
 class InitLastAssets extends AbstractChainOfReponsibility
 {
 
@@ -13,10 +18,8 @@ class InitLastAssets extends AbstractChainOfReponsibility
 
     protected $environment;
 
-    public function __construct(
-        Environment $environment,
-        AssetManager $assetManager
-    ) {
+    public function __construct(Environment $environment, AssetManager $assetManager)
+    {
         $this->assetManager = $assetManager;
         $this->environment = $environment;
     }

@@ -6,6 +6,7 @@ use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
 use Pckg\Framework\View\AbstractView;
+use Pckg\Generic\Service\Generic;
 
 class RunResponse extends AbstractChainOfReponsibility
 {
@@ -36,11 +37,14 @@ class RunResponse extends AbstractChainOfReponsibility
             $response->setOutput($response->arrayToString($output));
         } else if (is_object($output) && method_exists($output, '__toString')) {
             $response->setOutput((string)$output);
-        } else if (is_string($output) && $isAjax && get('html')) {
+        } else if (is_string($output) && $isAjax) {
             $vue = vueManager()->getViews();
             $response->setOutput($response->arrayToString([
                                                               'html' => $output,
                                                               'vue'  => $vue,
+                                                              'resolved' => router()->resolved(),
+                                                               // @phpstan-ignore-next-line
+                                                              'metadata' => resolve(Generic::class)->getMetadata(),
                                                           ]));
         } else if (is_bool($output)) {
             $response->setOutput($response->arrayToString(['success' => $output]));

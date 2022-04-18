@@ -2,6 +2,11 @@
 
 namespace Pckg\Framework\Middleware;
 
+/**
+ * Class RedirectToHttps
+ * @package Pckg\Framework\Middleware
+ * @deprecated
+ */
 class RedirectToHttps
 {
 

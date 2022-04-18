@@ -2,6 +2,11 @@
 
 namespace Pckg\Framework\Middleware;
 
+/**
+ * Class DropRequests
+ * @package Pckg\Framework\Middleware
+ * @deprecated
+ */
 class DropRequests
 {
 

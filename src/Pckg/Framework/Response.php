@@ -2,12 +2,14 @@
 
 namespace Pckg\Framework;
 
+use Pckg\Collection;
 use Pckg\Framework\Request\Data\Flash;
 use Pckg\Framework\Request\Data\Session;
 use Pckg\Framework\Request\Message;
 use Pckg\Framework\Response\Command\RunResponse;
 use Pckg\Framework\Response\Exceptions;
 use Pckg\Framework\Router\URL;
+use Pckg\Framework\View\ViewInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -143,6 +145,42 @@ class Response extends Message implements ResponseInterface
     public function getOutput()
     {
         return $this->output;
+    }
+
+    public function reparseOutput()
+    {
+        $this->output = $this->parseOutput();
+
+        return $this;
+    }
+
+    public function parseOutput()
+    {
+        if (is_string($this->output) || is_array($this->output)) {
+            // print view as content
+            return $this->output;
+        } else if (is_object($this->output)) {
+            if ($this->output instanceof ViewInterface) {
+                // parse layout into view
+                return $this->output->autoparse();
+            } else if ($this->output instanceof Collection) {
+                // convert to array
+                return $this->output->toArray();
+            } else if (method_exists($this->output, '__toString')) {
+                return (string)$this->output;
+            } else if ($this->output instanceof \stdClass) {
+                return json_encode($this->output);
+            } else if ($this->output instanceof Response) {
+                $this->output = $this->output->getOutput();
+
+                return $this->parseOutput();
+            }
+        } else if (is_null($this->output) || is_int($this->output) || is_bool($this->output)) {
+            // without view // no int? or bool?
+            return json_encode($this->output);
+        }
+
+        throw new Exception("Output is unknown type " . (is_object($this->output) ? get_class($this->output) : ''));
     }
 
     private function getMinusUrl()
@@ -538,6 +576,26 @@ class Response extends Message implements ResponseInterface
         $this->readFile($file, $then);
     }
 
+    public function downloadStream($stream, $filename, $length, $close = true, callable $then = null)
+    {
+        $this->sendFileContentTypeHeaders($filename);
+        $this->sendFileDispositionHeader($filename);
+        
+        if ($length) {
+            header('Content-Length: ' . $length);
+        }
+        
+        $limit = 1024 * 1024 * 10;
+        while (!feof($stream)) {
+            echo fread($stream, $limit);
+            flush();
+        }
+
+        $then && $then();
+        fclose($stream);
+        exit;
+    }
+
     public function printFile($file, $filename = null)
     {
         if (!$filename) {
@@ -626,7 +684,7 @@ class Response extends Message implements ResponseInterface
 
     public function sendNoIndexHeader()
     {
-        header('X-Robots-Tax', 'noindex');
+        header('X-Robots-Tag: noindex');
 
         return $this;
     }

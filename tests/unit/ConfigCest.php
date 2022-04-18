@@ -1,15 +1,11 @@
 <?php
 
+use Pckg\Framework\Test\Codeception\Cest;
+
 class ConfigCest
 {
 
-    use \Pckg\Framework\Test\MockFramework;
-
-    public function _before(UnitTester $I)
-    {
-        define('__ROOT__', realpath(__DIR__ . '/../..') . '/');
-        $this->mockFramework();
-    }
+    use Cest;
 
     // tests
     public function defaultConfigTest(UnitTester $I)

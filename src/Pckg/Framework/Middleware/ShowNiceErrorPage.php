@@ -27,7 +27,9 @@ class ShowNiceErrorPage
     public function handlePartial()
     {
         try {
-            $output = view('Pckg/Framework:error/_partial');
+            $output = view('Pckg/Framework:error/default', [
+                'extends' => 'Pckg/Generic/View/error.twig',
+            ]);
         } catch (Throwable $e) {
             if (dev()) {
                 throw $e;

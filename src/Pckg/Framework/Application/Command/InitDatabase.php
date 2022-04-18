@@ -3,15 +3,23 @@
 namespace Pckg\Framework\Application\Command;
 
 use Pckg\Database\Repository\RepositoryFactory;
+use Pckg\Framework\Config;
 
 class InitDatabase
 {
 
+    protected Config $config;
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
+    }
+
     public function execute(callable $next)
     {
-        foreach (config('database', []) as $name => $config) {
+        foreach ($this->config->get('database', []) as $name => $config) {
             /**
-             * Skip lazy initialize connections which will be estamblished on demand.
+             * Skip lazy initialize connections which will be established on demand.
              */
             if (is_string($config) || ($config['lazy'] ?? false)) {
                 continue;

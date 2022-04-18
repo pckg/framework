@@ -28,7 +28,7 @@ class Development extends Production
 
         $this->config->parseDir(BASE_PATH);
 
-        if (false && isHttp() && !implicitDev()) {
+        if (isHttp() && !implicitDev()) {
             die('Unauthorized for dev!');
             exit;
         }
@@ -44,7 +44,7 @@ class Development extends Production
     public function registerExceptionHandler()
     {
         $whoops = new Run();
-        $whoops->pushHandler(function(\Throwable $e){
+        $whoops->pushHandler(function (\Throwable $e) {
             @error_log(exception($e));
         });
         $whoops->pushHandler(new PrettyPageHandler());

@@ -12,7 +12,6 @@ class Frontend extends Provider
         return [
             'libraries' => [
                 'js/http.compiled.js',
-                'js/pckg.compiled.js',
             ],
         ];
     }

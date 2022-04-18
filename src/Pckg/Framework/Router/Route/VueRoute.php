@@ -18,9 +18,15 @@ class VueRoute extends Route
     {
         $vueChildRoutes = [];
         if ($this->children) {
-            $vueChildRoutes = collect(array_keys($this->children))->map(function ($name) {
-                return $this->name . '.' . $name;
-            })->values();
+            $vueChildRoutes = collect($this->children)
+                ->realReduce(function (VueRoute $vueRoute, $name, $reduce) {
+                    $reduce[] = $this->name . '.' . trim($name, '.');
+                    $reduce = collect($vueRoute->children)->realReduce(function (VueRoute $vueRoute, $subname, $reduce) use ($name) {
+                        $reduce[] = $this->name . '.' . trim($name, '.') . '.' . trim($subname, '.');
+                        return $reduce;
+                    }, $reduce);
+                    return $reduce;
+                }, []);
             $this->data['tags']['vue:route:children'] = $vueChildRoutes;
         }
 
@@ -35,9 +41,19 @@ class VueRoute extends Route
             $childRoute->data['tags'][] = 'vue:route:child';
             $parentData['urlPrefix'] = $url;
             $parentData['namePrefix'] = $name . '.' . $key;
+            $childRoute->inheritResolvers($this);
             $childRoute->register($parentData);
         }
 
         return [$url, $mergedData, $name];
+    }
+
+    public function seo(array $array = [])
+    {
+        foreach ($array as $key => $val) {
+            $this->data['tags']['seo:' . $key] = $val;
+        }
+
+        return $this;
     }
 }

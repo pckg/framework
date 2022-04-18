@@ -1,28 +1,6 @@
 var data = data || {};
 let http = window.http = {
 
-    formToData: function (vueElement, keys) {
-        var data = {};
-
-        if (typeof keys === 'undefined') {
-            $.each(vueElement.form, function (key, val) {
-                data[key] = val;
-            });
-
-        } else {
-            $.each(keys, function (i, key) {
-                data[key] = vueElement.form[key];
-            });
-
-        }
-
-        return data;
-    },
-
-    submitForm: function (vueElement, fields) {
-        return http.post($(vueElement.$el.attr('action')), http.formToData(vueElement, fields));
-    },
-
     ajax: function ajax(options, done, error) {
         let presetBeforeSend = options.beforeSend || null;
         options.beforeSend = function (request) {
@@ -152,10 +130,6 @@ let http = window.http = {
         }
 
         request.setRequestHeader("X-Pckg-Locale", Pckg.config.locale.current);
-    },
-
-    form: function ($form, successCallback) {
-        return http.post($form.attr('action'), $form.serializeArray(), successCallback);
     },
 
     fixUndefined: function (data) {
@@ -289,14 +263,6 @@ var locale = {
         return this.date(datetime) + ' ' + this.time(datetime);
     },
 
-    trans: function (trans, params) {
-        $.each(params, function (key, val) {
-            trans = trans.replace('{{ ' + key + ' }}', val);
-        });
-
-        return trans;
-    }
-
 };
 
 var collection = {
@@ -347,19 +313,6 @@ var collection = {
         return key(item, i);
     },
 
-    shuffle: function (unshuffled) {
-        return unshuffled
-            .map(function (a) {
-                return {sort: Math.random(), value: a};
-            })
-            .sort(function (a, b) {
-                return a.sort - b.sort;
-            })
-            .map(function (a) {
-                return a.value;
-            });
-    }
-
 };
 
 var utils = {
@@ -390,21 +343,6 @@ var utils = {
         }
 
         return str.charAt(0).toUpperCase() + str.slice(1);
-    },
-
-    toCamelCase: function(str) {
-        return str.replace(/^([A-Z])|\s(\w)/g, function(match, p1, p2, offset) {
-            if (p2) return p2.toUpperCase();
-            return p1.toLowerCase();
-        });
-    },
-
-    isSameDate: function (first, second) {
-        return locale.date(first) == locale.date(second);
-    },
-
-    fix: function (value) {
-        return value ? value : null;
     },
 
     url: function (url, params, absolute) {
@@ -453,19 +391,6 @@ var utils = {
         return span.textContent || span.innerText;
     },
 
-    closeIfIframe: function () {
-        this.sendToParent('popup.close');
-    },
-
-    closeAndRefresh: function () {
-        $.magnificPopup.close();
-        http.redirect();
-    },
-
-    sendToParent: function (data) {
-        parent.postMessage(data, window.location.origin);
-    },
-
     isIframe: function () {
         return parent.window != window;
     },
@@ -475,13 +400,6 @@ var utils = {
             ? item
             : [item];
     },
-    prepend: function (value, array) {
-        var newArray = array.slice(0);
-
-        newArray.unshift(value);
-
-        return newArray;
-    },
     sort: function (obj) {
         var sorted = {};
         Object.keys(obj).sort().forEach(function (value, key) {
@@ -489,38 +407,6 @@ var utils = {
         });
 
         return sorted;
-    },
-    mergeObject: function (to, from) {
-        $.each(from, function (key, value) {
-            to[key] = value;
-        });
-
-        return to;
-    },
-    pushTo: function (to, from) {
-        $.each(from, function (key, value) {
-            to.push(value);
-        });
-
-        return to;
-    },
-    firstOf: function (items, callback) {
-        var first = null;
-
-        $.each(items, function (i, item) {
-            if (callback(item, i)) {
-                first = item;
-                return false;
-            }
-        });
-
-        return first;
-    },
-    lastOf: function (items, callback) {
-        return this.firstOf(items.reverse(), callback);
-    },
-    last: function (items) {
-        return items[items.length - 1];
     },
     next: function (all, current, noLoop) {
         let i = all.indexOf(current) + 1;
@@ -636,3 +522,38 @@ settings.vue.gmaps = {
 var d = function (data) {
     console.log(data);
 };
+
+//scroll to function, works on iframe, user can stop it by scrolling
+window.globalScrollTo = function(target, offsetTop)
+{
+    if (target.length < 1) {
+        return;
+    }
+
+    if (!offsetTop) {
+        offsetTop = 80;
+    }
+
+    //scroll if iframe
+    if ('parentIFrame' in window) {
+        parentIFrame.scrollToOffset(0, target.offset().top - offsetTop);
+        //scroll if not iframe
+    } else {
+        page = $('html,body');
+
+        //stop scrolling if user interacts
+        page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function () {
+            page.stop();
+        });
+
+        page.animate({scrollTop: target.offset().top - offsetTop}, 1000, function () {
+            //stop scrolling if user interacts
+            page.off("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove");
+        });
+    }
+}
+
+window.observerOr = function(observer, or) {
+    return typeof ResizeObserver === 'undefined' ? or() : observer();
+}
+

@@ -70,7 +70,6 @@ class ResolveRoute
             $arrUrl = explode("/", substr($url, 1));
             foreach ($routes as $routeArr) {
                 foreach ($routeArr as $conf) {
-
                     // validate language
                     if ($conf['language'] ?? false) {
                         if ($this->domain) {
@@ -83,8 +82,15 @@ class ResolveRoute
                     }
 
                     // validate method
-                    if (isset($conf['method']) && !empty($conf['method']) && !in_array(strtolower($_SERVER['REQUEST_METHOD']), explode("|", strtolower($conf['method'])))) {
-                        continue;
+                    $methods = $conf['method'] ?? null;
+                    if ($methods && !is_array($methods)) {
+                        $methods = explode('|', $methods);
+                    }
+                    if ($methods) {
+                        $methods = collect($methods)->mapFn('strtolower')->all();
+                        if (!in_array(strtolower(server()->get('REQUEST_METHOD', '')), $methods)) {
+                            continue;
+                        }
                     }
 
                     $arrRoutes = explode("/", substr($conf["url"], 1));

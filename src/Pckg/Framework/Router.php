@@ -268,7 +268,9 @@ class Router
                      * T00D00 - this needs to be resolved without proper index (find by class)
                      */
                     if (isset($args['[' . $key . ']']) && is_object($args['[' . $key . ']'])) {
-                        $realResolver = is_object($resolver) ? $resolver : resolve($resolver);
+                        $realResolver = is_only_callable($resolver) ? $resolver() : (is_object($resolver)
+                            ? $resolver
+                            : resolve($resolver));
                         $recordObject = $args['[' . $key . ']'];
                         $args['[' . $key . ']'] = $realResolver->parametrize($recordObject);
                         /**
@@ -414,13 +416,46 @@ class Router
         $url = str_replace(['[', ']'], [':', ''], $url);
         $vueRoute = [
             'path' => $url,
+            'name' => $route['name'],
         ];
         if (array_key_exists('vue:route:redirect', $tags)) {
             $vueRoute['redirect'] = $prefix . $tags['vue:route:redirect'];
         }
-        if (array_key_exists('vue:route:template', $tags)) {
-            $vueRoute['component'] = ['template' => $tags['vue:route:template']];
+
+        /**
+         * When there's a layout, the layout should render the component.
+         */
+        $component = null;
+        foreach ($tags as $k => $v) {
+            if (!is_string($v)) {
+                continue;
+            }
+            if ($k === 'layout') {
+                $component = '<' . $v . '></' . $v . '>';
+            }
+            if (strpos($v, 'layout:') === 0) {
+                if ($v === 'layout:frontend') {
+                    //$component = '<pb-route-layout></pb-route-layout>';
+                } else if ($v === 'layout:backend') {
+                } else { // focused? blank?
+                    $component = substr($v, strlen('layout:'));
+                    $component = '<' . $component . '></' . $component . '>';
+                }
+                break;
+            }
         }
+
+        /**
+         * VueJS.
+         */
+        if ($component) {
+            $vueRoute['component'] = ['name' => sluggify($component), 'template' => $component];
+        } else if (array_key_exists('vue:route:template', $tags)) {
+            $vueRoute['component'] = ['name' => sluggify($tags['vue:route:template']), 'template' => $tags['vue:route:template']];
+        } else {
+            //$vueRoute['component'] = 'pb-router-layout';
+        }
+
         if (array_key_exists('vue:route:children', $tags)) {
             $routes = $this->getRoutes();
             $vueRoute['children'] = [];
@@ -438,7 +473,19 @@ class Router
                 $vueRoute['children'][] = $childRoute;
             }
         }
-        $vueRoute['meta']['tags'] = $tags;
+
+        /**
+         * Frontend tags are objectized. ['vue:route', 't' => 'x'] becomes {'vue:route':true,'t':'x'}
+         */
+        $finalTags = new \stdClass();
+        foreach ($tags as $k => $v) {
+            if (is_numeric($k)) {
+                $finalTags->{$v} = true;
+            } else {
+                $finalTags->{$k} = $v;
+            }
+        }
+        $vueRoute['meta']['tags'] = $finalTags;
 
         /**
          * This needs to be available on the frontend so we can resolve the params on navigation.
@@ -463,9 +510,15 @@ class Router
             $firstRoute = $routeArr[0];
             $tags = $firstRoute['tags'] ?? [];
             /**
-             * Skip non-vue routes.
+             * Skip non-vue routes, and non-vue child routes
              */
             if (!in_array('vue:route', $tags)) {
+                continue;
+            }
+            /**
+             * Why skip child routes?
+             */
+            if (false && in_array('vue:route:child', $tags)) {
                 continue;
             }
             /**

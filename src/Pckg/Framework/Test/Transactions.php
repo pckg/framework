@@ -15,12 +15,12 @@ trait Transactions
      */
     protected $mock;
 
-    public function startTransactions()
+    protected function startTransactions()
     {
         return $this;
     }
 
-    public function dropTransactions()
+    protected function dropTransactions()
     {
         return $this;
     }
@@ -51,5 +51,4 @@ trait Transactions
             $repository->getConnection()->rollBack();
         }
     }
-
 }

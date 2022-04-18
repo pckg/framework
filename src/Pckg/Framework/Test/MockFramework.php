@@ -13,6 +13,7 @@ use Pckg\Queue\Service\Driver\Mock;
 
 trait MockFramework
 {
+    use MockContext;
 
     /**
      * @var \UnitTester
@@ -20,40 +21,22 @@ trait MockFramework
     protected $tester;
 
     /**
-     * @var Context
+     * @var \Pckg\Framework\Helper\Context
      */
     protected $context;
 
-    /**
-     * @return mixed
-     */
-    protected function getPckgBootstrap()
+    protected $recreateContext = true;
+
+    protected function setRecreateContext($recreate = false)
     {
-        $file = 'vendor/pckg/framework/src/bootstrap.php';
-        if (!is_file($file)) {
-            $file = 'src/bootstrap.php';
-        }
-        return include $file;
+        $this->recreateContext = $recreate;
+
+        return $this;
     }
 
-    public function mockEnvironment()
+    protected function mockEnvironment()
     {
-        /**
-         * Make sure that App is fully loaded?
-         * We would like to mock the environment, application and request.
-         */
-        $bootstrap = $this->getPckgBootstrap();
-
-        /**
-         * Only bootstrap and create context. Do not create environment or init the application.
-         * @var $context \Pckg\Concept\Context|\Pckg\Framework\Helper\Context
-         */
-        $originalContext = context();
-        Stack::$providers = [];
-        $this->context = $context = $bootstrap(null, null);
-
-        $originalContext->bind(Context::class, $context);
-        $originalContext->bind(\Pckg\Framework\Helper\Context::class, $context);
+        $context = $this->mockContext();
 
         /**
          * Create, bind and register the environment.
@@ -77,9 +60,9 @@ trait MockFramework
         return [$context, $config];
     }
 
-    public function mockFramework($url = '/', $method = 'GET')
+    protected function mockFramework($url = '/', $method = 'GET')
     {
-        if (isset($this->context)) {
+        if (!$this->recreateContext && isset($this->context)) {
             $context = $this->context;
             $config = $context->get(Config::class);
         } else {
@@ -131,13 +114,18 @@ trait MockFramework
         return $this;
     }
 
-    public function mock()
+    protected function mock()
     {
+        // @phpstan-ignore-next-line
         return (new MockRequest($this, $this->app));
     }
 
-    public function runExtensionDecorations(string $decoration)
+    protected function runExtensionDecorations($decoration)
     {
+        if (!is_string($decoration)) {
+            return;
+        }
+
         foreach (get_class_methods($this) as $method) {
             if (strpos($method, $decoration) !== 0 || strpos($method, 'Extension') === false) {
                 continue;
