@@ -1,5 +1,5 @@
-var data = data || {};
-let http = window.http = {
+const data = {};
+const http = {
 
     ajax: function ajax(options, done, error) {
         let presetBeforeSend = options.beforeSend || null;
@@ -185,7 +185,7 @@ let http = window.http = {
 
 };
 
-var locale = {
+const locale = {
 
     price: function (price, decimals, currency) {
         return this.number(price, decimals) + ' ' + (currency || Pckg.config.locale.currencySign);
@@ -244,9 +244,7 @@ var locale = {
             return null;
         }
 
-        moment.locale(Pckg.config.locale.current);
-
-        return moment(date).format(Pckg.config.locale.format.dateMoment);
+        return new Date(date).toLocaleDateString(Pckg.config.locale.current.split('_').join('-'), { year: 'numeric', month: 'long', day: 'numeric' });
     },
 
     time: function (time) {
@@ -254,9 +252,7 @@ var locale = {
             return null;
         }
 
-        moment.locale(Pckg.config.locale.current);
-
-        return moment(time).format(Pckg.config.locale.format.timeMoment);
+        return new Date(date).toLocaleTimeString(Pckg.config.locale.current.split('_').join('-'), {hour: '2-digit', minute: '2-digit'});
     },
 
     datetime: function (datetime) {
@@ -265,7 +261,7 @@ var locale = {
 
 };
 
-var collection = {
+const collection = {
 
     collect: function(items, of) {
         return items.map((item) => { return new of(item) });
@@ -315,7 +311,7 @@ var collection = {
 
 };
 
-var utils = {
+const utils = {
 
     is: function (val) {
         if (typeof val === 'number') {
@@ -350,10 +346,10 @@ var utils = {
             return;
         }
         if (url.indexOf('@') === 0 && Pckg.router.urls[url.substring(1)]) {
-            url = Pckg.router.urls[_url.substring(1)];
+            url = Pckg.router.urls[url.substring(1)];
         }
         if (url.indexOf('@') === 0 && Pckg.router.urls[url.substring(1) + ':' + Pckg.config.locale.current.substring(0, 2)]) {
-            url = Pckg.router.urls[_url.substring(1) + ':' + Pckg.config.locale.current.substring(0, 2)];
+            url = Pckg.router.urls[url.substring(1) + ':' + Pckg.config.locale.current.substring(0, 2)];
         }
         if (!url) {
             return;
@@ -539,7 +535,7 @@ window.globalScrollTo = function(target, offsetTop)
         parentIFrame.scrollToOffset(0, target.offset().top - offsetTop);
         //scroll if not iframe
     } else {
-        page = $('html,body');
+        let page = $('html,body');
 
         //stop scrolling if user interacts
         page.on("scroll mousedown wheel DOMMouseScroll mousewheel keyup touchmove", function () {
@@ -557,3 +553,7 @@ window.observerOr = function(observer, or) {
     return typeof ResizeObserver === 'undefined' ? or() : observer();
 }
 
+window.http = http;
+window.locale = locale;
+window.collection = collection;
+window.utils = utils;
