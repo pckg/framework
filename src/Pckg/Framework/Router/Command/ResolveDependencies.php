@@ -2,10 +2,8 @@
 
 namespace Pckg\Framework\Router\Command;
 
-use Pckg\Concept\Resolver;
 use Pckg\Framework\Provider\ResolvesMultiple;
 use Pckg\Framework\Provider\RouteResolver;
-use Pckg\Framework\Router;
 
 class ResolveDependencies
 {

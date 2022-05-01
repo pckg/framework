@@ -4,8 +4,6 @@ namespace Pckg\Framework\Console\Command;
 
 use Pckg\Queue\Service\RabbitMQ;
 use Pckg\Framework\Console\Command;
-use PhpAmqpLib\Message\AMQPMessage;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class Sleep extends Command

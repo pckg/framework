@@ -3,17 +3,14 @@
 namespace Pckg\Framework\Response\Command;
 
 use Exception;
-use Pckg\Collection;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Exception\Bad;
 use Pckg\Framework\Exception\NotFound;
-use Pckg\Framework\Exception\Unauthorized;
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
 use Pckg\Framework\Response\Exception\TheEnd;
 use Pckg\Framework\Router\Command\ResolveDependencies;
-use Pckg\Framework\View\ViewInterface;
 use Throwable;
 
 class ProcessRouteMatch extends AbstractChainOfReponsibility

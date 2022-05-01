@@ -8,7 +8,7 @@ class DefinePaths extends AbstractChainOfReponsibility
 {
     public function execute(callable $next)
     {
-        path('ds', substr(BASE_PATH, 0, 1) == '/' ? '/' : '\\');
+        path('ds', str_starts_with(BASE_PATH, '/') ? '/' : '\\');
         path('root', defined('__ROOT__') ? __ROOT__ : BASE_PATH);
 
         path('apps', path('root') . 'app' . path('ds'));

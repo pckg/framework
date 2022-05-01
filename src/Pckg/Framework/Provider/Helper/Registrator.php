@@ -5,7 +5,6 @@ namespace Pckg\Framework\Provider\Helper;
 use Composer\Autoload\ClassLoader;
 use Pckg\Concept\Event\Dispatcher;
 use Pckg\Concept\Reflect;
-use Pckg\Framework\Provider;
 use Pckg\Framework\Response;
 use Pckg\Framework\Stack;
 use Pckg\Framework\View\Twig;

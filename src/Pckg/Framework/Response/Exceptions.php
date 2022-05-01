@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework\Response;
 
-use Exception;
 use Pckg\Framework\Exception\NotFound;
 use Pckg\Framework\Exception\Unauthorized;
 use Throwable;

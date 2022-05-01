@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework\Test\Codeception;
 
-use Codeception\Specify;
 use Pckg\Framework\Test\MockFramework;
 use UnitTester;
 

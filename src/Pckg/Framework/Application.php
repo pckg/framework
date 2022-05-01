@@ -2,7 +2,6 @@
 
 namespace Pckg\Framework;
 
-use Pckg\Framework\Config\Command\InitConfig;
 use Pckg\Framework\Provider\Helper\Registrator;
 
 class Application

@@ -5,6 +5,9 @@ namespace Pckg\Framework\Router\Provider;
 use Pckg\Concept\Reflect;
 use Pckg\Framework\Router\RouteProviderInterface;
 
+/**
+ * @deprecated
+ */
 class Php implements RouteProviderInterface
 {
     protected $config;

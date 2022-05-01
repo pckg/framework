@@ -2,8 +2,6 @@
 
 namespace Pckg\Framework\Console\Command;
 
-use Pckg\Framework\Console\Command;
-
 trait AddDatabaseConnection
 {
     /**

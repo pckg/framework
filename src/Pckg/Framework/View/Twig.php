@@ -2,8 +2,6 @@
 
 namespace Pckg\Framework\View;
 
-use Pckg\Auth\Form\Register;
-use Pckg\Framework\Router;
 use Pckg\Framework\View;
 use Pckg\Framework\View\Event\RenderingView;
 use Twig\TemplateWrapper;

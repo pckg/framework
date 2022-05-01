@@ -8,8 +8,6 @@ use Pckg\Framework\Environment;
 use Pckg\Framework\Request;
 use Pckg\Framework\Response;
 use Pckg\Framework\Router;
-use Pckg\Framework\Stack;
-use Pckg\Queue\Service\Driver\Mock;
 
 trait MockFramework
 {

@@ -3,7 +3,6 @@
 namespace Pckg\Framework\Test;
 
 use Pckg\Database\Repository;
-use Pckg\Framework\Application\Command\InitDatabase;
 
 trait Transactions
 {

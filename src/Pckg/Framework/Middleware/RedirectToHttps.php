@@ -9,10 +9,10 @@ namespace Pckg\Framework\Middleware;
  */
 class RedirectToHttps
 {
-    public function execute()
+    public function execute(callable $next)
     {
         if (!isHttp() || request()->isSecure()) {
-            return;
+            return $next();
         }
 
         redirect('https://' . first(request()->getDomain(), config('domain')) . router()->getURL());

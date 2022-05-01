@@ -7,6 +7,9 @@ use Pckg\Framework\Application;
 use Pckg\Framework\Config;
 use Pckg\Framework\Router\RouteProviderInterface;
 
+/**
+ * @deprecated
+ */
 class Src implements RouteProviderInterface
 {
     protected $config;

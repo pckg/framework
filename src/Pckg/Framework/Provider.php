@@ -3,7 +3,6 @@
 namespace Pckg\Framework;
 
 use Pckg\Framework\Provider\Helper\Registrator;
-use ReflectionClass;
 
 class Provider
 {

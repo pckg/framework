@@ -6,7 +6,6 @@ use Pckg\Framework\Application;
 use Pckg\Framework\Application\Command\InitDatabase;
 use Pckg\Framework\Application\Command\InitEvents;
 use Pckg\Framework\Application\Command\RegisterApplication;
-use Pckg\Framework\Application\Website\Command\InitLastAssets;
 use Pckg\Framework\Config\Command\InitConfig;
 use Pckg\Framework\Request\Command\InitRequest;
 use Pckg\Framework\Request\Command\InitRoute;

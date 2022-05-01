@@ -2,10 +2,8 @@
 
 namespace Pckg\Framework\Response\Command;
 
-use Exception;
 use Pckg\Concept\AbstractChainOfReponsibility;
 use Pckg\Concept\Reflect;
-use Pckg\Framework\Exception\Unauthorized;
 use Pckg\Framework\Request;
 use Pckg\Framework\Router;
 

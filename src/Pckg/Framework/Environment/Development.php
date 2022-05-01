@@ -5,7 +5,6 @@ namespace Pckg\Framework\Environment;
 use DebugBar\DebugBar;
 use DebugBar\StandardDebugBar;
 use DebugBar\Storage\FileStorage;
-use Pckg\Framework\Environment;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 

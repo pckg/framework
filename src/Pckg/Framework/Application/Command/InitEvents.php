@@ -2,8 +2,6 @@
 
 namespace Pckg\Framework\Application\Command;
 
-use Pckg\Database\Repository\RepositoryFactory;
-use Pckg\Framework\Application\Website;
 use Pckg\Framework\Config;
 
 class InitEvents
