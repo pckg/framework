@@ -13,7 +13,6 @@
     "php": "8.0.*",
     "ext-json": "*",
     "ext-pcntl": "*",
-    "pckg/concept": "dev-next-8.0 as dev-master",
     "pckg/cache": "dev-master",
     "pckg/locale": "dev-master",
     "twig/twig": "1.*",
@@ -26,6 +25,7 @@
   "require-dev": {
     "ext-pdo": "*",
     "maximebf/debugbar": "1.*",
+    "pckg/concept": "dev-next-8.0 as dev-master",
     "pckg/database": "dev-next-8.0 as dev-master",
     "pckg/collection": "dev-next-8.0 as dev-master",
     "pckg-app/frontend-dev": "dev-next-8.0 as dev-master",
