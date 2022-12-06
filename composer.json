@@ -13,7 +13,7 @@
     "php": "8.0.*",
     "ext-json": "*",
     "ext-pcntl": "*",
-    "pckg/concept": "dev-master",
+    "pckg/concept": "dev-next-8.0 as dev-master",
     "pckg/cache": "dev-master",
     "pckg/locale": "dev-master",
     "twig/twig": "1.*",
