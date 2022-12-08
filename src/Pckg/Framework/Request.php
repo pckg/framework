@@ -124,7 +124,6 @@ class Request extends Message implements RequestInterface, ServerRequestInterfac
 
     /**
      * @param string|null $key
-     * @param array $default
      * @return Post|mixed|array|string|null
      */
     public function post($key = null, $default = [])
