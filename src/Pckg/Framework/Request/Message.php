@@ -96,7 +96,8 @@ class Message implements MessageInterface
     public function getProtocolVersion()
     {
         $version = str_replace('HTTP/', '', $this->server->get('SERVER_PROTOCOL'));
-        return $version ?? '1.1';
+
+        return $version ?: '1.1';
     }
 
     /**

@@ -35,7 +35,7 @@ class Queue extends Environment
         /**
          * Register app paths, autoloaders and create application provider.
          */
-        $appName = $appName ?? ($_SERVER['argv'][1] ?? null);
+        $appName = $appName ?: ($_SERVER['argv'][1] ?? null);
         $applicationProvider = $this->registerAndBindApplication($context, $appName);
 
         /**
